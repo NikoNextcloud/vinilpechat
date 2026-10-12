@@ -17,17 +17,22 @@ function bad(data,loc){if(data.error)throw Object.assign(new Error('Грешка
 async function admin(req,db,auth,res,csrf=false){let token=parseCookie(req,'vinyl_auth');if(!token){msg(res,401,'Необходим е вход като администратор');return null;}const userData=await auth.auth.getUser(token);const u=userData?.data?.user;const allow=str(process.env.ADMIN_EMAIL||'',254).toLowerCase();if(!u || !allow || u.email?.toLowerCase()!==allow || !u.email_confirmed_at){msg(res,401,'Невалиден или неразрешен администратор');return null;}if(csrf && (!sameOrigin(req)||req.headers['x-csrf-token']!==sessionCsrf(token))){msg(res,403,'Невалидна защита на заявката');return null;}return {u,token};}
 async function body(req){let d=req.body;if(typeof d==='string'){if(Buffer.byteLength(d,'utf8')>MAX_BODY)throw Object.assign(new Error('Твърде голяма заявка'),{status:413});d=JSON.parse(d);}if(!d||typeof d!=='object'||Array.isArray(d))throw Object.assign(new Error('Невалидни данни'),{status:400});return d;}
 const publicColumns='id,category,name,description,sale_price,unit,active,source,image,images,supplier_options,price_verification_needed';
-async function catalog(db){const [pp,cc,ss]=await Promise.all([
+async function catalog(db){const [pp,cc,ss,vv]=await Promise.all([
     db.from('vinyl_products').select(publicColumns).eq('active',true).order('id'),
     db.from('vinyl_categories').select('id,name,description,icon').order('sort_order'),
-    db.from('vinyl_settings').select('brand,company,phone,email,address,shipping,privacy').eq('id',1).single()
-]);return {products:bad(pp,'products'),categories:bad(cc,'categories'),settings:bad(ss,'settings')};}
-async function adminData(db){const [pp,cc,ss,orders,costs]=await Promise.all([
+    db.from('vinyl_settings').select('brand,company,phone,email,address,shipping,privacy').eq('id',1).single(),
+    db.from('vinyl_variants').select('product_id,variant_key,label,choices,sale_price,active,price_verification_needed').eq('active',true).order('variant_key')
+]);
+const variantsByProduct=new Map();for(const v of bad(vv,'variants')){if(!variantsByProduct.has(v.product_id))variantsByProduct.set(v.product_id,[]);variantsByProduct.get(v.product_id).push({...v,key:v.variant_key})}
+return {products:bad(pp,'products').map(p=>({...p,variants:variantsByProduct.get(p.id)||[]})),categories:bad(cc,'categories'),settings:bad(ss,'settings')};}
+async function adminData(db){const [pp,cc,ss,orders,costs,vv]=await Promise.all([
     db.from('vinyl_products').select('*').order('id'),db.from('vinyl_categories').select('*').order('sort_order'),
     db.from('vinyl_settings').select('*').eq('id',1).single(),
     db.from('vinyl_orders').select('*').order('created_at',{ascending:false}).limit(500),
-    db.from('vinyl_costs').select('product_id,supplier_price')
-]);const costsById=new Map(bad(costs,'costs').map(x=>[x.product_id,x.supplier_price]));return {products:bad(pp,'admin products').map(x=>({...x,supplier_price:costsById.get(x.id)??null})),categories:bad(cc,'categories'),settings:bad(ss,'settings'),orders:bad(orders,'orders')};}
+    db.from('vinyl_costs').select('product_id,supplier_price'),
+    db.from('vinyl_variants').select('*').order('product_id').order('variant_key')
+]);const costsById=new Map(bad(costs,'costs').map(x=>[x.product_id,x.supplier_price]));const byProduct=new Map();for(const v of bad(vv,'admin variants')){if(!byProduct.has(v.product_id))byProduct.set(v.product_id,[]);byProduct.get(v.product_id).push({...v,key:v.variant_key})}
+return {products:bad(pp,'admin products').map(x=>({...x,supplier_price:costsById.get(x.id)??null,variants:byProduct.get(x.id)||[]})),categories:bad(cc,'categories'),settings:bad(ss,'settings'),orders:bad(orders,'orders')};}
 async function saveProducts(db,data){if(!Array.isArray(data.products)||data.products.length>3000)throw Object.assign(new Error('Невалиден списък с продукти'),{status:400});const ids=data.products.map(x=>Number(x.id));if(ids.some(x=>!Number.isInteger(x)||x<=0)||new Set(ids).size!==ids.length)throw Object.assign(new Error('Дублиран/невалиден ID'),{status:400});const products=data.products.map(p=>({
     id:Number(p.id),name:str(p.name,250),description:str(p.description,6000),category:str(p.category,80),unit:str(p.unit,20),sale_price:price(p.sale_price),active:!!p.active,
     // Don't accept arbitrary source URLs or externally hosted images in bulk pricing updates.
@@ -50,8 +55,20 @@ return {ok:true};}
 async function orders(db,d){const kind=d.kind==='contact'?'contact':'order';const customer_name=str(d.name,120),phone=str(d.phone,40),email=str(d.email,255),message=str(d.message,3000);if(customer_name.length<2||phone.length<5)throw Object.assign(new Error('Въведете име и телефон'),{status:400});if(email&&!/^\S+@\S+\.\S+$/.test(email))throw Object.assign(new Error('Невалиден имейл'),{status:400});let items=[],total=0;
 if(kind==='order'){
     if(!Array.isArray(d.items)||!d.items.length||d.items.length>100)throw Object.assign(new Error('Невалидна количка'),{status:400});
-    let requested=d.items.map(x=>Number(x.product_id));const catalog=bad(await db.from('vinyl_products').select(publicColumns).in('id',requested).eq('active',true),'order catalogue');let byId=new Map(catalog.map(x=>[x.id,x]));
-    for(const row of d.items){const p=byId.get(Number(row.product_id)),q=Number(row.quantity);if(!p||!Number.isInteger(q)||q<1||q>100)throw Object.assign(new Error('Невалиден продукт или количество'),{status:400});items.push({product_id:p.id,name:p.name,quantity:q,unit:p.unit,price:p.sale_price,variant:str(row.variant,500)});total+=q*(Number(p.sale_price)||0);}
+    let requested=d.items.map(x=>Number(x.product_id));const [pc,vc]=await Promise.all([db.from('vinyl_products').select(publicColumns).in('id',requested).eq('active',true),db.from('vinyl_variants').select('product_id,variant_key,label,sale_price,active').in('product_id',requested).eq('active',true)]);
+    const catalog=bad(pc,'order catalogue'),variants=bad(vc,'order variants');const byId=new Map(catalog.map(x=>[x.id,x])),byVariant=new Map(variants.map(x=>[x.product_id+':'+x.variant_key,x]));
+    for(const row of d.items){
+      const p=byId.get(Number(row.product_id)),q=Number(row.quantity);if(!p||!Number.isInteger(q)||q<1||q>100)throw Object.assign(new Error('Невалиден продукт или количество'),{status:400});
+      const requires=(p.supplier_options||[]).length>0;
+      const variantKey=str(row.variant_key,500);
+      const variant=variantKey?byVariant.get(p.id+':'+variantKey):null;
+      if(requires&&!variant)throw Object.assign(new Error('Изберете валиден размер или вариант за '+p.name),{status:400});
+      if(!requires&&variantKey)throw Object.assign(new Error('Непознат вариант'),{status:400});
+      const chosenPrice=requires?variant.sale_price:p.sale_price;
+      const verifiedPrice=chosenPrice==null?null:Number(chosenPrice);
+      items.push({product_id:p.id,name:p.name,quantity:q,unit:p.unit,price:verifiedPrice,variant:variant?.label||'',variant_key:variant?.variant_key||''});
+      if(verifiedPrice!=null)total+=q*verifiedPrice;
+    }
 }
 const id='Z'+Date.now().toString(36).toUpperCase()+crypto.randomBytes(3).toString('hex').toUpperCase();
 bad(await db.from('vinyl_orders').insert({id,kind,status:'new',customer_name,phone,email,message,items,estimated_total:Math.round(total*100)/100}),'insert order');return {ok:true,order_id:id};}
@@ -88,9 +105,22 @@ module.exports=async function handler(req,res){
             const usage=bad(await db.rpc('vinyl_store_usage'),'usage');
             return json(res,200,{usage,limits:{database_bytes:500*1024*1024,storage_bytes:1024*1024*1024},plan:'free'});
         }
-        if(['admin/save','admin/order','admin/upload'].includes(route)&&req.method==='POST'){
+        if(['admin/save','admin/order','admin/upload','admin/variants'].includes(route)&&req.method==='POST'){
             if(!await admin(req,db,auth,res,true))return;const d=await body(req);
             if(route==='admin/save')return json(res,200,await saveProducts(db,d));
+            if(route==='admin/variants'){
+                if(!Array.isArray(d.variants)||d.variants.length>800) return msg(res,400,'Невалиден списък с варианти');
+                const seen=new Set();
+                for(const v of d.variants){const id=Number(v.product_id),key=str(v.variant_key,500);if(!Number.isInteger(id)||id<1||!key||seen.has(id+':'+key))return msg(res,400,'Невалиден или дублиран вариант');seen.add(id+':'+key);}
+                for(let i=0;i<d.variants.length;i+=12){
+                    await Promise.all(d.variants.slice(i,i+12).map(async v=>{
+                      const values={sale_price:price(v.sale_price),active:!!v.active,price_verification_needed:!!v.price_verification_needed};
+                      const changed=bad(await db.from('vinyl_variants').update(values).eq('product_id',Number(v.product_id)).eq('variant_key',v.variant_key).select('product_id'),'variant pricing');
+                      if(changed.length!==1)throw Object.assign(new Error('Невалиден вариант'),{status:400});
+                    }));
+                }
+                return json(res,200,{ok:true,count:d.variants.length});
+            }
             if(route==='admin/order'){
                 if(!['new','in_progress','confirmed','completed','cancelled'].includes(d.status))return msg(res,400,'Неправилен статус');
                 const id=str(d.id,90);const row=bad(await db.from('vinyl_orders').update({status:d.status}).eq('id',id).select('id').maybeSingle(),'update order');return row?json(res,200,{ok:true}):msg(res,404,'Заявката не е намерена');
