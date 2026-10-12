@@ -1,9 +1,17 @@
 {
-  "name":"vinil-brezenti-store",
-  "version":"2.0.0",
-  "private":true,
-  "description":"Каталог за винил и брезенти с Vercel и Supabase",
-  "engines":{"node":">=20"},
-  "scripts":{"start":"node server.js", "test":"node --check server.js && node --check public/site.js && node --check api/index.js && node --test tests/*.test.js"},
-  "dependencies":{"@supabase/supabase-js":"^2.57.0"}
+  "name": "vinil-brezenti-store",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Каталог за винил и брезенти с Vercel и Supabase",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --check server.js && node --check public/site.js && node --check api/index.js && node --test tests/*.test.js",
+    "build": "node scripts/import_lovable_photos.cjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.0"
+  }
 }
