@@ -4,24 +4,27 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const s=fs.readFileSync('public/site.js','utf8');
 const api=fs.readFileSync('api/index.js','utf8');
-const migrations=fs.readFileSync('supabase/migrations/008_manual_sale_price_overrides.sql','utf8');
-test('product selling price is editable, with a reset button',()=>{
- assert.match(s,/data-field="sale_price"[^>]*value="\$\{p\.sale_price\?\?''\}"/);
- assert.match(s,/data-product-auto/);
- assert.match(s,/p\.manual_sale_price=true/);
- assert.match(s,/p\.manual_sale_price=false/);
+const supplierSync=fs.readFileSync('scripts/sync_supplier_variants.cjs','utf8');
+const migration=fs.readFileSync('supabase/migrations/009_disable_automatic_retail_markup.sql','utf8');
+
+test('sales prices remain independently editable in the product and variant tables',()=>{
+  assert.match(s,/data-field="sale_price"[^>]*value="\$\{p\.sale_price\?\?''\}"/);
+  assert.match(s,/data-variant-price/);
+  assert.match(s,/data-admin-save/);
+  assert.match(s,/data-admin-save-variants/);
+  assert.doesNotMatch(s,/Авто \+20 €|data-product-auto|data-variant-auto|data-product-pricing-status|data-variant-pricing-status/);
 });
-test('variant selling prices preserve manual overrides',()=>{
- assert.match(s,/data-variant-price/);
- assert.match(s,/data-variant-auto/);
- assert.match(s,/v\.manual_sale_price=true/);
- assert.match(s,/v\.manual_sale_price=false/);
- assert.match(s,/manual_sale_price:!!v\.manual_sale_price/);
- assert.match(api,/manual_sale_price:v\.manual_sale_price===true/);
+test('no automatic markup is applied while editing a supplier price',()=>{
+  assert.doesNotMatch(s,/p\.supplier_price\+20/);
+  assert.doesNotMatch(s,/p\.sale_price\s*=\s*p\.supplier_price/);
+  assert.match(api,/sale_price:price\(p\.sale_price\)/);
+  assert.match(api,/sale_price:price\(v\.sale_price\)/);
 });
-test('database provides override flags and automatic price fallback',()=>{
- assert.match(migrations,/ADD COLUMN IF NOT EXISTS manual_sale_price boolean NOT NULL DEFAULT false/g);
- assert.match(migrations,/IF NOT NEW\.manual_sale_price THEN/g);
- assert.match(migrations,/NOT p\.manual_sale_price/);
- assert.match(api,/manual_sale_price:p\.manual_sale_price===true/);
+test('supplier import cannot overwrite existing sales prices with a fixed markup',()=>{
+  assert.match(supplierSync,/const retail=old\?old\.sale_price:null/);
+  assert.doesNotMatch(supplierSync,/price\+20|price\*1\.5/);
+});
+test('database migration disables automatic retail price triggers',()=>{
+  for(const trigger of ['vinyl_retail_from_cost_on_products','vinyl_retail_when_supplier_cost_changed','vinyl_retail_from_cost_on_variants'])
+    assert.ok(migration.includes('DROP TRIGGER IF EXISTS '+trigger),trigger);
 });
