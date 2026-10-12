@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "node --check server.js && node --check public/site.js && node --check api/index.js && node --test tests/*.test.js",
-    "build": "node scripts/import_lovable_photos.cjs"
+    "build": "npm test && node scripts/import_lovable_photos.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.0"
