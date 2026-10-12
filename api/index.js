@@ -6,10 +6,7 @@ const MAX_BODY = 5 * 1024 * 1024;
 const json = (res,status,obj) => {res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.status(status).json(obj);};
 const msg = (res,status,message) => json(res,status,{error:message});
 const env = (key) => {const value=process.env[key];if(!value || value.includes('YOUR-PROJECT') || value.includes('SERVER-ONLY') || value.startsWith('REPLACE-'))throw Object.assign(new Error('Не е настроен '+key),{status:503});return value;};
-function clients(){const url=env('SUPABASE_URL');return {
-    db:createClient(url,env('SUPABASE_SERVICE_ROLE_KEY'),{auth:{autoRefreshToken:false,persistSession:false}}),
-    auth:createClient(url,env('SUPABASE_ANON_KEY'),{auth:{autoRefreshToken:false,persistSession:false}})
-};}
+function clients(){const url=env('SUPABASE_URL');const anon=createClient(url,env('SUPABASE_ANON_KEY'),{auth:{autoRefreshToken:false,persistSession:false}});const privileged=process.env.SUPABASE_SERVICE_ROLE_KEY;return { db:privileged?createClient(url,privileged,{auth:{autoRefreshToken:false,persistSession:false}}):anon, auth:anon, privileged:!!privileged };}
 function parseCookie(req,key){const text=req.headers.cookie||'';const needle=text.split(';').map(s=>s.trim()).find(s=>s.startsWith(key+'='));return needle?needle.substring(key.length+1):'';}
 function sessionCsrf(token){return crypto.createHmac('sha256',env('SESSION_SECRET')).update(token).digest('hex');}
 function cookie(req,value,clear=false){let isSecure=(req.headers['x-forwarded-proto']||'https').split(',')[0].trim()==='https';return 'vinyl_auth='+encodeURIComponent(value||'')+'; HttpOnly; SameSite=Strict; Path=/; '+(isSecure?'Secure; ':'')+'Max-Age='+(clear?0:3500);}
@@ -65,8 +62,9 @@ module.exports=async function handler(req,res){
     let route=String(req.query?.route||'').replace(/^\/+|\/+$/g,'')||new URL(req.url,'https://localhost').pathname.replace(/^\/api\//,'');
     if(Array.isArray(route))route=route.join('/');
     try{
-        if(route==='health')return json(res,200,{ok:true,configured:!!process.env.SUPABASE_URL});
-        let {db,auth}=clients();
+        if(route==='health')return json(res,200,{ok:true,configured:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),catalogReady:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),ordersReady:!!process.env.SUPABASE_SERVICE_ROLE_KEY,adminReady:!!(process.env.SUPABASE_SERVICE_ROLE_KEY&&process.env.ADMIN_EMAIL&&process.env.SESSION_SECRET)});
+        let {db,auth,privileged}=clients();
+        if(!privileged && (route==='orders'||route.startsWith('admin/')))return msg(res,503,'Магазинът приема само запитвания след завършване на настройките.');
         if(req.method==='GET'&&route==='catalog')return json(res,200,await catalog(db));
         if(req.method==='POST'&&route==='orders')return json(res,201,await orders(db,await body(req)));
         if(req.method==='POST'&&route==='admin/login'){
