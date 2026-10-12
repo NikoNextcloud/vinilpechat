@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.vercel/
+data/store.json
+data/store.json.tmp
+data/image_import_status.json
+scripts/__pycache__/
+.DS_Store

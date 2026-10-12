@@ -1,0 +1,828 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "category": "bilbord",
+      "name": "НОВО платно от билборд – ролка 64 кв.м. (20 × 3,20 м)",
+      "description": "Бял, нов билборд винил на ролка с дължина 20 м и широчина 3,20 м; площ 64 кв.м.",
+      "sale_price": 86.92,
+      "supplier_price": 86.92,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1084",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p01-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p01-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p01-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p01-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 2,
+      "category": "bilbord",
+      "name": "НОВО платно от билборд – ролка 96 кв.м. (30 × 3,20 м)",
+      "description": "Бял билборд винил на ролка: 30 × 3,20 м; площ 96 кв.м.",
+      "sale_price": 122.71,
+      "supplier_price": 122.71,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1077",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p02-1.png",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p02-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p02-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p02-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 3,
+      "category": "bilbord",
+      "name": "НОВО платно от билборд – ролка 160 кв.м. (50 × 3,20 м)",
+      "description": "Бял винил за рекламни платна, нова ролка 50 × 3,20 м, общо 160 кв.м.",
+      "sale_price": 178.95,
+      "supplier_price": 178.95,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1265",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p03-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p03-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p03-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p03-4.png"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 4,
+      "category": "bilbord",
+      "name": "НОВО платно от билборд – ролка 224 кв.м. (70 × 3,20 м)",
+      "description": "Голяма ролка бял билборд винил; 70 м дължина и 3,20 м широчина, 224 кв.м.",
+      "sale_price": 163.61,
+      "supplier_price": 163.61,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=186",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p04-1.png",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p04-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p04-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p04-4.png"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 5,
+      "category": "bilbord",
+      "name": "Чисто ново бяло платно 4 × 3,20 м – остатък от печат",
+      "description": "Ненапечатано бяло платно от билборд ролка с размер 4 × 3,20 м.",
+      "sale_price": 19.58,
+      "supplier_price": 19.58,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1235",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p05-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p05-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p05-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p05-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 6,
+      "category": "bilbord",
+      "name": "Чисто ново бяло платно 8 × 3,20 м – остатък от печат",
+      "description": "Ненапечатано бяло билборд платно с размер 8 × 3,20 м.",
+      "sale_price": 39.17,
+      "supplier_price": 39.17,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1236",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p06-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p06-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p06-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p06-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 7,
+      "category": "bilbord",
+      "name": "Чисто ново бяло платно 10 × 3,20 м – остатък от печат",
+      "description": "Ненапечатано бяло билборд платно с размер 10 × 3,20 м.",
+      "sale_price": 48.96,
+      "supplier_price": 48.96,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1237",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p07-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p07-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p07-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p07-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 8,
+      "category": "bilbord",
+      "name": "Ново билборд платно – рязане по размер",
+      "description": "Ненапечатано водоустойчиво винилно платно с широчина 3,20 м; дължина по поръчка. Показана е базова цена.",
+      "sale_price": 1.53,
+      "supplier_price": 1.53,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=638",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p08-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p08-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p08-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p08-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 9,
+      "category": "bilbord",
+      "name": "Винилно платно втора употреба 4 × 3 м",
+      "description": "Рекламно платно от билборд втора употреба, 4 × 3 м; едната страна е с печат. Използва се за покриване.",
+      "sale_price": 18.41,
+      "supplier_price": 18.41,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=806",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p09-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 10,
+      "category": "mesh",
+      "name": "Перфовинил меш – ролка 224 кв.м. (70 × 3,20 м)",
+      "description": "Мрежест перфовинил на ролка 70 × 3,20 м. Базова цена; за целия размер изисква потвърждение.",
+      "sale_price": 2.05,
+      "supplier_price": 2.05,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1503",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p10-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 11,
+      "category": "mesh",
+      "name": "Перфовинил меш – рязане по размер",
+      "description": "Перфорирано винилно платно, което пропуска въздух и вода; широчина 3,20 м, дължина по желание.",
+      "sale_price": 3.07,
+      "supplier_price": 3.07,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1502",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p11-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 12,
+      "category": "lenti",
+      "name": "Комплект лентова завеса 1 × 2 м",
+      "description": "Комплект прозрачна лентова завеса за врата с широчина 1 м и височина 2 м.",
+      "sale_price": 75.17,
+      "supplier_price": 75.17,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1394",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p12-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p12-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p12-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p12-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 13,
+      "category": "lenti",
+      "name": "Лента кристал за врати – 2000 микрона",
+      "description": "Прозрачна PVC лента за лентови завеси, дебелина 2000 микрона; рязане по дължина.",
+      "sale_price": 3.53,
+      "supplier_price": 3.53,
+      "unit": "л.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1385",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p13-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 14,
+      "category": "lenti",
+      "name": "Стоманена планка за захващане на PVC ленти",
+      "description": "Метална планка за монтаж на отделни PVC ленти за врати.",
+      "sale_price": 3.68,
+      "supplier_price": 3.68,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1397",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p14-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p14-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p14-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p14-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 15,
+      "category": "lenti",
+      "name": "Стоманена шина за захващане на PVC ленти",
+      "description": "Метална носеща шина за окачване на лентова завеса.",
+      "sale_price": 21.47,
+      "supplier_price": 21.47,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1395",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p15-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p15-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p15-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p15-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 16,
+      "category": "kristal",
+      "name": "Кристал винил – разпродажба на парчета",
+      "description": "Прозрачен кристал винил на отделни останали парчета и размери. Цена според варианта.",
+      "sale_price": null,
+      "supplier_price": null,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1919",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p16-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p16-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p16-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p16-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 17,
+      "category": "kristal",
+      "name": "Кристал винил 1000 микрона – ветроупорна завеса по размер",
+      "description": "Прозрачно PVC платно с дебелина 1000 микрона за ветроупорни завеси. Рязане по размер.",
+      "sale_price": 9.71,
+      "supplier_price": 9.71,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1914",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p17-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p17-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p17-3.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 18,
+      "category": "kristal",
+      "name": "Кристал винил 2000 микрона – ветроупорна завеса по размер",
+      "description": "Прозрачно PVC платно с дебелина 2000 микрона за ветроупорни завеси. Размер по заявка.",
+      "sale_price": 12.27,
+      "supplier_price": 12.27,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1918",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p18-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p18-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p18-3.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 19,
+      "category": "kristal",
+      "name": "Кристал винил 500 микрона – ветроупорна завеса по размер",
+      "description": "Прозрачно PVC платно с дебелина 500 микрона за прозрачни покрития и завеси.",
+      "sale_price": 5.62,
+      "supplier_price": 5.62,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=642",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p19-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p19-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p19-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p19-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 20,
+      "category": "kristal",
+      "name": "Кристал винил 800 микрона – ветроупорна завеса по размер",
+      "description": "Прозрачно PVC платно с дебелина 800 микрона за ветроупорни завеси по размер.",
+      "sale_price": 7.16,
+      "supplier_price": 7.16,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1239",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p20-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p20-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p20-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p20-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 21,
+      "category": "kristal",
+      "name": "Кристал винил – цели ролки на едро",
+      "description": "Прозрачен PVC материал на ролки с различна дебелина; цена според размера и дебелината.",
+      "sale_price": null,
+      "supplier_price": null,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1198",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p21-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p21-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p21-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p21-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 22,
+      "category": "kristal",
+      "name": "Навес козирка от поликарбонат за над врата",
+      "description": "Поликарбонатна козирка за монтаж над входна врата.",
+      "sale_price": 40.39,
+      "supplier_price": 40.39,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1469",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p22-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p22-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p22-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p22-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 23,
+      "category": "tir",
+      "name": "ТИР PVC брезент – рязане по размер",
+      "description": "Нов брезентов винил за тежки покривала; размер и цвят според наличността.",
+      "sale_price": 4.6,
+      "supplier_price": 4.6,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1398",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p23-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p23-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p23-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p23-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 24,
+      "category": "tir",
+      "name": "ТИР PVC брезент 650 г/кв.м. – цяла ролка на едро",
+      "description": "Усилен PVC брезент 650 г/кв.м. за товарни покривала; ролка 50 × 2,50 м според източника.",
+      "sale_price": 3.07,
+      "supplier_price": 3.07,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1400",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p24-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p24-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p24-3.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 25,
+      "category": "zeblo",
+      "name": "Водоустойчиво сиво платнище с капси – удебелено",
+      "description": "Удебелено сиво водоустойчиво платнище с капси за закрепване. Размер по вариант.",
+      "sale_price": 13.29,
+      "supplier_price": 13.29,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1925",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p25-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p25-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p25-3.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 26,
+      "category": "zeblo",
+      "name": "Водоустойчиво синьо платнище с капси – стандарт",
+      "description": "Синьо водоустойчиво покривно платнище с капси; размери по избор.",
+      "sale_price": 7.67,
+      "supplier_price": 7.67,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1374",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p26-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p26-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p26-3.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 27,
+      "category": "zeblo",
+      "name": "Зебло – рязане по размер",
+      "description": "Покривно платнище тип зебло, което се реже по размер.",
+      "sale_price": 1.02,
+      "supplier_price": 1.02,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1164",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p27-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p27-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p27-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p27-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 28,
+      "category": "zeblo",
+      "name": "Зебло срещу плевели – ролка 1,05 × 50 м",
+      "description": "Черно агротекстилно платно за ограничаване на плевелите, ролка 1,05 × 50 м.",
+      "sale_price": 39.0,
+      "supplier_price": 39.0,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1934",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p28-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 29,
+      "category": "zeblo",
+      "name": "Зебло срещу плевели – ролки по 100 м",
+      "description": "Платно срещу плевели на ролки по 100 м; единичната цена е според варианта.",
+      "sale_price": 0.51,
+      "supplier_price": 0.51,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=649",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p29-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 30,
+      "category": "zeblo",
+      "name": "Агроспан спанбонд 70 г/кв.м. – 1,20 × 50 м",
+      "description": "Черен нетъкан агротекстил 70 г/кв.м., ролка 1,20 × 50 м.",
+      "sale_price": 23.01,
+      "supplier_price": 23.01,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1536",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p30-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p30-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p30-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p30-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 31,
+      "category": "zeblo",
+      "name": "Геотекстил спанбонд 70 г/кв.м. – 1,20 × 50 м",
+      "description": "Черно нетъкано платно за ландшафтни и строителни приложения, 70 г/кв.м., 1,20 × 50 м.",
+      "sale_price": 23.01,
+      "supplier_price": 23.01,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1537",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p31-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p31-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p31-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p31-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 32,
+      "category": "zeblo",
+      "name": "Подкеремидна мембрана 70 г/кв.м. – 1,20 × 50 м",
+      "description": "Нетъкано платно за строителни приложения. Техническите свойства изискват потвърждение.",
+      "sale_price": 23.01,
+      "supplier_price": 23.01,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1538",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p32-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p32-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p32-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p32-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 33,
+      "category": "zeblo",
+      "name": "Пластмасов пирон за зебло, агрил и мрежа",
+      "description": "Пластмасов крепеж за фиксиране на агротекстил, агрил и мрежа към почвата.",
+      "sale_price": 0.11,
+      "supplier_price": 0.11,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1539",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p33-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p33-2.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 34,
+      "category": "nailon",
+      "name": "Италиански найлон 120 микрона с UV защита – по размер",
+      "description": "Зеленикав защитен найлон 120 микрона с UV защита; рязане по размер.",
+      "sale_price": 0.61,
+      "supplier_price": 0.61,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=489",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p34-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p34-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p34-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p34-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 35,
+      "category": "nailon",
+      "name": "Армиран найлон – по размер",
+      "description": "Подсилено полиетиленово фолио за покриване и защита; размери по заявка.",
+      "sale_price": 2.0,
+      "supplier_price": 2.0,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=499",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p35-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p35-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p35-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p35-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 36,
+      "category": "nailon",
+      "name": "Италиански найлон 120 микрона с UV защита – цяла ролка",
+      "description": "UV стабилизирано фолио на цяла ролка, дебелина 120 микрона.",
+      "sale_price": 3.06,
+      "supplier_price": 3.06,
+      "unit": "кв.м.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1229",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p36-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p36-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p36-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p36-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 37,
+      "category": "nailon",
+      "name": "Силажно фолио 3-слойно – UV стабилизирано",
+      "description": "Трислойно черно-бяло фолио за силаж, с UV стабилизация.",
+      "sale_price": 0.87,
+      "supplier_price": 0.87,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=988",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p37-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p37-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p37-3.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p37-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 38,
+      "category": "obkov",
+      "name": "Капси халки за винил – поцинковани",
+      "description": "Поцинковани кръгли капси за закрепване на винилни платна, приблизително Ø10 мм.",
+      "sale_price": 0.15,
+      "supplier_price": 0.15,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1233",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p38-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p38-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p38-3.png",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p38-4.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 39,
+      "category": "obkov",
+      "name": "Закопчалка за винил за елипсовидна капса",
+      "description": "Закопчалка за елипсовидна капса при закрепване на винил и брезент.",
+      "sale_price": 1.02,
+      "supplier_price": 1.02,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1232",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p39-1.png",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    },
+    {
+      "id": 40,
+      "category": "obkov",
+      "name": "Поцинкована капса елипса за винил 42 × 22 мм",
+      "description": "Двуделна поцинкована елипсовидна капса 42 × 22 мм за винилни платна.",
+      "sale_price": 0.51,
+      "supplier_price": 0.51,
+      "unit": "бр.",
+      "active": true,
+      "source": "https://www.vipborsa.com/index.php?route=product/product&product_id=1234",
+      "image": "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p40-1.jpg",
+      "image_source": "vipborsa.com (снимка от доставчика; изисква разрешение)",
+      "price_verification_needed": true,
+      "images": [
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p40-2.jpg",
+        "https://id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app/products/p40-3.jpg"
+      ],
+      "photo_note": "Изображенията са временно свързани към оригинални файлове в Lovable preview; преди публично ползване потвърдете лиценз/разрешение."
+    }
+  ],
+  "categories": [
+    {
+      "id": "bilbord",
+      "name": "Билборд винил платна",
+      "description": "Билборд платна на ролки и по размер",
+      "icon": "▧"
+    },
+    {
+      "id": "mesh",
+      "name": "Перфовинил меш",
+      "description": "Перфорирани винилни мрежи",
+      "icon": "▦"
+    },
+    {
+      "id": "lenti",
+      "name": "Ленти кристал за врати",
+      "description": "Лентови завеси и монтажни части",
+      "icon": "▥"
+    },
+    {
+      "id": "kristal",
+      "name": "Кристал винил",
+      "description": "Прозрачен PVC за ветроупорни завеси",
+      "icon": "◈"
+    },
+    {
+      "id": "tir",
+      "name": "ТИР винил брезенти",
+      "description": "Здрави PVC брезенти за тежки условия",
+      "icon": "▤"
+    },
+    {
+      "id": "zeblo",
+      "name": "Платна от зебло",
+      "description": "Покривала, агротекстил и геотекстил",
+      "icon": "▨"
+    },
+    {
+      "id": "nailon",
+      "name": "Платна от дебел найлон",
+      "description": "UV фолио и армирани найлони",
+      "icon": "▩"
+    },
+    {
+      "id": "obkov",
+      "name": "Обков за винил",
+      "description": "Капси и монтажни аксесоари",
+      "icon": "⊕"
+    }
+  ],
+  "settings": {
+    "brand": "Винил & Брезенти",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "company": "",
+    "shipping": "Доставката се уточнява при потвърждаване на заявката.",
+    "privacy": "Текстът за поверителност трябва да се попълни преди публичното пускане на магазина."
+  },
+  "orders": []
+}
