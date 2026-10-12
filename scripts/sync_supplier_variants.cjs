@@ -55,9 +55,6 @@ async function main(){
  const db=createClient(url,key,{auth:{autoRefreshToken:false,persistSession:false}});
  const {data:products,error:pe}=await db.from('vinyl_products').select('id,name,source,supplier_options,sale_price').order('id');
  if(pe)throw pe;
- const {data:costs,error:ce}=await db.from('vinyl_costs').select('product_id,supplier_price');
- if(ce)throw ce;
- const baseCosts=new Map(costs.map(x=>[x.product_id,Number(x.supplier_price)]));
  let totalProducts=0,optionProducts=0,variants=0,priced=0,errors=0,empty=0,capped=0;
  for(const product of products){
   totalProducts++;
