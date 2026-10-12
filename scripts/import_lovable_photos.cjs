@@ -1,11 +1,34 @@
 'use strict';
-// Import original photos collected in the user's prior Lovable project into this shop's Supabase Storage.
+// Import product gallery photos from the supplier into this shop's Supabase Storage.
 // Runs at Vercel production build time. It NEVER overwrites an administrator's own uploaded photo.
 const {readFileSync}=require('node:fs');
 const {createClient}=require('@supabase/supabase-js');
 const items=JSON.parse(readFileSync('data/seed.json','utf8')).products;
-const host='id-preview--f2da8e1f-f49a-474a-ae45-4b0ddc08a96a.lovable.app';
-const validSource=url=>{try{const u=new URL(url);return u.protocol==='https:'&&u.hostname===host&&/^\/products\/p\d{2}-\d+\.(jpg|jpeg|png|webp)$/i.test(u.pathname)}catch{return false}};
+const hostnames=['www.vipborsa.com','vipborsa.com'];
+const validSource=url=>{try{const u=new URL(url);return u.protocol==='https:'&&hostnames.includes(u.hostname)&&u.pathname.startsWith('/image/')&&/\.(?:jpe?g|png|webp)$/i.test(u.pathname)}catch{return false}};
+async function supplierGallery(product){
+  try{
+    const u=new URL(product.source);
+    if(u.protocol!=='https:'||!hostnames.includes(u.hostname)||u.pathname!=='/index.php'||u.searchParams.get('route')!=='product/product')return [];
+    const r=await fetch(u.href,{headers:{'User-Agent':'Mozilla/5.0 (compatible; VinylCatalogImport/1.0)','Accept':'text/html,application/xhtml+xml'},signal:AbortSignal.timeout(20000)});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const html=await r.text();
+    const thumbTags=html.match(/<a\b[^>]*class\s*=\s*(?:"[^"]*thumbnail[^"]*"|'[^']*thumbnail[^']*')[^>]*>/gi)||[];
+    const list=[];
+    for(const tag of thumbTags){
+      const match=tag.match(/\bhref\s*=\s*["']([^"']+)["']/i);
+      if(!match)continue;
+      const link=new URL(match[1].replaceAll('&amp;','&'),u.href).href;
+      if(validSource(link)&&!list.includes(link))list.push(link);
+    }
+    if(!list.length){
+      const og=html.match(/<meta[^>]*property\s*=\s*["']og:image["'][^>]*content\s*=\s*["']([^"']+)["']/i);
+      if(og){const link=new URL(og[1].replaceAll('&amp;','&'),u.href).href;if(validSource(link))list.push(link);}
+    }
+    if(!list.length)console.log('No gallery pictures found for product',product.id);
+    return list.slice(0,8);
+  }catch(e){console.log('Supplier page unavailable for product',product.id,':',e.message);return []}
+}
 const isImage=(b)=>b.length>=300&&(b[0]===255&&b[1]===216&&b[2]===255?'image/jpeg':b.subarray(0,8).equals(Buffer.from('89504e470d0a1a0a','hex'))?'image/png':b.toString('ascii',0,4)==='RIFF'&&b.toString('ascii',8,12)==='WEBP'?'image/webp':null);
 const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
 let downloaded=0,uploaded=0,failed=0,updated=0,skipped=0;
@@ -31,7 +54,7 @@ async function main(){
     const prior=current.get(p.id);
     if(!prior){skipped++;return}
     if(prior.image&&!prior.image.includes('placeholder')&&!prior.image.includes('id-preview--')){skipped++;return}
-    const links=[p.image,...(p.images||[])].filter(validSource);
+    const links=await supplierGallery(p);
     const urls=[];
     for(let i=0;i<links.length;i++){
       const payload=await download(links[i]);
