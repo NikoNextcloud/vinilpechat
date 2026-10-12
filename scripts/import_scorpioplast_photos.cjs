@@ -48,7 +48,7 @@ async function fetchWithTimeout(address,opts={}){
 async function main(){
  if(!url||!secret){console.log('SCORPIO_IMAGES skipped; Supabase credentials missing');return;}
  const db=createClient(url,secret,{auth:{autoRefreshToken:false,persistSession:false}});
- const {data, error}=await db.from('vinyl_products').select('id,source,image').gte('id',41).lte('id',60).order('id');
+ const {data, error}=await db.from('vinyl_products').select('id,source,image').gte('id',41).lte('id',60).eq('active',true).order('id');
  if(error)throw error;
  let uploaded=0,failed=0,skipped=0,attempted=0;
  async function one(p){
