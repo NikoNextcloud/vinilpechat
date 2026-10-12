@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "node --check server.js && node --check public/site.js && node --check api/index.js && node --test tests/*.test.js",
-    "build": "npm test && node scripts/sync_scorpio_garden.cjs && node scripts/import_lovable_photos.cjs && node scripts/import_scorpioplast_photos.cjs",
+    "build": "npm test && node scripts/import_lovable_photos.cjs && node scripts/import_scorpioplast_photos.cjs",
     "sync:variants": "node scripts/sync_supplier_variants.cjs",
     "sync:scorpioplast-garden": "node scripts/sync_scorpio_garden.cjs"
   },
