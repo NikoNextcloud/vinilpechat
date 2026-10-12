@@ -83,6 +83,11 @@ module.exports=async function handler(req,res){
         if(route==='admin/data'&&req.method==='GET'){
             if(!await admin(req,db,auth,res))return;return json(res,200,await adminData(db));
         }
+        if(route==='admin/usage'&&req.method==='GET'){
+            if(!await admin(req,db,auth,res))return;
+            const usage=bad(await db.rpc('vinyl_store_usage'),'usage');
+            return json(res,200,{usage,limits:{database_bytes:500*1024*1024,storage_bytes:1024*1024*1024},plan:'free'});
+        }
         if(['admin/save','admin/order','admin/upload'].includes(route)&&req.method==='POST'){
             if(!await admin(req,db,auth,res,true))return;const d=await body(req);
             if(route==='admin/save')return json(res,200,await saveProducts(db,d));
