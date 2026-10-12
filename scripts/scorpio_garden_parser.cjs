@@ -1,7 +1,7 @@
 'use strict';
 const base='https://scorpioplast.com';
 const pages=[base+'/dom-i-gradina/',base+'/dom-i-gradina/page/2/',base+'/dom-i-gradina/page/3/'];
-const decode=s=>String(s||'').replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(Number(n))).replace(/&#x([\da-f]+);/gi,(_,n)=>String.fromCodePoint(parseInt(n,16))).replace(/&(?:amp|#038);/g,'&').replace(/&quot;/g,'"').replace(/&apos;|&#039;/g,"'").replace(/&nbsp;/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+const decode=s=>String(s||'').replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(Number(n))).replace(/&#x([\da-f]+);/gi,(_,n)=>String.fromCodePoint(parseInt(n,16))).replace(/&(?:amp|#038);/g,'&').replace(/&quot;/g,'"').replace(/&apos;|&#039;/g,"'").replace(/&nbsp;/g,' ').replace(/&euro;/gi,'€').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 const plain=s=>decode(String(s||'').replace(/<[^>]*>/g,' ')).replace(/\s+/g,' ').trim();
 const esc=s=>String(s).replace(/[\\^$.*+?()[\]{}|]/g,'\\$&');
 const attr=(tag,key)=>{const m=String(tag).match(new RegExp('(?:^|\\s)'+esc(key)+'\\s*=\\s*["\\x27]([^"\\x27]*)["\\x27]','i'));return m?decode(m[1]):''};
