@@ -15,7 +15,7 @@ test('historical order shows each ordered product, quantity, price and total',()
  {product_id:10,name:'Перфовинил меш – ролка',unit:'кв.м.',quantity:1,price:2.05,variant:''},
  {product_id:2,name:'НОВО платно от билборд',unit:'бр.',quantity:1,price:122.71,variant:''}]});
  for(const term of ['Перфовинил меш','НОВО платно от билборд','€2.05','€122.71','€124.76','Клиент','Заявка № ORDER-123'])assert.ok(h.includes(term),term);
- assert.equal((h.match(/<tr>/g)||[]).length,2,'Each distinct item renders in its own table row.');
+ const tbody=h.match(/<tbody>([\s\S]*?)<\/tbody>/)?.[1]||'';assert.equal((tbody.match(/<tr>/g)||[]).length,2,'Each distinct item renders in its own table row.');
 });
 test('variant, quantity and historical line subtotal display',()=>{
  const h=render({id:'O2',estimated_total:37.50,items:[{name:'Платнище',quantity:3,unit:'бр.',price:12.5,variant:'Размер: 2 x 3 м'}]});
