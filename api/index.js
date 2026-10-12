@@ -33,25 +33,40 @@ async function adminData(db){const [pp,cc,ss,orders,costs,vv]=await Promise.all(
     db.from('vinyl_variants').select('*').order('product_id').order('variant_key')
 ]);const costsById=new Map(bad(costs,'costs').map(x=>[x.product_id,x.supplier_price]));const byProduct=new Map();for(const v of bad(vv,'admin variants')){if(!byProduct.has(v.product_id))byProduct.set(v.product_id,[]);byProduct.get(v.product_id).push({...v,key:v.variant_key})}
 return {products:bad(pp,'admin products').map(x=>({...x,supplier_price:costsById.get(x.id)??null,variants:byProduct.get(x.id)||[]})),categories:bad(cc,'categories'),settings:bad(ss,'settings'),orders:bad(orders,'orders')};}
-async function saveProducts(db,data){if(!Array.isArray(data.products)||data.products.length>3000)throw Object.assign(new Error('Невалиден списък с продукти'),{status:400});const ids=data.products.map(x=>Number(x.id));if(ids.some(x=>!Number.isInteger(x)||x<=0)||new Set(ids).size!==ids.length)throw Object.assign(new Error('Дублиран/невалиден ID'),{status:400});const products=data.products.map(p=>({
-    id:Number(p.id),name:str(p.name,250),description:str(p.description,6000),category:str(p.category,80),unit:str(p.unit,20),sale_price:price(p.sale_price),active:!!p.active,
-    // Don't accept arbitrary source URLs or externally hosted images in bulk pricing updates.
-    // Supplier option groups are maintained by the variant importer, never by bulk price editing.
-}));if(products.some(x=>!x.name||!x.category))throw Object.assign(new Error('Има продукт без име/категория'),{status:400});
-// Update only existing rows, never allow inserting forged products by ID.
-const exists=bad(await db.from('vinyl_products').select('id').in('id',ids),'validate products');if(exists.length!==ids.length)throw Object.assign(new Error('Непознат продукт'),{status:400});
-for(let i=0;i<products.length;i+=10){
-    await Promise.all(products.slice(i,i+10).map(async(p)=>{const {id,...changes}=p;bad(await db.from('vinyl_products').update(changes).eq('id',id),'save product');}));
+async function saveProducts(db,data){
+ if(!Array.isArray(data.products)||data.products.length>3000)throw Object.assign(new Error('Невалиден списък с продукти'),{status:400});
+ const ids=data.products.map(x=>Number(x.id));
+ if(ids.some(x=>!Number.isInteger(x)||x<=0)||new Set(ids).size!==ids.length)throw Object.assign(new Error('Дублиран/невалиден ID'),{status:400});
+ const products=data.products.map(p=>({
+   id:Number(p.id),name:str(p.name,250),description:str(p.description,6000),
+   category:str(p.category,80),unit:str(p.unit,20),sale_price:price(p.sale_price),
+   manual_sale_price:p.manual_sale_price===true,active:!!p.active
+   // Supplier option groups, source links and product images are maintained separately.
+ }));
+ if(products.some(x=>!x.name||!x.category))throw Object.assign(new Error('Има продукт без име/категория'),{status:400});
+ const exists=bad(await db.from('vinyl_products').select('id').in('id',ids),'validate products');
+ if(exists.length!==ids.length)throw Object.assign(new Error('Непознат продукт'),{status:400});
+ // Write supplier costs FIRST: the supplier-cost trigger recalculates only automatic prices.
+ const costs=data.products.filter(p=>Object.hasOwn(p,'supplier_price'));
+ for(let i=0;i<costs.length;i+=10){
+   await Promise.all(costs.slice(i,i+10).map(async p=>bad(
+     await db.from('vinyl_costs').upsert({product_id:Number(p.id),supplier_price:price(p.supplier_price)},{onConflict:'product_id'}),
+     'save supplier price')));
+ }
+ // Save manual overrides AFTER cost edits so a manual retail amount always wins.
+ for(let i=0;i<products.length;i+=10){
+   await Promise.all(products.slice(i,i+10).map(async p=>{
+     const {id,...changes}=p;
+     bad(await db.from('vinyl_products').update(changes).eq('id',id),'save product');
+   }));
+ }
+ if(data.settings&&typeof data.settings==='object'){
+   let settings={};for(const k of ['brand','company','phone','email','address','shipping','privacy'])
+     if(Object.hasOwn(data.settings,k))settings[k]=str(data.settings[k],['privacy','shipping'].includes(k)?6000:350);
+   if(Object.keys(settings).length)bad(await db.from('vinyl_settings').update(settings).eq('id',1),'settings');
+ }
+ return {ok:true};
 }
-const costs=data.products.filter(p=>Object.hasOwn(p,'supplier_price'));
-for(let i=0;i<costs.length;i+=10){
-    await Promise.all(costs.slice(i,i+10).map(async(p)=>bad(await db.from('vinyl_costs').upsert({product_id:Number(p.id),supplier_price:price(p.supplier_price)},{onConflict:'product_id'}),'save supplier price')));
-}
-if(data.settings && typeof data.settings==='object'){
-    let settings={};for(const k of ['brand','company','phone','email','address','shipping','privacy'])if(Object.hasOwn(data.settings,k))settings[k]=str(data.settings[k],['privacy','shipping'].includes(k)?6000:350);
-    if(Object.keys(settings).length)bad(await db.from('vinyl_settings').update(settings).eq('id',1),'settings');
-}
-return {ok:true};}
 async function orders(db,d){const kind=d.kind==='contact'?'contact':'order';const customer_name=str(d.name,120),phone=str(d.phone,40),email=str(d.email,255),message=str(d.message,3000);if(customer_name.length<2||phone.length<5)throw Object.assign(new Error('Въведете име и телефон'),{status:400});if(email&&!/^\S+@\S+\.\S+$/.test(email))throw Object.assign(new Error('Невалиден имейл'),{status:400});let items=[],total=0;
 if(kind==='order'){
     if(!Array.isArray(d.items)||!d.items.length||d.items.length>100)throw Object.assign(new Error('Невалидна количка'),{status:400});
@@ -114,7 +129,7 @@ module.exports=async function handler(req,res){
                 for(const v of d.variants){const id=Number(v.product_id),key=str(v.variant_key,500);if(!Number.isInteger(id)||id<1||!key||seen.has(id+':'+key))return msg(res,400,'Невалиден или дублиран вариант');seen.add(id+':'+key);}
                 for(let i=0;i<d.variants.length;i+=12){
                     await Promise.all(d.variants.slice(i,i+12).map(async v=>{
-                      const values={sale_price:price(v.sale_price),active:!!v.active,price_verification_needed:!!v.price_verification_needed};
+                      const values={sale_price:price(v.sale_price),manual_sale_price:v.manual_sale_price===true,active:!!v.active,price_verification_needed:!!v.price_verification_needed};
                       const changed=bad(await db.from('vinyl_variants').update(values).eq('product_id',Number(v.product_id)).eq('variant_key',v.variant_key).select('product_id'),'variant pricing');
                       if(changed.length!==1)throw Object.assign(new Error('Невалиден вариант'),{status:400});
                     }));
