@@ -73,7 +73,7 @@ async function main(){
    const {error:ue}=await db.from('vinyl_products').update({supplier_options:safeGroups}).eq('id',product.id);
    if(ue)throw ue;
    optionProducts++;
-   const {data:oldRows,error:oe}=await db.from('vinyl_variants').select('variant_key,sale_price,active,price_verification_needed').eq('product_id',product.id);
+   const {data:oldRows,error:oe}=await db.from('vinyl_variants').select('variant_key,sale_price,manual_sale_price,active,price_verification_needed').eq('product_id',product.id);
    if(oe)throw oe;
    const existing=new Map(oldRows.map(x=>[x.variant_key,x]));
 
@@ -84,9 +84,9 @@ async function main(){
     const values=await Promise.all(batch.map(async e=>({entry:e,price:await supplierPrice(product,e,cookie)})));
     for(const {entry,price} of values){
      const old=existing.get(entry.key);
-     const retail=price==null?null:money(price+20);
+     const retail=old?.manual_sale_price===true?old.sale_price:(price==null?null:money(price+20));
      rows.push({product_id:product.id,variant_key:entry.key,label:entry.label,choices:entry.choices,
-       supplier_price:price,sale_price:retail,active:old?old.active:true,
+       supplier_price:price,sale_price:retail,manual_sale_price:old?.manual_sale_price===true,active:old?old.active:true,
        price_verification_needed:old?old.price_verification_needed:true,synced_at:new Date().toISOString()});
      if(price!=null)priced++;
     }
