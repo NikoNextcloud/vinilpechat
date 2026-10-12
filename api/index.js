@@ -36,7 +36,7 @@ return {products:bad(pp,'admin products').map(x=>({...x,supplier_price:costsById
 async function saveProducts(db,data){if(!Array.isArray(data.products)||data.products.length>3000)throw Object.assign(new Error('Невалиден списък с продукти'),{status:400});const ids=data.products.map(x=>Number(x.id));if(ids.some(x=>!Number.isInteger(x)||x<=0)||new Set(ids).size!==ids.length)throw Object.assign(new Error('Дублиран/невалиден ID'),{status:400});const products=data.products.map(p=>({
     id:Number(p.id),name:str(p.name,250),description:str(p.description,6000),category:str(p.category,80),unit:str(p.unit,20),sale_price:price(p.sale_price),active:!!p.active,
     // Don't accept arbitrary source URLs or externally hosted images in bulk pricing updates.
-    ...(p.supplier_options!==undefined?{supplier_options:Array.isArray(p.supplier_options)?p.supplier_options.slice(0,30):[]}:{}),
+    // Supplier option groups are maintained by the variant importer, never by bulk price editing.
 }));if(products.some(x=>!x.name||!x.category))throw Object.assign(new Error('Има продукт без име/категория'),{status:400});
 // Update only existing rows, never allow inserting forged products by ID.
 const exists=bad(await db.from('vinyl_products').select('id').in('id',ids),'validate products');if(exists.length!==ids.length)throw Object.assign(new Error('Непознат продукт'),{status:400});
