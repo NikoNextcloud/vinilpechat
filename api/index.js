@@ -25,14 +25,15 @@ async function catalog(db){const [pp,cc,ss,vv]=await Promise.all([
 ]);
 const variantsByProduct=new Map();for(const v of bad(vv,'variants')){if(!variantsByProduct.has(v.product_id))variantsByProduct.set(v.product_id,[]);variantsByProduct.get(v.product_id).push({...v,key:v.variant_key})}
 return {products:bad(pp,'products').map(p=>({...p,variants:variantsByProduct.get(p.id)||[]})),categories:bad(cc,'categories'),settings:bad(ss,'settings')};}
-async function adminData(db){const [pp,cc,ss,orders,costs,vv]=await Promise.all([
+async function adminData(db){const [pp,cc,ss,orders,costs,vv,reference]=await Promise.all([
     db.from('vinyl_products').select('*').order('id'),db.from('vinyl_categories').select('*').order('sort_order'),
     db.from('vinyl_settings').select('*').eq('id',1).single(),
     db.from('vinyl_orders').select('*').order('created_at',{ascending:false}).limit(500),
     db.from('vinyl_costs').select('product_id,supplier_price'),
-    db.from('vinyl_variants').select('*').order('product_id').order('variant_key')
-]);const costsById=new Map(bad(costs,'costs').map(x=>[x.product_id,x.supplier_price]));const byProduct=new Map();for(const v of bad(vv,'admin variants')){if(!byProduct.has(v.product_id))byProduct.set(v.product_id,[]);byProduct.get(v.product_id).push({...v,key:v.variant_key})}
-return {products:bad(pp,'admin products').map(x=>({...x,supplier_price:costsById.get(x.id)??null,variants:byProduct.get(x.id)||[]})),categories:bad(cc,'categories'),settings:bad(ss,'settings'),orders:bad(orders,'orders')};}
+    db.from('vinyl_variants').select('*').order('product_id').order('variant_key'),
+    db.from('vinyl_supplier_reference').select('product_id,public_min_price,public_max_price,recorded_at,note')
+]);const costsById=new Map(bad(costs,'costs').map(x=>[x.product_id,x.supplier_price]));const publicSupplierById=new Map(bad(reference,'supplier reference').map(x=>[x.product_id,x]));const byProduct=new Map();for(const v of bad(vv,'admin variants')){if(!byProduct.has(v.product_id))byProduct.set(v.product_id,[]);byProduct.get(v.product_id).push({...v,key:v.variant_key})}
+return {products:bad(pp,'admin products').map(x=>({...x,supplier_price:costsById.get(x.id)??null,public_supplier_reference:publicSupplierById.get(x.id)||null,variants:byProduct.get(x.id)||[]})),categories:bad(cc,'categories'),settings:bad(ss,'settings'),orders:bad(orders,'orders')};}
 async function saveProducts(db,data){
  if(!Array.isArray(data.products)||data.products.length>3000)throw Object.assign(new Error('Невалиден списък с продукти'),{status:400});
  const ids=data.products.map(x=>Number(x.id));
