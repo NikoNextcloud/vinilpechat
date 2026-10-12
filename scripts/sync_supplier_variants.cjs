@@ -77,14 +77,14 @@ async function main(){
    if(oe)throw oe;
    const existing=new Map(oldRows.map(x=>[x.variant_key,x]));
 
-   // All supplier combinations use the fixed EUR 20 retail addition.
+   // Supplier synchronization only updates supplier costs and option details; selling prices are owned by the shop.
    const rows=[],batchSize=4;
    for(let i=0;i<all.length;i+=batchSize){
     const batch=all.slice(i,i+batchSize);
     const values=await Promise.all(batch.map(async e=>({entry:e,price:await supplierPrice(product,e,cookie)})));
     for(const {entry,price} of values){
      const old=existing.get(entry.key);
-     const retail=old?.manual_sale_price===true?old.sale_price:(price==null?null:money(price+20));
+     const retail=old?old.sale_price:null;
      rows.push({product_id:product.id,variant_key:entry.key,label:entry.label,choices:entry.choices,
        supplier_price:price,sale_price:retail,manual_sale_price:old?.manual_sale_price===true,active:old?old.active:true,
        price_verification_needed:old?old.price_verification_needed:true,synced_at:new Date().toISOString()});
