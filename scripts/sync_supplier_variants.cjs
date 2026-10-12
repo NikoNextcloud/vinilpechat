@@ -79,16 +79,15 @@ async function main(){
    const {data:oldRows,error:oe}=await db.from('vinyl_variants').select('variant_key,sale_price,active,price_verification_needed').eq('product_id',product.id);
    if(oe)throw oe;
    const existing=new Map(oldRows.map(x=>[x.variant_key,x]));
-   const cost=baseCosts.get(product.id),currentRetail=product.sale_price==null?null:Number(product.sale_price);
-   const ratio=cost>0&&currentRetail!=null&&Number.isFinite(currentRetail)?currentRetail/cost:null;
-   const markup=ratio>0&&ratio<30?ratio:null;
+
+   // All supplier combinations use the fixed EUR 20 retail addition.
    const rows=[],batchSize=4;
    for(let i=0;i<all.length;i+=batchSize){
     const batch=all.slice(i,i+batchSize);
     const values=await Promise.all(batch.map(async e=>({entry:e,price:await supplierPrice(product,e,cookie)})));
     for(const {entry,price} of values){
      const old=existing.get(entry.key);
-     const retail=old?old.sale_price:(price!=null&&markup!=null?money(price*markup):null);
+     const retail=price==null?null:money(price+20);
      rows.push({product_id:product.id,variant_key:entry.key,label:entry.label,choices:entry.choices,
        supplier_price:price,sale_price:retail,active:old?old.active:true,
        price_verification_needed:old?old.price_verification_needed:true,synced_at:new Date().toISOString()});
