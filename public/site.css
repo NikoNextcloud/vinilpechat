@@ -194,35 +194,17 @@
 @media(max-width:480px){.social-grid{gap:17px}.social-card{padding:12px;border-radius:18px}.social-card .social-feed-frame{padding:5px;height:538px}.social-feed-embed,.facebook-profile-embed{height:526px}.social-card-title{padding:3px 5px 14px}}
 
 
-/* Facebook restricts third-party timeline iframes for some pages; show a useful,
-   branded link to the real posts instead of an empty white iframe. */
-.social-card .social-feed-frame.facebook-showcase{padding:7px;background:#fff;align-items:stretch;justify-content:stretch}
-.facebook-showcase-content{position:relative;isolation:isolate;min-width:0;width:100%;height:100%;padding:27px 25px 30px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;overflow:hidden;border-radius:10px;background:radial-gradient(circle at 83% 12%,#d2e8fe 0%,transparent 43%),radial-gradient(circle at 14% 94%,#d8efe3 0%,transparent 54%),linear-gradient(145deg,#f8fbff,#eef6fa 55%,#f6faf5);color:#183c35;text-align:center}
-.facebook-showcase-content:before{content:"";position:absolute;inset:18px;border:1px solid rgba(77,128,174,.14);border-radius:18px;pointer-events:none}
-.facebook-showcase-art{position:relative;width:180px;height:180px;display:grid;place-items:center;flex:none}
-.facebook-showcase-art img{width:136px;height:136px;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 12px 15px rgba(7,51,47,.15))}
-.facebook-showcase-orbit{position:absolute;border-radius:50%;border:1px solid rgba(31,92,156,.24);inset:12px;transform:rotate(-23deg)}
-.facebook-showcase-orbit-two{inset:-5px;border-color:rgba(31,92,156,.1)}
-.facebook-showcase-sparkle{position:absolute;z-index:3;color:#dda94f;font-size:27px}
-.facebook-showcase-sparkle-one{top:2px;right:12px}.facebook-showcase-sparkle-two{bottom:12px;left:7px;font-size:18px}
-.facebook-showcase-copy{max-width:345px;position:relative;z-index:2}
-.facebook-showcase-eyebrow{display:block;font-size:10px;letter-spacing:2px;color:#3676a0;font-weight:900;margin-bottom:11px}
-.facebook-showcase-copy h4{margin:0 0 12px;color:#183e36;font-size:clamp(22px,2.1vw,28px);line-height:1.2;letter-spacing:-.8px}
-.facebook-showcase-copy p{margin:0 0 22px;color:#587c7b;font-size:13px;line-height:1.85}
-.facebook-showcase-link{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:13px 20px;min-height:46px;border-radius:11px;background:#2364ac;color:white;font-weight:850;font-size:12px;transition:background .15s,transform .15s}
-.facebook-showcase-link:hover,.facebook-showcase-link:focus-visible{background:#154c89;color:white;transform:translateY(-2px)}
-@media(max-width:480px){.facebook-showcase-content{padding:18px 13px;gap:10px}.facebook-showcase-art{width:155px;height:155px}.facebook-showcase-art img{width:120px;height:120px}.facebook-showcase-copy h4{font-size:23px}.facebook-showcase-copy p{font-size:12px;margin-bottom:17px}}
-
-
-/* Real Facebook Page posts loaded from the private Meta Graph API endpoint. */
-.facebook-feed-content{width:100%;height:100%;min-width:0;min-height:0}
-.facebook-real-posts{width:100%;height:100%;min-height:0;overflow:auto;overscroll-behavior:contain;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-content:start;padding:6px;scrollbar-color:#abc8b9 transparent;scrollbar-width:thin}
-.facebook-real-posts [role=listitem]{min-width:0;min-height:0}
-.facebook-post-card{display:flex;min-height:221px;height:100%;flex-direction:column;overflow:hidden;border:1px solid #dbe8df;border-radius:14px;background:#fff;text-decoration:none;box-shadow:0 7px 16px rgba(20,74,51,.06);transition:transform .15s,border-color .15s,box-shadow .15s;color:#264537}
-.facebook-post-card:hover,.facebook-post-card:focus-visible{transform:translateY(-2px);border-color:#87baa1;box-shadow:0 10px 20px rgba(20,74,51,.13);outline:none}
-.facebook-post-media{display:grid;place-items:center;width:100%;height:133px;overflow:hidden;background:linear-gradient(120deg,#e3f2e8,#d4e6f3);flex:none}
-.facebook-post-photo{display:block;width:100%;height:100%;object-fit:cover}
-.facebook-post-no-photo{color:#247458;font-size:34px}
-.facebook-post-text{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;padding:11px 12px 4px;font-size:11px;line-height:1.5;font-weight:600;word-break:break-word}
-.facebook-post-meta{margin-top:auto;display:block;color:#527d67;font-size:10px;line-height:1.4;padding:5px 12px 11px}
-@media(max-width:480px){.facebook-real-posts{gap:8px;padding:3px}.facebook-post-card{min-height:192px;border-radius:10px}.facebook-post-media{height:105px}.facebook-post-text{font-size:10px;padding:8px 8px 3px}.facebook-post-meta{font-size:9px;padding:4px 8px 9px}}
+/* Elfsight renders actual Facebook posts. Keep its visible viewport aligned with Instagram. */
+.social-card .social-feed-frame.facebook-elfsight-frame{
+  display:block;position:relative;width:100%;height:552px;min-height:552px;
+  padding:8px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;
+  scrollbar-color:#aacdb5 transparent;background:#fff;
+}
+.facebook-elfsight-widget{display:block;width:100%;min-height:515px}
+.facebook-elfsight-frame iframe{max-width:100%;border:0}
+.facebook-elfsight-frame noscript{padding:18px;color:#255f44;line-height:1.7}
+.facebook-elfsight-frame noscript a{font-weight:850;text-decoration:underline}
+@media(max-width:480px){
+  .social-card .social-feed-frame.facebook-elfsight-frame{height:538px;min-height:0;padding:5px}
+  .facebook-elfsight-widget{min-height:500px}
+}
