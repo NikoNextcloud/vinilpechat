@@ -157,3 +157,19 @@
 @media(max-width:850px){.brand-logo{width:58px;height:58px}.brand-copy strong{font-size:18px}.brand-copy small{font-size:8px}}
 @media(max-width:480px){.brand{gap:6px}.brand-logo{width:52px;height:52px}.brand-copy strong{font-size:17px}.brand-copy small{font-size:7px;letter-spacing:.4px}}
 @media(max-width:365px){.brand-logo{width:46px;height:46px}.brand-copy small{display:none}.brand-copy strong{font-size:15px}}
+
+
+/* Live Instagram profile embed at the bottom of the public storefront. */
+.instagram-section{position:relative;overflow:hidden;padding:68px 0 60px;background:radial-gradient(circle at 15% 0%,#e7f5e9 0%,transparent 50%),linear-gradient(180deg,#f9fcf9 0%,#edf7f1 100%);border-top:1px solid #dce9df}
+.instagram-inner{position:relative;z-index:1}
+.instagram-heading{text-align:center;margin:0 auto 30px;max-width:630px}
+.instagram-kicker{display:inline-flex;align-items:center;gap:9px;color:#267956;font-size:11px;letter-spacing:1.3px;font-weight:900}
+.instagram-heading h2{color:#193f33;font-size:clamp(28px,3.1vw,38px);letter-spacing:-1.3px;line-height:1.2;margin:13px 0 13px}
+.instagram-heading p{font-size:14px;color:#61816f;line-height:1.8;margin:0}
+.instagram-feed-frame{max-width:560px;margin:0 auto;border:1px solid #d5e5da;border-radius:21px;padding:14px;background:#fff;box-shadow:0 18px 48px rgba(17,65,41,.09);min-height:550px;display:flex;align-items:center;justify-content:center}
+.instagram-profile-embed{display:block;border:0;border-radius:10px;width:100%;min-width:0;height:548px;background:#fff}
+.instagram-feed-footer{margin:21px auto 0;display:flex;flex-direction:column;align-items:center;gap:11px}
+.instagram-open-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 23px;border-radius:12px;background:#195d42;color:#fff;font-size:13px;font-weight:850;transition:background .2s,transform .2s;box-shadow:0 10px 18px rgba(25,93,66,.13)}
+.instagram-open-btn:hover,.instagram-open-btn:focus-visible{background:#0e4630;transform:translateY(-2px);color:#fff}
+.instagram-feed-footer>span{font-size:11px;color:#859a8b;text-align:center}
+@media(max-width:650px){.instagram-section{padding:49px 0 42px}.instagram-heading{margin-bottom:24px}.instagram-heading h2{font-size:29px}.instagram-feed-frame{padding:7px;border-radius:14px;min-height:500px}.instagram-profile-embed{height:518px}.instagram-open-btn{max-width:100%;text-align:center}}
