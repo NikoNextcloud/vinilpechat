@@ -3,6 +3,7 @@
 const { createClient } = require('@supabase/supabase-js');
 const crypto = require('node:crypto');
 const {designQuote}=require('../lib/design-pricing.js');
+const seo=require('../lib/seo-pages.js');
 const MAX_BODY = 5 * 1024 * 1024;
 const json = (res,status,obj) => {res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.status(status).json(obj);};
 const msg = (res,status,message) => json(res,status,{error:message});
@@ -100,6 +101,24 @@ module.exports=async function handler(req,res){
         if(route==='design/quote'&&req.method==='POST'){
             if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
             return json(res,200,designQuote(await body(req)));
+        }
+        if(req.method==='GET'&&['seo/product','seo/category','seo/sitemap'].includes(route)){
+            const {db}=clients();
+            if(route==='seo/sitemap'){
+                const xml=await seo.sitemapXml(db);
+                res.setHeader('Content-Type','application/xml; charset=utf-8');
+                res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
+                res.setHeader('X-Content-Type-Options','nosniff');
+                return res.status(200).send(xml);
+            }
+            const slug=typeof req.query?.slug==='string'?req.query.slug:'';
+            const page=route==='seo/product'?await seo.resolveProduct(db,slug):await seo.resolveCategory(db,slug);
+            if(!page){res.setHeader('X-Robots-Tag','noindex');return res.status(404).send('Страницата не е намерена');}
+            if(page.redirect){res.setHeader('Location',page.redirect);return res.status(308).end();}
+            res.setHeader('Content-Type','text/html; charset=utf-8');
+            res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
+            res.setHeader('X-Content-Type-Options','nosniff');
+            return res.status(200).send(page.html);
         }
         let {db,auth,privileged}=clients();
         if(!privileged && (route==='orders'||route.startsWith('admin/')))return msg(res,503,'Магазинът приема само запитвания след завършване на настройките.');
