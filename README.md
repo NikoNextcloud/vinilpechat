@@ -8,23 +8,18 @@
 - **Vercel:** `ni-ko2 / vinilpechat`
 - **Supabase проект:** `vinilpechat` (`okgimoegtsywbxkndzgw`)
 
-## Автоматично показване на публикациите от Facebook
+## Facebook публикации чрез Elfsight
 
-Facebook страницата на магазина е [Печат на винил](https://www.facebook.com/profile.php?id=61559753162459), ID `61559753162459`.
+В края на началната страница има две подравнени социални секции — Instagram вляво и Facebook вдясно. На мобилен телефон се подреждат една под друга.
 
-В общата секция Instagram/Facebook клиентът вижда до **9 действителни публикации** от Facebook: снимка (ако постът има такава), текст, дата и линк към оригиналния пост. Показването се зарежда при приближаване до секцията на страницата и се обновява при ново зареждане след сървърния кеш от **15 минути**. Има резервен Facebook панел и линк към страницата, ако Meta API е недостъпен или все още не е свързан.
+За Facebook се използва готовият код, предоставен от собственика на магазина:
+- Скрипт: `https://elfsightcdn.com/platform.js` (включен **веднъж** в `public/index.html`).
+- Widget: `elfsight-app-33b7879c-8beb-48e0-8d94-6d48b5b5c481`, с `data-elfsight-app-lazy`.
+- Редакциите, съдържанието, синхронизацията и евентуалните лимити/надписи се управляват в профила на **Elfsight**. Публикациите ще се виждат, ако Elfsight widget-ът е активен, свързан с правилната Facebook страница, достъпен по абонамента и позволен от браузъра.
+- Без Meta Graph API на нашия сървър, без Page Access Token в Vercel.
+- Има резервен бутон към [Facebook страницата](https://www.facebook.com/profile.php?id=61559753162459), ако widget-ът не се зареди.
 
-Интеграцията е **само за четене**, не публикува или редактира във Facebook. Реализирана е в `lib/facebook-feed.js` и чрез `GET /api/social/facebook` в съществуващата единствена Vercel функция `api/index.js` (Hobby лимитът от 12 функции не се засяга). Page token се чете **само на сървъра** от `FACEBOOK_PAGE_ACCESS_TOKEN` и никога не се връща в HTML, JavaScript или JSON. Използва официалния Meta Graph API, не скрейпва Facebook и не копира данни за несвързани профили.
-
-### Свързване на Facebook страницата от нейния собственик
-
-1. Влез в [Meta for Developers](https://developers.facebook.com/apps/) и създай (или използвай) приложение с достъп до Pages API. Увери се, че имаш **Full control** върху Facebook страницата в Meta.
-2. От [Graph API Explorer](https://developers.facebook.com/tools/explorer/) избери своето приложение, поискай `pages_show_list` и `pages_read_engagement` (и допълнителните разрешения, ако Meta ги изиска за конкретния тип съдържание). Издай **User Access Token** за собственика на страницата. За производствено приложение може да е необходим App Review/Advanced Access според Meta.
-3. Изпълни `GET /me/accounts?fields=id,name,access_token` в Graph API Explorer. Избери само страницата с ID **`61559753162459`** и копирай нейния **Page Access Token** (не User токена).
-4. В [Vercel → vinilpechat → Environment Variables](https://vercel.com/ni-ko2/vinilpechat/settings/environment-variables) добави секретно `FACEBOOK_PAGE_ACCESS_TOKEN` с цел **Production**, постави Page токена и направи **Redeploy**. Не изпращай токена в чат, GitHub, публичен код, снимка или браузърен адрес.
-5. Отвори `https://vinilpechat.vercel.app/api/social/facebook`: при правилен токен трябва да показва `"status":"ready"` и масив `posts` с реални публикации (възможен е празен масив, ако Meta не връща подходящи постове). `"needs_connection"` означава, че токенът още не е настроен, а `"unavailable"` — че Meta е отказал/връзката временно не работи.
-
-Не е нужно да задаваш нова Vercel Serverless Function или да заплащаш услуга за вграждане. Токенът може да бъде оттеглен или да изтече — тогава страницата запазва резервния Facebook панел, докато го обновиш.
+CSS за двата еднакво високи панела е в `public/site.css`. Самият Elfsight код не се променя от нашия сайт и не могат да се гарантират неговите вътрешни стилове или броят публикации, които предоставя услугата.
 
 ## Визуална идентичност и индексиране в Google (октомври 2026)
 
