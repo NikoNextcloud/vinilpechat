@@ -369,4 +369,56 @@ a=t.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}a=t.cl
 document.addEventListener('input',e=>{let t=e.target;if(t.matches('[data-design-field]')){++designQuoteSequence;currentDesignQuote=null;$('#designViberButton')?.setAttribute('aria-disabled','true');const result=$('#designTotal');if(result)result.textContent='Изчисляване...';clearTimeout(designDebounce);designDebounce=setTimeout(refreshDesignQuote,260);return}if(t.matches('[data-variant-price],[data-variant-active],[data-variant-verify]')){const p=getProduct(Number(t.dataset.id));const v=(p?.variants||[]).find(x=>x.variant_key===t.dataset.variantKey);if(v){if(t.hasAttribute('data-variant-price')){v.sale_price=t.value===''?null:Number(t.value);v.manual_sale_price=true;}if(t.hasAttribute('data-variant-active'))v.active=t.checked;if(t.hasAttribute('data-variant-verify'))v.price_verification_needed=t.checked;changedVariants.add(p.id+':'+v.variant_key)}return}if(t.id==='catalogSearch'){state.q=t.value;const pos=t.selectionStart;const products=filters();$('#productGrid').innerHTML=products.map(productCard).join('')||'<div class="empty">Няма намерени продукти</div>';$('.results-hint').textContent=`Показани ${products.length} продукта`;return}if(t.dataset.field){let p=getProduct(t.dataset.id);if(p){let k=t.dataset.field;p[k]=k==='active'?t.checked:k.includes('price')?(t.value===''?null:Number(t.value)):t.value;if(k==='sale_price')p.manual_sale_price=true;}}if(t.dataset.setting)db.settings[t.dataset.setting]=t.value});
 document.addEventListener('change',e=>{let t=e.target;if(t.matches('[data-product-option]')){refreshVariantPrice();$('#viberInquiry')?.classList.add('hidden');return}if(t.id==='catalogSort'){state.sort=t.value;renderHome();$('#catalog')?.scrollIntoView();}if(t.dataset.orderStatus)updateStatus(t.dataset.orderStatus,t.value);if(t.id==='variantCSVFile'){importVariantCSV(t.files[0]);t.value=''}if(t.id==='csvImportFile')csvImport(t.files[0])});
 document.addEventListener('submit',async e=>{if(e.target.id==='orderForm'||e.target.id==='contactForm'){e.preventDefault();await sendForm(e.target,e.target.id==='orderForm'?'order':'contact')}else if(e.target.id==='loginForm'){e.preventDefault();let fields=new FormData(e.target);try{const v=await request('/api/admin/login',{method:'POST',body:JSON.stringify({email:fields.get('email'),password:fields.get('password')})});state.isAdmin=true;state.csrf=v.csrf;let info=await request('/api/admin/data');db={...db,...info};renderAdmin();toast('Успешен вход')}catch(err){toast(err.message)}}});
-$('#cartOpen').addEventListener('click',showCart);$('#cartClose').addEventListener('click',closeCart);$('#productClose').addEventListener('click',closeDialog);$('#overlay').addEventListener('click',()=>{closeDialog();closeCart()});$('#focusSearch').addEventListener('click',()=>{go('catalog');setTimeout(()=>$('#catalogSearch')?.focus(),80)});$('#mobileMenu').addEventListener('click',()=>$('#mobile-nav').classList.toggle('hidden'));document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDialog();closeCart()}});load();
+
+let facebookFeedStarted=false;
+function facebookPostCard(post){
+ const link=document.createElement('a');link.className='facebook-post-card';link.href=post.url;
+ link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label','Отвори Facebook публикацията');
+ const media=document.createElement('span');media.className='facebook-post-media';
+ if(post.image_url){
+  const img=document.createElement('img');img.className='facebook-post-photo';
+  img.src=post.image_url;img.alt='Снимка от Facebook публикация на Vinilpechat';
+  img.loading='lazy';img.decoding='async';
+  media.append(img);
+ }else{const icon=document.createElement('span');icon.className='facebook-post-no-photo';icon.textContent='✦';icon.setAttribute('aria-hidden','true');media.append(icon);}
+ const content=document.createElement('span');content.className='facebook-post-text';
+ content.textContent=post.message||'Нова публикация от Vinilpechat';
+ const caption=document.createElement('span');caption.className='facebook-post-meta';
+ const date=new Date(post.published_at);
+ caption.textContent=(Number.isFinite(date.getTime())?date.toLocaleDateString('bg-BG',{day:'numeric',month:'long',year:'numeric'}):'')+' ↗';
+ link.append(media,content,caption);return link;
+}
+async function loadFacebookPosts(){
+ if(facebookFeedStarted)return;
+ facebookFeedStarted=true;
+ const slot=$('#facebookFeedContent');if(!slot)return;
+ try{
+  const response=await fetch('/api/social/facebook',{headers:{Accept:'application/json'},credentials:'omit',cache:'no-store'});
+  if(!response.ok)throw Error('Facebook feed unavailable');
+  const result=await response.json();
+  if(!['ready','stale'].includes(result?.status)||!Array.isArray(result.posts)||!result.posts.length)return;
+  const posts=result.posts.filter(p=>{
+   try{const url=new URL(p.url);return url.protocol==='https:'&&(url.hostname==='facebook.com'||url.hostname.endsWith('.facebook.com'));}
+   catch{return false}
+  });
+  if(!posts.length)return;
+  const list=document.createElement('div');list.className='facebook-real-posts';
+  list.setAttribute('role','list');list.setAttribute('aria-label','Последни публикации от Facebook');
+  for(const post of posts){
+   const row=document.createElement('div');row.setAttribute('role','listitem');
+   row.append(facebookPostCard(post));list.append(row);
+  }
+  slot.replaceChildren(list);
+ }catch{ /* Leave attractive page-link fallback visible if Meta is disconnected or unavailable. */ }
+}
+function initFacebookPosts(){
+ const section=$('#instagram-posts');if(!section)return;
+ if('IntersectionObserver' in window){
+  const observer=new IntersectionObserver(entries=>{
+   if(entries.some(item=>item.isIntersecting)){observer.disconnect();loadFacebookPosts();}
+  },{rootMargin:'500px'});
+  observer.observe(section);
+ }else loadFacebookPosts();
+}
+
+$('#cartOpen').addEventListener('click',showCart);$('#cartClose').addEventListener('click',closeCart);$('#productClose').addEventListener('click',closeDialog);$('#overlay').addEventListener('click',()=>{closeDialog();closeCart()});$('#focusSearch').addEventListener('click',()=>{go('catalog');setTimeout(()=>$('#catalogSearch')?.focus(),80)});$('#mobileMenu').addEventListener('click',()=>$('#mobile-nav').classList.toggle('hidden'));document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDialog();closeCart()}});initFacebookPosts();load();
