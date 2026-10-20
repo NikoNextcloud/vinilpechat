@@ -173,3 +173,22 @@
 .instagram-open-btn:hover,.instagram-open-btn:focus-visible{background:#0e4630;transform:translateY(-2px);color:#fff}
 .instagram-feed-footer>span{font-size:11px;color:#859a8b;text-align:center}
 @media(max-width:650px){.instagram-section{padding:49px 0 42px}.instagram-heading{margin-bottom:24px}.instagram-heading h2{font-size:29px}.instagram-feed-frame{padding:7px;border-radius:14px;min-height:500px}.instagram-profile-embed{height:518px}.instagram-open-btn{max-width:100%;text-align:center}}
+
+
+/* Instagram + Facebook on one visual baseline; stack neatly on mobile. */
+.social-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:stretch}
+.social-card{min-width:0;display:flex;flex-direction:column;border:1px solid #d9e6dc;background:rgba(255,255,255,.75);padding:20px;border-radius:24px;box-shadow:0 12px 38px rgba(16,63,39,.06)}
+.social-card-title{min-height:63px;display:flex;align-items:center;gap:11px;color:#245d43;padding:0 2px 15px}
+.social-card-title>svg{flex:none}
+.social-card-title h3{font-size:18px;font-weight:850;color:#183e32;line-height:1.25;margin:0}
+.social-card-title span{display:block;font-size:12px;color:#719281;margin-top:3px}
+.social-card .social-feed-frame{width:100%;max-width:none;margin:0;min-height:0;height:552px;padding:7px;overflow:hidden;flex:none;border-radius:14px;box-shadow:none;align-items:flex-start}
+.social-feed-embed{display:block;width:100%;height:536px;max-width:100%;border:0;border-radius:8px;background:#fff}
+.facebook-profile-embed{display:block;width:100%;height:536px;max-width:100%;border:0}
+.social-card .social-card-footer{width:100%;margin:17px 0 0;margin-top:auto;padding-top:17px}
+.social-card .social-card-footer .instagram-open-btn{width:100%;min-height:49px;text-align:center}
+.social-card-footer>span{min-height:30px;line-height:1.5}
+.facebook-open-btn{background:#2664a5}
+.facebook-open-btn:hover,.facebook-open-btn:focus-visible{background:#174c84}
+@media(max-width:820px){.social-grid{grid-template-columns:1fr;max-width:600px;margin:0 auto}.social-card{padding:17px}.social-card .social-feed-frame{height:552px}}
+@media(max-width:480px){.social-grid{gap:17px}.social-card{padding:12px;border-radius:18px}.social-card .social-feed-frame{padding:5px;height:538px}.social-feed-embed,.facebook-profile-embed{height:526px}.social-card-title{padding:3px 5px 14px}}
