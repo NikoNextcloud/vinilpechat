@@ -47,7 +47,7 @@ function renderChoiceLanding(){
  document.title='Печат на винил по размер, брезенти и покривала | Vinilpechat';
  $('#main').innerHTML=`<section class="choice-landing container" aria-labelledby="choose-service-title">
  <div class="choice-intro"><span class="choice-eyebrow">Винил & Брезенти · Рекламни решения</span>
- <h1 id="choose-service-title">Какво търсиш днес?</h1>
+ <h1 id="choose-service-title">Печат на винил по размер и брезенти</h1>
  <p>Избери вида винил и продължи към бърза цена или продуктовия каталог.</p></div>
  <div class="choice-grid">
  <a class="choice-card choice-card--design" href="#design" data-go="design">
@@ -159,7 +159,7 @@ async function copyDesignViberMessage(){
 }
 
 function hero(){return `<section class="hero container"><div class="hero-banner"><div class="hero-copy"><span class="eyebrow">Надеждни материали • Голям избор</span><h1>Материали за <em>всяка идея.</em></h1><p>Винилни платна, PVC брезенти, кристал винил, зебло и консумативи — на едно място. Изберете материал и изпратете заявка.</p><button class="primary-btn" data-goto="catalog">Разгледай продуктите <span>↗</span></button></div><div class="hero-visual"><div class="roll one"></div><div class="roll two"></div><div class="tag-float">40 избрани продукта<small>Осем специализирани категории</small></div></div></div></section><section class="container perks"><div class="perk"><span class="perk-icon">◇</span><span><b>Широк избор от материали</b><small>Брезенти, винил, мрежи и фолиа</small></span></div><div class="perk"><span class="perk-icon">◫</span><span><b>Размери по заявка</b><small>Възможност за рязане според продукта</small></span></div><div class="perk"><span class="perk-icon">↗</span><span><b>Бързо запитване</b><small>Потвърждение на цена и вариант</small></span></div></section>`}
-function catCards(){return `<section class="container"><div class="section-head"><div><span class="section-eyebrow">КАКВО ПРЕДЛАГАМЕ</span><h2 class="section-title">Разгледай по категория</h2><p class="section-sub">Точно това, което търсиш — подредено и лесно за избор.</p></div></div><div class="category-grid">${db.categories.map(c=>`<button class="category-card" data-catgo="${escaped(c.id)}"><span class="cat-glyph">${escaped(c.icon||'▧')}</span><span><div class="cat-name">${escaped(c.name)}</div><div class="cat-count">${db.products.filter(p=>p.category===c.id&&p.active).length} продукта ↗</div></span></button><a class="seo-category-link" href="${escaped(seoCategoryHref(c))}">Продуктова страница →</a>`).join('')}</div></section>`}
+function catCards(){return `<section class="container"><div class="section-head"><div><span class="section-eyebrow">КАКВО ПРЕДЛАГАМЕ</span><h2 class="section-title">Разгледай по категория</h2><p class="section-sub">Точно това, което търсиш — подредено и лесно за избор.</p></div></div><div class="category-grid">${db.categories.map(c=>`<div class="seo-category-tile"><button class="category-card" data-catgo="${escaped(c.id)}"><span class="cat-glyph">${escaped(c.icon||'▧')}</span><span><div class="cat-name">${escaped(c.name)}</div><div class="cat-count">${db.products.filter(p=>p.category===c.id&&p.active).length} продукта ↗</div></span></button><a class="seo-category-link" href="${escaped(seoCategoryHref(c))}">Продуктова страница →</a></div>`).join('')}</div></section>`}
 function filters(){let all=db.products.filter(x=>x.active);let p=all.filter(x=>(state.cat==='all'||x.category===state.cat)&&(`${x.name} ${x.description} ${getCat(x.category)}`).toLocaleLowerCase('bg-BG').includes(state.q.toLocaleLowerCase('bg-BG')));if(state.sort==='price_up')p.sort((a,b)=>(a.sale_price??Infinity)-(b.sale_price??Infinity));if(state.sort==='price_down')p.sort((a,b)=>(b.sale_price??-1)-(a.sale_price??-1));if(state.sort==='name')p.sort((a,b)=>a.name.localeCompare(b.name,'bg'));return p}
 // Phone-number chats do not guarantee a prefilled draft; keep a copyable message.
 const viberPhone='+359879436006';
@@ -378,4 +378,25 @@ document.addEventListener('input',e=>{let t=e.target;if(t.matches('[data-design-
 document.addEventListener('change',e=>{let t=e.target;if(t.matches('[data-product-option]')){refreshVariantPrice();$('#viberInquiry')?.classList.add('hidden');return}if(t.id==='catalogSort'){state.sort=t.value;renderHome();$('#catalog')?.scrollIntoView();}if(t.dataset.orderStatus)updateStatus(t.dataset.orderStatus,t.value);if(t.id==='variantCSVFile'){importVariantCSV(t.files[0]);t.value=''}if(t.id==='csvImportFile')csvImport(t.files[0])});
 document.addEventListener('submit',async e=>{if(e.target.id==='orderForm'||e.target.id==='contactForm'){e.preventDefault();await sendForm(e.target,e.target.id==='orderForm'?'order':'contact')}else if(e.target.id==='loginForm'){e.preventDefault();let fields=new FormData(e.target);try{const v=await request('/api/admin/login',{method:'POST',body:JSON.stringify({email:fields.get('email'),password:fields.get('password')})});state.isAdmin=true;state.csrf=v.csrf;let info=await request('/api/admin/data');db={...db,...info};renderAdmin();toast('Успешен вход')}catch(err){toast(err.message)}}});
 
-$('#cartOpen').addEventListener('click',showCart);$('#cartClose').addEventListener('click',closeCart);$('#productClose').addEventListener('click',closeDialog);$('#overlay').addEventListener('click',()=>{closeDialog();closeCart()});$('#focusSearch').addEventListener('click',()=>{go('catalog');setTimeout(()=>$('#catalogSearch')?.focus(),80)});$('#mobileMenu').addEventListener('click',()=>$('#mobile-nav').classList.toggle('hidden'));document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDialog();closeCart()}});load();
+
+// Load the third-party Facebook widget only when customers scroll near the social section.
+function initLazyElfsight(){
+ const target=document.getElementById('instagram-posts');
+ if(!target)return;
+ let loaded=false;
+ const start=()=>{
+  if(loaded)return;loaded=true;
+  const script=document.createElement('script');
+  script.src='https://elfsightcdn.com/platform.js';
+  script.async=true;
+  document.body.append(script);
+ };
+ if('IntersectionObserver' in window){
+  const observer=new IntersectionObserver(entries=>{
+   if(entries.some(entry=>entry.isIntersecting)){observer.disconnect();start();}
+  },{rootMargin:'350px'});
+  observer.observe(target);
+ }else start();
+}
+
+$('#cartOpen').addEventListener('click',showCart);$('#cartClose').addEventListener('click',closeCart);$('#productClose').addEventListener('click',closeDialog);$('#overlay').addEventListener('click',()=>{closeDialog();closeCart()});$('#focusSearch').addEventListener('click',()=>{go('catalog');setTimeout(()=>$('#catalogSearch')?.focus(),80)});$('#mobileMenu').addEventListener('click',()=>$('#mobile-nav').classList.toggle('hidden'));document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDialog();closeCart()}});initLazyElfsight();load();
