@@ -6,16 +6,16 @@ const path=require('node:path');
 const pub=path.join(__dirname,'..','public');
 const read=x=>fs.readFileSync(path.join(pub,x),'utf8');
 
-test('storefront allows Google indexing, serves exact selected spiral artwork and matching favicon',()=>{
+test('storefront allows Google indexing and uses the selected spiral logo plus matching favicon',()=>{
  const html=read('index.html');
- assert.match(html,/<meta name="robots" content="index,follow,max-image-preview:large"/);
- assert.doesNotMatch(html,/<meta name="robots" content="noindex/);
- assert.match(html,/<link rel="canonical" href="https:\\/\\/vinilpechat\\.vercel\\.app\\/"/);
- assert.match(html,/src="\\/assets\\/vinilpechat-art-spiral\\.webp"/);
- assert.match(html,/href="\\/favicon\\.png\\?v=spiral1"/);
- assert.match(html,/"@type":"Organization"/);
- assert.match(html,/"@type":"WebSite"/);
- assert.match(html,/"logo":"https:\\/\\/vinilpechat\\.vercel\\.app\\/assets\\/vinilpechat-art-spiral\\.webp"/);
+ assert.ok(html.includes('<meta name="robots" content="index,follow,max-image-preview:large"'));
+ assert.ok(!html.includes('<meta name="robots" content="noindex'));
+ assert.ok(html.includes('rel="canonical" href="https://vinilpechat.vercel.app/"'));
+ assert.ok(html.includes('src="/assets/vinilpechat-art-spiral.webp"'));
+ assert.ok(html.includes('href="/favicon.png?v=spiral1"'));
+ assert.ok(html.includes('"@type":"Organization"'));
+ assert.ok(html.includes('"@type":"WebSite"'));
+ assert.ok(html.includes('"logo":"https://vinilpechat.vercel.app/assets/vinilpechat-art-spiral.webp"'));
  const logo=fs.readFileSync(path.join(pub,'assets/vinilpechat-art-spiral.webp'));
  const icon=fs.readFileSync(path.join(pub,'favicon.png'));
  assert.equal(logo.toString('ascii',0,4),'RIFF');
@@ -49,10 +49,10 @@ test('service landing pages are crawlable, unique and navigable',()=>{
  assert.match(vinyl,/rel="canonical"/);
  assert.match(tarps,/rel="canonical"/);
  assert.doesNotMatch(vinyl+tarps,/noindex|nofollow/);
- assert.match(vinyl,/src="\\/assets\\/vinilpechat-art-spiral\\.webp"/);
- assert.match(tarps,/src="\\/assets\\/vinilpechat-art-spiral\\.webp"/);
- assert.match(vinyl,/href="\\/favicon\\.png\\?v=spiral1"/);
- assert.match(tarps,/href="\\/favicon\\.png\\?v=spiral1"/);
+ assert.ok(vinyl.includes('src="/assets/vinilpechat-art-spiral.webp"'));
+ assert.ok(tarps.includes('src="/assets/vinilpechat-art-spiral.webp"'));
+ assert.ok(vinyl.includes('href="/favicon.png?v=spiral1"'));
+ assert.ok(tarps.includes('href="/favicon.png?v=spiral1"'));
 });
 test('local server no longer globally blocks public indexing but keeps JSON private',()=>{
  const srv=fs.readFileSync(path.join(__dirname,'..','server.js'),'utf8');
