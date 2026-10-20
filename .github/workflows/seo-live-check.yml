@@ -1,0 +1,44 @@
+name: SEO live smoke check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/seo-live-smoke-audit
+      - main
+    paths:
+      - 'lib/seo-pages.js'
+      - 'api/index.js'
+      - 'vercel.json'
+      - 'public/index.html'
+      - 'public/robots.txt'
+      - 'tests/**'
+      - '.github/workflows/seo-live-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  seo-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm test
+
+  live-smoke:
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/seo-live-smoke.cjs
+        env:
+          SEO_BASE_URL: https://vinilpechat.vercel.app
