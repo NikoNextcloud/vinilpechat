@@ -29,7 +29,125 @@ function persist(){localStorage.setItem('vinyl-cart',JSON.stringify(state.cart))
 async function request(url,opt={}){let resp=await fetch(url,{credentials:'same-origin',headers:{'Content-Type':'application/json',...(state.csrf?{'X-CSRF-Token':state.csrf}:{})},...opt});let d=await resp.json().catch(()=>({error:'Невалиден отговор'}));if(!resp.ok)throw Error(d.error||'Грешка при заявката');return d}
 async function load(){if(!demo){try{const [status,d]=await Promise.all([request('/api/health'),request('/api/catalog')]);if(d.products?.length){db={...db,...d};useServer=true;ordersReady=!!status.ordersReady}}catch(e){console.warn('Catalog loading failed:',e.message)}}$('#year').textContent=new Date().getFullYear();persist();navigate()}
 function go(which){location.hash=which;document.getElementById('mobile-nav').classList.add('hidden')}
-function navigate(){let route=decodeURIComponent((location.hash||'#home').slice(1));if(route.startsWith('item-')){renderHome();openDetail(Number(route.split('-')[1]));return}closeDialog();if(['contact','terms','delivery','privacy','admin'].includes(route)){if(route==='admin')renderAdmin();else renderPage(route)}else{renderHome();if(route==='catalog'){requestAnimationFrame(()=>$('#catalog')?.scrollIntoView({block:'start'}))}}window.scrollTo({top:0,behavior:'instant'})}
+function navigate(){let route=decodeURIComponent((location.hash||'#home').slice(1));if(route.startsWith('item-')){renderHome();openDetail(Number(route.split('-')[1]));return}closeDialog();if(route==='design')renderDesignPage();else if(route==='home'||!route)renderChoiceLanding();else if(['contact','terms','delivery','privacy','admin'].includes(route)){if(route==='admin')renderAdmin();else renderPage(route)}else{renderHome();if(route==='catalog'){requestAnimationFrame(()=>$('#catalog')?.scrollIntoView({block:'start'}))}}window.scrollTo({top:0,behavior:'instant'})}
+
+let currentDesignQuote=null;
+let designQuoteSequence=0;
+let designDebounce=null;
+let designInquiryDraft='';
+function renderChoiceLanding(){
+ document.title='Избери услуга | Винил & Брезенти';
+ $('#main').innerHTML=`<section class="choice-landing container" aria-labelledby="choose-service-title">
+ <div class="choice-intro"><span class="choice-eyebrow">Винил & Брезенти · Рекламни решения</span>
+ <h1 id="choose-service-title">Какво търсиш днес?</h1>
+ <p>Избери вида винил и продължи към бърза цена или продуктовия каталог.</p></div>
+ <div class="choice-grid">
+ <a class="choice-card choice-card--design" href="#design" data-go="design">
+  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="19" y="24" width="155" height="101" rx="13" fill="#E8F4EA"/><rect x="29" y="34" width="135" height="81" rx="8" fill="#FDFDF8"/><path d="M33 98L66 68L89 89L116 48L160 105H33Z" fill="#6EB797"/><circle cx="62" cy="57" r="12" fill="#F2B863"/><rect x="19" y="18" width="155" height="14" rx="7" fill="#2E8B6B"/><path d="M45 130H166" stroke="#174D3A" stroke-width="7" stroke-linecap="round"/><path d="M148 27v21m0-21h21" stroke="#174D3A" stroke-width="3" stroke-linecap="round"/></svg></div>
+  <span class="choice-number">01 · Печат по размер</span><h2>Нов винил с дизайн</h2>
+  <p>Въведи размерите, получи цена с включен дизайн и ни пиши във Viber.</p>
+  <span class="choice-cta">Изчисли цена <span aria-hidden="true">↗</span></span>
+ </a>
+ <a class="choice-card choice-card--covers" href="#catalog" data-go="catalog">
+  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30 39C57 19 145 22 170 42V118C142 132 57 130 30 117V39Z" fill="#D5E3D9"/><path d="M30 39C57 19 145 22 170 42L155 58C122 45 78 47 42 58L30 39Z" fill="#4F8C75"/><path d="M42 58C78 47 122 45 155 58V115C119 125 78 121 42 113V58Z" fill="#7FB7A0"/><circle cx="54" cy="64" r="4" stroke="#F2F7EA" stroke-width="3"/><circle cx="142" cy="64" r="4" stroke="#F2F7EA" stroke-width="3"/><circle cx="54" cy="109" r="4" stroke="#F2F7EA" stroke-width="3"/><circle cx="142" cy="109" r="4" stroke="#F2F7EA" stroke-width="3"/><path d="M56 77L143 89M52 92L139 105" stroke="#DBEDDB" stroke-opacity=".8" stroke-width="2" stroke-linecap="round"/></svg></div>
+  <span class="choice-number">02 · Каталог с материали</span><h2>Винили за покриване и др.</h2>
+  <p>Платнища, брезенти, зебло, градински материали и всички останали продукти.</p>
+  <span class="choice-cta">Разгледай каталога <span aria-hidden="true">↗</span></span>
+ </a>
+ </div>
+ <p class="choice-trust">И двата варианта са без онлайн предплащане. Уточняваме заявката преди изпълнение.</p>
+ </section>`;
+}
+const designFormat=n=>Number(n).toLocaleString('bg-BG',{maximumFractionDigits:2});
+function renderDesignPage(){
+ document.title='Нов винил с дизайн | Размери и цена';
+ currentDesignQuote=null;
+ $('#main').innerHTML=`<section class="container design-page">
+ <nav class="design-breadcrumb" aria-label="Навигация"><a href="#home">Начало</a><span>›</span><span>Нов винил с дизайн</span></nav>
+ <div class="design-layout">
+ <div class="design-left">
+  <span class="design-kicker">Рекламен винил · Печат по твой размер</span>
+  <h1>Твоят дизайн.<br><em>Твоят размер.</em></h1>
+  <p class="design-lead">Изчисли цената за печат на нов винил с включена услуга за дизайн. След това изпрати размерите и запитването чрез Viber.</p>
+  <div class="design-sample" aria-hidden="true"><div class="design-print-preview"><div class="design-preview-top">ТВОЯТА РЕКЛАМА</div><div class="design-preview-middle"><span>ИДЕЯ</span><strong>→</strong><span>ДИЗАЙН</span></div><div class="design-preview-bottom">ГОТОВ ВИНИЛ ПО РАЗМЕР</div></div></div>
+  <div class="design-perks"><span>✓ Дизайнът е включен в цената</span><span>✓ Избираш точни размери</span><span>✓ Поръчката се потвърждава преди печат</span></div>
+ </div>
+ <div class="design-form-card" id="designCalculator">
+   <div class="design-form-head"><span class="design-form-step">Калкулатор</span><h2>Размери на винила</h2><p>Въведи размерите в сантиметри.</p></div>
+   <div class="design-measure-row">
+    <div class="form-field"><label for="designWidth">Ширина (см)</label><input id="designWidth" data-design-field inputmode="decimal" type="number" min="1" max="5000" step="0.1" value="100" required></div>
+    <div class="design-measure-times" aria-hidden="true">×</div>
+    <div class="form-field"><label for="designHeight">Височина (см)</label><input id="designHeight" data-design-field inputmode="decimal" type="number" min="1" max="5000" step="0.1" value="100" required></div>
+   </div>
+   <div class="form-field"><label for="designQuantity">Количество (бр.)</label><input id="designQuantity" data-design-field inputmode="numeric" type="number" min="1" max="100" step="1" value="1" required></div>
+   <div class="form-field"><label for="designNotes">Какъв дизайн желаеш? <span class="design-optional">(по желание)</span></label><textarea id="designNotes" rows="3" maxlength="600" placeholder="Напр. фирмено лого, телефон и снимка на продукта."></textarea></div>
+   <div class="design-price-summary" aria-live="polite" aria-atomic="true"><span>Цена за заявката</span><strong id="designTotal">Изчисляване...</strong><small id="designPriceNote">Цената включва дизайн. Минимална стойност на заявката: 20 €.</small></div>
+   <div class="design-actions">
+    <a class="primary-btn design-viber-button" id="designViberButton" href="${viberChatURL}" data-design-viber aria-disabled="true"><span aria-hidden="true">✆</span> Пиши във Viber <span aria-hidden="true">↗</span></a>
+    <button type="button" class="outline-btn design-copy-button" data-design-copy>Копирай текста за Viber</button>
+   </div>
+   <div id="designInquiryPreview" class="design-inquiry-preview hidden"><label for="designViberMessage">Готов текст за Viber</label><textarea id="designViberMessage" rows="7" readonly></textarea><p>Копирай текста и го постави в чата във Viber, ако приложението не го попълни автоматично.</p></div>
+   <div class="design-alternatives"><span>Друг начин за контакт:</span><a href="tel:+359879436006">Обади се: 0879 436 006</a><button type="button" data-design-web>Уеб запитване</button></div>
+ </div>
+ </div>
+ </section>`;
+ refreshDesignQuote();
+}
+function designDimensions(){
+ const width=document.querySelector('#designWidth'),height=document.querySelector('#designHeight'),qty=document.querySelector('#designQuantity');
+ if(!width?.checkValidity()||!height?.checkValidity()||!qty?.checkValidity())return null;
+ return {width_cm:Number(width.value),height_cm:Number(height.value),quantity:Number(qty.value)};
+}
+async function refreshDesignQuote(){
+ const el=$('#designTotal'),note=$('#designPriceNote'),viber=$('#designViberButton'),preview=$('#designInquiryPreview');
+ if(!el)return;
+ const seq=++designQuoteSequence,dimensions=designDimensions();
+ currentDesignQuote=null;
+ if(preview)preview.classList.add('hidden');
+ if(viber)viber.setAttribute('aria-disabled','true');
+ if(!dimensions){el.textContent='Въведи валидни размери';note.textContent='Ширина и височина: 1–5000 см. Количество: 1–100 бр.';return}
+ el.textContent='Изчисляване...';note.textContent='Цената включва дизайн. Минимална стойност на заявката: 20 €.';
+ try{
+   const q=await request('/api/design/quote',{method:'POST',body:JSON.stringify(dimensions)});
+   if(seq!==designQuoteSequence||!$('#designTotal'))return;
+   currentDesignQuote=q;
+   el.textContent=euro(q.total_eur);
+   note.textContent='Обща площ: '+designFormat(q.area_m2*q.quantity)+' м² • Дизайнът е включен • Минимум 20 €. Цената се потвърждава при запитване.';
+   if(viber)viber.setAttribute('aria-disabled','false');
+ }catch(err){
+   if(seq!==designQuoteSequence||!$('#designTotal'))return;
+   el.textContent='Цена временно недостъпна';
+   note.textContent='Опитай отново или ни изпрати размерите чрез уеб запитването.';
+ }
+}
+function designViberText(){
+ const q=currentDesignQuote;
+ if(!q)return '';
+ const notes=($('#designNotes')?.value||'').trim().slice(0,600);
+ return ['Здравейте! Искам нов винил с дизайн.',
+  'Ширина: '+designFormat(q.width_cm)+' см',
+  'Височина: '+designFormat(q.height_cm)+' см',
+  'Количество: '+q.quantity+' бр.',
+  'Обща площ: '+designFormat(q.area_m2*q.quantity)+' м²',
+  'Изчислена цена с включен дизайн: '+euro(q.total_eur),
+  notes?'Уточнения за дизайна: '+notes:'',
+  'Моля, потвърдете цената, изработката и срока.'].filter(Boolean).join('\n');
+}
+function displayDesignViberMessage(){
+ const text=designViberText();
+ if(!text)return '';
+ const el=$('#designViberMessage'),box=$('#designInquiryPreview');
+ if(el)el.value=text;
+ if(box)box.classList.remove('hidden');
+ return text;
+}
+async function copyDesignViberMessage(){
+ const message=displayDesignViberMessage();
+ if(!message){toast('Първо въведи валидни размери и изчакай изчислението.');return}
+ try{await navigator.clipboard.writeText(message);toast('Копирано! Постави текста във Viber.')}
+ catch{const t=$('#designViberMessage');if(t){t.focus();t.select()}toast('Маркирай текста и го копирай, след което го постави във Viber.')}
+}
+
 function hero(){return `<section class="hero container"><div class="hero-banner"><div class="hero-copy"><span class="eyebrow">Надеждни материали • Голям избор</span><h1>Материали за <em>всяка идея.</em></h1><p>Винилни платна, PVC брезенти, кристал винил, зебло и консумативи — на едно място. Изберете материал и изпратете заявка.</p><button class="primary-btn" data-goto="catalog">Разгледай продуктите <span>↗</span></button></div><div class="hero-visual"><div class="roll one"></div><div class="roll two"></div><div class="tag-float">40 избрани продукта<small>Осем специализирани категории</small></div></div></div></section><section class="container perks"><div class="perk"><span class="perk-icon">◇</span><span><b>Широк избор от материали</b><small>Брезенти, винил, мрежи и фолиа</small></span></div><div class="perk"><span class="perk-icon">◫</span><span><b>Размери по заявка</b><small>Възможност за рязане според продукта</small></span></div><div class="perk"><span class="perk-icon">↗</span><span><b>Бързо запитване</b><small>Потвърждение на цена и вариант</small></span></div></section>`}
 function catCards(){return `<section class="container"><div class="section-head"><div><span class="section-eyebrow">КАКВО ПРЕДЛАГАМЕ</span><h2 class="section-title">Разгледай по категория</h2><p class="section-sub">Точно това, което търсиш — подредено и лесно за избор.</p></div></div><div class="category-grid">${db.categories.map(c=>`<button class="category-card" data-catgo="${escaped(c.id)}"><span class="cat-glyph">${escaped(c.icon||'▧')}</span><span><div class="cat-name">${escaped(c.name)}</div><div class="cat-count">${db.products.filter(p=>p.category===c.id&&p.active).length} продукта ↗</div></span></button>`).join('')}</div></section>`}
 function filters(){let all=db.products.filter(x=>x.active);let p=all.filter(x=>(state.cat==='all'||x.category===state.cat)&&(`${x.name} ${x.description} ${getCat(x.category)}`).toLocaleLowerCase('bg-BG').includes(state.q.toLocaleLowerCase('bg-BG')));if(state.sort==='price_up')p.sort((a,b)=>(a.sale_price??Infinity)-(b.sale_price??Infinity));if(state.sort==='price_down')p.sort((a,b)=>(b.sale_price??-1)-(a.sale_price??-1));if(state.sort==='name')p.sort((a,b)=>a.name.localeCompare(b.name,'bg'));return p}
@@ -60,7 +178,7 @@ function prepareViberInquiry(id){
 function productCard(p){return `<article class="product-card"><button class="product-photo" data-detail="${p.id}" aria-label="Отвори ${escaped(p.name)}"><span class="photo-tag">${p.price_verification_needed?'Цена за потвърждение':'В каталога'}</span><img loading="lazy" src="${escaped(src(p))}" alt="${escaped(p.name)}" onerror="this.onerror=null;this.src='${escaped(fallback(p))}'" /></button><div class="product-content"><span class="product-category">${escaped(getCat(p.category))}</span><button data-detail="${p.id}" style="padding:0;text-align:left;border:0;background:transparent"><h3 class="product-name">${escaped(p.name)}</h3></button><p class="product-desc">${escaped(p.description)}</p></div><div class="product-foot"><div class="price ${p.sale_price==null?'ask':''}">${hasOptions(p)&&retailDisplayPrice(p)!=null?'от ':''}${euro(retailDisplayPrice(p))} ${retailDisplayPrice(p)==null?'':`<small>/ ${escaped(unit(p))}</small>`}</div>${!hasOptions(p)&&p.sale_price==null?`<a class="add-cart viber-btn" href="${viberChatURL}" data-viber-product="${p.id}" aria-label="Пиши във Viber за ${escaped(p.name)}">Пиши</a>`:`<button class="add-cart" data-add="${p.id}">${hasOptions(p)?'Избери размер ↗':'+ Добави'}</button>`}</div></article>`}
 function catalog(){let p=filters();return `<section class="container catalog-section" id="catalog"><div class="section-head"><div><span class="section-eyebrow">ПРОДУКТОВ КАТАЛОГ</span><h2 class="section-title">Открий подходящия материал</h2><p class="section-sub">Преглед на предложенията. Крайната цена се потвърждава при заявката.</p></div><span class="pill">${db.products.filter(x=>x.active).length} продукта</span></div><div class="catalog-layout"><aside class="filter-sidebar"><h3>Категории</h3><div class="filter-options"><button class="filter-item ${state.cat==='all'?'active':''}" data-filter="all">Всички продукти <span class="count">${db.products.filter(p=>p.active).length}</span></button>${db.categories.map(c=>`<button class="filter-item ${state.cat===c.id?'active':''}" data-filter="${c.id}">${escaped(c.name)} <span class="count">${db.products.filter(p=>p.active&&p.category===c.id).length}</span></button>`).join('')}</div></aside><div><div class="catalog-tools"><label class="search-field"><span>⌕</span><input id="catalogSearch" type="search" placeholder="Търси винил, брезент, найлон..." value="${escaped(state.q)}"></label><select id="catalogSort" class="sort"><option value="default" ${state.sort==='default'?'selected':''}>Препоръчани</option><option value="price_up" ${state.sort==='price_up'?'selected':''}>Цена: възходяща</option><option value="price_down" ${state.sort==='price_down'?'selected':''}>Цена: низходяща</option><option value="name" ${state.sort==='name'?'selected':''}>По име</option></select></div><p class="results-hint">Показани ${p.length} продукта${state.cat!=='all'?' в '+escaped(getCat(state.cat)):''}</p><div class="products-grid" id="productGrid">${p.length?p.map(productCard).join(''):'<div class="empty">Няма продукти по избраните критерии.</div>'}</div></div></div></section>`}
 function renderHome(){document.title='Винил & Брезенти | Продуктов каталог';$('#main').innerHTML=(!useServer?'<div class="preview-note container">ТЕСТОВ КАТАЛОГ — няма връзка с базата. Не изпращайте лични данни; поръчки не се приемат.</div>':!ordersReady?'<div class="preview-note container">Каталогът работи, но приемането на заявки все още се настройва. Моля, не изпращайте поръчки.</div>':'')+hero()+catCards()+catalog()+`<section class="container cta"><div><h2>Не откри точния размер?</h2><p>Изпрати запитване с размери, материал и количество.</p></div><button class="primary-btn" data-goto="contact">Изпрати запитване ↗</button></section>`;}
-function renderPage(route){let s=db.settings||{};let head={contact:['Контакти и запитвания','Имаш въпрос или индивидуална поръчка? Свържи се с нас.'],terms:['Общи условия','Информация за поръчките, цените и отговорностите.'],delivery:['Доставка и плащане','Уточняваме детайлите преди изпълнение на заявката.'],privacy:['Политика за поверителност','Информация за обработката на данни.']}[route];let body='';if(route==='contact'){body=`<div class="page-columns"><div class="form-card"><h2>Изпрати запитване</h2><p class="section-sub">Ще получиш потвърждение за крайна цена, размер и доставка.</p><form id="contactForm"><div class="form-field"><label>Име *</label><input name="name" required maxlength="120"></div><div class="field-row"><div class="form-field"><label>Телефон *</label><input name="phone" required maxlength="40"></div><div class="form-field"><label>Имейл</label><input type="email" name="email" maxlength="255"></div></div><div class="form-field"><label>Какво търсиш? *</label><textarea name="message" required></textarea></div><button type="submit" class="primary-btn">Изпрати запитване ↗</button><p class="form-note">Данните се използват единствено за обработка на запитването.</p></form></div><div class="contact-aside"><span class="eyebrow">ЗА КОНТАКТ</span><h2>Ще намерим правилния материал за твоя проект.</h2><p><b>Телефон:</b> ${escaped(s.phone||'Предстои попълване')}<br><b>Имейл:</b> ${escaped(s.email||'Предстои попълване')}<br><b>Адрес:</b> ${escaped(s.address||'Предстои попълване')}</p><p><a class="outline-btn viber-btn" href="${viberChatURL}">Пиши във Viber · 0879436006</a></p><p class="form-note">Отваря приложението Viber на устройството ти.</p></div></div>`}else{let paras={terms:['Цените в каталога са ориентировъчни и подлежат на потвърждение според конкретния размер, количество и наличност.','Договор за покупко-продажба възниква след изрично потвърждение на заявката от търговеца.','Данните на търговеца и пълните общи условия трябва да бъдат попълнени преди публично използване.'],delivery:[s.shipping||'Доставката и цената на транспорта се уточняват индивидуално.','Плащането се договаря с клиента при потвърждаване на заявката. Няма активирано онлайн картово плащане.'],privacy:[s.privacy||'Политиката за поверителност трябва да бъде попълнена от собственика.','Сайтът приема име, телефон и евентуално имейл само във връзка със запитвания и поръчки.','Преди публикуване трябва да се попълнят администраторът на личните данни, сроковете за съхранение и основанието за обработване.']}[route];body=`<article class="doc"><span class="pill">Подлежи на попълване преди публикация</span>${paras.map(a=>`<p>${escaped(a)}</p>`).join('')}<p><strong>Търговец:</strong> ${escaped(s.company||'[Име на фирма — за попълване]')}</p></article>`}$('#main').innerHTML=`<section class="container page-pad"><div class="crumbs"><a href="#home">Начало</a> / ${head[0]}</div><div class="page-head"><h1>${head[0]}</h1><p>${head[1]}</p></div>${body}</section>`;document.title=head[0]+' | Винил & Брезенти'}
+function renderPage(route){let s=db.settings||{};let head={contact:['Контакти и запитвания','Имаш въпрос или индивидуална поръчка? Свържи се с нас.'],terms:['Общи условия','Информация за поръчките, цените и отговорностите.'],delivery:['Доставка и плащане','Уточняваме детайлите преди изпълнение на заявката.'],privacy:['Политика за поверителност','Информация за обработката на данни.']}[route];let body='';if(route==='contact'){body=`<div class="page-columns"><div class="form-card"><h2>Изпрати запитване</h2><p class="section-sub">Ще получиш потвърждение за крайна цена, размер и доставка.</p><form id="contactForm"><div class="form-field"><label>Име *</label><input name="name" required maxlength="120"></div><div class="field-row"><div class="form-field"><label>Телефон *</label><input name="phone" required maxlength="40"></div><div class="form-field"><label>Имейл</label><input type="email" name="email" maxlength="255"></div></div><div class="form-field"><label>Какво търсиш? *</label><textarea name="message" required>${escaped(designInquiryDraft)}</textarea></div><button type="submit" class="primary-btn">Изпрати запитване ↗</button><p class="form-note">Данните се използват единствено за обработка на запитването.</p></form></div><div class="contact-aside"><span class="eyebrow">ЗА КОНТАКТ</span><h2>Ще намерим правилния материал за твоя проект.</h2><p><b>Телефон:</b> ${escaped(s.phone||'Предстои попълване')}<br><b>Имейл:</b> ${escaped(s.email||'Предстои попълване')}<br><b>Адрес:</b> ${escaped(s.address||'Предстои попълване')}</p><p><a class="outline-btn viber-btn" href="${viberChatURL}">Пиши във Viber · 0879436006</a></p><p class="form-note">Отваря приложението Viber на устройството ти.</p></div></div>`}else{let paras={terms:['Цените в каталога са ориентировъчни и подлежат на потвърждение според конкретния размер, количество и наличност.','Договор за покупко-продажба възниква след изрично потвърждение на заявката от търговеца.','Данните на търговеца и пълните общи условия трябва да бъдат попълнени преди публично използване.'],delivery:[s.shipping||'Доставката и цената на транспорта се уточняват индивидуално.','Плащането се договаря с клиента при потвърждаване на заявката. Няма активирано онлайн картово плащане.'],privacy:[s.privacy||'Политиката за поверителност трябва да бъде попълнена от собственика.','Сайтът приема име, телефон и евентуално имейл само във връзка със запитвания и поръчки.','Преди публикуване трябва да се попълнят администраторът на личните данни, сроковете за съхранение и основанието за обработване.']}[route];body=`<article class="doc"><span class="pill">Подлежи на попълване преди публикация</span>${paras.map(a=>`<p>${escaped(a)}</p>`).join('')}<p><strong>Търговец:</strong> ${escaped(s.company||'[Име на фирма — за попълване]')}</p></article>`}$('#main').innerHTML=`<section class="container page-pad"><div class="crumbs"><a href="#home">Начало</a> / ${head[0]}</div><div class="page-head"><h1>${head[0]}</h1><p>${head[1]}</p></div>${body}</section>`;document.title=head[0]+' | Винил & Брезенти'}
 function openDetail(id){let p=getProduct(id);if(!p)return;state.detail=id;const list=images(p);$('#productDetail').innerHTML=`<div class="detail-layout"><div><div class="detail-image"><img id="detailMainImage" src="${escaped(list[0]||fallback(p))}" onerror="this.onerror=null;this.src='${escaped(fallback(p))}'" alt="${escaped(p.name)}"></div><div class="detail-thumbs">${list.map((s,i)=>`<button data-thumb="${i}" class="${i===0?'sel':''}"><img src="${escaped(s)}" onerror="this.onerror=null;this.src='${escaped(fallback(p))}'"></button>`).join('')}</div></div><div class="detail-copy"><span class="pill">${escaped(getCat(p.category))}</span><h2>${escaped(p.name)}</h2><p>${escaped(p.description)}</p><p>Цената се потвърждава спрямо размера и варианта преди изпълнение.</p>${(p.supplier_options||[]).length?`<div class="product-options"><p><b>Изберете вариант:</b> Цената се потвърждава след запитване.</p>${p.supplier_options.map((o,i)=>`<div class="form-field"><label>${escaped(o.label||o.id)}</label><select data-product-option="${i}"><option value="">Изберете...</option>${(o.values||[]).map(v=>`<option value="${escaped(v.id)}">${escaped(v.text)}</option>`).join('')}</select></div>`).join('')}</div>`:''}<div class="detail-price" id="detail-variant-price">${hasOptions(p)?'Избери размер за цена':euro(p.sale_price)} <small style="font-size:12px;color:#8a9d90">${p.sale_price!=null?`/ ${escaped(unit(p))}`:''}</small></div><div class="detail-actions"><button class="primary-btn" data-add="${p.id}">${hasOptions(p)?'Добави избрания вариант':p.sale_price==null?'Добави запитване':'Добави към заявка'} ↗</button><button class="outline-btn" data-showcart>Виж количката</button><a class="outline-btn viber-btn" href="${viberChatURL}" data-viber-product="${p.id}">Пиши във Viber</a></div><div id="viberInquiry" class="viber-inquiry hidden"><label for="viberMessage">Запитване за избрания продукт</label><textarea id="viberMessage" rows="6" readonly></textarea><button type="button" class="outline-btn" data-copy-viber>Копирай текста</button><p class="form-note">Постави текста в чата и го изпрати. Ако Viber не се отвори, добави 0879436006 във Viber или се <a href="tel:+359879436006">обади на 0879436006</a>.</p></div><p class="form-note">Цената, вариантите и наличността се потвърждават от магазина.</p></div></div>`;$('#overlay').classList.remove('hidden');$('#productDialog').classList.remove('hidden');document.body.style.overflow='hidden'}
 function closeDialog(){state.detail=null;$('#productDialog').classList.add('hidden');if($('#cartDrawer').classList.contains('hidden')){$('#overlay').classList.add('hidden');document.body.style.overflow=''}}
 function addCart(id){const p=getProduct(id);if(!p)return;if(hasOptions(p)&&state.detail!==p.id){openDetail(p.id);toast('Избери размер и вариант');return}
