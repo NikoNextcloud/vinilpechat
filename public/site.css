@@ -208,3 +208,19 @@
   .social-card .social-feed-frame.facebook-elfsight-frame{height:538px;min-height:0;padding:5px}
   .facebook-elfsight-widget{min-height:500px}
 }
+
+
+/* SEO crawl paths that keep current modal/cart behavior intact. */
+.seo-category-tile{min-width:0;display:flex;flex-direction:column}
+.seo-category-tile .category-card{width:100%;flex:1}
+.seo-category-link{display:block;margin:0 3px;padding:9px 12px;border:1px solid #d8e8df;border-top:0;border-radius:0 0 12px 12px;background:#eff8f1;color:#206245;font-size:12px;font-weight:800;text-decoration:none;line-height:1.4}
+.seo-category-link:hover,.seo-category-link:focus-visible{background:#d9f1e3;text-decoration:underline;color:#11492e}
+.seo-product-link{display:inline-flex;align-items:center;min-height:32px;margin-top:6px;color:#176b48;font-size:12px;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.seo-product-link:hover,.seo-product-link:focus-visible{color:#063b26}
+.seo-home-fallback{padding-top:55px;padding-bottom:55px}
+.seo-home-fallback h1{font-size:clamp(30px,4vw,49px);line-height:1.16;letter-spacing:-1.5px;color:#173f33;max-width:760px;margin:10px 0 18px}
+.seo-home-fallback>p{max-width:790px;color:#54705f;line-height:1.8}
+.seo-home-links{display:flex;flex-wrap:wrap;gap:11px;margin-top:22px}
+.seo-home-links a{display:inline-flex;align-items:center;padding:10px 15px;border:1px solid #b8d7c6;background:#f0f8f3;color:#1a6041;border-radius:10px;font-size:12px;font-weight:800}
+.seo-home-links a:hover,.seo-home-links a:focus-visible{background:#daf0e3}
+.product-photo img{aspect-ratio:4/3;object-fit:cover}
