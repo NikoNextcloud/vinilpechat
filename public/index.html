@@ -48,28 +48,14 @@
       </article>
       <article class="social-card" aria-labelledby="facebook-card-title">
         <div class="social-card-title"><svg viewBox="0 0 24 24" aria-hidden="true" width="21" height="21" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.5-3.9 3.8-3.9 1.1 0 2.25.2 2.25.2v2.47h-1.27c-1.25 0-1.65.78-1.65 1.58V12h2.81l-.45 2.89h-2.36v6.99A10 10 0 0 0 22 12Z"/></svg><div><h3 id="facebook-card-title">Facebook</h3><span>Vinilpechat</span></div></div>
-        <div class="instagram-feed-frame social-feed-frame facebook-showcase">
-          <div class="facebook-feed-content" id="facebookFeedContent" aria-live="polite">
-          <div class="facebook-showcase-content">
-            <div class="facebook-showcase-art" aria-hidden="true">
-              <div class="facebook-showcase-orbit facebook-showcase-orbit-one"></div>
-              <div class="facebook-showcase-orbit facebook-showcase-orbit-two"></div>
-              <img src="/assets/vinilpechat-art-spiral.webp" width="136" height="136" alt="" loading="lazy">
-              <span class="facebook-showcase-sparkle facebook-showcase-sparkle-one">✦</span>
-              <span class="facebook-showcase-sparkle facebook-showcase-sparkle-two">✦</span>
-            </div>
-            <div class="facebook-showcase-copy">
-              <span class="facebook-showcase-eyebrow">НАШАТА FACEBOOK СТРАНИЦА</span>
-              <h4>Vinilpechat във Facebook</h4>
-              <p>Разгледай публикациите, снимките и новите ни рекламни идеи директно в нашата Facebook страница.</p>
-              <a href="https://www.facebook.com/profile.php?id=61559753162459" class="facebook-showcase-link" target="_blank" rel="noopener noreferrer">Отвори публикациите <span aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-          </div>
+        <div class="instagram-feed-frame social-feed-frame facebook-elfsight-frame" aria-label="Последни публикации от Facebook страницата Vinilpechat">
+          <!-- Elfsight Facebook Feed: configured in the account that owns the widget. -->
+          <div class="elfsight-app-33b7879c-8beb-48e0-8d94-6d48b5b5c481 facebook-elfsight-widget" data-elfsight-app-lazy></div>
+          <noscript><p>За да видиш Facebook публикациите, включи JavaScript или <a href="https://www.facebook.com/profile.php?id=61559753162459" target="_blank" rel="noopener noreferrer">отвори страницата ни във Facebook</a>.</p></noscript>
         </div>
         <div class="instagram-feed-footer social-card-footer">
           <a href="https://www.facebook.com/profile.php?id=61559753162459" class="instagram-open-btn facebook-open-btn" target="_blank" rel="noopener noreferrer" aria-label="Разгледай публикациите на Vinilpechat във Facebook">Виж Facebook публикациите <span aria-hidden="true">↗</span></a>
-          <span>Публикациите се отварят директно във Facebook.</span>
+          <span>Ако публикациите не се заредят, отвори Facebook от бутона.</span>
         </div>
       </article>
     </div>
@@ -79,4 +65,5 @@
 <div class="overlay hidden" id="overlay"></div><section class="drawer hidden" id="cartDrawer" aria-label="Кошница"><div class="drawer-head"><strong>Вашата заявка</strong><button class="icon-btn" id="cartClose" aria-label="Затвори">×</button></div><div id="cartContents" class="drawer-content"></div></section>
 <div class="modal-wrap hidden" id="productDialog"><div class="modal" role="dialog" aria-modal="true" aria-label="Детайли за продукт"><button class="modal-close icon-btn" id="productClose">×</button><div id="productDetail"></div></div></div>
 <div class="toast hidden" id="toast"></div>
+<script src="https://elfsightcdn.com/platform.js" async></script>
 </body></html>
