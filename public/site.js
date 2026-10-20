@@ -68,20 +68,21 @@ function renderDesignPage(){
  <div class="design-left">
   <span class="design-kicker">Рекламен винил · Печат по твой размер</span>
   <h1>Твоят дизайн.<br><em>Твоят размер.</em></h1>
-  <p class="design-lead">Изчисли цената за печат на нов винил с включена услуга за дизайн. След това изпрати размерите и запитването чрез Viber.</p>
+  <p class="design-lead">Изчисли цена за нов винил по размер. Избери дали искаш да изготвим дизайн, след което изпрати запитване през Viber.</p>
   <div class="design-sample" aria-hidden="true"><div class="design-print-preview"><div class="design-preview-top">ТВОЯТА РЕКЛАМА</div><div class="design-preview-middle"><span>ИДЕЯ</span><strong>→</strong><span>ДИЗАЙН</span></div><div class="design-preview-bottom">ГОТОВ ВИНИЛ ПО РАЗМЕР</div></div></div>
-  <div class="design-perks"><span>✓ Дизайнът е включен в цената</span><span>✓ Избираш точни размери</span><span>✓ Поръчката се потвърждава преди печат</span></div>
+  <div class="design-perks"><span>✓ Дизайн по желание</span><span>✓ Избираш точни размери</span><span>✓ Поръчката се потвърждава преди печат</span></div>
  </div>
  <div class="design-form-card" id="designCalculator">
    <div class="design-form-head"><span class="design-form-step">Калкулатор</span><h2>Размери на винила</h2><p>Въведи размерите в сантиметри.</p></div>
+   <fieldset class="design-service-choice" aria-label="Услуга за дизайн"><legend>Желаеш ли изработка на дизайн?</legend><div class="design-service-options"><label class="design-service-option"><input type="radio" name="designService" value="with" data-design-field checked><span><strong>С дизайн</strong><small>+10 € за дизайн</small></span></label><label class="design-service-option"><input type="radio" name="designService" value="without" data-design-field><span><strong>Без дизайн</strong><small>Подготвен файл за печат</small></span></label></div></fieldset>
    <div class="design-measure-row">
     <div class="form-field"><label for="designWidth">Ширина (см)</label><input id="designWidth" data-design-field inputmode="decimal" type="number" min="1" max="5000" step="0.1" value="100" required></div>
     <div class="design-measure-times" aria-hidden="true">×</div>
     <div class="form-field"><label for="designHeight">Височина (см)</label><input id="designHeight" data-design-field inputmode="decimal" type="number" min="1" max="5000" step="0.1" value="100" required></div>
    </div>
    <div class="form-field"><label for="designQuantity">Количество (бр.)</label><input id="designQuantity" data-design-field inputmode="numeric" type="number" min="1" max="100" step="1" value="1" required></div>
-   <div class="form-field"><label for="designNotes">Какъв дизайн желаеш? <span class="design-optional">(по желание)</span></label><textarea id="designNotes" rows="3" maxlength="600" placeholder="Напр. фирмено лого, телефон и снимка на продукта."></textarea></div>
-   <div class="design-price-summary" aria-live="polite" aria-atomic="true"><span>Цена за заявката</span><strong id="designTotal">Изчисляване...</strong><small id="designPriceNote">Цената включва дизайн. Минимална стойност на заявката: 20 €.</small></div>
+   <div class="form-field"><label for="designNotes">Бележки към заявката <span class="design-optional">(по желание)</span></label><textarea id="designNotes" rows="3" maxlength="600" placeholder="Текст за дизайна или информация за готовия файл за печат."></textarea></div>
+   <div class="design-price-summary" aria-live="polite" aria-atomic="true"><span>Цена за заявката</span><strong id="designTotal">Изчисляване...</strong><small id="designPriceNote">Минимална стойност на заявката: 20 €.</small></div>
    <div class="design-actions">
     <a class="primary-btn design-viber-button" id="designViberButton" href="${viberChatURL}" data-design-viber aria-disabled="true"><span aria-hidden="true">✆</span> Пиши във Viber <span aria-hidden="true">↗</span></a>
     <button type="button" class="outline-btn design-copy-button" data-design-copy>Копирай текста за Viber</button>
@@ -96,7 +97,7 @@ function renderDesignPage(){
 function designDimensions(){
  const width=document.querySelector('#designWidth'),height=document.querySelector('#designHeight'),qty=document.querySelector('#designQuantity');
  if(!width?.checkValidity()||!height?.checkValidity()||!qty?.checkValidity())return null;
- return {width_cm:Number(width.value),height_cm:Number(height.value),quantity:Number(qty.value)};
+ return {width_cm:Number(width.value),height_cm:Number(height.value),quantity:Number(qty.value),with_design:document.querySelector('input[name="designService"]:checked')?.value!=='without'};
 }
 async function refreshDesignQuote(){
  const el=$('#designTotal'),note=$('#designPriceNote'),viber=$('#designViberButton'),preview=$('#designInquiryPreview');
@@ -106,13 +107,13 @@ async function refreshDesignQuote(){
  if(preview)preview.classList.add('hidden');
  if(viber)viber.setAttribute('aria-disabled','true');
  if(!dimensions){el.textContent='Въведи валидни размери';note.textContent='Ширина и височина: 1–5000 см. Количество: 1–100 бр.';return}
- el.textContent='Изчисляване...';note.textContent='Цената включва дизайн. Минимална стойност на заявката: 20 €.';
+ el.textContent='Изчисляване...';note.textContent='Минимална стойност на заявката: 20 €.';
  try{
    const q=await request('/api/design/quote',{method:'POST',body:JSON.stringify(dimensions)});
    if(seq!==designQuoteSequence||!$('#designTotal'))return;
    currentDesignQuote=q;
    el.textContent=euro(q.total_eur);
-   note.textContent='Обща площ: '+designFormat(q.area_m2*q.quantity)+' м² • Дизайнът е включен • Минимум 20 €. Цената се потвърждава при запитване.';
+   note.textContent='Обща площ: '+designFormat(q.area_m2*q.quantity)+' м² • '+(q.includes_design?'С включен дизайн':'Без дизайн')+' • Минимум 20 €. Цената се потвърждава при запитване.';
    if(viber)viber.setAttribute('aria-disabled','false');
  }catch(err){
    if(seq!==designQuoteSequence||!$('#designTotal'))return;
@@ -124,13 +125,14 @@ function designViberText(){
  const q=currentDesignQuote;
  if(!q)return '';
  const notes=($('#designNotes')?.value||'').trim().slice(0,600);
- return ['Здравейте! Искам нов винил с дизайн.',
+ return ['Здравейте! Искам нов винил.',
+  'Дизайн: '+(q.includes_design?'С дизайн':'Без дизайн'),
   'Ширина: '+designFormat(q.width_cm)+' см',
   'Височина: '+designFormat(q.height_cm)+' см',
   'Количество: '+q.quantity+' бр.',
   'Обща площ: '+designFormat(q.area_m2*q.quantity)+' м²',
-  'Изчислена цена с включен дизайн: '+euro(q.total_eur),
-  notes?'Уточнения за дизайна: '+notes:'',
+  'Изчислена обща цена: '+euro(q.total_eur),
+  notes?'Уточнения: '+notes:'',
   'Моля, потвърдете цената, изработката и срока.'].filter(Boolean).join('\n');
 }
 function displayDesignViberMessage(){
@@ -360,7 +362,7 @@ let a=t.closest('[data-design-viber]');if(a){
 a=t.closest('[data-design-copy]');if(a){await copyDesignViberMessage();return}
 a=t.closest('[data-design-web]');if(a){
  const q=designDimensions(),notes=($('#designNotes')?.value||'').trim();
- designInquiryDraft=designViberText()||['Здравейте! Искам нов винил с дизайн.',q?'Ширина: '+q.width_cm+' см':'',q?'Височина: '+q.height_cm+' см':'',q?'Количество: '+q.quantity+' бр.':'',notes?'Дизайн: '+notes:'','Моля за оферта.'].filter(Boolean).join('\n');
+ designInquiryDraft=designViberText()||['Здравейте! Искам нов винил.',q?'Дизайн: '+(q.with_design?'С дизайн':'Без дизайн'):'',q?'Ширина: '+q.width_cm+' см':'',q?'Височина: '+q.height_cm+' см':'',q?'Количество: '+q.quantity+' бр.':'',notes?'Дизайн: '+notes:'','Моля за оферта.'].filter(Boolean).join('\n');
  go('contact');return
 }
 a=t.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}a=t.closest('[data-goto]');if(a){go(a.dataset.goto);return}a=t.closest('[data-catgo]');if(a){state.cat=a.dataset.catgo;go('catalog');return}a=t.closest('[data-filter]');if(a){state.cat=a.dataset.filter;renderHome();$('#catalog')?.scrollIntoView();$('#catalogSearch')?.focus();return}a=t.closest('[data-detail]');if(a){openDetail(a.dataset.detail);return}a=t.closest('[data-viber-product]');if(a){if(!prepareViberInquiry(Number(a.dataset.viberProduct)))e.preventDefault();return}a=t.closest('[data-copy-viber]');if(a){await copyViberMessage();return}a=t.closest('[data-add]');if(a){addCart(a.dataset.add);return}a=t.closest('[data-showcart]');if(a){showCart();return}a=t.closest('[data-thumb]');if(a){let p=getProduct(state.detail);let url=images(p)[Number(a.dataset.thumb)];$('#detailMainImage').src=url;document.querySelectorAll('[data-thumb]').forEach(x=>x.classList.toggle('sel',x===a));return}a=t.closest('[data-plus],[data-minus],[data-remove]');if(a){let i=Number(a.dataset.plus??a.dataset.minus??a.dataset.remove);let l=state.cart[i];if(l){if(a.dataset.remove!==undefined)state.cart.splice(i,1);else {l.qty+=a.dataset.plus!==undefined?1:-1;if(l.qty<=0)state.cart.splice(i,1)}}persist();renderCart();return}a=t.closest('[data-admin-tab]');if(a){state.adminTab=a.dataset.adminTab;renderAdmin();return}a=t.closest('[data-admin-reload-usage]');if(a){loadAdminUsage();return}a=t.closest('[data-variant-csv-export]');if(a){download('vinil-variant-prices.csv',buildVariantCSV(db.products),'text/csv;charset=utf-8');return}a=t.closest('[data-variant-csv-import]');if(a){$('#variantCSVFile').click();return}a=t.closest('[data-variant-csv-apply]');if(a){await applyVariantCSV();return}a=t.closest('[data-admin-save-variants]');if(a){saveVariantPrices();return}a=t.closest('[data-admin-save]');if(a){saveAdmin();return}a=t.closest('[data-admin-export]');if(a){exportCSV();return}a=t.closest('[data-admin-import]');if(a){$('#csvImportFile').click();return}a=t.closest('[data-upload]');if(a){uploadImage();return}a=t.closest('[data-admin-logout]');if(a){if(useServer)await request('/api/admin/logout',{method:'POST',body:'{}'}).catch(()=>{});state.isAdmin=false;state.csrf='';go('home');toast('Изход');return}});
