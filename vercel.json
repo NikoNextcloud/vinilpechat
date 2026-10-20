@@ -4,6 +4,18 @@
   "buildCommand": "npm run build",
   "rewrites": [
     {
+      "source": "/sitemap.xml",
+      "destination": "/api/index?route=seo/sitemap"
+    },
+    {
+      "source": "/produkti/:slug",
+      "destination": "/api/index?route=seo/product&slug=:slug"
+    },
+    {
+      "source": "/kategorii/:slug",
+      "destination": "/api/index?route=seo/category&slug=:slug"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/index?route=:path*"
     }
