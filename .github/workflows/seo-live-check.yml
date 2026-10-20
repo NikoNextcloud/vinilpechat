@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm ci
+      - run: npm install --ignore-scripts --no-package-lock --no-audit --no-fund
       - run: npm test
 
   live-smoke:
