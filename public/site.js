@@ -36,7 +36,7 @@ let designQuoteSequence=0;
 let designDebounce=null;
 let designInquiryDraft='';
 function renderChoiceLanding(){
- document.title='Избери услуга | Винил & Брезенти';
+ document.title='Печат на винил по размер, брезенти и покривала | Vinilpechat';
  $('#main').innerHTML=`<section class="choice-landing container" aria-labelledby="choose-service-title">
  <div class="choice-intro"><span class="choice-eyebrow">Винил & Брезенти · Рекламни решения</span>
  <h1 id="choose-service-title">Какво търсиш днес?</h1>
@@ -60,7 +60,7 @@ function renderChoiceLanding(){
 }
 const designFormat=n=>Number(n).toLocaleString('bg-BG',{maximumFractionDigits:2});
 function renderDesignPage(){
- document.title='Нов винил с дизайн | Размери и цена';
+ document.title='Печат на винил със или без дизайн | Vinilpechat';
  currentDesignQuote=null;
  $('#main').innerHTML=`<section class="container design-page">
  <nav class="design-breadcrumb" aria-label="Навигация"><a href="#home">Начало</a><span>›</span><span>Нов винил с дизайн</span></nav>
