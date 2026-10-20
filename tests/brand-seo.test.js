@@ -24,17 +24,15 @@ test('storefront allows Google indexing and uses the selected spiral logo plus m
  assert.ok(logo.length<30000,'Website logo should load quickly');
  assert.ok(icon.length<5000,'Favicon should be compact');
 });
-test('robots and sitemap expose real indexable routes rather than hash fragments',()=>{
+test('robots points at database-driven sitemap and Vercel rewrites SEO pages',()=>{
  const robots=read('robots.txt');
- const sitemap=read('sitemap.xml');
+ const vercel=JSON.parse(fs.readFileSync(path.join(__dirname,'..','vercel.json'),'utf8'));
+ const rules=vercel.rewrites.map(r=>r.source);
  assert.match(robots,/User-agent: \*/);
  assert.match(robots,/Sitemap: https:\/\/vinilpechat\.vercel\.app\/sitemap\.xml/);
  assert.doesNotMatch(robots,/Disallow:\s*\/\s*(?:\n|$)/);
- for(const entry of ['/','/nov-vinil/','/brezenti/']){
-  assert.ok(sitemap.includes('https://vinilpechat.vercel.app'+entry),entry);
- }
- assert.doesNotMatch(sitemap,/#(?:design|catalog|item-)/);
- assert.match(sitemap,/<urlset/);
+ assert.ok(!fs.existsSync(path.join(pub,'sitemap.xml')),'Static sitemap must not override live sitemap');
+ for(const rule of ['/sitemap.xml','/produkti/:slug','/kategorii/:slug','/api/:path*'])assert.ok(rules.includes(rule));
 });
 test('service landing pages are crawlable, unique and navigable',()=>{
  const vinyl=read('nov-vinil/index.html'),tarps=read('brezenti/index.html');
