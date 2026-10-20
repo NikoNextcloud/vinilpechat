@@ -11,7 +11,7 @@ const api=fs.readFileSync(path.join(root,'api/index.js'),'utf8');
 const widget='elfsight-app-33b7879c-8beb-48e0-8d94-6d48b5b5c481';
 
 test('Facebook and Instagram are aligned in the last section before the footer',()=>{
- const main=page.indexOf('<main id="main"></main>');
+ const main=page.indexOf('<main id="main">');
  const social=page.indexOf('<section class="instagram-section"');
  const footer=page.indexOf('<footer class="footer">');
  assert.ok(main>=0&&main<social&&social<footer,'Feeds must be after main and before footer');
@@ -25,7 +25,10 @@ test('Facebook and Instagram are aligned in the last section before the footer',
 test('the owner-provided Elfsight widget is embedded exactly once in Facebook panel',()=>{
  assert.equal(page.split(widget).length-1,1);
  assert.ok(page.includes('class="'+widget+' facebook-elfsight-widget" data-elfsight-app-lazy'));
- assert.equal(page.split('src="https://elfsightcdn.com/platform.js"').length-1,1);
+ assert.ok(!page.includes('<script src="https://elfsightcdn.com/platform.js"'),'Facebook script must not eagerly load');
+ assert.ok(js.includes("script.src='https://elfsightcdn.com/platform.js'"));
+ assert.ok(js.includes('initLazyElfsight()'));
+ assert.ok(js.includes("rootMargin:'350px'"));
  assert.ok(page.includes('src="https://www.instagram.com/vinilpechat/embed/"'));
  assert.ok(page.includes('href="https://www.instagram.com/vinilpechat/"'));
  assert.ok(page.includes('href="https://www.facebook.com/profile.php?id=61559753162459"'));
