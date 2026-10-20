@@ -134,3 +134,15 @@
 .design-alternatives button{border:0;padding:0;background:none;text-decoration:underline;cursor:pointer}
 @media(max-width:850px){.design-layout{grid-template-columns:1fr;gap:20px}.design-left{padding:0}.design-sample{max-width:520px}.design-left h1{font-size:42px}}
 @media(max-width:700px){.choice-landing{padding:34px 0 55px}.choice-intro h1{font-size:34px;letter-spacing:-1.4px}.choice-grid{grid-template-columns:1fr;gap:16px}.choice-card{min-height:280px;padding:24px}.choice-art{width:100px;height:85px}.choice-card h2{font-size:24px}.design-page{padding-top:10px}.design-breadcrumb{margin-bottom:19px}.design-form-card{padding:22px}.design-left h1{font-size:37px;letter-spacing:-1.5px}.design-sample{margin-top:22px}}
+
+/* Design or no-design selection on the quote page. */
+.design-service-choice{margin:0 0 21px;border:0;padding:0;min-width:0}
+.design-service-choice legend{font-size:13px;font-weight:850;color:#34584a;margin:0 0 10px}
+.design-service-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.design-service-option{display:flex;align-items:center;gap:11px;border:2px solid #d8e8dc;border-radius:12px;background:#fbfefb;padding:13px 12px;cursor:pointer;transition:border-color .15s,background .15s}
+.design-service-option:has(input:checked){border-color:#16815a;background:#effaf1}
+.design-service-option:focus-within{outline:2px solid #16815a;outline-offset:2px}
+.design-service-option input{width:17px;min-width:17px;height:17px;margin:0;accent-color:#16815a}
+.design-service-option span{display:grid;gap:3px}.design-service-option strong{font-size:13px;color:#1d4937}
+.design-service-option small{font-size:11px;color:#61816e}
+@media(max-width:410px){.design-service-options{grid-template-columns:1fr}}
