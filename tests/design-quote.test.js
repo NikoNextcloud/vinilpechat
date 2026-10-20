@@ -41,8 +41,8 @@ test('public-facing source does not disclose confidential area rate',()=>{
  assert.match(html,/href="#catalog"/);
 });
 test('Vercel exposes its design quote route without requiring Supabase to be configured',async()=>{
- const route=fs.readFileSync('api/design/quote.js','utf8');
- assert.match(route,/require\('\.\.\/index\.js'\)/);
+ const conf=JSON.parse(fs.readFileSync('vercel.json','utf8'));
+ assert.ok(conf.rewrites.some(r=>r.source==='/api/:path*'&&r.destination==='/api/index?route=:path*'));
  const headers={};
  const req={method:'POST',headers:{origin:'https://vinilpechat.vercel.app',host:'vinilpechat.vercel.app'},
   query:{route:'design/quote'},url:'/api/design/quote',body:{width_cm:100,height_cm:100,quantity:1}};
