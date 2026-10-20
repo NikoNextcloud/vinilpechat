@@ -2,6 +2,7 @@
 // Vercel Node function. All database privileges and costs stay on the server.
 const { createClient } = require('@supabase/supabase-js');
 const crypto = require('node:crypto');
+const {designQuote}=require('../lib/design-pricing.js');
 const MAX_BODY = 5 * 1024 * 1024;
 const json = (res,status,obj) => {res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.status(status).json(obj);};
 const msg = (res,status,message) => json(res,status,{error:message});
@@ -96,6 +97,10 @@ module.exports=async function handler(req,res){
     if(Array.isArray(route))route=route.join('/');
     try{
         if(route==='health')return json(res,200,{ok:true,configured:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),catalogReady:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),ordersReady:!!process.env.SUPABASE_SERVICE_ROLE_KEY,adminReady:!!(process.env.SUPABASE_SERVICE_ROLE_KEY&&process.env.ADMIN_EMAIL&&process.env.SESSION_SECRET)});
+        if(route==='design/quote'&&req.method==='POST'){
+            if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
+            return json(res,200,designQuote(await body(req)));
+        }
         let {db,auth,privileged}=clients();
         if(!privileged && (route==='orders'||route.startsWith('admin/')))return msg(res,503,'Магазинът приема само запитвания след завършване на настройките.');
         if(req.method==='GET'&&route==='catalog')return json(res,200,await catalog(db));
