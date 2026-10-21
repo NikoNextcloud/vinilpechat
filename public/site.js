@@ -57,13 +57,19 @@ function renderChoiceLanding(){
   <span class="choice-cta">Изчисли цена <span aria-hidden="true">↗</span></span>
  </a>
  <a class="choice-card choice-card--covers" href="#catalog" data-go="catalog">
-  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30 39C57 19 145 22 170 42V118C142 132 57 130 30 117V39Z" fill="#D5E3D9"/><path d="M30 39C57 19 145 22 170 42L155 58C122 45 78 47 42 58L30 39Z" fill="#4F8C75"/><path d="M42 58C78 47 122 45 155 58V115C119 125 78 121 42 113V58Z" fill="#7FB7A0"/><circle cx="54" cy="64" r="4" stroke="#F2F7EA" stroke-width="3"/><circle cx="142" cy="64" r="4" stroke="#F2F7EA" stroke-width="3"/><circle cx="54" cy="109" r="4" stroke="#F2F7EA" stroke-width="3"/><circle cx="142" cy="109" r="4" stroke="#F2F7EA" stroke-width="3"/><path d="M56 77L143 89M52 92L139 105" stroke="#DBEDDB" stroke-opacity=".8" stroke-width="2" stroke-linecap="round"/></svg></div>
+  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 53L76 24 178 43 121 75Z" fill="#B6D7C5" stroke="#39896A" stroke-width="3"/><path d="M19 53L121 75 121 126 19 100Z" fill="#8DBDA6" stroke="#39896A" stroke-width="3"/><path d="M121 75L178 43 178 94 121 126Z" fill="#5B9C82" stroke="#39896A" stroke-width="3"/><path d="M29 61L110 82M29 74L110 95M29 87L110 109" stroke="#E8F7E9" stroke-opacity=".8" stroke-width="3"/><circle cx="28" cy="59" r="4" fill="#F7E2A6"/><circle cx="111" cy="80" r="4" fill="#F7E2A6"/><circle cx="110" cy="117" r="4" fill="#F7E2A6"/><path d="M41 107L119 131 174 100" stroke="#C69A61" stroke-width="5" stroke-linecap="round"/></svg></div>
   <span class="choice-number">02 · Каталог с материали</span><h2>Винили за покриване и др.</h2>
   <p>Платнища, брезенти, зебло, градински материали и всички останали продукти.</p>
   <span class="choice-cta">Разгледай каталога <span aria-hidden="true">↗</span></span>
  </a>
+ <a class="choice-card choice-card--shirts" href="/teniski/">
+  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 25L82 18Q100 32 118 18L140 25 185 57 157 90 140 76 140 133 60 133 60 76 43 90 15 57Z" fill="#D6EBDF" stroke="#428567" stroke-width="4"/><path d="M82 19Q100 44 118 19" stroke="#428567" stroke-width="4"/><path d="M100 62v43M79 83h42" stroke="#E9AB65" stroke-width="6" stroke-linecap="round"/></svg></div>
+  <span class="choice-number">03 · Персонален печат</span><h2>Печат на тениски</h2>
+  <p>Избери модел, размер и цвят. Добави собствено лого или щампа отпред и отзад.</p>
+  <span class="choice-cta">Създай своя тениска <span aria-hidden="true">↗</span></span>
+ </a>
  </div>
- <p class="choice-trust">И двата варианта са без онлайн предплащане. Уточняваме заявката преди изпълнение.</p>
+ <p class="choice-trust">Всички услуги са без онлайн предплащане. Уточняваме заявката преди изпълнение.</p>
  </section>`;
 }
 const designFormat=n=>Number(n).toLocaleString('bg-BG',{maximumFractionDigits:2});
@@ -202,7 +208,7 @@ async function sendForm(form,type){let fd=new FormData(form);let o=Object.fromEn
 function adminLogin(){return `<div class="container page-pad"><div class="page-head"><h1>Администрация</h1><p>Вход за собственика на магазина.</p></div><div class="form-card" style="max-width:430px"><h2>Вход в панела</h2><form id="loginForm"><div class="form-field"><label>Администраторски имейл</label><input type="email" name="email" required autocomplete="username"></div><div class="form-field"><label>Парола</label><input type="password" name="password" required autocomplete="current-password"></div><button class="primary-btn">Вход ↗</button></form><p class="form-note">Входът използва Supabase Auth. Администраторът се задава с ADMIN_EMAIL във Vercel.</p></div></div>`}
 async function renderAdmin(){document.title='Администрация | Винил & Брезенти';if(!useServer){state.isAdmin=false;}
 else if(!state.isAdmin){try{let r=await request('/api/admin/session');state.isAdmin=r.authenticated;state.csrf=r.csrf||'';if(r.authenticated){let info=await request('/api/admin/data');db={...db,...info}}}catch(e){}}
-if(!state.isAdmin){$('#main').innerHTML=adminLogin();return}let tabs=[['products','Продукти и цени'],['variants','Размери и варианти'],['orders','Заявки'],['settings','Настройки'],['images','Снимки'],['usage','База данни']];$('#main').innerHTML=`<section class="container page-pad"><div class="page-head"><h1>Администрация</h1><p>Управление на магазина и продуктовия каталог.</p></div><div class="admin-layout"><nav class="admin-nav">${tabs.map(([k,t])=>`<button class="${state.adminTab===k?'active':''}" data-admin-tab="${k}">${t}</button>`).join('')}<button data-admin-logout>Изход</button></nav><div class="admin-body" id="adminPane"></div></div></section>`;renderAdminPane()}
+if(!state.isAdmin){$('#main').innerHTML=adminLogin();return}let tabs=[['products','Продукти и цени'],['variants','Размери и варианти'],['orders','Заявки'],['settings','Настройки'],['images','Снимки'],['usage','База данни'],['visitors','Посещения']];$('#main').innerHTML=`<section class="container page-pad"><div class="page-head"><h1>Администрация</h1><p>Управление на магазина и продуктовия каталог.</p></div><div class="admin-layout"><nav class="admin-nav">${tabs.map(([k,t])=>`<button class="${state.adminTab===k?'active':''}" data-admin-tab="${k}">${t}</button>`).join('')}<button data-admin-logout>Изход</button></nav><div class="admin-body" id="adminPane"></div></div></section>`;renderAdminPane()}
 
 function renderOrderCard(o){
  const lines=Array.isArray(o.items)?o.items:[];
@@ -235,6 +241,14 @@ if(t==='variants'){const matching=db.products.filter(p=>(p.variants||[]).length)
 if(t==='orders'){const records=db.orders||[];el.innerHTML=`<h2>Получени заявки <span class="pill">${records.length}</span></h2><p class="admin-hint">Всеки артикул се показва с количество, размер или вариант, единична цена и стойност към момента на заявката. Промени в каталога не променят старите заявки.</p>${records.length?`<div class="admin-orders">${records.map(renderOrderCard).join('')}</div>`:`<div class="empty">Все още няма получени заявки.</div>`}`}
 if(t==='settings'){let s=db.settings;el.innerHTML=`<h2>Настройки на магазина</h2><div class="field-row"><div class="form-field"><label>Име на магазина</label><input data-setting="brand" value="${escaped(s.brand||'')}"></div><div class="form-field"><label>Име на фирма</label><input data-setting="company" value="${escaped(s.company||'')}"></div><div class="form-field"><label>Телефон</label><input data-setting="phone" value="${escaped(s.phone||'')}"></div><div class="form-field"><label>Имейл</label><input data-setting="email" value="${escaped(s.email||'')}"></div></div><div class="form-field"><label>Адрес</label><input data-setting="address" value="${escaped(s.address||'')}"></div><div class="form-field"><label>Доставка</label><textarea data-setting="shipping">${escaped(s.shipping||'')}</textarea></div><div class="form-field"><label>Поверителност (попълни преди публикуване)</label><textarea data-setting="privacy">${escaped(s.privacy||'')}</textarea></div><button class="primary-btn" data-admin-save>Запази настройките ✓</button>`}
 if(t==='usage'){el.innerHTML='<h2>Използване на Supabase</h2><p class="admin-hint">Реално заети данни в твоя проект. Месечният трафик и разходите се проверяват отделно в Supabase Dashboard.</p><div id="adminUsagePanel">Зареждане...</div>';loadAdminUsage()}
+if(t==='visitors'){
+  el.innerHTML='<h2>Посещения на сайта</h2>'+
+   '<p class="admin-hint">Статистиката е достъпна само за теб и оторизираните членове на Vercel проекта. Тук не се показва публичен брояч.</p>'+
+   '<div class="form-card"><h3>Посетители и разглеждания</h3>'+
+   '<p>Във Vercel Analytics можеш да видиш уникалните посетители, броя прегледани страници, най-посещаваните раздели и откъде идват посетителите.</p>'+
+   '<p class="admin-hint">Ако услугата не е включена, натисни Enable в Analytics, след което публикувай нова версия. Статистика се събира от активирането нататък.</p>'+
+   '<a class="primary-btn" target="_blank" rel="noopener noreferrer" href="https://vercel.com/ni-ko2/vinilpechat/analytics">Отвори статистиката във Vercel ↗</a></div>';
+}
 if(t==='images'){el.innerHTML=`<h2>Снимки на продуктите</h2><p class="admin-hint">Преди публично използване е нужно разрешение за чуждите изображения. Качените снимки се съхраняват в Supabase Storage.</p><div class="form-field"><label>Избери продукт</label><select id="imageProductSelect">${db.products.map(p=>`<option value="${p.id}">${p.id}. ${escaped(p.name)}</option>`).join('')}</select></div><div class="form-field"><label>Качи снимка (JPG, PNG, WebP — до 3 MB)</label><input id="adminPhotoInput" type="file" accept="image/jpeg,image/png,image/webp"></div><button class="primary-btn" data-upload>Качи / смени снимката</button>`}}
 async function loadAdminUsage(){
   try{
