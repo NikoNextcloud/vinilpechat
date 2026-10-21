@@ -24,7 +24,7 @@ test('T-shirt experience is isolated from existing product catalog, has entry li
  assert.match(js,/Общо за заявката/);
  assert.match(js,/\(front\?2:0\)\+\(back\?2:0\)/);
  assert.match(js,/viber:\/\/chat/);
- assert.match(p,/noindex,follow/);
+ assert.match(p,/index,follow/);
 });
 
 test('First PDF page garments have distinct Stedman codes and selectable nonoverlapping price bands',()=>{
