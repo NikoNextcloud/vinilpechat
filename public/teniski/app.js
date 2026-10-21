@@ -86,7 +86,11 @@ function openModel(id){
 function renderModels(){
  const q=$('model-search').value.trim().toLocaleLowerCase('bg-BG'),gender=$('model-gender').value;
  const displayed=models.filter(m=>(!gender||m.gender===gender)&&(!q||[m.id,m.name,m.bg].some(x=>x.toLocaleLowerCase('bg-BG').includes(q))));
- $('models').innerHTML=displayed.map(m=>'<button type="button" class="card" data-model="'+m.id+'"><img loading="lazy" src="'+m.image+'" alt="'+escapeText(m.bg)+'"><span class="tag">'+m.id+' · '+m.gender+'</span><strong>'+escapeText(m.bg)+'</strong><p>'+escapeText(m.name)+'</p><span class="tag">От '+€(Math.min(...m.groups.flatMap(g=>Object.entries(g).filter(([k,v])=>k!=='label'&&typeof v==='number').map(([k,v])=>v)))*2)+'</span></button>').join('');
+ $('models').innerHTML=displayed.map(m=>{
+  const values=m.groups.flatMap(group=>Object.entries(group).filter(([key,value])=>key!=='label'&&typeof value==='number').map(([,value])=>value));
+  const startingPrice=Math.min(...values)*2;
+  return '<button type="button" class="card" data-model="'+m.id+'"><img loading="lazy" src="'+m.image+'" alt="'+escapeText(m.bg)+'"><span class="tag">'+m.id+' · '+m.gender+'</span><strong>'+escapeText(m.bg)+'</strong><p>'+escapeText(m.name)+'</p><span class="tag">От '+€(startingPrice)+'</span></button>';
+ }).join('');
  $('model-count').textContent=displayed.length+' от '+models.length+' модела';
 }
 $('model-search').addEventListener('input',renderModels);
