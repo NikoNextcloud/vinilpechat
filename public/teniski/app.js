@@ -11,7 +11,7 @@ function color(){return selected.colors.find(x=>x.code===$('colour').value)}
 function price(){return selected.prices[tier()]?.[color().group]*2}
 function describe(){const has=Boolean(artURL),base=price(),printing=has?2:0;
 $('base-price').textContent=€(base);$('print-price').textContent=€(printing);$('total-price').textContent=€(base+printing);
-const text='Здравейте! Искам запитване за тениска Stedman '+selected.id+' '+selected.name+'\\nРазмер: '+$('size').value+'\\nЦвят: '+color().name+'\\nЩампа: '+(has?'да (+2 €)':'не')+'\\nОриентировъчна цена за брой: '+€(base+printing)+'\\nЛинк: https://vinilpechat.vercel.app/teniski/\\nМоля, потвърдете наличност и крайна цена. '+(has?'Ще изпратя и оригиналния файл за печат.':'');
+const text='Здравейте! Искам запитване за тениска Stedman '+selected.id+' '+selected.name+'\nРазмер: '+$('size').value+'\nЦвят: '+color().name+'\nЩампа: '+(has?'да (+2 €)':'не')+'\nОриентировъчна цена за брой: '+€(base+printing)+'\nЛинк: https://vinilpechat.vercel.app/teniski/\nМоля, потвърдете наличност и крайна цена. '+(has?'Ще изпратя и оригиналния файл за печат.':'');
 $('request-text').value=text;}
 function updateShirtImage(){if(!selected)return;const code=$('colour').value;$('shirt-photo').src='https://www.stedman.eu/public/images/products/2026/'+selected.id+'/'+selected.id+'_'+code+'.jpg';}
 function updateArt(){const a=$('artwork');if(!artURL){a.hidden=true;return;}a.hidden=false;a.style.width=$('art-size').value+'%';a.style.left=$('art-x').value+'%';a.style.top=$('art-y').value+'%';}
