@@ -14,10 +14,14 @@ test('T-shirt experience is isolated from existing product catalog, has entry li
  assert.match(p,/id="front-upload"/);
  assert.match(p,/id="back-upload"/);
  assert.match(p,/id="view-back"/);
+ assert.match(p,/id="quantity"/);
+ assert.match(p,/id="unit-price"/);
  assert.match(js,/ST2000/);
  assert.match(js,/ST2010/);
  assert.match(js,/\*2/);
  assert.match(js,/printCost=\(front,back\)/);
+ assert.match(js,/validQuantity/);
+ assert.match(js,/Общо за заявката/);
  assert.match(js,/\(front\?2:0\)\+\(back\?2:0\)/);
  assert.match(js,/viber:\/\/chat/);
  assert.match(p,/noindex,follow/);
