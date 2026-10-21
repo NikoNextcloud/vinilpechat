@@ -32,12 +32,12 @@ test('First PDF page garments have distinct Stedman codes and selectable nonover
  const raw=js.match(/const models=(\[[^;]+\]);/);
  assert.ok(raw,'catalog data exists');
  const models=JSON.parse(raw[1]);
- assert.equal(models.length,13);
- assert.equal(new Set(models.map(x=>x.id)).size,13);
+ assert.equal(models.length,66);
+ assert.equal(new Set(models.map(x=>x.id)).size,66);
  for(const m of models){
   assert.ok(m.groups.length>0);
   assert.equal(new Set(m.groups.map(g=>g.label)).size,m.groups.length);
-  for(const g of m.groups){assert.ok(Number.isFinite(g.WHI)&&g.WHI>0);assert.ok(Number.isFinite(g.COL)&&g.COL>0)}
+  for(const g of m.groups){const prices=Object.entries(g).filter(([k])=>k!=='label').map(([,v])=>v);assert.ok(prices.length>0);for(const v of prices)assert.ok(Number.isFinite(v)&&v>0)}
  }
  assert.ok(js.includes('noindex')===false);
 });
