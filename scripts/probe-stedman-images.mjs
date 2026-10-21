@@ -41,5 +41,27 @@ async function worker(){
  }
 }
 await Promise.all(Array.from({length:5},worker));
-console.log('SUMMARY',JSON.stringify({found:Object.keys(results).length,total:products.length,missing:failures.sort()}));
+
+let extraIndex=0;
+async function fetchAngles(){
+ while(extraIndex<products.length){
+  const p=products[extraIndex++],id=p.id,entry=results[id];
+  if(!entry)continue;
+  const rootFolder=root+'/public/images/products/2026/'+id+'/'+id;
+  for(const code of ['WHI','BLO','GYH','BMD']){
+   const url=rootFolder+'_'+code+'.jpg';
+   if(await verify(url)){
+    if(!entry.packshots)entry.packshots={};
+    entry.packshots[code]=url;
+   }
+  }
+  for(const tail of ['_model_b.jpg','_WHI_b.jpg']){
+   const url=rootFolder+tail;
+   if(await verify(url)){entry.backImage=url;break;}
+  }
+ }
+}
+await Promise.all(Array.from({length:7},fetchAngles));
+console.log('SUMMARY',JSON.stringify({found:Object.keys(results).length,total:products.length,missing:failures.sort(),withPackshots:Object.values(results).filter(x=>x.packshots).length,withBack:Object.values(results).filter(x=>x.backImage).length}));
+
 console.log('MANIFEST_JSON',JSON.stringify(results));
