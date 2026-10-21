@@ -26,3 +26,18 @@ test('T-shirt experience is isolated from existing product catalog, has entry li
  assert.match(js,/viber:\/\/chat/);
  assert.match(p,/noindex,follow/);
 });
+
+test('First PDF page garments have distinct Stedman codes and selectable nonoverlapping price bands',()=>{
+ const js=fs.readFileSync(path.join(root,'public/teniski/app.js'),'utf8');
+ const raw=js.match(/const models=(\[[^;]+\]);/);
+ assert.ok(raw,'catalog data exists');
+ const models=JSON.parse(raw[1]);
+ assert.equal(models.length,13);
+ assert.equal(new Set(models.map(x=>x.id)).size,13);
+ for(const m of models){
+  assert.ok(m.groups.length>0);
+  assert.equal(new Set(m.groups.map(g=>g.label)).size,m.groups.length);
+  for(const g of m.groups){assert.ok(Number.isFinite(g.WHI)&&g.WHI>0);assert.ok(Number.isFinite(g.COL)&&g.COL>0)}
+ }
+ assert.ok(js.includes('noindex')===false);
+});
