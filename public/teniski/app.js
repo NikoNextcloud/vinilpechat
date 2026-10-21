@@ -7,9 +7,9 @@ const artwork={front:{url:null,size:62,x:50,y:40},back:{url:null,size:62,x:50,y:
 const escapeText=x=>String(x).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const printCost=(front,back)=>(front?2:0)+(back?2:0);
 const validQuantity=n=>Number.isInteger(n)&&n>=1&&n<=10000;
-const SIZE_ORDER=['2XS','XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
+const SIZE_ORDER=['3XS','2XS','XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
 function sizesFor(label){
- const normalized=label.replaceAll('XXS','2XS').replaceAll('3XS','2XS');
+ const normalized=label.replaceAll('XXS','2XS');
  const parts=normalized.split('-').map(x=>x.trim());
  if(parts.length===1)return parts;
  const from=SIZE_ORDER.indexOf(parts[0]),to=SIZE_ORDER.indexOf(parts[1]);
