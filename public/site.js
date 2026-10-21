@@ -62,8 +62,14 @@ function renderChoiceLanding(){
   <p>Платнища, брезенти, зебло, градински материали и всички останали продукти.</p>
   <span class="choice-cta">Разгледай каталога <span aria-hidden="true">↗</span></span>
  </a>
+ <a class="choice-card choice-card--shirts" href="/teniski/">
+  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 25L82 18Q100 32 118 18L140 25 185 57 157 90 140 76 140 133 60 133 60 76 43 90 15 57Z" fill="#D6EBDF" stroke="#428567" stroke-width="4"/><path d="M82 19Q100 44 118 19" stroke="#428567" stroke-width="4"/><path d="M100 62v43M79 83h42" stroke="#E9AB65" stroke-width="6" stroke-linecap="round"/></svg></div>
+  <span class="choice-number">03 · Персонален печат</span><h2>Печат на тениски</h2>
+  <p>Избери модел, размер и цвят. Добави собствено лого или щампа отпред и отзад.</p>
+  <span class="choice-cta">Създай своя тениска <span aria-hidden="true">↗</span></span>
+ </a>
  </div>
- <p class="choice-trust">И двата варианта са без онлайн предплащане. Уточняваме заявката преди изпълнение.</p>
+ <p class="choice-trust">Всички услуги са без онлайн предплащане. Уточняваме заявката преди изпълнение.</p>
  </section>`;
 }
 const designFormat=n=>Number(n).toLocaleString('bg-BG',{maximumFractionDigits:2});
