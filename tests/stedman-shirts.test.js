@@ -32,12 +32,23 @@ test('First PDF page garments have distinct Stedman codes and selectable nonover
  const raw=js.match(/const models=(\[[^;]+\]);/);
  assert.ok(raw,'catalog data exists');
  const models=JSON.parse(raw[1]);
- assert.equal(models.length,66);
- assert.equal(new Set(models.map(x=>x.id)).size,66);
+ assert.equal(models.length,75);
+ assert.equal(new Set(models.map(x=>x.id)).size,75);
  for(const m of models){
   assert.ok(m.groups.length>0);
   assert.equal(new Set(m.groups.map(g=>g.label)).size,m.groups.length);
   for(const g of m.groups){const prices=Object.entries(g).filter(([k])=>k!=='label').map(([,v])=>v);assert.ok(prices.length>0);for(const v of prices)assert.ok(Number.isFinite(v)&&v>0)}
  }
  assert.ok(js.includes('noindex')===false);
+});
+
+test('Home landing has three accessible service cards and catalog has filters',()=>{
+ const js=fs.readFileSync(path.join(root,'public/site.js'),'utf8');
+ const css=fs.readFileSync(path.join(root,'public/site.css'),'utf8');
+ const shirts=fs.readFileSync(path.join(root,'public/teniski/index.html'),'utf8');
+ assert.match(js,/choice-card--shirts/);
+ assert.match(js,/03 · Персонален печат/);
+ assert.match(css,/grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+ assert.match(shirts,/id="model-search"/);
+ assert.match(shirts,/id="model-gender"/);
 });
