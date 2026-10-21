@@ -3,3 +3,6 @@
 
 /* Catalog-first flow, product detail after selection */
 .catalog-tools{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin:22px 0 28px}.catalog-tools label{font-weight:700;font-size:12px;flex-basis:100%}.catalog-tools input,.catalog-tools select{font:inherit;border:1px solid #d5e5da;border-radius:12px;padding:13px 15px;background:#fff}.catalog-tools input{min-width:240px;flex:2}.catalog-tools select{flex:1}.catalog-tools .hint{flex-basis:100%;margin:0}.designer{grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr)}.detail-nav{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:-16px}.detail-nav button{width:auto}.catalog[hidden],.designer[hidden]{display:none!important}.card{text-align:left}.card:focus-visible{outline:3px solid #1d866c}@media(max-width:760px){.detail-nav{margin-bottom:0}.designer{grid-template-columns:1fr}}
+
+/* Official Stedman model photographs in product catalogue */
+.cards .card img{display:block;width:100%;height:270px;object-fit:contain;object-position:center;background:#f6f8f6;border-radius:14px;margin-bottom:13px}.cards .card{display:flex;flex-direction:column;gap:7px}.cards .card p{margin:0 0 4px}.cards .card .tag:last-child{margin-top:auto;font-weight:800;font-size:15px;color:#0b7563}.shirt-preview>img{object-fit:contain;background:#fafafa}
