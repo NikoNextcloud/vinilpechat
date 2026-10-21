@@ -40,11 +40,12 @@ function describe(){
 }
 function updateShirtImage(){
  if(!selected)return;
+ $('shirt-photo').dataset.fallback='';
  const code=$('colour').value;
  // Official front photo is never represented as an authentic back photo.
  $('shirt-photo').src=activeSide==='front'
-  ?'/teniski/shirt-placeholder.svg'
-  :'/teniski/back-placeholder.svg';
+  ?(selected.photoFront||selected.image)
+  :(selected.photoBack||'/teniski/back-placeholder.svg');
  $('shirt-photo').alt=activeSide==='front'?'Предна страна на тениска '+selected.id:'Схематичен гръб на тениска';
  $('preview-side-label').textContent=activeSide==='front'?'Преглед отпред':'Преглед отзад — схематично изображение';
 }
@@ -97,6 +98,9 @@ $('model-search').addEventListener('input',renderModels);
 $('model-gender').addEventListener('change',renderModels);
 renderModels();
 $('models').addEventListener('click',e=>{const b=e.target.closest('[data-model]');if(b)openModel(b.dataset.model)});
+const IMAGE_FALLBACK='/teniski/shirt-placeholder.svg';
+$('models').addEventListener('error',e=>{const img=e.target;if(img?.tagName==='IMG'&&!img.dataset.fallback){img.dataset.fallback='1';img.src=IMAGE_FALLBACK}},true);
+$('shirt-photo').addEventListener('error',e=>{const img=e.target;if(!img.dataset.fallback){img.dataset.fallback='1';img.src=IMAGE_FALLBACK}});
 function showCatalog(){ $('customizer').hidden=true;$('catalog-view').hidden=false;history.replaceState(null,'',location.pathname);window.scrollTo({top:0,behavior:'instant'}); }
 $('back-to-models').addEventListener('click',showCatalog);
 const requestedModel=decodeURIComponent((location.hash.match(/^#model-(ST[0-9]+)$/)||[])[1]||'');
