@@ -1,0 +1,21 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const root=path.join(__dirname,'..');
+test('T-shirt experience is isolated from existing product catalog, has entry links',()=>{
+ const h=fs.readFileSync(path.join(root,'public/index.html'),'utf8');
+ const p=fs.readFileSync(path.join(root,'public/teniski/index.html'),'utf8');
+ const js=fs.readFileSync(path.join(root,'public/teniski/app.js'),'utf8');
+ assert.match(h,/href="\/teniski\/"/);
+ assert.match(p,/Печат на тениски/);
+ assert.match(p,/id="print-zone"/);
+ assert.match(p,/id="art-upload"/);
+ assert.match(js,/ST2000/);
+ assert.match(js,/ST2010/);
+ assert.match(js,/\*2/);
+ assert.match(js,/has\?2:0/);
+ assert.match(js,/viber:\/\/chat/);
+ assert.match(p,/noindex,follow/);
+});
