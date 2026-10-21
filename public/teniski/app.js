@@ -47,8 +47,8 @@ function updateShirtImage(){
  $('shirt-photo').src=activeSide==='front'
   ?(selected.packshots?.[photoCode]||selected.photoFront||selected.image)
   :(selected.photoBack||'/teniski/back-placeholder.svg');
- $('shirt-photo').alt=activeSide==='front'?'Предна страна на тениска '+selected.id:'Схематичен гръб на тениска';
- $('preview-side-label').textContent=activeSide==='front'?'Преглед отпред':'Преглед отзад — схематично изображение';
+ $('shirt-photo').alt=activeSide==='front'?'Продуктов изглед отпред '+selected.id:selected.photoBack?'Продуктов изглед отзад '+selected.id:'Схематичен гръб на тениска';
+ $('preview-side-label').textContent=activeSide==='front'?'Преглед отпред — продуктова снимка':selected.photoBack?'Преглед отзад — продуктова снимка':'Преглед отзад — схематично изображение';
 }
 function updateArt(){
  const a=$('artwork'),state=artwork[activeSide];
