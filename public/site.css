@@ -224,3 +224,8 @@
 .seo-home-links a{display:inline-flex;align-items:center;padding:10px 15px;border:1px solid #b8d7c6;background:#f0f8f3;color:#1a6041;border-radius:10px;font-size:12px;font-weight:800}
 .seo-home-links a:hover,.seo-home-links a:focus-visible{background:#daf0e3}
 .product-photo img{aspect-ratio:4/3;object-fit:cover}
+
+/* Three equal service cards on the landing page */
+.choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.choice-card{padding:29px 28px;min-width:0}.choice-card--shirts{background:radial-gradient(circle at 82% 4%,#c9e9df 0%,transparent 58%),linear-gradient(135deg,#f1faf6,#fff)}
+@media(max-width:900px){.choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.choice-card--shirts{grid-column:1/-1}}
+@media(max-width:620px){.choice-grid{grid-template-columns:1fr}.choice-card--shirts{grid-column:auto}.choice-card{min-height:315px}}
