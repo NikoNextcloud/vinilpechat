@@ -80,7 +80,15 @@ function openModel(id){
  clearArtwork('front');clearArtwork('back');$('quantity').value='1';setSide('front');describe();
  $('customizer').scrollIntoView({behavior:'smooth',block:'start'});
 }
-$('models').innerHTML=models.map(m=>'<button type="button" class="card" data-model="'+m.id+'"><img loading="lazy" src="'+m.image+'" alt="'+escapeText(m.bg)+'"><span class="tag">'+m.id+' · '+m.gender+'</span><strong>'+escapeText(m.bg)+'</strong><p>'+escapeText(m.name)+'</p><span class="tag">От '+€(Math.min(...m.groups.flatMap(g=>Object.entries(g).filter(([k,v])=>k!=='label'&&typeof v==='number').map(([k,v])=>v)))*2)+'</span></button>').join('');
+function renderModels(){
+ const q=$('model-search').value.trim().toLocaleLowerCase('bg-BG'),gender=$('model-gender').value;
+ const displayed=models.filter(m=>(!gender||m.gender===gender)&&(!q||[m.id,m.name,m.bg].some(x=>x.toLocaleLowerCase('bg-BG').includes(q))));
+ $('models').innerHTML=displayed.map(m=>'<button type="button" class="card" data-model="'+m.id+'"><img loading="lazy" src="'+m.image+'" alt="'+escapeText(m.bg)+'"><span class="tag">'+m.id+' · '+m.gender+'</span><strong>'+escapeText(m.bg)+'</strong><p>'+escapeText(m.name)+'</p><span class="tag">От '+€(Math.min(...m.groups.flatMap(g=>Object.entries(g).filter(([k,v])=>k!=='label'&&typeof v==='number').map(([k,v])=>v)))*2)+'</span></button>').join('');
+ $('model-count').textContent=displayed.length+' от '+models.length+' модела';
+}
+$('model-search').addEventListener('input',renderModels);
+$('model-gender').addEventListener('change',renderModels);
+renderModels();
 $('models').addEventListener('click',e=>{const b=e.target.closest('[data-model]');if(b)openModel(b.dataset.model)});
 $('view-front').addEventListener('click',()=>setSide('front'));
 $('view-back').addEventListener('click',()=>setSide('back'));
