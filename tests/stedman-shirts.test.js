@@ -52,3 +52,14 @@ test('Home landing has three accessible service cards and catalog has filters',(
  assert.match(shirts,/id="model-search"/);
  assert.match(shirts,/id="model-gender"/);
 });
+
+test('T-shirt catalog opens model details as separate view and offers back navigation',()=>{
+ const html=fs.readFileSync(path.join(root,'public/teniski/index.html'),'utf8');
+ const js=fs.readFileSync(path.join(root,'public/teniski/app.js'),'utf8');
+ assert.match(html,/id="catalog-view"/);
+ assert.match(html,/id="back-to-models"/);
+ assert.match(js,/function showCatalog\(\)/);
+ assert.match(js,/\$\('catalog-view'\)\.hidden=true/);
+ assert.match(js,/\$\('customizer'\)\.hidden=false/);
+ assert.match(js,/function openModel\(id\)/);
+});
