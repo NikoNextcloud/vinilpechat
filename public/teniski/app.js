@@ -26,7 +26,7 @@ function describe(){
  $('front-price').textContent=€(front?2:0);$('back-price').textContent=€(back?2:0);
  $('print-price').textContent=€(printing);$('unit-price').textContent=€(base+printing);
  $('total-price').textContent=valid?€(Math.round((base+printing)*100)*count/100):'Невалидно количество';
- $('viber').disabled=!valid;$('copy-request').disabled=!valid;
+ $('viber').disabled=!valid;$('copy-request').disabled=!valid;$('download-request').disabled=!valid;
  const text='Здравейте! Искам запитване за тениска Stedman '+selected.id+' '+selected.name
   +'\nРазмер: '+$('size').value+'\nЦвят: '+color().name+'\nКоличество: '+(valid?count:'невалидно')
   +'\nЩампа отпред: '+(front?'да (+2 €)':'не')
@@ -102,4 +102,17 @@ $('viber').addEventListener('click',()=>{
  navigator.clipboard?.writeText($('request-text').value).catch(()=>{});
  $('message-hint').textContent='Копирай текста и го постави във Viber. Файловете за двете страни се изпращат отделно.';
  window.location.href='viber://chat?number=%2B359879436006';
+});
+
+$('download-request').addEventListener('click',()=>{
+ if(!selected||!validQuantity(Number($('quantity').value)))return;
+ const layout=['front','back'].map(side=>{
+  const a=artwork[side];return '\\n'+(side==='front'?'ПРЕДНА СТРАНА':'ЗАДНА СТРАНА')+
+   '\\nФайл: '+($(side+'-upload').files[0]?.name||'няма')+
+   '\\nРазмер (% от зоната): '+a.size+'\\nПозиция X: '+a.x+'\\nПозиция Y: '+a.y;
+ }).join('\\n');
+ const data=new Blob([$('request-text').value+'\\n'+layout+'\\nВНИМАНИЕ: Това е спецификация, а не файл за печат. Прикачи оригиналните изображения отделно.'],{type:'text/plain;charset=utf-8'});
+ const url=URL.createObjectURL(data),link=document.createElement('a');
+ link.href=url;link.download='vinilpechat-'+selected.id+'-zayavka.txt';
+ document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
 });
