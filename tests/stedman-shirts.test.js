@@ -63,3 +63,14 @@ test('T-shirt catalog opens model details as separate view and offers back navig
  assert.match(js,/\$\('customizer'\)\.hidden=false/);
  assert.match(js,/function openModel\(id\)/);
 });
+
+test('All PDF models use verified official Stedman product photography',()=>{
+ const js=fs.readFileSync(path.join(root,'public/teniski/app.js'),'utf8');
+ const m=js.match(/const models=(\[[^\n]+\]);/);
+ const models=JSON.parse(m[1]);
+ assert.equal(models.length,75);
+ for(const model of models){
+   assert.match(model.image,new RegExp('^https://www\\.stedman\\.eu/public/images/products/2026/'+model.id+'/'+model.id+'_'));
+ }
+ assert.match(js,/IMAGE_FALLBACK/);
+});
