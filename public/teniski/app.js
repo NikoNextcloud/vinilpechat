@@ -70,7 +70,10 @@ function clearArtwork(side){
 function openModel(id){
  selected=models.find(m=>m.id===id);
  if(!selected)return;
+ $('catalog-view').hidden=true;
  $('customizer').hidden=false;
+ $('detail-code').textContent=selected.id;
+ history.replaceState(null,'','#model-'+encodeURIComponent(selected.id));
  $('model-heading').textContent=selected.bg+' · '+selected.id;
  $('model-info').textContent=selected.desc;
  $('colour').innerHTML=selected.colors.map(c=>'<option value="'+c.code+'">'+escapeText(c.name)+'</option>').join('');
@@ -78,7 +81,7 @@ function openModel(id){
  $('size').innerHTML=sizes.map(size=>'<option value="'+escapeText(size)+'">'+escapeText(size)+'</option>').join('');
  $('colour').value=selected.colors[0]?.code||'COL';
  clearArtwork('front');clearArtwork('back');$('quantity').value='1';setSide('front');describe();
- $('customizer').scrollIntoView({behavior:'smooth',block:'start'});
+ window.scrollTo({top:0,behavior:'instant'});
 }
 function renderModels(){
  const q=$('model-search').value.trim().toLocaleLowerCase('bg-BG'),gender=$('model-gender').value;
@@ -90,6 +93,10 @@ $('model-search').addEventListener('input',renderModels);
 $('model-gender').addEventListener('change',renderModels);
 renderModels();
 $('models').addEventListener('click',e=>{const b=e.target.closest('[data-model]');if(b)openModel(b.dataset.model)});
+function showCatalog(){ $('customizer').hidden=true;$('catalog-view').hidden=false;history.replaceState(null,'',location.pathname);window.scrollTo({top:0,behavior:'instant'}); }
+$('back-to-models').addEventListener('click',showCatalog);
+const requestedModel=decodeURIComponent((location.hash.match(/^#model-(ST[0-9]+)$/)||[])[1]||'');
+if(requestedModel&&models.some(m=>m.id===requestedModel))openModel(requestedModel);
 $('view-front').addEventListener('click',()=>setSide('front'));
 $('view-back').addEventListener('click',()=>setSide('back'));
 ['size','colour'].forEach(id=>$(id).addEventListener('change',()=>{if(id==='colour'){const available=[...new Set(selected.groups.filter(g=>g[$('colour').value]!=null).flatMap(g=>sizesFor(g.label)))];$('size').innerHTML=available.map(s=>'<option>'+escapeText(s)+'</option>').join('');updateShirtImage();}describe();}));
