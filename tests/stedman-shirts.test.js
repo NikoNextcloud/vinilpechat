@@ -17,7 +17,8 @@ test('T-shirt experience is isolated from existing product catalog, has entry li
  assert.match(js,/ST2000/);
  assert.match(js,/ST2010/);
  assert.match(js,/\*2/);
- assert.match(js,/has\?2:0/);
+ assert.match(js,/printCost=\(front,back\)/);
+ assert.match(js,/\(front\?2:0\)\+\(back\?2:0\)/);
  assert.match(js,/viber:\/\/chat/);
  assert.match(p,/noindex,follow/);
 });
