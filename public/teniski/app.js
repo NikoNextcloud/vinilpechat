@@ -7,7 +7,15 @@ const artwork={front:{url:null,size:62,x:50,y:40},back:{url:null,size:62,x:50,y:
 const escapeText=x=>String(x).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const printCost=(front,back)=>(front?2:0)+(back?2:0);
 const validQuantity=n=>Number.isInteger(n)&&n>=1&&n<=10000;
-function tier(){return selected.groups.find(g=>g.label===$('size').value)}
+const SIZE_ORDER=['2XS','XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
+function sizesFor(label){
+ const normalized=label.replaceAll('XXS','2XS').replaceAll('3XS','2XS');
+ const parts=normalized.split('-').map(x=>x.trim());
+ if(parts.length===1)return parts;
+ const from=SIZE_ORDER.indexOf(parts[0]),to=SIZE_ORDER.indexOf(parts[1]);
+ return from>=0&&to>=from?SIZE_ORDER.slice(from,to+1):[];
+}
+function tier(){return selected.groups.find(g=>sizesFor(g.label).includes($('size').value))}
 function color(){return selected.colors.find(x=>x.code===$('colour').value)}
 function price(){return tier()[color().group]*2}
 function describe(){
@@ -66,7 +74,8 @@ function openModel(id){
  $('model-heading').textContent=selected.bg+' · '+selected.id;
  $('model-info').textContent=selected.desc;
  $('colour').innerHTML=selected.colors.map(c=>'<option value="'+c.code+'">'+escapeText(c.name)+'</option>').join('');
- $('size').innerHTML=selected.groups.map(g=>'<option>'+escapeText(g.label)+'</option>').join('');
+ const sizes=[...new Set(selected.groups.flatMap(g=>sizesFor(g.label)))];
+ $('size').innerHTML=sizes.map(size=>'<option value="'+escapeText(size)+'">'+escapeText(size)+'</option>').join('');
  $('colour').value='WHI';
  clearArtwork('front');clearArtwork('back');$('quantity').value='1';setSide('front');describe();
  $('customizer').scrollIntoView({behavior:'smooth',block:'start'});
