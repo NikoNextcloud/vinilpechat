@@ -11,7 +11,9 @@ test('T-shirt experience is isolated from existing product catalog, has entry li
  assert.match(h,/href="\/teniski\/"/);
  assert.match(p,/Печат на тениски/);
  assert.match(p,/id="print-zone"/);
- assert.match(p,/id="art-upload"/);
+ assert.match(p,/id="front-upload"/);
+ assert.match(p,/id="back-upload"/);
+ assert.match(p,/id="view-back"/);
  assert.match(js,/ST2000/);
  assert.match(js,/ST2010/);
  assert.match(js,/\*2/);
