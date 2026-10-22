@@ -6,22 +6,22 @@ const path=require('node:path');
 const pub=path.join(__dirname,'..','public');
 const read=x=>fs.readFileSync(path.join(pub,x),'utf8');
 
-test('storefront allows Google indexing and uses the selected spiral logo plus matching favicon',()=>{
+test('storefront stays indexable with V3 spectrum branding and a compact icon',()=>{
  const html=read('index.html');
  assert.ok(html.includes('<meta name="robots" content="index,follow,max-image-preview:large"'));
  assert.ok(!html.includes('<meta name="robots" content="noindex'));
  assert.ok(html.includes('rel="canonical" href="https://vinilpechat.vercel.app/"'));
- assert.ok(html.includes('src="/assets/vinilpechat-art-spiral.webp"'));
+ assert.ok(html.includes('src="/assets/vinilpechat-spectrum-logo.svg"'));
  assert.ok(html.includes('href="/favicon.png?v=spiral1"'));
  assert.ok(html.includes('"@type":"Organization"'));
  assert.ok(html.includes('"@type":"WebSite"'));
- assert.ok(html.includes('"logo":"https://vinilpechat.vercel.app/assets/vinilpechat-art-spiral.webp"'));
- const logo=fs.readFileSync(path.join(pub,'assets/vinilpechat-art-spiral.webp'));
+ assert.ok(html.includes('"logo":"https://vinilpechat.vercel.app/assets/vinilpechat-spectrum-logo.svg"'));
+ const logo=fs.readFileSync(path.join(pub,'assets/vinilpechat-spectrum-logo.svg'));
  const icon=fs.readFileSync(path.join(pub,'favicon.png'));
- assert.equal(logo.toString('ascii',0,4),'RIFF');
- assert.equal(logo.toString('ascii',8,12),'WEBP');
+ assert.match(logo.toString('utf8'),/<svg[^>]*viewBox="0 0 88 88"/);
+ assert.match(logo.toString('utf8'),/gradient/);
  assert.equal(icon.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
- assert.ok(logo.length<30000,'Website logo should load quickly');
+ assert.ok(logo.length<30000,'Website spectrum logo should load quickly');
  assert.ok(icon.length<5000,'Favicon should be compact');
 });
 test('robots points at database-driven sitemap and Vercel rewrites SEO pages',()=>{
@@ -47,8 +47,8 @@ test('service landing pages are crawlable, unique and navigable',()=>{
  assert.match(vinyl,/rel="canonical"/);
  assert.match(tarps,/rel="canonical"/);
  assert.doesNotMatch(vinyl+tarps,/noindex|nofollow/);
- assert.ok(vinyl.includes('src="/assets/vinilpechat-art-spiral.webp"'));
- assert.ok(tarps.includes('src="/assets/vinilpechat-art-spiral.webp"'));
+ assert.ok(vinyl.includes('src="/assets/vinilpechat-spectrum-logo.svg"'));
+ assert.ok(tarps.includes('src="/assets/vinilpechat-spectrum-logo.svg"'));
  assert.ok(vinyl.includes('href="/favicon.png?v=spiral1"'));
  assert.ok(tarps.includes('href="/favicon.png?v=spiral1"'));
 });
