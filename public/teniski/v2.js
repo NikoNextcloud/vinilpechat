@@ -48,9 +48,10 @@
 
 
  // Visible product-detail controls: print placement, real checked colors and photography.
- let printMode='front';
+ let printMode='none';
  let selectedShade=null;
  let galleryView='front';
+ const UNIVERSAL_BACK_PHOTO='https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model_b.jpg';
  const STEDMAN_COLORS=[
   {code:'WHI',group:'WHI',name:'Бяло',css:'#f9f9f6'},
   {code:'BLO',group:'COL',name:'Черно',css:'#171717'},
@@ -97,14 +98,14 @@
  function updateMiniPhotos(){
   const front=selectedShade?.photo||selected?.photoFront||selected?.image||'/teniski/shirt-placeholder.svg';
   el('v2-mini-front').src=front;el('v2-mini-front-both').src=front;
-  el('v2-mini-back').src=selected?.photoBack||'/teniski/back-placeholder.svg';
+  el('v2-mini-back').src=UNIVERSAL_BACK_PHOTO;
  }
  function galleryItems(){
   if(!selected)return [];
   const shades=shadeOptions(selected);
   const base=[{mode:'model',label:'На модел',src:selected.image},
    {mode:'front',label:'Отпред',src:selectedShade?.photo||selected.photoFront||selected.image},
-   {mode:'back',label:'Отзад',src:selected.photoBack||'/teniski/back-placeholder.svg'}];
+   {mode:'back',label:'Универсален гръб',src:UNIVERSAL_BACK_PHOTO}];
   return [...base,...shades.filter(sh=>sh.photo).map(sh=>({
    mode:'shade',code:sh.code,label:sh.name,src:sh.photo
   }))];
@@ -177,21 +178,35 @@
   }
  }
  function setPrintMode(mode){
-  if(!['front','both'].includes(mode))return;
+  if(!['none','front','both'].includes(mode))return;
   printMode=mode;
-  for(const b of el('v2-print-choice').querySelectorAll('[data-print-mode]'))
-   b.setAttribute('aria-pressed',String(b.dataset.printMode===mode));
-  const visible=mode==='both';
-  const backInput=el('back-upload');
-  const backLabel=document.querySelector('label[for="back-upload"]');
-  backInput.hidden=!visible;if(backLabel)backLabel.hidden=!visible;
-  if(!visible&&artwork.back.url)clearArtwork('back');
-  if(!visible&&activeSide==='back')setSide('front');
+  for(const button of el('v2-print-choice').querySelectorAll('[data-print-mode]'))
+   button.setAttribute('aria-pressed',String(button.dataset.printMode===mode));
+  const frontActive=mode!=='none',backActive=mode==='both';
+  for(const side of ['front','back']){
+   const visible=side==='front'?frontActive:backActive;
+   const input=el(side+'-upload');
+   const label=document.querySelector('label[for="'+side+'-upload"]');
+   input.hidden=!visible;
+   if(label)label.hidden=!visible;
+   if(!visible&&artwork[side].url)clearArtwork(side);
+  }
+  el('v2-artwork-hint').hidden=!frontActive;
+  el('view-back').hidden=!backActive;
+  el('shirt-preview').closest('.preview-pane').querySelector('.side-switch').hidden=!frontActive;
+  const prompt=el('v2-print-prompt');
+  prompt.textContent=mode==='none'?'Не е избран печат — доплащане 0,00 €. Избери вариант, ако искаш щампа.':
+   mode==='front'?'Избран печат отпред: +3,00 € за брой. Качи логото, за да го позиционираш.':
+   'Избран печат отпред и отзад: +6,00 € за брой. Можеш да качиш отделно лого за всяка страна.';
+  if(!backActive&&activeSide==='back')setSide('front');
+  if(mode==='none')setSide('front');
+  zone.classList.toggle('v2-print-inactive',!frontActive);
+  updateArt();
   describe();
  }
  el('v2-print-choice').addEventListener('click',event=>{
   const button=event.target.closest('[data-print-mode]');
-  if(button)setPrintMode(button.dataset.printMode);
+  if(button)setPrintMode(printMode===button.dataset.printMode?'none':button.dataset.printMode);
  });
 
  const sizeSelect=el('size'),oldSizeLabel=document.querySelector('label[for="size"]');
@@ -227,7 +242,7 @@
   return Math.round(band[group]*200)+printed;
  }
  function printCents(){
-   return printMode==='both'?600:300;
+   return printMode==='both'?600:printMode==='front'?300:0;
  }
  function currentLines(){
   if(!selected)return [];
@@ -373,7 +388,7 @@
   oldDescribe();
   const printing=printCents();
   el('print-price').textContent=money2(printing/100);
-  el('front-price').textContent=money2(3);
+  el('front-price').textContent=money2(printMode==='none'?0:3);
   el('back-price').textContent=money2(printMode==='both'?3:0);
   el('base-price').textContent='според размера';
   el('unit-price').textContent='според размера';
@@ -390,7 +405,7 @@
   el('v2-viber').disabled=!valid;
   const text='Здравейте! Запитване за Stedman '+selected.id+' — '+selected.bg+
    '\nЦвят: '+(selectedShade?.name||color()?.name)+'\nРазмери: '+lines.map(l=>l.size+': '+l.quantity+' бр.').join(', ')+
-   '\nПечат: '+(printMode==='both'?'отпред и отзад (+6 €/бр.)':'само отпред (+3 €/бр.)')+
+   '\nПечат: '+(printMode==='both'?'отпред и отзад (+6 €/бр.)':printMode==='front'?'само отпред (+3 €/бр.)':'без щампа (0 €)')+
    '\nОбщо: '+money2(totalCents/100)+' ('+totalQty+' бр.)'+
    '\nМоля потвърдете наличност, доставка и крайна цена.';
   el('request-text').value=text;
@@ -398,7 +413,7 @@
  const intro=document.querySelector('.intro');
  const originalOpenModel=openModel;
  openModel=function(id){
-  checkedSizes.clear();selectedShade=null;galleryView='front';printMode='front';
+  checkedSizes.clear();selectedShade=null;galleryView='front';printMode='none';
   el('v2-size-guide').open=false;
   originalOpenModel(id);
   if(intro)intro.hidden=true;
@@ -408,7 +423,7 @@
    el('colour').value=selectedShade.group;
    el('colour').dispatchEvent(new Event('change',{bubbles:true}));
   }
-  setPrintMode('front');
+  setPrintMode('none');
   renderSwatches();updateMiniPhotos();renderGallery();renderSizeGuide();renderSizes();
   updateShirtImage();
   el('v2-order-feedback').textContent='';
@@ -434,7 +449,7 @@
    sizes:lines.map(x=>({size:x.size,quantity:x.quantity})),
    shade_code:selectedShade?.code||color().code,
    print_mode:printMode,
-   prints:Object.fromEntries((printMode==='both'?['front','back']:['front']).map(side=>[side,{
+   prints:Object.fromEntries((printMode==='both'?['front','back']:printMode==='front'?['front']:[]).map(side=>[side,{
     position:Object.fromEntries(['x','y','size','rotation'].map(p=>[p,artwork[side][p]??0]))
    }])),
    name:String(contact.get('name')||'').trim(),phone:String(contact.get('phone')||'').trim(),
@@ -453,7 +468,7 @@
   const feedback=el('v2-order-feedback'),button=el('v2-place-order');
   const request=formData();
   if(!request.sizes.length){feedback.textContent='Избери размер и количество.';return;}
-  const requiredSides=printMode==='both'?['front','back']:['front'];
+  const requiredSides=printMode==='both'?['front','back']:printMode==='front'?['front']:[];
   const missing=requiredSides.find(side=>!el(side+'-upload').files?.length);
   if(missing){
    feedback.textContent='Качи логото '+(missing==='front'?'отпред':'отзад')+' за избраната печатна опция.';
