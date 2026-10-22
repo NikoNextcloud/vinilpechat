@@ -1,0 +1,55 @@
+'use strict';
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const pub=path.join(__dirname,'..','public');
+const read=name=>fs.readFileSync(path.join(pub,name),'utf8');
+
+test('V3 theme is loaded on all storefront entry points and every crawlable landing page',()=>{
+ const home=read('index.html');
+ const shirts=read('teniski/index.html');
+ const vinyl=read('nov-vinil/index.html');
+ const covers=read('brezenti/index.html');
+ const seo=fs.readFileSync(path.join(__dirname,'../lib/seo-pages.js'),'utf8');
+ assert.match(home,/href="\/v3\.css"/);
+ assert.match(home,/src="\/v3\.js" defer/);
+ assert.match(shirts,/href="\/teniski\/v3\.css"/);
+ for(const entry of [vinyl,covers,seo])assert.match(entry,/\/seo-v3\.css/);
+ for(const entry of [home,shirts,vinyl,covers,seo])assert.match(entry,/vinilpechat-spectrum-logo\.svg/);
+ assert.match(read('assets/vinilpechat-spectrum-logo.svg'),/linearGradient/);
+});
+
+test('V3 homepage contains real navigation, four curated products and responsive sections',()=>{
+ const js=read('site.js');
+ const html=read('index.html');
+ assert.match(js,/function renderChoiceLanding\(\)/);
+ for(const mark of ['v3-hero','v3-hero-studio','v3-category-strip','v3-featured-grid','v3-service-grid','v3-trust-strip'])
+  assert(js.includes(mark),'Missing '+mark);
+ for(const id of ['ST2000','ST2600','ST3000','ST4500'])
+  assert(js.includes(id),'Model '+id+' should be a real model in V3 featured products');
+ assert.match(html,/id="focusSearch"/);
+ assert.match(html,/id="cartOpen"/);
+ assert.match(html,/id="mobileMenu"/);
+ assert.match(html,/id="mobile-nav"/);
+ assert.match(read('v3.css'),/@media \(max-width:620px\)/);
+ assert.match(read('v3.css'),/\.admin-nav/);
+ assert.match(read('v3.css'),/\.drawer/);
+ assert.match(read('v3.css'),/\.design-form-card/);
+});
+test('V3 keeps the 75-model Stedman designer and real supplier/retail pricing code unchanged',()=>{
+ const v2=read('teniski/v2.js');
+ const html=read('teniski/index.html');
+ const source=require('../data/stedman-catalog.json');
+ assert.equal(source.length,75);
+ assert.match(v2,/UNIVERSAL_BACK_PHOTO/);
+ assert.match(v2,/printMode='none'/);
+ assert.match(v2,/startPinch/);
+ assert.match(v2,/v3-card-swatches/);
+ assert.match(v2,/requestedCategory/);
+ assert.match(html,/id="v2-print-choice"/);
+ assert.match(html,/id="artwork"/);
+ assert.match(html,/id="v2-resize-handle"/);
+ assert.match(read('teniski/v3.css'),/\.v2-print-card\[aria-pressed=true\]/);
+ assert.match(read('teniski/v3.css'),/\.v2-color-swatches button/);
+});
