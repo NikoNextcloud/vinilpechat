@@ -324,26 +324,38 @@
   galleryView=side==='back'?'back':'front';
   originalSetSide(side);updateArt();syncGallerySelection();
  };
- let pointerID=null;
- function pointerMove(e){
-  if(!artwork[activeSide].url)return;
+ let dragging=null;
+ const image=el('artwork');
+ image.draggable=false;
+ image.setAttribute('aria-label','Лого за местене с мишка или докосване');
+ const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
+ zone.addEventListener('pointerdown',event=>{
+  // A drag starts only on the artwork. Clicking empty fabric never jumps the design.
+  if(printMode==='none'||!artwork[activeSide].url||
+     galleryView==='model'||event.target!==image)return;
+  event.preventDefault();
+  dragging={pointerId:event.pointerId,side:activeSide,x:artwork[activeSide].x,
+   y:artwork[activeSide].y,clientX:event.clientX,clientY:event.clientY};
+  zone.setPointerCapture(event.pointerId);
+  zone.classList.add('v2-dragging');
+ });
+ zone.addEventListener('pointermove',event=>{
+  if(!dragging||event.pointerId!==dragging.pointerId||dragging.side!==activeSide)return;
   const rect=zone.getBoundingClientRect();
-  const x=Math.round(100*(e.clientX-rect.left)/rect.width);
-  const y=Math.round(100*(e.clientY-rect.top)/rect.height);
-  const a=artwork[activeSide];
-  a.x=Math.max(0,Math.min(100,x));a.y=Math.max(0,Math.min(100,y));
+  if(!rect.width||!rect.height)return;
+  const a=artwork[activeSide],imageRect=image.getBoundingClientRect();
+  const halfX=Math.min(50,a.size/2);
+  const halfY=Math.min(50,(imageRect.height/rect.height)*50);
+  a.x=Math.round(clamp(dragging.x+(event.clientX-dragging.clientX)/rect.width*100,halfX,100-halfX));
+  a.y=Math.round(clamp(dragging.y+(event.clientY-dragging.clientY)/rect.height*100,halfY,100-halfY));
   el('art-x').value=a.x;el('art-y').value=a.y;
   updateArt();
- }
- zone.addEventListener('pointerdown',e=>{
-  if(!artwork[activeSide].url)return;
-  e.preventDefault();pointerID=e.pointerId;zone.setPointerCapture(pointerID);pointerMove(e);
  });
- zone.addEventListener('pointermove',e=>{if(pointerID===e.pointerId)pointerMove(e);});
- for(const eventName of ['pointerup','pointercancel','lostpointercapture'])
-  zone.addEventListener(eventName,()=>{pointerID=null;});
+ for(const name of ['pointerup','pointercancel','lostpointercapture']){
+  zone.addEventListener(name,()=>{dragging=null;zone.classList.remove('v2-dragging');});
+ }
  zone.addEventListener('keydown',e=>{
-  if(!artwork[activeSide].url||!/^Arrow/.test(e.key))return;
+  if(printMode==='none'||!artwork[activeSide].url||!/^Arrow/.test(e.key))return;
   e.preventDefault();const a=artwork[activeSide],step=e.shiftKey?5:1;
   if(e.key==='ArrowLeft')a.x=Math.max(0,a.x-step);
   if(e.key==='ArrowRight')a.x=Math.min(100,a.x+step);
