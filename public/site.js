@@ -44,33 +44,95 @@ let designQuoteSequence=0;
 let designDebounce=null;
 let designInquiryDraft='';
 function renderChoiceLanding(){
- document.title='Печат на винил по размер, брезенти и покривала | Vinilpechat';
- $('#main').innerHTML=`<section class="choice-landing container" aria-labelledby="choose-service-title">
- <div class="choice-intro"><span class="choice-eyebrow">Винил & Брезенти · Рекламни решения</span>
- <h1 id="choose-service-title">Печат на винил по размер и брезенти</h1>
- <p>Избери вида винил и продължи към бърза цена или продуктовия каталог.</p></div>
- <div class="choice-grid">
- <a class="choice-card choice-card--design" href="#design" data-go="design">
-  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="19" y="24" width="155" height="101" rx="13" fill="#E8F4EA"/><rect x="29" y="34" width="135" height="81" rx="8" fill="#FDFDF8"/><path d="M33 98L66 68L89 89L116 48L160 105H33Z" fill="#6EB797"/><circle cx="62" cy="57" r="12" fill="#F2B863"/><rect x="19" y="18" width="155" height="14" rx="7" fill="#2E8B6B"/><path d="M45 130H166" stroke="#174D3A" stroke-width="7" stroke-linecap="round"/><path d="M148 27v21m0-21h21" stroke="#174D3A" stroke-width="3" stroke-linecap="round"/></svg></div>
-  <span class="choice-number">01 · Печат по размер</span><h2>Нов винил с дизайн</h2>
-  <p>Въведи размерите, получи цена с включен дизайн и ни пиши във Viber.</p>
-  <span class="choice-cta">Изчисли цена <span aria-hidden="true">↗</span></span>
- </a>
- <a class="choice-card choice-card--covers" href="#catalog" data-go="catalog">
-  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 53L76 24 178 43 121 75Z" fill="#B6D7C5" stroke="#39896A" stroke-width="3"/><path d="M19 53L121 75 121 126 19 100Z" fill="#8DBDA6" stroke="#39896A" stroke-width="3"/><path d="M121 75L178 43 178 94 121 126Z" fill="#5B9C82" stroke="#39896A" stroke-width="3"/><path d="M29 61L110 82M29 74L110 95M29 87L110 109" stroke="#E8F7E9" stroke-opacity=".8" stroke-width="3"/><circle cx="28" cy="59" r="4" fill="#F7E2A6"/><circle cx="111" cy="80" r="4" fill="#F7E2A6"/><circle cx="110" cy="117" r="4" fill="#F7E2A6"/><path d="M41 107L119 131 174 100" stroke="#C69A61" stroke-width="5" stroke-linecap="round"/></svg></div>
-  <span class="choice-number">02 · Каталог с материали</span><h2>Винили за покриване и др.</h2>
-  <p>Платнища, брезенти, зебло, градински материали и всички останали продукти.</p>
-  <span class="choice-cta">Разгледай каталога <span aria-hidden="true">↗</span></span>
- </a>
- <a class="choice-card choice-card--shirts" href="/teniski/">
-  <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 25L82 18Q100 32 118 18L140 25 185 57 157 90 140 76 140 133 60 133 60 76 43 90 15 57Z" fill="#D6EBDF" stroke="#428567" stroke-width="4"/><path d="M82 19Q100 44 118 19" stroke="#428567" stroke-width="4"/><path d="M100 62v43M79 83h42" stroke="#E9AB65" stroke-width="6" stroke-linecap="round"/></svg></div>
-  <span class="choice-number">03 · Персонален печат</span><h2>Печат на тениски</h2>
-  <p>Избери модел, размер и цвят. Добави собствено лого или щампа отпред и отзад.</p>
-  <span class="choice-cta">Създай своя тениска <span aria-hidden="true">↗</span></span>
- </a>
- </div>
- <p class="choice-trust">Всички услуги са без онлайн предплащане. Уточняваме заявката преди изпълнение.</p>
- </section>`;
+ document.title='Печат на винил, тениски и фолио с твой дизайн | Vinilpechat';
+ const img=id=>'https://www.stedman.eu/public/images/products/2026/'+id+'/'+id+'_model.jpg';
+ const packshot=id=>'https://www.stedman.eu/public/images/products/2026/'+id+'/'+id+'_WHI.jpg';
+ const types=[
+  {name:'Тениски',id:'ST2000',cat:'Тениски',hint:'Твой принт'},
+  {name:'Поло',id:'ST3000',cat:'Поло',hint:'Елегантно'},
+  {name:'Суитшърти',id:'ST4500',cat:'Суитшърти',hint:'Удобство'},
+  {name:'Якета и елеци',id:'ST5440',cat:'Якета и елеци',hint:'За навън'},
+  {name:'Спортни',id:'ST8000',cat:'Спортни',hint:'Активно'},
+  {name:'Детски',id:'ST2200',cat:'Всички',hint:'За малките',gender:'Деца'},
+  {name:'Всички модели',id:'ST4300',cat:'Всички',hint:'75 модела'}
+ ];
+ const featured=[
+  {name:'Класическа унисекс тениска',id:'ST2000',label:'Classic-T',tag:'Класика',swatches:['#fff','#182b49','#df263d','#6e9d89']},
+  {name:'Дамска вталена тениска',id:'ST2600',label:'Classic-T Fitted',tag:'Дамски',swatches:['#fff','#131b29','#be416d','#387aaf']},
+  {name:'Класическа поло тениска',id:'ST3000',label:'Classic Polo',tag:'Поло',swatches:['#fff','#1c2b3f','#18516b','#a73046']},
+  {name:'Суитшърт с цип и качулка',id:'ST4500',label:'Classic Zip Hoodie',tag:'Суитшърт',swatches:['#fff','#171e29','#ba243b','#737982']}
+ ];
+ const categoryLink=(c,gender)=>'/teniski/?category='+encodeURIComponent(c)+(gender?'&gender='+encodeURIComponent(gender):'');
+ $('#main').innerHTML=`<div class="v3-landing">
+ <section class="v3-hero" aria-labelledby="v3-hero-title">
+  <div class="v3-hero-content">
+   <span class="v3-overline"><span class="v3-spark">✦</span> ВИНИЛ · ФОЛИО · ОБЛЕКЛО С ПЕЧАТ</span>
+   <h1 id="v3-hero-title">ТВОЯТА ИДЕЯ.<br><span>ТВОЯТ ДИЗАЙН.</span></h1>
+   <p class="v3-hero-lead">Превърни своята идея в нещо впечатляващо. Избери модел, добави щампа или поръчай рекламен винил по твоя размер.</p>
+   <div class="v3-mini-steps" aria-label="Как става поръчката">
+    <div><b aria-hidden="true">↥</b><span>Качи лого</span></div>
+    <div><b aria-hidden="true">▤</b><span>Избери модел</span></div>
+    <div><b aria-hidden="true">✦</b><span>Добави печат</span></div>
+    <div><b aria-hidden="true">↗</b><span>Изпрати заявка</span></div>
+   </div>
+   <div class="v3-hero-actions">
+    <a href="/teniski/" class="v3-btn v3-btn-primary">Създай своя тениска <span aria-hidden="true">↗</span></a>
+    <a href="#design" data-go="design" class="v3-btn v3-btn-light">Печат на винил <span aria-hidden="true">↗</span></a>
+   </div>
+   <div class="v3-hero-fine"><span>✓ Без онлайн предплащане</span><span>✓ Избор на размер и цвят</span></div>
+  </div>
+  <div class="v3-hero-photography">
+   <div class="v3-hero-brush v3-hero-brush-one" aria-hidden="true"></div>
+   <div class="v3-hero-brush v3-hero-brush-two" aria-hidden="true"></div>
+   <img src="${img('ST2000')}" alt="Модели, облечени в тениски Stedman, готови за персонален печат" loading="eager" decoding="async">
+   <span class="v3-photo-tag">Печат по твой вкус <span aria-hidden="true">✍</span></span>
+  </div>
+  <aside class="v3-hero-studio" aria-label="Примерен изглед на печат">
+   <div class="v3-studio-top"><span><span class="v3-studio-dot"></span> ПЕРСОНАЛИЗИРАЙ</span><span class="v3-studio-label">ДЕМО</span></div>
+   <div class="v3-studio-tabs" role="group" aria-label="Примерна страна на щампата">
+    <button type="button" data-v3-side="front" aria-pressed="true">Предна страна</button>
+    <button type="button" data-v3-side="back" aria-pressed="false">Задна страна</button>
+   </div>
+   <div class="v3-studio-stage"><img class="v3-studio-shirt" src="https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_WHI.jpg" alt="Бяла тениска за примерен печат" decoding="async">
+    <div class="v3-studio-mark" aria-hidden="true"><span>ТВОЯТ</span><strong>ПРИНТ</strong><small>✦ ✦ ✦</small></div>
+    <span class="v3-studio-zoom" aria-hidden="true">⤢</span>
+   </div>
+   <div class="v3-studio-info"><span class="v3-tag">ST2000 · Classic-T</span><strong>Твоят стил започва тук.</strong><small>Избери истински модел, цвят и позиция в редактора.</small></div>
+   <div class="v3-studio-choice"><span>Вид печат</span><div><span>Отпред +3 €</span><span>Отпред и отзад +6 €</span></div></div>
+   <a href="/teniski/#model-ST2000" class="v3-studio-submit">Отвори редактора <span aria-hidden="true">↗</span></a>
+  </aside>
+ </section>
+
+ <section class="v3-category-block container" aria-labelledby="v3-cat-title">
+  <div class="v3-block-head"><div><span class="v3-section-kicker">ПЕЧАТ ВЪРХУ ОБЛЕКЛО</span><h2 id="v3-cat-title">Избери какво да създадем</h2></div><a href="/teniski/" class="v3-text-link">Всички 75 модела <span aria-hidden="true">↗</span></a></div>
+  <div class="v3-category-strip">${types.map(c=>`<a class="v3-category-tile" href="${categoryLink(c.cat,c.gender)}" aria-label="${c.name}">
+   <span class="v3-category-photo"><img loading="lazy" decoding="async" src="${img(c.id)}" data-v3-fallback="${packshot(c.id)}" alt=""></span>
+   <span class="v3-category-name">${c.name}<span aria-hidden="true">↗</span></span>
+   <small>${c.hint}</small></a>`).join('')}</div>
+ </section>
+ <section class="v3-trust-strip container" aria-label="Предимства">
+   <div><span class="v3-trust-symbol">✦</span><span><strong>Персонален печат</strong><small>Твоя идея и графика</small></span></div>
+   <div><span class="v3-trust-symbol">▧</span><span><strong>Размери и цветове</strong><small>Подходящият модел за теб</small></span></div>
+   <div><span class="v3-trust-symbol">⌁</span><span><strong>Лесна заявка</strong><small>Преглед преди изработка</small></span></div>
+   <div><span class="v3-trust-symbol">♢</span><span><strong>Удобна комуникация</strong><small>Телефон или Viber</small></span></div>
+ </section>
+ <section class="v3-featured container" aria-labelledby="v3-featured-title">
+   <div class="v3-block-head"><div><span class="v3-section-kicker">ОБЛЕКЛО STEDMAN</span><h2 id="v3-featured-title">Избрани модели <span class="v3-count-chip">75 модела</span></h2>
+    <p>Персонализирай дрехата с лого отпред или отпред и отзад.</p></div><a href="/teniski/" class="v3-text-link">Виж целия каталог ↗</a></div>
+   <div class="v3-featured-grid">${featured.map((m,i)=>`<a class="v3-featured-card" href="/teniski/#model-${m.id}">
+    <div class="v3-featured-photo"><span class="v3-featured-badge">${m.tag}</span><img loading="lazy" decoding="async" src="${img(m.id)}" data-v3-fallback="${packshot(m.id)}" alt="${m.name}"><span class="v3-featured-arrow" aria-hidden="true">↗</span></div>
+    <div class="v3-featured-content"><strong>${m.id}</strong><span>${m.name}</span><small>${m.label} · Избери размер за цена</small>
+     <span class="v3-card-colors" aria-label="Примерна цветова палитра">${m.swatches.map(color=>`<i style="background:${color}"></i>`).join('')}<em>Цветове според модела</em></span></div></a>`).join('')}</div>
+ </section>
+ <section class="v3-services container" aria-labelledby="v3-services-title">
+  <div class="v3-block-head"><div><span class="v3-section-kicker">НЕ САМО ТЕНИСКИ</span><h2 id="v3-services-title">Реклама, която се забелязва.</h2></div></div>
+  <div class="v3-service-grid">
+   <a class="v3-service-tile v3-service-vinyl" href="#design" data-go="design"><span class="v3-service-index">01 / ВИНИЛ</span><strong>Рекламен винил<br>по твой размер</strong><small>С готов дизайн или с изработка по желание.</small><span class="v3-service-go">Изчисли цена ↗</span><span class="v3-service-decoration" aria-hidden="true">✦</span></a>
+   <a class="v3-service-tile v3-service-cover" href="/brezenti/"><span class="v3-service-index">02 / МАТЕРИАЛИ</span><strong>Брезенти и<br>покривни платнища</strong><small>Избери подходящия продукт за твоя проект.</small><span class="v3-service-go">Разгледай ↗</span><span class="v3-service-decoration" aria-hidden="true">▤</span></a>
+   <a class="v3-service-tile v3-service-contact" href="#contact" data-go="contact"><span class="v3-service-index">03 / КОНТАКТ</span><strong>Имаш нестандартна<br>идея?</strong><small>Пиши ни за индивидуална оферта и уточнения.</small><span class="v3-service-go">Свържи се ↗</span><span class="v3-service-decoration" aria-hidden="true">↗</span></a>
+  </div>
+ </section>
+ </div>`;
 }
 const designFormat=n=>Number(n).toLocaleString('bg-BG',{maximumFractionDigits:2});
 function renderDesignPage(){

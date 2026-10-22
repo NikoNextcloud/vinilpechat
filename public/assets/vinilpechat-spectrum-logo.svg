@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" role="img" aria-label="Vinilpechat цветно лого">
+<defs>
+<linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#04c7ff"/><stop offset="1" stop-color="#4763ff"/></linearGradient>
+<linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb71b"/><stop offset="1" stop-color="#ff6b12"/></linearGradient>
+<linearGradient id="c" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff4c93"/><stop offset="1" stop-color="#c432c8"/></linearGradient>
+<linearGradient id="d" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5b44e8"/><stop offset="1" stop-color="#2ca8f8"/></linearGradient>
+<linearGradient id="e" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00bbde"/><stop offset="1" stop-color="#0f8fe7"/></linearGradient>
+<linearGradient id="f" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22cba5"/><stop offset="1" stop-color="#0c9ab4"/></linearGradient>
+</defs><path d="M44 4 78 23 62 33 44 22Z" fill="url(#b)"/>
+<path d="M78 23V64L62 55V33Z" fill="url(#c)"/>
+<path d="m78 64-34 20V65l18-10Z" fill="url(#d)"/>
+<path d="M44 84 10 64l16-9 18 10Z" fill="url(#e)"/>
+<path d="M10 64V23l16 10v22Z" fill="url(#f)"/>
+<path d="M10 23 44 4v18L26 33Z" fill="url(#a)"/>
+<path d="M44 27 58 35v17l-14 8-14-8V35Z" fill="white"/>
+</svg>

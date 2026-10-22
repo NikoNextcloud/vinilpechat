@@ -66,6 +66,7 @@ try{
  const x=Number(await page.locator('#art-x').inputValue());
  assert(x>=60,'drag and drop moves logo horizontally: '+x);
  await page.locator('#v2-resize-handle').waitFor({state:'visible'});
+ await page.locator('#v2-resize-handle').scrollIntoViewIfNeeded();
  const beforeResize=Number(await page.locator('#art-size').inputValue());
  const resizeBox=await page.locator('#v2-resize-handle').boundingBox();
  await page.mouse.move(resizeBox.x+resizeBox.width/2,resizeBox.y+resizeBox.height/2);
@@ -74,7 +75,8 @@ try{
  await page.mouse.up();
  const afterHandle=Number(await page.locator('#art-size').inputValue());
  assert(afterHandle>beforeResize,'corner drag enlarges uploaded artwork');
- await page.mouse.move(box.x+box.width*.5,box.y+box.height*.4);
+ const wheelBox=await zone.boundingBox();
+ await page.mouse.move(wheelBox.x+wheelBox.width*.5,wheelBox.y+wheelBox.height*.4);
  await page.mouse.wheel(0,260);
  const afterWheel=Number(await page.locator('#art-size').inputValue());
  assert(afterWheel<afterHandle,'mouse-wheel shrinks uploaded artwork');

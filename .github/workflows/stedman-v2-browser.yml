@@ -9,6 +9,10 @@ on:
       - 'scripts/e2e-stedman-v2.mjs'
       - 'scripts/e2e-stedman-v2-all.mjs'
       - 'scripts/e2e-stedman-admin-pricing.mjs'
+      - 'scripts/e2e-v3-design.mjs'
+      - 'public/v3.css'
+      - 'public/v3.js'
+      - 'public/index.html'
       - '.github/workflows/stedman-v2-browser.yml'
 permissions:
   contents: read
@@ -37,6 +41,7 @@ jobs:
           node scripts/e2e-stedman-v2.mjs
           node scripts/e2e-stedman-v2-all.mjs
           node scripts/e2e-stedman-admin-pricing.mjs
+          node scripts/e2e-v3-design.mjs
 
       - name: Store visual regression screenshots
         if: always()

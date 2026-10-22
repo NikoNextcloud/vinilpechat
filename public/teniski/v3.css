@@ -1,0 +1,204 @@
+/* Vinilpechat V3 - apparel storefront & design editor */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{font-family:Manrope,system-ui,sans-serif;color:#12273e;background:#f8fafc;--v3-ink:#12273e;--v3-green:#067b61;--v3-line:#e6ebf2}
+html{scroll-behavior:smooth}
+body{color:var(--v3-ink);background:#f8fafc;font-family:Manrope,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #379ae0;outline-offset:3px}
+[hidden]{display:none!important}
+header.v3-shirts-header{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:20px;background:rgba(255,255,255,.97);box-shadow:0 5px 25px rgba(22,47,70,.06);border-bottom:1px solid #e6eef4;padding:13px max(27px,calc((100vw - 1390px)/2));min-height:77px}
+.v3-shirts-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.v3-shirts-brand img{width:43px;height:43px}
+.v3-shirts-brand span{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.v3-shirts-brand strong{font-size:23px;letter-spacing:-1.2px;line-height:1;font-weight:900;color:#12243a}
+.v3-shirts-brand small{font-size:8px;font-weight:900;letter-spacing:1.5px;color:#40536b}
+.v3-shirts-nav{display:flex;align-items:center;justify-content:center;gap:28px;min-width:0}
+.v3-shirts-nav a{font-size:12px;font-weight:800;color:#344961;white-space:nowrap;padding:8px 0;border-bottom:2px solid transparent}
+.v3-shirts-nav a:hover,.v3-shirts-nav a:focus-visible{color:#007a62;border-color:#00a887}
+.v3-shirts-store{padding:12px 17px;border:1px solid #d8e7e7;border-radius:13px;white-space:nowrap;font-size:11px;font-weight:900;background:#eff9f7;color:#007960}
+.v3-shirts-store:hover{background:#dff7ee}
+main{width:min(1330px,calc(100% - 44px));margin:auto}
+.intro.v3-shirt-hero{position:relative;isolation:isolate;overflow:hidden;min-height:360px;margin:29px 0 0;padding:0;border:1px solid #e5eef5;border-radius:28px;background:radial-gradient(ellipse 500px 260px at 78% 30%,#e9e2ff,transparent 89%),radial-gradient(ellipse 450px 250px at 13% 67%,#e0fbf4,transparent 85%),linear-gradient(110deg,#e8f8fe,#f5faff 50%,#f9edfa);display:grid;grid-template-columns:1.05fr .95fr;align-items:stretch;box-shadow:0 19px 60px #143d6010}
+.v3-shirt-intro{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:42px 20px 42px 52px}
+.eyebrow{color:#078d80;letter-spacing:2px;font-weight:950;font-size:11px}
+.v3-shirt-hero h1{font-size:clamp(35px,4.8vw,61px);font-weight:950;color:#102641;letter-spacing:-3px;line-height:1.09;margin:15px 0 16px}
+.v3-shirt-hero h1 span{color:transparent;background:linear-gradient(105deg,#0e9ef0 10%,#8754ea 46%,#e346a3 90%);background-clip:text;-webkit-background-clip:text}
+.v3-shirt-intro p{font-size:13px;max-width:515px;line-height:1.85;color:#597289;margin:0 0 18px}
+.v3-shirt-start{display:inline-flex;align-items:center;justify-content:center;gap:22px;background:linear-gradient(110deg,#08a47e,#007051);box-shadow:0 11px 25px #10856829;color:#fff;font-size:12px;font-weight:900;padding:14px 22px;border-radius:14px;transition:transform .2s}
+.v3-shirt-start:hover{transform:translateY(-2px)}
+.v3-shirt-hero-note{font-size:10px;margin-top:17px;color:#607d87;font-weight:700;line-height:1.5}
+.v3-shirt-hero-art{position:relative;align-self:stretch;display:flex;justify-content:center;align-items:center;padding:15px 40px 0 5px;overflow:hidden}
+.v3-shirt-hero-art:before{content:"";position:absolute;inset:18% 1% 16%;border-radius:45%;transform:rotate(-15deg);background:linear-gradient(115deg,#1ce0e257,#e84dc75c,#ffdc5459);filter:blur(28px)}
+.v3-shirt-hero-art img{position:relative;width:100%;max-width:430px;height:338px;object-fit:cover;object-position:50% 24%;border-radius:24px 24px 0 0;box-shadow:0 16px 40px #142c4215;mask-image:linear-gradient(to bottom,black 76%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 76%,transparent 100%)}
+.v3-shirt-hero-sticker{position:absolute;top:32px;right:7px;transform:rotate(9deg);z-index:2;background:rgba(255,255,255,.87);border:1px solid #fff;border-radius:16px;padding:12px 14px;font-size:14px;font-weight:900;line-height:1.35;color:#105c6a;box-shadow:0 10px 20px #193e521a}
+.v3-shirt-benefits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;padding:26px 5px 19px;margin-bottom:17px;border-bottom:1px solid #e5ebf2}
+.v3-shirt-benefits>div{display:grid;grid-template-columns:38px 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center}
+.v3-shirt-benefits>div>span{grid-row:1/3;display:grid;place-items:center;width:38px;height:38px;border:1px solid #caeadf;border-radius:13px;background:#e9faf3;color:#078368;font-size:22px}
+.v3-shirt-benefits strong{font-size:12px;font-weight:900}
+.v3-shirt-benefits small{font-size:10px;color:#8796a6;margin-top:3px}
+.catalog{padding-bottom:55px}
+.v3-catalog-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin:22px 0 10px}
+.v3-catalog-heading h2{font-size:clamp(24px,3vw,34px);font-weight:950;color:#13253e;letter-spacing:-1.2px;margin:8px 0 7px}
+.v3-catalog-heading .hint{margin:0}
+.v3-catalog-count-label{align-self:center;white-space:nowrap;background:#e8f7f2;color:#087f67;font-weight:900;font-size:11px;padding:8px 12px;border-radius:30px}
+.v2-categories{margin:20px 0 23px;gap:9px}
+.v2-categories button{border-radius:26px;border:1px solid #e3eaf1;color:#375268;background:#fff;padding:10px 15px;box-shadow:0 5px 14px #173b4d06;font-size:12px;font-weight:900}
+.v2-categories button:hover{border-color:#87cdbe;color:#046851}
+.v2-categories button[aria-pressed=true]{background:linear-gradient(110deg,#078f72,#006b54);border-color:#00795b;color:white;box-shadow:0 9px 18px #0875532c}
+.v2-categories button span{background:#eff5f5;color:#2a7161;font-size:10px;font-weight:850}
+.v2-categories button[aria-pressed=true] span{background:#ffffff25;color:white}
+.catalog-tools{background:#fff;border:1px solid #e7edf3;border-radius:17px;padding:16px;gap:11px;box-shadow:0 10px 30px #1234500a;margin:16px 0 16px}
+.catalog-tools label{color:#506879;font-size:11px;font-weight:900}
+.catalog-tools input,.catalog-tools select{background:#f9fbff;border:1px solid #dfe7ee;border-radius:13px;color:#193548;min-height:44px;box-shadow:0 2px 7px #15374804}
+.catalog-tools input:focus,.catalog-tools select:focus{outline:0;border-color:#12b18c;box-shadow:0 0 0 3px #1fad8c23}
+.catalog-tools .hint{font-size:11px;color:#8192a4}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.card{position:relative;display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid #e6ebf1;border-radius:20px;padding:11px 11px 15px;box-shadow:0 12px 35px #142e4b0b;transition:border-color .2s,box-shadow .2s,transform .2s;color:#14253c}
+.card:hover,.card:focus-visible{transform:translateY(-4px);border-color:#b9e0d7;box-shadow:0 22px 35px #18364b22}
+.card img{height:245px;width:100%;object-fit:contain;border-radius:14px;background:radial-gradient(ellipse at 44% 20%,#fff,#edf2f8);mix-blend-mode:multiply;padding:7px}
+.card strong{margin:11px 3px 1px;font-size:15px;font-weight:900;letter-spacing:-.2px;line-height:1.35;color:#122840}
+.card p{font-size:12px;line-height:1.5;margin:5px 3px 8px;color:#798b9d}
+.card .tag{font-size:10px;color:#087e67;margin:8px 4px 0;font-weight:900}
+.card .tag:last-child{margin-top:auto;padding-top:11px;font-size:14px;font-weight:950;color:#15263c}
+.v3-card-swatches{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:5px 3px 7px}
+.v3-card-swatches i{display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid #d5dce3;box-shadow:0 0 0 1px #ffffff}
+.v3-card-swatches small{margin-left:2px;font-size:10px;color:#8291a3;font-weight:700}
+#customizer.designer{grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);gap:23px;margin:15px 0 45px}
+#customizer .detail-nav{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0;padding-bottom:2px;color:#7c8a9c;font-size:12px}
+#customizer .detail-nav button{background:white;color:#0d725d;border:1px solid #e1ebe9;padding:11px 17px;border-radius:13px;font-weight:900}
+#customizer .detail-nav button:hover{background:#e9faf4}
+#customizer .preview-pane,#customizer .controls{background:#fff;border:1px solid #e3e9f1;border-radius:22px;box-shadow:0 18px 48px #14314b0b}
+#customizer .preview-pane{padding:20px}
+#customizer .controls{padding:26px;gap:13px}
+#customizer .controls>h2{color:#14263d;font-size:clamp(23px,2.7vw,34px);font-weight:950;letter-spacing:-1.2px;line-height:1.2}
+#customizer .controls>p#model-info{color:#7e8d9d;font-size:12px}
+.v2-gallery-top{margin-bottom:14px}
+.v2-gallery-top .eyebrow{color:#087968}
+.v2-gallery-count{color:#8395a7}
+#customizer .preview-pane .side-switch{background:#f3f6f9;border-radius:14px;padding:5px;margin-bottom:10px;gap:5px}
+#customizer .preview-pane .side-switch button{border:0;border-radius:11px;color:#60788b;font-size:12px;font-weight:850;background:transparent;padding:12px 7px;box-shadow:none}
+#customizer .preview-pane .side-switch button[aria-pressed=true]{background:linear-gradient(110deg,#09a17e,#006f54);color:#fff;box-shadow:0 7px 18px #00775130}
+#customizer #preview-side-label{font-size:10px;color:#8b99a6}
+#customizer .shirt-preview{border:1px solid #edf0f4;background:radial-gradient(ellipse at center,#fff 20%,#eef3f7);border-radius:18px;max-width:100%;aspect-ratio:4/4.5}
+#customizer .shirt-preview>img{object-fit:contain}
+.v2-gallery-thumbs{gap:8px;padding:13px 0}
+.v2-gallery-thumbs button{border:2px solid #e2e9f1;border-radius:12px;background:#fff;color:#60768c}
+.v2-gallery-thumbs button:hover{border-color:#a1ddcb}
+.v2-gallery-thumbs button[aria-pressed=true]{border-color:#0d9678;box-shadow:0 0 0 3px #dbf8ed}
+#customizer .preview-pane .hint:last-child{font-size:10px;color:#8b9ba8;line-height:1.6}
+.v2-choice-heading{border-top:1px solid #edf0f3;padding-top:14px}
+.v2-choice-heading h3{font-size:20px;font-weight:950;color:#182941;letter-spacing:-.5px}
+.v2-choice-heading p{color:#7a90a3;font-size:11px}
+.v2-print-cards{gap:12px}
+.v2-print-card{border:2px solid #e2e9ee;border-radius:15px;background:#fff;color:#1a3049;box-shadow:0 6px 16px #1a335909}
+.v2-print-card:hover{border-color:#4fbfa1}
+.v2-print-card[aria-pressed=true]{border-color:#00a27d;box-shadow:0 0 0 3px #0baf8220}
+.v2-print-photo{background:radial-gradient(ellipse at center,#ffffff,#eaf2f5)}
+.v2-print-card-body strong{font-size:11px;font-weight:900;color:#142a3e;line-height:1.4}
+.v2-print-card-body small{font-size:10px;color:#8395a4}
+.v2-print-price{color:#007b61}
+.v2-print-choice-marker{background:#049776}
+#v2-print-prompt{border:1px solid #dcefea;background:#eef9f5;border-radius:12px;font-size:11px;color:#527a6d}
+.v2-color-choice .eyebrow,.v2-size-choice .eyebrow{color:#0f9685}
+.v2-color-swatches button{box-shadow:0 0 0 1px #c7d5dd}
+.v2-color-swatches button[aria-pressed=true]{box-shadow:0 0 0 3px #12b790}
+.v2-sizes{gap:8px}
+.v2-size-cell{border:1px solid #e4eaf0;background:#fafcff;border-radius:12px;color:#1b3d54}
+.v2-size-cell input{background:#fff;border:1px solid #d8e2ea;border-radius:10px;font-weight:900;color:#122b44}
+.v2-size-cell:has(input:focus){border-color:#09a77e;box-shadow:0 0 0 3px #21a8841b}
+.v2-size-cell small{color:#778ea1;font-size:10px}
+#customizer .controls input[type=file]{background:#f8fbfd;border:1px dashed #9ecac3;border-radius:13px}
+#customizer #v2-artwork-hint{background:#edf9f4;border-left:3px solid #0bad82;color:#4f7871}
+#customizer .print-zone.v2-has-logo{background:rgba(13,192,155,.05);outline:2px dashed #0d9878}
+#customizer .v2-resize-handle{background:#089375;box-shadow:0 3px 15px #144c4670}
+.v2-order-summary{border-color:#e5edf2}
+.v2-summary-heading{color:#60788d}
+.v2-summary-line strong{color:#0e3654}
+.totals{background:linear-gradient(125deg,#e9f9f2,#e8f6ff);border:1px solid #d8eced;border-radius:17px}
+.totals .grand strong{color:#027b62}
+.v2-checkout{border:1px solid #ddeef0;background:#f8fbfe;border-radius:18px;padding:19px}
+.v2-checkout input:not([type=checkbox]),.v2-checkout textarea{border:1px solid #d9e6ee;background:#fff;border-radius:11px;color:#142e43}
+.v2-checkout input:not([type=checkbox]):focus,.v2-checkout textarea:focus{outline:0;border-color:#09b187;box-shadow:0 0 0 3px #0dad8320}
+.v2-primary,#customizer .controls>button:not(.secondary){background:linear-gradient(110deg,#049a77,#006b53);border:0;border-radius:12px;color:#fff;font-weight:900;box-shadow:0 11px 24px #036e5420}
+.v2-primary:hover,#customizer .controls>button:not(.secondary):hover{background:#007156}
+#customizer .controls button.secondary{border:1px solid #dce9ee;border-radius:11px;background:#fff;color:#245468;font-weight:850}
+.v3-shirts-footer{margin-top:24px;border-top:1px solid #e4eaf2;background:linear-gradient(115deg,#0d2338,#07463e);color:#d2e4e8;padding:34px max(28px,calc((100vw - 1330px)/2));display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;text-align:left}
+.v3-shirt-footbrand{display:inline-flex;align-items:center;gap:9px;color:white;font-size:22px;font-weight:900}
+.v3-shirts-footer p{font-size:11px;color:#bdd2da;margin:6px 0 0}
+.v3-shirts-footer nav{display:flex;gap:22px;flex-wrap:wrap}
+.v3-shirts-footer nav a{color:#d0dfe3;font-size:11px;font-weight:750}
+.v3-shirts-footer nav a:hover{color:#8ef1d7}
+.v3-shirts-footer>small{font-size:10px;color:#b2c5d0}
+@media(max-width:1170px){
+ .v3-shirts-nav{gap:14px}
+ .v3-shirts-nav a{font-size:11px}
+ .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #customizer.designer{grid-template-columns:minmax(0,1.03fr) minmax(340px,.97fr);gap:17px}
+}
+@media(max-width:900px){
+ .v3-shirts-nav{display:none}
+ .v3-shirts-store{margin-left:auto}
+ .v3-shirt-hero h1{font-size:clamp(31px,4.8vw,50px)}
+ .v3-shirt-intro{padding:31px}
+ .v3-shirt-hero-art img{height:315px}
+ .v3-shirt-benefits{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .card img{height:200px}
+ #customizer.designer{grid-template-columns:1fr}
+ #customizer .shirt-preview{max-width:530px}
+}
+@media(max-width:640px){
+ main{width:calc(100% - 24px)}
+ header.v3-shirts-header{padding:11px 14px;min-height:70px}
+ .v3-shirts-brand img{width:38px;height:38px}
+ .v3-shirts-brand strong{font-size:19px}
+ .v3-shirts-brand small{font-size:7px}
+ .v3-shirts-store{font-size:10px;padding:10px}
+ .intro.v3-shirt-hero{margin-top:12px;grid-template-columns:1fr;border-radius:19px}
+ .v3-shirt-intro{padding:26px 22px 18px}
+ .v3-shirt-hero h1{font-size:clamp(35px,8.5vw,48px);letter-spacing:-2px}
+ .v3-shirt-intro p{font-size:12px}
+ .v3-shirt-hero-note{font-size:9px}
+ .v3-shirt-hero-art{padding:0;height:220px}
+ .v3-shirt-hero-art img{height:220px;width:100%;max-width:none;object-fit:contain;object-position:center;mask-image:none;-webkit-mask-image:none;mix-blend-mode:multiply;border-radius:0}
+ .v3-shirt-hero-sticker{top:10px;right:11px;font-size:11px}
+ .v3-shirt-benefits{gap:12px}
+ .v3-shirt-benefits>div{grid-template-columns:32px 1fr;column-gap:8px}
+ .v3-shirt-benefits>div>span{height:32px;width:32px;font-size:19px}
+ .v3-shirt-benefits strong{font-size:10px}
+ .v3-shirt-benefits small{font-size:9px}
+ .v3-catalog-heading{align-items:center}
+ .v3-catalog-heading h2{font-size:23px}
+ .v3-catalog-count-label{font-size:9px;padding:7px}
+ .v2-categories{flex-wrap:nowrap;overflow-x:auto;padding:0 0 12px;scroll-snap-type:x proximity;gap:7px}
+ .v2-categories button{white-space:nowrap;flex-shrink:0;scroll-snap-align:start;padding:9px 12px}
+ .catalog-tools{padding:12px}
+ .catalog-tools input{min-width:0;width:100%;flex-basis:100%}
+ .catalog-tools select{min-width:100%;flex-basis:100%}
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .card{padding:7px 7px 12px;border-radius:14px}
+ .card img{height:150px;padding:4px;border-radius:10px}
+ .card strong{font-size:12px;margin:9px 4px 3px}
+ .card p{font-size:10px;margin:2px 4px 7px}
+ .card .tag{font-size:9px}
+ .card .tag:last-child{font-size:12px}
+ #customizer .preview-pane,#customizer .controls{padding:13px;border-radius:17px}
+ #customizer .detail-nav{font-size:10px}
+ #customizer .controls>h2{font-size:25px}
+ .v2-print-cards{gap:8px}
+ .v2-print-photo{height:126px}
+ .v2-print-card-body{padding:10px}
+ .v2-print-card-body strong{font-size:10px}
+ .v2-print-price{font-size:17px}
+ .v2-sizes{grid-template-columns:repeat(auto-fit,minmax(80px,1fr))}
+ .v3-shirts-footer{padding:29px 21px}
+ .v3-shirts-footer nav{gap:14px}
+}
+@media(max-width:380px){
+ .card img{height:126px}
+ .v3-shirts-store{font-size:9px;padding:8px}
+ .v3-shirt-hero h1{font-size:32px}
+}
+@media(prefers-reduced-motion:reduce){
+ .card,.v3-shirt-start{transition:none}
+}

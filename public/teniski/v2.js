@@ -48,6 +48,23 @@
       .map(([group,cost])=>saleCents(m.id,band.label,group,cost)));
      const labels=card.querySelectorAll('.tag');
      if(prices.length&&labels.length)labels[labels.length-1].textContent='От '+money2(Math.min(...prices)/100);
+     // Actual catalogue swatches only: no fabricated color choices or dummy wishlist buttons.
+     const available=shadeOptions(m).slice(0,5);
+     if(available.length&&labels.length){
+       const strip=document.createElement('span');
+       strip.className='v3-card-swatches';
+       strip.setAttribute('aria-label','Цветове за модела');
+       for(const shade of available){
+         const dot=document.createElement('i');
+         dot.style.background=shade.css||'#edf1f6';
+         dot.title=shade.name;
+         strip.append(dot);
+       }
+       const description=document.createElement('small');
+       description.textContent=shadeOptions(m).length+' цвята';
+       strip.append(description);
+       labels[labels.length-1].before(strip);
+     }
    }
    const info=el('model-count');
    if(info)info.textContent=count+' модела от общо '+models.length;
@@ -61,6 +78,17 @@
    for(const b of categories.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b===button));
    renderModels();
  });
+ // Category links across Vinilpechat open a prefiltered catalog, not a broken tab.
+ const initialFilters=new URLSearchParams(location.search);
+ const requestedCategory=initialFilters.get('category');
+ if(categoryNames.includes(requestedCategory)){
+   activeCategory=requestedCategory;
+   for(const button of categories.querySelectorAll('button'))
+     button.setAttribute('aria-pressed',String(button.dataset.shirtCat===requestedCategory));
+ }
+ const requestedGender=initialFilters.get('gender');
+ if(['Мъже','Жени','Унисекс','Деца'].includes(requestedGender))
+   el('model-gender').value=requestedGender;
 
 
  // Visible product-detail controls: print placement, real checked colors and photography.

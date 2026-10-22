@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "node --check server.js && node --check public/site.js && node --check public/teniski/app.js && node --check public/teniski/v2.js && node --check lib/stedman-pricing.js && node --check lib/stedman-orders.js && node --check lib/stedman-price-store.js && node --check api/index.js && node --test tests/*.test.js",
+    "test": "node --check server.js && node --check public/site.js && node --check public/v3.js && node --check public/teniski/app.js && node --check public/teniski/v2.js && node --check lib/stedman-pricing.js && node --check lib/stedman-orders.js && node --check lib/stedman-price-store.js && node --check api/index.js && node --test tests/*.test.js",
     "build": "npm test && node scripts/import_lovable_photos.cjs && node scripts/import_scorpioplast_photos.cjs",
     "sync:variants": "node scripts/sync_supplier_variants.cjs",
     "sync:scorpioplast-garden": "node scripts/sync_scorpio_garden.cjs",
