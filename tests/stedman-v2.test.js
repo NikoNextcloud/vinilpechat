@@ -48,7 +48,9 @@ test('Private upload only saves accepted PNG and stores order safely',async()=>{
  let inserted;
  const storage={
   async getBucket(){return {data:{name:BUCKET,public:false},error:null};},
-  from(name){assert.equal(name,BUCKET);return {
+  from(name){if(name==='vinyl-stedman-price-settings')return {
+   async download(){return {data:null,error:{statusCode:404,message:'Object not found'}}}
+  };assert.equal(name,BUCKET);return {
    async upload(key,binary,options){saved.push({key,binary,options});return {error:null}},
    async remove(keys){removed.push(...keys);return {error:null}},
    async createSignedUrl(key,ttl){assert.equal(ttl,600);return {data:{signedUrl:'https://example.test/'+key},error:null}}
