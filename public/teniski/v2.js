@@ -46,6 +46,154 @@
    renderModels();
  });
 
+
+ // Visible product-detail controls: print placement, real checked colors and photography.
+ let printMode='front';
+ let selectedShade=null;
+ let galleryView='front';
+ const STEDMAN_COLORS=[
+  {code:'WHI',group:'WHI',name:'Бяло',css:'#f9f9f6'},
+  {code:'BLO',group:'COL',name:'Черно',css:'#171717'},
+  {code:'GYH',group:'MEL',name:'Сив меланж',css:'#989e9c'},
+  {code:'BMD',group:'DIP',name:'Dip Dye',css:'linear-gradient(135deg,#7396bb 50%,#e6f0f3 50%)'}
+ ];
+ function shadeOptions(model){
+  if(!model)return [];
+  const allowed=new Set(model.colors.map(c=>c.group));
+  const special=(typeof stedmanDetails!=='undefined'?stedmanDetails[model.id]?.shades:null);
+  let shades=special?.length?special.filter(c=>allowed.has(c.group)).map(c=>({
+   ...c,photo:model.packshots?.[c.code]||'https://www.stedman.eu/public/images/products/2026/'+model.id+'/'+model.id+'_'+c.code+'.jpg'
+  })):[];
+  if(!shades.length){
+   shades=STEDMAN_COLORS.filter(c=>model.packshots?.[c.code]).map(item=>{
+     const group=item.code==='GYH'&&!allowed.has('MEL')?'COL':item.group;
+     return {...item,group,photo:model.packshots[item.code]};
+   }).filter(c=>allowed.has(c.group));
+  }
+  const swatchGroup=new Set(shades.map(x=>x.group));
+  const fallbacks={WHI:{name:'Бяло',css:'#f9f9f6'},
+   COL:{name:'Друг цвят — по запитване',css:'linear-gradient(135deg,#435779 0 35%,#b82340 36% 68%,#1f7c69 69%)'},
+   MEL:{name:'Меланж — по запитване',css:'#9ca1a3'},
+   DIP:{name:'Dip Dye — по запитване',css:'linear-gradient(#98bed1 50%,#51708a 50%)'}};
+  for(const group of allowed)if(!swatchGroup.has(group)){
+   shades.push({code:group,group,name:fallbacks[group]?.name||group,
+    css:fallbacks[group]?.css||'#eee',photo:model.photoFront||model.image});
+  }
+  return shades;
+ }
+ function renderSwatches(){
+  if(!selected)return;
+  const shades=shadeOptions(selected);
+  const buttons=el('v2-color-swatches');
+  buttons.innerHTML=shades.map(shade=>
+   '<button type="button" data-shade="'+shade.code+'" style="--swatch:'+shade.css+
+   '" aria-pressed="'+(selectedShade?.code===shade.code)+'" aria-label="'+escapeText(shade.name)+
+   '" title="'+escapeText(shade.name)+'"><span class="v2-swatch-check" aria-hidden="true">✓</span></button>').join('');
+  el('v2-selected-color').textContent=selectedShade?.name||'Избери цвят';
+  el('v2-color-note').textContent=selectedShade?.code===selectedShade?.group&&
+   !selected.packshots?.[selectedShade?.code]?
+   'Конкретният оттенък ще бъде уточнен преди изпълнение.':'Цветът и наличните размери зависят от модела.';
+ }
+ function updateMiniPhotos(){
+  const front=selectedShade?.photo||selected?.photoFront||selected?.image||'/teniski/shirt-placeholder.svg';
+  el('v2-mini-front').src=front;el('v2-mini-front-both').src=front;
+  el('v2-mini-back').src=selected?.photoBack||'/teniski/back-placeholder.svg';
+ }
+ function galleryItems(){
+  if(!selected)return [];
+  const shades=shadeOptions(selected);
+  const base=[{mode:'model',label:'На модел',src:selected.image},
+   {mode:'front',label:'Отпред',src:selectedShade?.photo||selected.photoFront||selected.image},
+   {mode:'back',label:'Отзад',src:selected.photoBack||'/teniski/back-placeholder.svg'}];
+  return [...base,...shades.filter(sh=>sh.photo).map(sh=>({
+   mode:'shade',code:sh.code,label:sh.name,src:sh.photo
+  }))];
+ }
+ function syncGallerySelection(){
+  const thumbs=el('v2-gallery-thumbs');
+  for(const button of thumbs.querySelectorAll('button')){
+   const chosen=button.dataset.galleryMode==='shade'?
+    galleryView==='front'&&button.dataset.galleryShade===selectedShade?.code:
+    button.dataset.galleryMode===galleryView;
+   button.setAttribute('aria-pressed',String(chosen));
+  }
+ }
+ function renderGallery(){
+  if(!selected)return;
+  const pictures=galleryItems();
+  el('v2-gallery-count').textContent=pictures.length+' снимки / изгледи';
+  el('v2-gallery-thumbs').innerHTML=pictures.map(item=>
+    '<button type="button" data-gallery-mode="'+item.mode+'" '+
+    (item.code?'data-gallery-shade="'+item.code+'" ':'')+
+    'aria-label="'+escapeText(item.label)+'" aria-pressed="false">'+
+    '<img loading="lazy" src="'+item.src+'" alt="'+escapeText(item.label)+'">'+
+    '<span>'+escapeText(item.label)+'</span></button>').join('');
+  syncGallerySelection();
+ }
+ function applyShade(next){
+  if(!selected||!next)return;
+  selectedShade=next;galleryView='front';
+  el('colour').value=next.group;
+  // Keep the original price-group logic and mixed-size validator synchronized.
+  el('colour').dispatchEvent(new Event('change',{bubbles:true}));
+  setSide('front');
+  renderSwatches();renderGallery();renderSizeGuide();updateMiniPhotos();describe();
+ }
+ el('v2-color-swatches').addEventListener('click',event=>{
+  const button=event.target.closest('[data-shade]');
+  if(button)applyShade(shadeOptions(selected).find(sh=>sh.code===button.dataset.shade));
+ });
+ el('v2-gallery-thumbs').addEventListener('click',event=>{
+  const button=event.target.closest('[data-gallery-mode]');if(!button)return;
+  if(button.dataset.galleryMode==='shade'){
+   applyShade(shadeOptions(selected).find(sh=>sh.code===button.dataset.galleryShade));return;
+  }
+  if(button.dataset.galleryMode==='model'){
+   setSide('front');galleryView='model';updateShirtImage();syncGallerySelection();
+  }else setSide(button.dataset.galleryMode);
+ });
+ el('v2-gallery-thumbs').addEventListener('error',event=>{
+  const img=event.target;
+  if(img?.tagName==='IMG'&&!img.dataset.fallback){img.dataset.fallback='1';img.src='/teniski/shirt-placeholder.svg'}
+ },true);
+ function renderSizeGuide(){
+  if(!selected)return;
+  const data=typeof stedmanDetails!=='undefined'?stedmanDetails[selected.id]:null;
+  const guide=el('v2-size-table');
+  const sizes=availableSizes();
+  if(data?.sizeChart){
+   const chart=data.sizeChart;
+   guide.innerHTML='<table><thead><tr><th>Мярка</th>'+
+    chart.sizes.map(size=>'<th>'+escapeText(size)+'</th>').join('')+'</tr></thead><tbody>'+
+    '<tr><td>Ширина (см)</td>'+chart.width.map(value=>'<td>'+value+'</td>').join('')+'</tr>'+
+    '<tr><td>Дължина (см)</td>'+chart.length.map(value=>'<td>'+value+'</td>').join('')+'</tr></tbody></table>'+
+    '<p>Размерите са публикувани от Stedman за този модел; възможни са производствени отклонения.</p>';
+  }else{
+   guide.innerHTML='<table><thead><tr><th>Размер</th><th>Тениска без печат</th></tr></thead><tbody>'+
+    sizes.map(size=>'<tr><td>'+escapeText(size)+'</td><td>'+
+     money2((unitForSize(size,0)||0)/100)+'</td></tr>').join('')+'</tbody></table>'+
+    '<p>За точните ширина и дължина в сантиметри виж данните на производителя за конкретния модел.</p>'+
+    '<p><a href="'+selected.source+'" target="_blank" rel="noopener noreferrer">Продуктът при Stedman ↗</a></p>';
+  }
+ }
+ function setPrintMode(mode){
+  if(!['front','both'].includes(mode))return;
+  printMode=mode;
+  for(const b of el('v2-print-choice').querySelectorAll('[data-print-mode]'))
+   b.setAttribute('aria-pressed',String(b.dataset.printMode===mode));
+  const visible=mode==='both';
+  const backInput=el('back-upload');
+  const backLabel=document.querySelector('label[for="back-upload"]');
+  backInput.hidden=!visible;if(backLabel)backLabel.hidden=!visible;
+  if(!visible&&artwork.back.url)clearArtwork('back');
+  if(!visible&&activeSide==='back')setSide('front');
+  describe();
+ }
+ el('v2-print-choice').addEventListener('click',event=>{
+  const button=event.target.closest('[data-print-mode]');
+  if(button)setPrintMode(button.dataset.printMode);
+ });
+
  const sizeSelect=el('size'),oldSizeLabel=document.querySelector('label[for="size"]');
  const qty=el('quantity'),oldQtyLabel=document.querySelector('label[for="quantity"]');
  for(const legacy of [sizeSelect,oldSizeLabel,qty,oldQtyLabel])legacy?.classList.add('v2-legacy-hidden');
