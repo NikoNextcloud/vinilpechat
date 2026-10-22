@@ -105,3 +105,16 @@ test('Verified Stedman shade must match selected supplier price group',()=>{
  assert.throws(()=>quote({...base,shade_code:'MADE_UP'}),/цвят/);
  assert.throws(()=>quote({...base,print_mode:'both'}),/страни/);
 });
+
+test('Official shirt and hoodie size charts and shade lists match client data',()=>{
+ const details=require('../data/stedman-details.json');
+ const js=fs.readFileSync(path.join(__dirname,'../public/teniski/detail-data.js'),'utf8');
+ const data=JSON.parse(js.match(/const stedmanDetails=(\{[^\n]+\});/)[1]);
+ assert.deepEqual(data,details);
+ assert.equal(details.ST2000.sizeChart.width[3],52);
+ assert.equal(details.ST4500.sizeChart.width[2],55);
+ assert.ok(details.ST4500.shades.some(x=>x.code==='SRE'));
+ const q=quote({model_id:'ST4500',color_code:'COL',shade_code:'SRE',print_mode:'both',sizes:[{size:'M',quantity:1}],prints:{front:{position:{x:50,y:40,size:62,rotation:0}},back:{position:{x:50,y:40,size:62,rotation:0}}}});
+ assert.equal(q.total,35.6);
+ assert.equal(q.color_name,'Червено');
+});
