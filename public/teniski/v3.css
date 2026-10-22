@@ -60,6 +60,9 @@ main{width:min(1330px,calc(100% - 44px));margin:auto}
 .card p{font-size:12px;line-height:1.5;margin:5px 3px 8px;color:#798b9d}
 .card .tag{font-size:10px;color:#087e67;margin:8px 4px 0;font-weight:900}
 .card .tag:last-child{margin-top:auto;padding-top:11px;font-size:14px;font-weight:950;color:#15263c}
+.v3-card-swatches{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:5px 3px 7px}
+.v3-card-swatches i{display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid #d5dce3;box-shadow:0 0 0 1px #ffffff}
+.v3-card-swatches small{margin-left:2px;font-size:10px;color:#8291a3;font-weight:700}
 #customizer.designer{grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);gap:23px;margin:15px 0 45px}
 #customizer .detail-nav{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0;padding-bottom:2px;color:#7c8a9c;font-size:12px}
 #customizer .detail-nav button{background:white;color:#0d725d;border:1px solid #e1ebe9;padding:11px 17px;border-radius:13px;font-weight:900}
