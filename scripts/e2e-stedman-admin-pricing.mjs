@@ -18,16 +18,16 @@ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:1280,height:900}});
 const errors=[];let postedProduct=null,postedVariant=null,postedStedman=null;
 page.on('pageerror',error=>errors.push(error.message));
-page.route('**/api/health',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+await page.route('**/api/health',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
  ok:true,configured:true,catalogReady:true,ordersReady:true,adminReady:true})}));
-page.route('**/api/catalog',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(initial)}));
-page.route('**/api/admin/session',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({authenticated:true,csrf:'browser-test'})}));
-page.route('**/api/admin/data',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(initial)}));
-page.route('**/api/admin/save',route=>{postedProduct=route.request().postDataJSON();
+await page.route('**/api/catalog',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(initial)}));
+await page.route('**/api/admin/session',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({authenticated:true,csrf:'browser-test'})}));
+await page.route('**/api/admin/data',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(initial)}));
+await page.route('**/api/admin/save',route=>{postedProduct=route.request().postDataJSON();
  return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true})});});
-page.route('**/api/admin/variants',route=>{postedVariant=route.request().postDataJSON();
+await page.route('**/api/admin/variants',route=>{postedVariant=route.request().postDataJSON();
  return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,count:1})});});
-page.route('**/api/admin/shirt-prices',route=>{
+await page.route('**/api/admin/shirt-prices',route=>{
  if(route.request().method()==='POST'){postedStedman=route.request().postDataJSON();
   return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,updated:postedStedman.rows.length})});}
  return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,models:fullModels})});
@@ -39,8 +39,8 @@ try{
  assert(await page.locator('[data-field="sale_price"]').isVisible(),'ordinary product retail editable');
  await page.locator('[data-field="supplier_price"]').fill('9.25');
  await page.locator('[data-field="sale_price"]').fill('27.80');
- await page.locator('[data-admin-save]').first().click();
- await page.waitForFunction(()=>!!window.__adminSaveChecked,{},{timeout:300}).catch(()=>{});
+ await Promise.all([page.waitForResponse(response=>response.url().includes('/api/admin/save')&&response.request().method()==='POST'),
+  page.locator('[data-admin-save]').first().click()]);
  assert(postedProduct,'product save request sent');
  assert.equal(postedProduct.products[0].supplier_price,9.25);
  assert.equal(postedProduct.products[0].sale_price,27.8);
@@ -49,8 +49,8 @@ try{
  await page.locator('[data-variant-supplier-price]').waitFor({state:'visible'});
  await page.locator('[data-variant-supplier-price]').fill('6.75');
  await page.locator('[data-variant-price]').fill('15.50');
- await page.locator('[data-admin-save-variants]').click();
- await page.waitForFunction(()=>document.querySelector('[data-admin-save-variants]')?.disabled===false);
+ await Promise.all([page.waitForResponse(response=>response.url().includes('/api/admin/variants')&&response.request().method()==='POST'),
+  page.locator('[data-admin-save-variants]').click()]);
  assert(postedVariant&&postedVariant.variants.length===1,'variant edit sent');
  assert.equal(postedVariant.variants[0].supplier_price,6.75);
  assert.equal(postedVariant.variants[0].sale_price,15.50);
@@ -67,8 +67,9 @@ try{
  assert((await page.locator('#stedman-pricing-status').innerText()).includes('Незаписани промени'));
  mkdirSync('test-output',{recursive:true});
  await page.screenshot({path:'test-output/stedman-admin-dual-prices.png',fullPage:true});
- await page.locator('[data-stedman-save]').click();
- await page.locator('#stedman-pricing-status').getByText(/Записани/).waitFor({state:'visible'});
+ await Promise.all([page.waitForResponse(response=>response.url().includes('/api/admin/shirt-prices')&&response.request().method()==='POST'),
+  page.locator('[data-stedman-save]').click()]);
+ await page.waitForFunction(()=>document.querySelector('#stedman-pricing-status')?.textContent.includes('Записани'));
  assert(postedStedman&&postedStedman.rows.length===1,'one price band saved');
  assert.equal(postedStedman.rows[0].supplier_price,3.7);
  assert.equal(postedStedman.rows[0].sale_price,10.9);
