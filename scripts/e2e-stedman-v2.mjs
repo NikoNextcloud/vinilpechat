@@ -4,6 +4,9 @@ import {chromium} from 'playwright';
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:1350,height:950}});
 const errors=[];
+const imageErrors=[];
+page.on('response',r=>{if(r.url().includes('stedman.eu')&&!r.ok()&&imageErrors.length<8)imageErrors.push({url:r.url().slice(-74),status:r.status()});});
+page.on('requestfailed',r=>{if(r.url().includes('stedman.eu')&&imageErrors.length<8)imageErrors.push({url:r.url().slice(-74),failure:r.failure()});});
 page.on('pageerror',error=>errors.push(error.message));
 try{
  await page.goto('http://127.0.0.1:3000/teniski/',{waitUntil:'domcontentloaded'});
@@ -25,6 +28,8 @@ try{
  assert((await page.locator('#v2-selected-color').innerText()).includes('Черно'),'black color selection');
  await page.locator('[data-shade="WHI"]').click();
  mkdirSync('test-output',{recursive:true});
+ await page.waitForTimeout(1200);
+ console.log('STEDMAN_IMAGE_DIAGNOSTIC',JSON.stringify({photoSrc:await page.locator('#shirt-photo').getAttribute('src'),width:await page.locator('#shirt-photo').evaluate(el=>el.naturalWidth),errors:imageErrors}));
  await page.screenshot({path:'test-output/stedman-v2-tshirt-desktop.png',fullPage:true});
  assert(await page.locator('#v2-order-form').isVisible());
  await page.locator('[data-v2-size="M"]').fill('2');
