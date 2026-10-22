@@ -227,7 +227,7 @@ function renderOrderCard(o){
  const garmentFiles=shirt?.shirt_artwork||{};
  const hasArtwork=!!(garmentFiles.front||garmentFiles.back);
  const garmentNote=shirt?'<div class="admin-order-note"><strong>Vinilpechat 2.0 · Stedman '+escaped(shirt.model_id)+'</strong><p>Щампи: '+(garmentFiles.front?'Отпред ':'')+(garmentFiles.back?'Отзад':'')+'. Файловете са в частно хранилище.</p></div>':'';
- return `<article class="admin-order-card">`
+ return `<article class="admin-order-card">
  <div class="admin-order-head">
    <div><strong class="admin-order-number">Заявка № ${escaped(o.id)}</strong>${date?`<small class="admin-order-date">${escaped(date)}</small>`:''}</div>
    <div class="admin-order-status"><label for="status-${escaped(o.id)}">Статус</label><select id="status-${escaped(o.id)}" data-order-status="${escaped(o.id)}">${[['new','Нова'],['in_progress','Обработка'],['confirmed','Потвърдена'],['completed','Приключена'],['cancelled','Отказана']].map(([v,n])=>`<option ${o.status===v?'selected':''} value="${v}">${n}</option>`).join('')}</select></div>
