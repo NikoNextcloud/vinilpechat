@@ -138,3 +138,52 @@
  .v2-print-price{font-size:18px}
  .v2-color-swatches button{width:36px;height:36px;min-width:36px}
 }
+
+/* Vinilpechat 2.0: minimal, drag-only editor (no sliders or resize handles). */
+[hidden]{display:none!important}
+.v2-print-setup{
+ background:linear-gradient(145deg,#f7fbf8 0%,#f0f8f3 100%);
+ border:1px solid #d9eae0;
+ border-radius:17px;
+ padding:20px;
+ display:grid;
+ gap:12px;
+ animation:v2SetupReveal .24s ease-out;
+}
+@keyframes v2SetupReveal{from{opacity:.35;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+.v2-print-setup-heading{display:grid;gap:7px;padding-bottom:7px}
+.v2-print-setup-heading strong{font-size:15px;line-height:1.5;color:#205140}
+.v2-print-setup label{font-weight:700;margin:4px 0 0}
+.v2-print-setup input[type=file]{
+ border:1px dashed #bbd7c6;background:#fff;
+ border-radius:11px;padding:12px;font-size:12px;max-width:100%;
+}
+.v2-print-setup input[type=file]::file-selector-button{
+ border:0;border-radius:8px;background:#e5f1e9;
+ padding:10px 13px;color:#165940;cursor:pointer;font-weight:750;margin-right:10px
+}
+.v2-print-setup input[type=file]::file-selector-button:hover{background:#cfe8d9}
+#v2-artwork-hint{line-height:1.6;margin:4px 0;color:#4b7360}
+#v2-print-prompt{
+ background:#f2f7f2;
+ border:1px solid #e2eee7;
+ border-radius:11px;
+ padding:11px 13px;
+ font-size:12px;
+ line-height:1.5;
+ color:#456b55;
+}
+.v2-print-inactive{display:none!important}
+#artwork{pointer-events:auto!important;touch-action:none;user-select:none;-webkit-user-drag:none;cursor:grab}
+.print-zone.v2-dragging #artwork{cursor:grabbing}
+.print-zone:not(.v2-print-inactive){border:1px dashed #12805c88;background:transparent}
+#customizer .side-switch[hidden],#customizer .v2-print-setup[hidden],
+#customizer .v2-print-charge[hidden]{display:none!important}
+#remove-art{justify-self:start;font-size:12px;padding:11px 16px;border-radius:10px}
+#remove-art[hidden]{display:none!important}
+#v2-side-switch{margin-top:6px}
+@media(max-width:760px){
+ .v2-print-setup{padding:14px}
+ .v2-print-setup-heading strong{font-size:14px}
+ .v2-print-setup input[type=file]::file-selector-button{padding:9px 10px;margin-right:4px}
+}
