@@ -43,7 +43,7 @@ try{
  await page.screenshot({path:'test-output/v3-admin-login.png',fullPage:true});
 
  await goto('/teniski/?category='+encodeURIComponent('Поло'));
- await page.locator('[data-model]').first().waitFor();
+ await page.locator('#models [data-model]:visible').first().waitFor();
  assert.equal(await page.locator('.v2-categories [data-shirt-cat="Поло"]').getAttribute('aria-pressed'),'true');
  assert.equal(await page.locator('#models [data-model]:visible').count(),10,'polo query filters models');
  assert.equal(await page.locator('#models [data-model="ST2000"]').isVisible(),false,'t-shirt hidden under polo filter');
