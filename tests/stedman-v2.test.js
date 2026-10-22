@@ -128,7 +128,8 @@ test('Print pricing starts at zero until the buyer selects a print location',()=
  assert.equal(bare.printMode,'none');
  assert.equal(bare.prints.front,null);
  assert.equal(bare.prints.back,null);
- assert.throws(()=>quote({...bare,print_mode:'none',prints:{
+ assert.throws(()=>quote({model_id:'ST2000',color_code:'WHI',shade_code:'WHI',print_mode:'none',
+  sizes:[{size:'M',quantity:1}],prints:{
   front:{position:{x:50,y:40,size:62,rotation:0}}}}),/страни/);
  const front=quote({model_id:'ST2000',color_code:'WHI',shade_code:'WHI',
   print_mode:'front',sizes:[{size:'M',quantity:1}],
