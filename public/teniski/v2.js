@@ -399,6 +399,7 @@
  const originalOpenModel=openModel;
  openModel=function(id){
   checkedSizes.clear();selectedShade=null;galleryView='front';printMode='front';
+  el('v2-size-guide').open=false;
   originalOpenModel(id);
   if(intro)intro.hidden=true;
   const shades=shadeOptions(selected);
