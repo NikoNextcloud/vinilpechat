@@ -23,5 +23,10 @@
       "source": "/api/:path*",
       "destination": "/api/index?route=:path*"
     }
-  ]
+  ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "public/teniski/index.html"
+    }
+  }
 }
