@@ -19,7 +19,18 @@ try{
  await page.locator('[data-model="ST2000"]').click();
  await page.locator('#v2-sizes [data-v2-size="M"]').waitFor();
  assert.equal(await page.locator('#v2-print-choice [data-print-mode]').count(),2);
- assert(await page.locator('#v2-print-choice [data-print-mode="front"]').getAttribute('aria-pressed')==='true');
+ assert((await page.locator('#v2-print-choice [data-print-mode="front"]').getAttribute('aria-pressed'))==='false','No print is selected by default');
+ assert((await page.locator('#v2-print-choice [data-print-mode="both"]').getAttribute('aria-pressed'))==='false');
+ assert(!(await page.locator('#v2-print-setup').isVisible()),'upload controls initially hidden');
+ assert(!(await page.locator('#v2-side-switch').isVisible()),'print side buttons initially hidden');
+ assert.equal(await page.locator('input[type="range"]').count(),0,'No slider controls exist');
+ assert.equal(await page.locator('#v2-rotation').count(),0,'No rotation control');
+ assert.equal(await page.locator('#v2-resize-handle').count(),0,'No resize handle');
+ assert((await page.locator('#total-price').innerText()).includes('4,40')||(await page.locator('#total-price').innerText()).includes('4.40'),'blank ST2000 M starts at €4.40');
+ assert(!(await page.locator('#print-zone').isVisible()),'print-zone hidden before selection');
+ await page.locator('[data-print-mode="front"]').click();
+ assert(await page.locator('#v2-print-setup').isVisible(),'upload appears after print selection');
+ assert((await page.locator('#total-price').innerText()).includes('7,40')||(await page.locator('#total-price').innerText()).includes('7.40'),'front print adds €3 after click');
  assert((await page.locator('#v2-color-swatches button').count())>=6,'verified ST2000 color swatches');
  assert((await page.locator('#v2-gallery-thumbs button').count())>=6,'real image thumbnail gallery');
  await page.locator('#v2-size-guide summary').click();
@@ -42,20 +53,36 @@ try{
  assert(text.includes('23,80')||text.includes('23.80'),'uploading logo does not add a second print fee: '+text);
  await page.locator('[data-print-mode="both"]').click();
  assert(await page.locator('#back-upload').isVisible());
+ assert(await page.locator('#view-back').isVisible());
+ await page.locator('#view-back').click();
+ const backURL='https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model_b.jpg';
+ assert.equal(await page.locator('#shirt-photo').getAttribute('src'),backURL,'Universal real back image for ST2000');
+ assert.equal(await page.locator('#v2-mini-back').getAttribute('src'),backURL,'Option preview uses universal back');
+ await page.locator('#view-front').click();
  text=await page.locator('#total-price').innerText();
  assert(text.includes('32,80')||text.includes('32.80'),'front+back EUR6 print package correctly totals EUR32.80: '+text);
  await page.locator('[data-print-mode="front"]').click();
  assert(!(await page.locator('#back-upload').isVisible()));
- const zone=page.locator('#print-zone'),box=await zone.boundingBox();
- assert(box,'print zone is visible');
- await page.mouse.move(box.x+box.width*0.50,box.y+box.height*0.40);
+ await page.locator('[data-print-mode="front"]').click();
+ assert((await page.locator('#total-price').innerText()).includes('14,80')||(await page.locator('#total-price').innerText()).includes('14.80'),
+  'Deselecting print removes all printing charges');
+ assert(!(await page.locator('#v2-print-setup').isVisible()),'Upload section closes when print deselected');
+ await page.locator('[data-print-mode="front"]').click();
+ const zone=page.locator('#print-zone');
+ assert(await zone.isVisible(),'print zone is shown after selection');
+ await page.locator('#artwork').waitFor({state:'visible'});
+ await page.waitForFunction(()=>document.getElementById('artwork').naturalWidth>0);
+ const logo=await page.locator('#artwork').boundingBox();
+ const box=await zone.boundingBox();
+ assert(logo&&box,'upload logo and print zone have dimensions');
+ // Grab the logo itself; empty fabric must not make the design jump.
+ await page.mouse.move(logo.x+logo.width*0.5,logo.y+logo.height*0.5);
  await page.mouse.down();
- await page.mouse.move(box.x+box.width*0.75,box.y+box.height*0.58,{steps:6});
+ await page.mouse.move(logo.x+logo.width*0.5+box.width*0.20,logo.y+logo.height*0.5+box.height*0.08,{steps:7});
  await page.mouse.up();
  const x=Number(await page.locator('#art-x').inputValue());
- assert(x>=60,'drag and drop moves logo horizontally: '+x);
- await page.locator('#v2-rotation').evaluate(input=>{input.value='30';input.dispatchEvent(new Event('input',{bubbles:true}))});
- assert.equal(await page.locator('#v2-rotation-label').innerText(),'30°');
+ assert(x>55&&x<=70,'Direct logo drag moves without exposing control sliders: '+x);
+ assert.equal(await page.locator('#v2-rotation').count(),0,'Rotation control not present');
  await page.locator('[data-gallery-mode="model"]').click();
  assert(await page.locator('#print-zone').evaluate(el=>el.classList.contains('v2-preview-hidden')),'logo overlay is hidden on lifestyle photos');
  await page.locator('[data-gallery-mode="front"]').click();
@@ -63,12 +90,21 @@ try{
  await page.locator('#back-to-models').click();
  assert(await page.locator('[data-model="ST2000"]').isVisible(),'can return to catalog');
  await page.locator('[data-model="ST4500"]').click();
+ assert((await page.locator('#v2-print-choice [data-print-mode="front"]').getAttribute('aria-pressed'))==='false',
+  'Switching to another garment resets print selection');
+ assert((await page.locator('#total-price').innerText()).includes('29,60')||(await page.locator('#total-price').innerText()).includes('29.60'),
+  'Hoodie starts at clothing-only price');
  assert((await page.locator('#v2-color-swatches button').count())>=8,'hoodie has official color swatches');
  await page.locator('[data-shade="SRE"]').click();
  assert((await page.locator('#v2-selected-color').innerText()).includes('Червено'),'red hoodie swatch works');
  await page.locator('#v2-size-guide summary').click();
  assert((await page.locator('#v2-size-table').innerText()).includes('55'),'hoodie has verified M chest width in centimeters');
  await page.locator('[data-print-mode="both"]').click();
+ await page.locator('#view-back').click();
+ assert.equal(await page.locator('#shirt-photo').getAttribute('src'),
+  'https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model_b.jpg',
+  'Hoodie uses the same universal back photo as the T-shirt');
+ await page.locator('#view-front').click();
  await page.waitForFunction(()=>{
   const hero=document.getElementById('shirt-photo');
   return !!hero&&hero.currentSrc.includes('/ST4500/')&&hero.complete&&hero.naturalWidth>0;
@@ -89,5 +125,5 @@ try{
  assert((await page.locator('#v2-color-swatches button').count())>=8,'shared hoodie link initializes color swatches');
  assert(await page.locator('#v2-print-choice').isVisible(),'shared hoodie link initializes print options');
  assert.equal(errors.length,0,'unexpected browser page errors: '+errors.join('; '));
- console.log('STEDMAN V2 BROWSER PASS',JSON.stringify({models:75,poloCount,dragX:x,mobile:true,printOptionPrices:[3,6],colorSwatches:true,photoGallery:true,sizeGuide:true}));
+ console.log('STEDMAN V2 BROWSER PASS',JSON.stringify({models:75,poloCount,dragX:x,mobile:true,printOptionPrices:[0,3,6],universalBack:true,noSliders:true,colorSwatches:true,photoGallery:true,sizeGuide:true}));
 }finally{await browser.close()}
