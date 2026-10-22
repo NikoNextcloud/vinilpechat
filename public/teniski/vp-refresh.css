@@ -1,0 +1,45 @@
+/* Garment configurator shares the bright modern visual language of Vinilpechat 3.0. */
+:root{--vp-green:#007f66;--vp-ink:#122338;color:#14243b;background:#f7fbfd}
+body{font-family:Manrope,system-ui,sans-serif;background:radial-gradient(circle at 4% 0%,#e7f7ff 0,transparent 42%),radial-gradient(circle at 95% 30%,#fdf0ff 0,transparent 34%),#f8fbfc;color:var(--vp-ink)}
+.vp-shirt-header{position:sticky;top:0;z-index:30;min-height:78px;padding:12px max(25px,calc((100vw - 1280px)/2));gap:25px;border-bottom:1px solid #e8eef1;background:rgba(255,255,255,.95);backdrop-filter:blur(18px)}
+.vp-shirt-brand{display:flex;gap:11px;align-items:center;font-size:23px;color:#14243b;letter-spacing:-.06em}
+.vp-shirt-brand-icon{width:37px;height:37px;display:grid;place-items:center;font-size:26px;color:#fff;border-radius:13px;background:conic-gradient(#04bbce,#4275ff,#ed48a7,#f9b34a,#00bca0,#04bbce)}
+.vp-shirt-brand small{display:block;font-size:8px;letter-spacing:.15em;color:#42646d;font-weight:800}
+.vp-shirt-nav{display:flex;gap:clamp(12px,2vw,30px);align-items:center}
+.vp-shirt-nav a{font-size:12px;font-weight:760;color:#3c5662;padding:9px 0;border-bottom:2px solid transparent}
+.vp-shirt-nav a[aria-current],.vp-shirt-nav a:hover{border-bottom-color:#06a388;color:#055f53}
+.vp-shirt-back{font-size:11px;font-weight:800;border:1px solid #d5e9e5;color:#08735f;padding:11px 13px;border-radius:12px}
+main{width:min(1290px,calc(100% - 38px))}
+.intro{position:relative;margin-top:20px;padding:38px 30px!important;border-radius:26px;background:radial-gradient(ellipse at 88% 0%,#f7d9fb,transparent 38%),radial-gradient(ellipse at 3% 88%,#e6fbff,transparent 36%),linear-gradient(110deg,#f0fbff,#fff,#faf2ff);overflow:hidden;box-shadow:0 15px 35px #2640540c}
+.intro:after{content:"✦";position:absolute;right:6%;top:18%;font-size:100px;color:#d8bff5;opacity:.26;transform:rotate(-12deg);pointer-events:none}
+.intro .eyebrow{color:#087c75;letter-spacing:.16em}
+.intro h1{font-weight:900;color:#12243c;letter-spacing:-.055em;margin:10px 0 5px}
+.intro h1 span{background:linear-gradient(90deg,#208deb,#7358ee,#f14d95);background-clip:text;-webkit-background-clip:text;color:transparent}
+.vp-shirt-short{font-size:14px;color:#607581;max-width:650px;margin:5px 0 0}
+.catalog h2{font-size:24px;letter-spacing:-.04em}
+#v2-categories{gap:9px}
+#v2-categories button{border-radius:999px!important;background:white;border:1px solid #e4edef;box-shadow:0 4px 13px #21445609}
+#v2-categories button[aria-pressed=true]{background:linear-gradient(120deg,#008367,#00977a)!important;box-shadow:0 10px 19px #04806c26;color:#fff}
+.catalog-tools input,.catalog-tools select{border-radius:13px!important;border:1px solid #dde8eb!important;background:white;transition:box-shadow .2s}
+.catalog-tools input:focus,.catalog-tools select:focus{outline:2px solid #02a58a;outline-offset:1px}
+.cards{gap:17px}
+.card{border:1px solid #e3ebef!important;border-radius:21px!important;background:white!important;padding:12px!important;box-shadow:0 10px 25px #1944590b!important;transition:transform .2s,box-shadow .2s!important;overflow:hidden}
+.card:hover{transform:translateY(-5px)!important;box-shadow:0 22px 38px #1741591c!important}
+.card img{width:100%;background:#f3f6f7;border-radius:14px;object-fit:contain}
+.card strong{letter-spacing:-.025em;color:#102a3d}
+.card .tag{border-radius:999px}
+#customizer .preview-pane,#customizer .controls{background:#fff;border:1px solid #e7ecf0;border-radius:24px!important;box-shadow:0 14px 38px #133c4a14}
+#customizer .preview-pane{overflow:hidden}
+#customizer .controls>h2{color:#12263b;letter-spacing:-.05em}
+.v2-gallery-top strong,.v2-section-head strong,.v2-color-choice strong{color:#086d66}
+.v2-print-card{border-radius:17px!important;border:1px solid #e3e9ed!important;overflow:hidden;box-shadow:0 8px 19px #254b580a;transition:transform .2s,box-shadow .2s}
+.v2-print-card:hover{transform:translateY(-2px)}
+.v2-print-card[aria-pressed=true]{border-color:#00a17e!important;box-shadow:0 0 0 3px #00a48019,0 10px 22px #00867514!important}
+.v2-print-card img{background:linear-gradient(155deg,#e7f9fc,#f7ecfb,#f5faf7)}
+.v2-size-cell{border-radius:14px!important}
+.v2-size-cell:focus-within{outline:2px solid #18a58b}
+.v2-checkout,.v2-order-summary,.v2-size-guide{border-radius:18px!important}
+.v2-checkout button[type=submit]{border-radius:14px!important;background:linear-gradient(105deg,#03785e,#00ad8d)!important}
+.v2-color-swatch[aria-pressed=true]{box-shadow:0 0 0 3px #10c49f,0 0 0 6px #e6f9f4!important}
+@media(max-width:960px){.vp-shirt-nav{display:none}.vp-shirt-header{min-height:70px}.intro{margin-top:15px}}
+@media(max-width:620px){.vp-shirt-header{padding:13px 20px}.vp-shirt-brand{font-size:20px}.vp-shirt-brand-icon{width:30px;height:30px;font-size:20px}.intro{padding:30px 20px!important}.intro h1{font-size:clamp(33px,8vw,52px)}.intro:after{font-size:55px;top:30%}.vp-shirt-short{font-size:12px}#customizer .preview-pane,#customizer .controls{border-radius:18px!important}}
