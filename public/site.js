@@ -46,6 +46,7 @@ let designInquiryDraft='';
 function renderChoiceLanding(){
  document.title='Печат на винил, тениски и фолио с твой дизайн | Vinilpechat';
  const img=id=>'https://www.stedman.eu/public/images/products/2026/'+id+'/'+id+'_model.jpg';
+ const packshot=id=>'https://www.stedman.eu/public/images/products/2026/'+id+'/'+id+'_WHI.jpg';
  const types=[
   {name:'Тениски',id:'ST2000',cat:'Тениски',hint:'Твой принт'},
   {name:'Поло',id:'ST3000',cat:'Поло',hint:'Елегантно'},
@@ -105,7 +106,7 @@ function renderChoiceLanding(){
  <section class="v3-category-block container" aria-labelledby="v3-cat-title">
   <div class="v3-block-head"><div><span class="v3-section-kicker">ПЕЧАТ ВЪРХУ ОБЛЕКЛО</span><h2 id="v3-cat-title">Избери какво да създадем</h2></div><a href="/teniski/" class="v3-text-link">Всички 75 модела <span aria-hidden="true">↗</span></a></div>
   <div class="v3-category-strip">${types.map(c=>`<a class="v3-category-tile" href="${categoryLink(c.cat,c.gender)}" aria-label="${c.name}">
-   <span class="v3-category-photo"><img loading="lazy" decoding="async" src="${img(c.id)}" alt=""></span>
+   <span class="v3-category-photo"><img loading="lazy" decoding="async" src="${img(c.id)}" data-v3-fallback="${packshot(c.id)}" alt=""></span>
    <span class="v3-category-name">${c.name}<span aria-hidden="true">↗</span></span>
    <small>${c.hint}</small></a>`).join('')}</div>
  </section>
@@ -119,7 +120,7 @@ function renderChoiceLanding(){
    <div class="v3-block-head"><div><span class="v3-section-kicker">ОБЛЕКЛО STEDMAN</span><h2 id="v3-featured-title">Избрани модели <span class="v3-count-chip">75 модела</span></h2>
     <p>Персонализирай дрехата с лого отпред или отпред и отзад.</p></div><a href="/teniski/" class="v3-text-link">Виж целия каталог ↗</a></div>
    <div class="v3-featured-grid">${featured.map((m,i)=>`<a class="v3-featured-card" href="/teniski/#model-${m.id}">
-    <div class="v3-featured-photo"><span class="v3-featured-badge">${m.tag}</span><img loading="lazy" decoding="async" src="${img(m.id)}" alt="${m.name}"><span class="v3-featured-arrow" aria-hidden="true">↗</span></div>
+    <div class="v3-featured-photo"><span class="v3-featured-badge">${m.tag}</span><img loading="lazy" decoding="async" src="${img(m.id)}" data-v3-fallback="${packshot(m.id)}" alt="${m.name}"><span class="v3-featured-arrow" aria-hidden="true">↗</span></div>
     <div class="v3-featured-content"><strong>${m.id}</strong><span>${m.name}</span><small>${m.label} · Избери размер за цена</small>
      <span class="v3-card-colors" aria-label="Примерна цветова палитра">${m.swatches.map(color=>`<i style="background:${color}"></i>`).join('')}<em>Цветове според модела</em></span></div></a>`).join('')}</div>
  </section>
