@@ -46,9 +46,18 @@ let designInquiryDraft='';
 function renderChoiceLanding(){
  document.title='Печат на винил по размер, брезенти и покривала | Vinilpechat';
  $('#main').innerHTML=`<section class="choice-landing container" aria-labelledby="choose-service-title">
- <div class="choice-intro"><span class="choice-eyebrow">Винил & Брезенти · Рекламни решения</span>
- <h1 id="choose-service-title">Печат на винил по размер и брезенти</h1>
- <p>Избери вида винил и продължи към бърза цена или продуктовия каталог.</p></div>
+ <div class="choice-intro vp-hero">
+ <div class="vp-hero-copy"><span class="choice-eyebrow">VINILPECHAT · ПЕЧАТ БЕЗ ГРАНИЦИ</span>
+ <h1 id="choose-service-title">Твоята идея.<br><span>Твоят дизайн.</span></h1>
+ <p>Създай нещо уникално — от тениска със собствена щампа до професионален рекламен винил. Избери продукт и ни изпрати своята идея.</p>
+ <div class="vp-hero-buttons"><a href="/teniski/" class="vp-primary-cta">Създай своя тениска <span aria-hidden="true">↗</span></a><a href="#design" data-go="design" class="vp-secondary-cta">Печат на винил по размер</a></div>
+ <div class="vp-hero-highlights"><span>✦ По твой дизайн</span><span>✦ Разнообразие от модели</span><span>✦ Лесна заявка</span></div></div>
+ <div class="vp-hero-art" aria-label="Модел с персонализирана тениска">
+ <div class="vp-hero-art-glow"></div>
+ <img src="https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model.jpg" loading="eager" decoding="async" alt="Модели с тениски Stedman за персонален печат">
+ <div class="vp-hero-float vp-hero-float--top"><span>✳</span><strong>Твоят стил,<br>твоите правила</strong></div>
+ <div class="vp-hero-float vp-hero-float--bottom"><strong>75 модела</strong><small>Облекло за персонален печат</small></div>
+ </div></div>
  <div class="choice-grid">
  <a class="choice-card choice-card--design" href="#design" data-go="design">
   <div class="choice-art" aria-hidden="true"><svg viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="19" y="24" width="155" height="101" rx="13" fill="#E8F4EA"/><rect x="29" y="34" width="135" height="81" rx="8" fill="#FDFDF8"/><path d="M33 98L66 68L89 89L116 48L160 105H33Z" fill="#6EB797"/><circle cx="62" cy="57" r="12" fill="#F2B863"/><rect x="19" y="18" width="155" height="14" rx="7" fill="#2E8B6B"/><path d="M45 130H166" stroke="#174D3A" stroke-width="7" stroke-linecap="round"/><path d="M148 27v21m0-21h21" stroke="#174D3A" stroke-width="3" stroke-linecap="round"/></svg></div>
@@ -69,7 +78,8 @@ function renderChoiceLanding(){
   <span class="choice-cta">Създай своя тениска <span aria-hidden="true">↗</span></span>
  </a>
  </div>
- <p class="choice-trust">Всички услуги са без онлайн предплащане. Уточняваме заявката преди изпълнение.</p>
+ <div class="vp-benefits"><span><b>✦ Красив печат</b><small>Цветни идеи и индивидуална визия</small></span><span><b>♧ Лесна поръчка</b><small>Избери модел, цветове и размери</small></span><span><b>✧ Без предплащане</b><small>Уточняваме всичко преди изработка</small></span><span><b>↗ Лесен контакт</b><small>Изпрати ни своето запитване</small></span></div>
+<p class="choice-trust">Всички услуги са без онлайн предплащане. Уточняваме заявката преди изпълнение.</p>
  </section>`;
 }
 const designFormat=n=>Number(n).toLocaleString('bg-BG',{maximumFractionDigits:2});
