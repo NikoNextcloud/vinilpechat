@@ -55,6 +55,16 @@ try{
  assert(!(await page.locator('#print-zone').evaluate(el=>el.classList.contains('v2-preview-hidden'))),'logo overlay returns for front packshot');
  await page.locator('#back-to-models').click();
  assert(await page.locator('[data-model="ST2000"]').isVisible(),'can return to catalog');
+ await page.locator('[data-model="ST4500"]').click();
+ assert((await page.locator('#v2-color-swatches button').count())>=8,'hoodie has official color swatches');
+ await page.locator('[data-shade="SRE"]').click();
+ assert((await page.locator('#v2-selected-color').innerText()).includes('Червено'),'red hoodie swatch works');
+ await page.locator('#v2-size-guide summary').click();
+ assert((await page.locator('#v2-size-table').innerText()).includes('55'),'hoodie has verified M chest width in centimeters');
+ await page.locator('[data-print-mode="both"]').click();
+ assert((await page.locator('#total-price').innerText()).includes('35,60')||(await page.locator('#total-price').innerText()).includes('35.60'),'hoodie print quote matches server, 35.60 euro');
+ await page.locator('#back-to-models').click();
+
  await page.setViewportSize({width:390,height:844});
  await page.locator('[data-model="ST2000"]').click();
  assert(await page.locator('#v2-order-form').isVisible(),'mobile checkout visible');
