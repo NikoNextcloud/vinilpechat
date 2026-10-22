@@ -1,0 +1,44 @@
+name: Stedman V2 browser smoke
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/teniski/**'
+      - 'lib/stedman-*.js'
+      - 'tests/stedman-v2.test.js'
+      - 'scripts/e2e-stedman-v2.mjs'
+      - '.github/workflows/stedman-v2-browser.yml'
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install store and browser test dependencies
+        run: |
+          npm install --ignore-scripts --no-package-lock --no-audit --no-fund
+          npm install --no-save --ignore-scripts --no-package-lock --no-audit --no-fund playwright@1.56.1
+      - name: Install Chromium
+        run: npx playwright install chromium --with-deps
+      - name: Smoke test catalog, mixed sizes and artwork controls
+        run: |
+          node server.js > /tmp/vinilpechat-local-server.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health > /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/e2e-stedman-v2.mjs
+
+      - name: Store visual regression screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stedman-v2-detail-screenshots
+          path: test-output/*.png
+          if-no-files-found: ignore
+          retention-days: 7
