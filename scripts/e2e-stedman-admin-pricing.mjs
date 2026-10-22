@@ -46,6 +46,7 @@ try{
  assert.equal(postedProduct.products[0].sale_price,27.8);
 
  await page.locator('[data-admin-tab="variants"]').click();
+ await page.locator('.admin-variant-group summary').first().click();
  await page.locator('[data-variant-supplier-price]').waitFor({state:'visible'});
  await page.locator('[data-variant-supplier-price]').fill('6.75');
  await page.locator('[data-variant-price]').fill('15.50');
