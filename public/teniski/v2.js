@@ -494,6 +494,6 @@
  showCatalog=function(){origShowCatalog();if(intro)intro.hidden=false;activeCategory='Всички';renderModels();
   categories.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.shirtCat==='Всички')));};
  // If a model was preselected through the URL, ensure V2 quantities are initialized.
- if(selected){checkedSizes.set(availableSizes().includes('M')?'M':availableSizes()[0],1);renderSizes();}
+ if(selected)openModel(selected.id);
  renderModels();
 })();
