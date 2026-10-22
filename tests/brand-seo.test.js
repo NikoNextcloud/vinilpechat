@@ -19,7 +19,7 @@ test('storefront stays indexable with V3 spectrum branding and a compact icon',(
  const logo=fs.readFileSync(path.join(pub,'assets/vinilpechat-spectrum-logo.svg'));
  const icon=fs.readFileSync(path.join(pub,'favicon.png'));
  assert.match(logo.toString('utf8'),/<svg[^>]*viewBox="0 0 88 88"/);
- assert.match(logo.toString('utf8'),/gradient/);
+ assert.match(logo.toString('utf8'),/linearGradient/);
  assert.equal(icon.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
  assert.ok(logo.length<30000,'Website spectrum logo should load quickly');
  assert.ok(icon.length<5000,'Favicon should be compact');
