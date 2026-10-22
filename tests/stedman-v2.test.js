@@ -118,3 +118,33 @@ test('Official shirt and hoodie size charts and shade lists match client data',(
  assert.equal(q.total,35.6);
  assert.equal(q.color_name,'Червено');
 });
+
+
+test('No printing selection has zero printing surcharge, while explicit choices add 3 or 6 euros',()=>{
+ const basic={model_id:'ST2000',color_code:'WHI',shade_code:'WHI',
+  sizes:[{size:'M',quantity:2},{size:'3XL',quantity:1}]};
+ const pos={x:50,y:40,size:62,rotation:0};
+ const empty=quote({...basic,print_mode:'none',prints:{}});
+ const front=quote({...basic,print_mode:'front',prints:{front:{position:pos}}});
+ const both=quote({...basic,print_mode:'both',prints:{front:{position:pos},back:{position:pos}}});
+ assert.equal(empty.total,14.8);
+ assert.equal(empty.printCents,0);
+ assert.equal(front.total,23.8);
+ assert.equal(front.printCents,300);
+ assert.equal(both.total,32.8);
+ assert.equal(both.printCents,600);
+ assert.throws(()=>quote({...basic,print_mode:'none',prints:{front:{position:pos}}}),/страни/);
+});
+test('Drag-only product UI has no sliders, rotation buttons or resize handles',()=>{
+ const html=fs.readFileSync(path.join(__dirname,'../public/teniski/index.html'),'utf8');
+ const js=fs.readFileSync(path.join(__dirname,'../public/teniski/v2.js'),'utf8');
+ assert.doesNotMatch(html,/type="range"/);
+ assert.doesNotMatch(html,/v2-resize-handle/);
+ assert.doesNotMatch(html,/v2-center-art|v2-reset-art|v2-rotation/);
+ assert.doesNotMatch(js,/v2-center-art|v2-reset-art|v2-rotation/);
+ assert.match(html,/id="v2-print-setup"[^>]*hidden/);
+ assert.match(html,/data-print-mode="front" aria-pressed="false"/);
+ assert.match(html,/data-print-mode="both" aria-pressed="false"/);
+ assert.match(js,/let printMode='none'/);
+ assert.match(js,/ST2000\/ST2000_model_b\.jpg/);
+});
