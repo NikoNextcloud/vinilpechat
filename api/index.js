@@ -6,6 +6,7 @@ const {designQuote}=require('../lib/design-pricing.js');
 const seo=require('../lib/seo-pages.js');
 const shirts=require('../lib/stedman-pricing.js');
 const shirtOrders=require('../lib/stedman-orders.js');
+const shirtPrices=require('../lib/stedman-price-store.js');
 const MAX_BODY = 5 * 1024 * 1024;
 const json = (res,status,obj) => {res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.status(status).json(obj);};
 const msg = (res,status,message) => json(res,status,{error:message});
@@ -100,9 +101,16 @@ module.exports=async function handler(req,res){
     if(Array.isArray(route))route=route.join('/');
     try{
         if(route==='health')return json(res,200,{ok:true,configured:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),catalogReady:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),ordersReady:!!process.env.SUPABASE_SERVICE_ROLE_KEY,adminReady:!!(process.env.SUPABASE_SERVICE_ROLE_KEY&&process.env.ADMIN_EMAIL&&process.env.SESSION_SECRET)});
+        if(route==='shirts/prices'&&req.method==='GET'){
+          const {db,privileged}=clients();
+          const overrides=privileged?await shirtPrices.loadOverrides(db):new Map();
+          return json(res,200,{ok:true,prices:shirtPrices.publicPrices(overrides)});
+        }
         if(route==='shirts/quote'&&req.method==='POST'){
           if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
-          return json(res,200,{ok:true,quote:shirts.quote(await body(req))});
+          const {db,privileged}=clients();
+          const overrides=privileged?await shirtPrices.loadOverrides(db):new Map();
+          return json(res,200,{ok:true,quote:shirts.quote(await body(req),overrides)});
         }
         if(route==='design/quote'&&req.method==='POST'){
             if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
@@ -147,6 +155,10 @@ module.exports=async function handler(req,res){
         if(req.method==='GET'&&route==='admin/session'){
             const token=parseCookie(req,'vinyl_auth');if(!token)return json(res,200,{authenticated:false,csrf:''});const user=await auth.auth.getUser(token);const allow=str(process.env.ADMIN_EMAIL||'',254).toLowerCase();const ok=!!(allow&&user?.data?.user?.email?.toLowerCase()===allow&&user.data.user.email_confirmed_at);return json(res,200,{authenticated:ok,csrf:ok?sessionCsrf(token):''});
         }
+        if(route==='admin/shirt-prices'&&req.method==='GET'){
+          if(!await admin(req,db,auth,res))return;
+          return json(res,200,{ok:true,models:shirtPrices.modelRows(await shirtPrices.loadOverrides(db))});
+        }
         if(route==='admin/data'&&req.method==='GET'){
             if(!await admin(req,db,auth,res))return;return json(res,200,await adminData(db));
         }
@@ -161,16 +173,17 @@ module.exports=async function handler(req,res){
             const usage=bad(await db.rpc('vinyl_store_usage'),'usage');
             return json(res,200,{usage,limits:{database_bytes:500*1024*1024,storage_bytes:1024*1024*1024},plan:'free'});
         }
-        if(['admin/save','admin/order','admin/upload','admin/variants'].includes(route)&&req.method==='POST'){
+        if(['admin/save','admin/order','admin/upload','admin/variants','admin/shirt-prices'].includes(route)&&req.method==='POST'){
             if(!await admin(req,db,auth,res,true))return;const d=await body(req);
             if(route==='admin/save')return json(res,200,await saveProducts(db,d));
+            if(route==='admin/shirt-prices')return json(res,200,await shirtPrices.saveOverrides(db,d.rows));
             if(route==='admin/variants'){
                 if(!Array.isArray(d.variants)||d.variants.length>800) return msg(res,400,'Невалиден списък с варианти');
                 const seen=new Set();
                 for(const v of d.variants){const id=Number(v.product_id),key=str(v.variant_key,500);if(!Number.isInteger(id)||id<1||!key||seen.has(id+':'+key))return msg(res,400,'Невалиден или дублиран вариант');seen.add(id+':'+key);}
                 for(let i=0;i<d.variants.length;i+=12){
                     await Promise.all(d.variants.slice(i,i+12).map(async v=>{
-                      const values={sale_price:price(v.sale_price),manual_sale_price:v.manual_sale_price===true,active:!!v.active,price_verification_needed:!!v.price_verification_needed};
+                      const values={supplier_price:price(v.supplier_price),sale_price:price(v.sale_price),manual_sale_price:v.manual_sale_price===true,active:!!v.active,price_verification_needed:!!v.price_verification_needed};
                       const changed=bad(await db.from('vinyl_variants').update(values).eq('product_id',Number(v.product_id)).eq('variant_key',v.variant_key).select('product_id'),'variant pricing');
                       if(changed.length!==1)throw Object.assign(new Error('Невалиден вариант'),{status:400});
                     }));
