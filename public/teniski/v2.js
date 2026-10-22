@@ -5,6 +5,7 @@
  const el=id=>document.getElementById(id);
  const money2=n=>Number(n).toLocaleString('bg-BG',{style:'currency',currency:'EUR'});
  const checkedSizes=new Map();
+ let orderBackendReady=false;
  const ORDER=['3XS','2XS','XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
  const classifications=[
   ['Тениски',m=>/t-shirt|classic-t|comfort-t|lux-t|stretch-t|cotton touch|ben |megan |morgan /i.test(m.name)&&!/polo|hoodie|fleece|jacket|top|tank/i.test(m.name)],
@@ -114,6 +115,22 @@
  '<p id="v2-order-feedback" role="status" aria-live="polite" class="v2-feedback"></p>'+
  '<button id="v2-viber" type="button" class="secondary">Или направи запитване във Viber</button>';
  el('download-request').before(form);
+
+ // Never pretend a preview without the production service key has saved an order.
+ fetch('/api/health',{credentials:'same-origin'}).then(r=>r.json()).then(status=>{
+   orderBackendReady=status.ordersReady===true;
+   if(!orderBackendReady){
+     el('v2-place-order').disabled=true;
+     el('v2-place-order').textContent='Онлайн заявки — в подготовка';
+     el('v2-order-feedback').textContent='В тази тестова среда файловете не се записват. Използвай бутона за Viber, ако искаш да обсъдим модела.';
+   }
+   describe();
+ }).catch(()=>{
+   orderBackendReady=false;
+   el('v2-place-order').disabled=true;
+   el('v2-order-feedback').textContent='Онлайн поръчките не са налични в момента. Може да изпратиш запитване във Viber.';
+ });
+
  for(const old of ['download-request','viber','copy-request','request-text','message-hint'])el(old)?.classList.add('v2-legacy-hidden');
 
  const transformControls=document.createElement('div');
@@ -202,7 +219,7 @@
    const text=input.closest('label')?.querySelector('small');
    if(text&&price!=null)text.textContent=money2(price/100)+'/бр.';
   }
-  el('v2-place-order').disabled=!valid;
+  el('v2-place-order').disabled=!valid||!orderBackendReady;
   el('v2-viber').disabled=!valid;
   const text='Здравейте! Запитване за Stedman '+selected.id+' — '+selected.bg+
    '\nЦвят: '+color()?.name+'\nРазмери: '+lines.map(l=>l.size+': '+l.quantity+' бр.').join(', ')+
@@ -255,7 +272,7 @@
   reader.readAsDataURL(file);
  });
  form.addEventListener('submit',async e=>{
-  e.preventDefault();if(!form.reportValidity())return;
+  e.preventDefault();if(!orderBackendReady||!form.reportValidity())return;
   const feedback=el('v2-order-feedback'),button=el('v2-place-order');
   const request=formData();
   if(!request.sizes.length){feedback.textContent='Избери размер и количество.';return;}
