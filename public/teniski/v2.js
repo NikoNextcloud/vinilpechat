@@ -61,6 +61,17 @@
    for(const b of categories.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b===button));
    renderModels();
  });
+ // Category links across Vinilpechat open a prefiltered catalog, not a broken tab.
+ const initialFilters=new URLSearchParams(location.search);
+ const requestedCategory=initialFilters.get('category');
+ if(categoryNames.includes(requestedCategory)){
+   activeCategory=requestedCategory;
+   for(const button of categories.querySelectorAll('button'))
+     button.setAttribute('aria-pressed',String(button.dataset.shirtCat===requestedCategory));
+ }
+ const requestedGender=initialFilters.get('gender');
+ if(['Мъже','Жени','Унисекс','Деца'].includes(requestedGender))
+   el('model-gender').value=requestedGender;
 
 
  // Visible product-detail controls: print placement, real checked colors and photography.
