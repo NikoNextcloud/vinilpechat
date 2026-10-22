@@ -5,6 +5,13 @@ on:
     paths:
       - 'public/teniski/**'
       - 'lib/stedman-*.js'
+      - 'public/brezenti/**'
+      - 'tests/shirt-links.test.js'
+      - 'tests/covers-catalog.test.js'
+      - 'scripts/e2e-direct-catalog.mjs'
+      - 'vercel.json'
+      - 'api/index.js'
+      - 'server.js'
       - 'tests/stedman-v2.test.js'
       - 'scripts/e2e-stedman-v2.mjs'
       - 'scripts/e2e-stedman-v2-all.mjs'
@@ -42,6 +49,7 @@ jobs:
           node scripts/e2e-stedman-v2-all.mjs
           node scripts/e2e-stedman-admin-pricing.mjs
           node scripts/e2e-v3-design.mjs
+          node scripts/e2e-direct-catalog.mjs
 
       - name: Store visual regression screenshots
         if: always()

@@ -41,7 +41,9 @@ test('service landing pages are crawlable, unique and navigable',()=>{
  assert.match(vinyl,/Печат на винил по размер/);
  assert.match(tarps,/Брезенти и покривни платнища/);
  assert.match(vinyl,/href="\/#design"/);
- assert.match(tarps,/href="\/#catalog"/);
+ assert.match(tarps,/id="cover-grid"/);
+ assert.match(tarps,/src="\/brezenti\/catalog.js" defer/);
+ assert.doesNotMatch(tarps,/class="btn" href="\/#catalog"/);
  assert.match(vinyl,/"@type":"Service"/);
  assert.match(tarps,/"@type":"CollectionPage"/);
  assert.match(vinyl,/rel="canonical"/);

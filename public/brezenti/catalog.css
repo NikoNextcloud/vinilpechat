@@ -1,0 +1,35 @@
+/* Direct materials catalog — Vinilpechat V3 */
+.cover-main{max-width:1320px;padding:34px 24px 78px}
+.cover-intro{margin-bottom:24px}
+.cover-intro .eyebrow{font-size:11px;letter-spacing:2px}
+.cover-intro h1{margin:8px 0 12px;font-size:clamp(33px,4.5vw,55px);line-height:1.12;color:#152941}
+.cover-intro p{max-width:820px;margin:0;font-size:14px;line-height:1.7;color:#647b8c}
+.cover-catalog-section{margin:0}
+.cover-section-header{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:15px}
+.cover-section-header h2{font-size:27px;letter-spacing:-1px;margin:0;color:#182b42}
+#cover-count{font-size:12px;font-weight:800;color:#087b65}
+.cover-toolbar{display:grid;grid-template-columns:minmax(0,2fr) minmax(220px,1fr);gap:14px;padding:19px;border:1px solid #e5edf3;border-radius:20px;background:#fff;box-shadow:0 9px 32px #142f4c09}
+.cover-toolbar label{display:flex;flex-direction:column;gap:7px;color:#35536b;font-weight:850;font-size:12px}
+.cover-toolbar input,.cover-toolbar select{width:100%;border:1px solid #dce6ee;border-radius:12px;padding:13px 14px;background:#f8fafc;font:inherit;color:#14273b;outline-offset:2px}
+.cover-status{font-size:13px;color:#60768b;margin:18px 3px}
+.cover-status:empty{display:none}
+.cover-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:20px}
+.cover-product{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid #e4eaf1;border-radius:22px;background:#fff;box-shadow:0 12px 32px #152d4809;transition:transform .2s,box-shadow .2s}
+.cover-product:hover{transform:translateY(-3px);box-shadow:0 17px 35px #152d481c}
+.cover-photo{display:grid;place-items:center;height:205px;padding:13px;background:linear-gradient(130deg,#f3f9fe,#f4f7f9)}
+.cover-photo img{width:100%;height:100%;object-fit:contain}
+.cover-content{display:flex;flex:1;flex-direction:column;min-width:0;padding:16px 17px 18px}
+.cover-product-category{display:block;margin-bottom:8px;color:#0c8974;font-size:11px;font-weight:850;line-height:1.4}
+.cover-product-title{display:block;color:#182c42;font-size:15px;line-height:1.43;letter-spacing:-.2px;font-weight:900;text-decoration:none;overflow-wrap:anywhere}
+.cover-product-title:hover{color:#08765c}
+.cover-product-desc{color:#718398;font-size:12px;line-height:1.6;margin:9px 0 17px;overflow-wrap:anywhere}
+.cover-product-footer{display:flex;flex-direction:column;align-items:flex-start;gap:11px;margin-top:auto;border-top:1px solid #edf1f5;padding-top:13px}
+.cover-price-stack{display:flex;flex-direction:column;gap:1px}
+.cover-price{font-weight:900;color:#132941;font-size:19px}
+.cover-price-note{color:#7b8d9c;font-size:10px}
+.cover-open{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:11px 16px;background:linear-gradient(105deg,#08a17b,#06694f);color:#fff!important;border-radius:12px;text-decoration:none;font-size:12px;font-weight:900}
+.cover-open:hover{filter:brightness(.95)}
+@media(max-width:1000px){.cover-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.cover-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cover-photo{height:172px}.cover-toolbar{grid-template-columns:1fr}.cover-main{padding:24px 17px 58px}}
+@media(max-width:430px){.cover-grid{grid-template-columns:1fr}.cover-product{flex-direction:row;min-height:180px}.cover-photo{width:40%;height:auto;min-height:180px;flex-shrink:0}.cover-content{padding:13px}.cover-product-title{font-size:13px}.cover-product-desc{margin:7px 0 10px;font-size:11px}.cover-price{font-size:16px}.cover-open{font-size:11px;padding:10px 12px}.cover-section-header h2{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.cover-product{transition:none}}
