@@ -46,9 +46,9 @@ function updateShirtImage(){
  // Model-specific, checked public photos from the official Stedman collection.
  $('shirt-photo').src=activeSide==='front'
   ?(selected.packshots?.[photoCode]||selected.photoFront||selected.image)
-  :(selected.photoBack||'/teniski/back-placeholder.svg');
- $('shirt-photo').alt=activeSide==='front'?'Продуктов изглед отпред '+selected.id:selected.photoBack?'Продуктов изглед отзад '+selected.id:'Схематичен гръб на тениска';
- $('preview-side-label').textContent=activeSide==='front'?'Преглед отпред — продуктова снимка':selected.photoBack?'Преглед отзад — продуктова снимка':'Преглед отзад — схематично изображение';
+  :'/teniski/assets/universal-back-white.webp';
+ $('shirt-photo').alt=activeSide==='front'?'Продуктов изглед отпред '+selected.id:'Бял изглед отзад (универсална снимка)';
+ $('preview-side-label').textContent=activeSide==='front'?'Преглед отпред — продуктова снимка':'Преглед отзад — универсална бяла тениска';
 }
 function updateArt(){
  const a=$('artwork'),state=artwork[activeSide];
