@@ -25,7 +25,7 @@ test('Mixed sizes apply the selected EUR 3 front / EUR 6 both print package',()=
  assert.equal(q.prints.front.rotation,0);
 });
 test('Reject invalid sizes, quantity, color, models and artwork geometry',()=>{
- const base={model_id:'ST2000',color_code:'WHI',sizes:[{size:'M',quantity:1}],print_mode:'front',prints:{front:{position:{x:50,y:40,size:62,rotation:0}}}}};
+ const base={model_id:'ST2000',color_code:'WHI',sizes:[{size:'M',quantity:1}],print_mode:'front',prints:{front:{position:{x:50,y:40,size:62,rotation:0}}}};
  const invalid=[
   {...base,model_id:'ST0000'},
   {...base,color_code:'ORANGE'},
