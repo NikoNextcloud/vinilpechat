@@ -11,22 +11,24 @@ const base='http://127.0.0.1:3000';
 const goto=async path=>{await page.goto(base+path,{waitUntil:'domcontentloaded'});};
 try{
  await goto('/');
- await page.locator('.v3-hero h1').waitFor();
- assert.equal(await page.locator('.v3-category-tile').count(),7,'seven garment categories');
- assert.equal(await page.locator('.v3-featured-card').count(),4,'four featured real models');
- assert.equal(await page.locator('.v3-service-tile').count(),3,'three other services');
- assert.equal(await page.locator('#cartOpen').count(),1,'original functional cart exists');
- assert.equal(await page.locator('#focusSearch').count(),1);
+ await page.locator('.v3-primary-card').first().waitFor();
+ assert.equal(await page.locator('.v3-primary-card').count(),3,'homepage has exactly three main categories');
+ assert.equal(await page.locator('#main section').count(),1,'homepage contains no other content sections');
+ assert.equal(await page.locator('.v3-hero,.v3-category-block,.v3-featured,.v3-trust-strip,.v3-services').count(),0,'other homepage sections removed');
+ assert.equal(await page.locator('.v3-primary-print strong').innerText(),'Печат на винил');
+ assert.equal(await page.locator('.v3-primary-cover strong').innerText(),'Винили за покриване');
+ assert.equal(await page.locator('.v3-primary-shirts strong').innerText(),'Тениски за печат');
+ assert.equal(await page.locator('.v3-primary-print').getAttribute('href'),'#design');
+ assert.equal(await page.locator('.v3-primary-cover').getAttribute('href'),'/brezenti/');
+ assert.equal(await page.locator('.v3-primary-shirts').getAttribute('href'),'/teniski/');
+ assert.equal(await page.locator('#instagram-posts .social-card').count(),2,'Instagram and Facebook cards remain');
+ assert(await page.locator('#instagram-posts').isVisible(),'social media visible on homepage');
+ assert.equal(await page.locator('#cartOpen').count(),1,'original cart available');
+ assert.equal(await page.locator('#focusSearch').count(),1,'catalog search available');
  assert.equal(await page.locator('.brand-logo').getAttribute('src'),'/assets/vinilpechat-spectrum-logo.svg');
- assert(await page.locator('.v3-hero').isVisible());
- const heroImg=page.locator('.v3-hero-photography img');
- assert(heroImg&&await heroImg.getAttribute('src'));
  await page.screenshot({path:'test-output/v3-home-desktop.png',fullPage:true});
- await page.locator('[data-v3-side="back"]').click();
- assert.equal(await page.locator('.v3-studio-shirt').getAttribute('src'),'/teniski/assets/universal-back-white.webp');
- assert.equal(await page.locator('.v3-studio-mark').isVisible(),false);
- await page.locator('[data-v3-side="front"]').click();
- assert(await page.locator('.v3-studio-mark').isVisible());
+ await page.locator('.v3-primary-print').click();
+ await page.locator('#designCalculator').waitFor({state:'visible'});
 
  await goto('/#catalog');
  await page.locator('#catalogSearch').waitFor();
@@ -66,7 +68,9 @@ try{
 
  await page.setViewportSize({width:390,height:844});
  await goto('/');
- await page.locator('.v3-hero').waitFor();
+ await page.locator('.v3-primary-card').first().waitFor();
+ assert.equal(await page.locator('.v3-primary-card').count(),3,'mobile has exactly the three top-level categories');
+ assert(await page.locator('#instagram-posts').isVisible(),'mobile social section visible');
  const dimensions=await page.evaluate(()=>({width:document.documentElement.scrollWidth,view:window.innerWidth}));
  assert(dimensions.width<=dimensions.view+5,'mobile home has no horizontal page overflow: '+JSON.stringify(dimensions));
  await page.screenshot({path:'test-output/v3-home-mobile.png',fullPage:true});
@@ -80,7 +84,7 @@ try{
  await page.screenshot({path:'test-output/v3-clothing-mobile.png',fullPage:true});
  assert.deepEqual(errors,[],'browser JavaScript error list');
  console.log('VINILPECHAT_V3_BROWSER_PASS',JSON.stringify({
-  homepage:true,garmentCategories:7,featured:4,services:3,vinyl:true,tarps:true,admin:true,
+  homepage:true,primaryCategories:3,socialCards:2,vinyl:true,tarps:true,admin:true,
   modelFilter:true,editor:true,mobile:true,errors:errors.length
  }));
 }finally{await browser.close()}
