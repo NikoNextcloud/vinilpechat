@@ -102,6 +102,14 @@ function renderChoiceLanding(){
    <a href="/teniski/#model-ST2000" class="v3-studio-submit">Отвори редактора <span aria-hidden="true">↗</span></a>
   </aside>
  </section>
+ <section class="v3-primary-categories container" aria-labelledby="v3-primary-title">
+  <div class="v3-primary-heading"><span class="v3-section-kicker">ТРИ НАЧИНА ДА РЕАЛИЗИРАШ ИДЕЯТА СИ</span><h2 id="v3-primary-title">Какво искаш да създадем?</h2><p>Избери услуга и премини директно към продуктите или калкулатора.</p></div>
+  <div class="v3-primary-grid">
+   <a class="v3-primary-card v3-primary-print" href="#design" data-go="design"><span class="v3-primary-number">01 / РЕКЛАМЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">▧</span><strong>Печат на винил</strong><span class="v3-primary-description">Рекламни банери по размер, със или без изработка на дизайн.</span><span class="v3-primary-cta">Изчисли цена <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-cover" href="/brezenti/"><span class="v3-primary-number">02 / ПОКРИВНИ МАТЕРИАЛИ</span><span class="v3-primary-art" aria-hidden="true">◫</span><strong>Винили за покриване</strong><span class="v3-primary-description">Брезенти, PVC платнища и материали за защита и покриване.</span><span class="v3-primary-cta">Разгледай винилите <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-shirts" href="/teniski/"><span class="v3-primary-number">03 / ПЕРСОНАЛЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">✦</span><strong>Тениски за печат</strong><span class="v3-primary-description">75 модела Stedman с избор на размер, цвят и собствена щампа.</span><span class="v3-primary-cta">Избери тениска <span aria-hidden="true">↗</span></span></a>
+  </div>
+ </section>
 
  <section class="v3-category-block container" aria-labelledby="v3-cat-title">
   <div class="v3-block-head"><div><span class="v3-section-kicker">ПЕЧАТ ВЪРХУ ОБЛЕКЛО</span><h2 id="v3-cat-title">Избери какво да създадем</h2></div><a href="/teniski/" class="v3-text-link">Всички 75 модела <span aria-hidden="true">↗</span></a></div>
