@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#183f3a" />
+<meta name="theme-color" content="#ffffff" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
 <link rel="canonical" href="https://vinilpechat.vercel.app/" />
+<link rel="icon" type="image/svg+xml" href="/assets/vinilpechat-spectrum-logo.svg" />
 <link rel="icon" type="image/png" href="/favicon.png?v=spiral1" sizes="64x64" />
 <link rel="apple-touch-icon" href="/favicon.png" />
 <meta name="application-name" content="Vinilpechat" />
@@ -21,14 +22,46 @@
 <meta name="description" content="Печат на винил по размер със или без дизайн, брезенти и покривни платнища. Калкулатор за цена, каталог с материали и поръчки чрез Viber." />
 <title>Печат на винил по размер, брезенти и покривала | Vinilpechat</title>
 <link rel="stylesheet" href="site.css" />
+<link rel="stylesheet" href="/v3.css" />
 <script src="seed.js" defer></script>
 <script src="site.js" defer></script>
+<script src="/v3.js" defer></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
-<div class="topbar"><div class="container topbar-inner"><span>Материали за покриване, реклама и защита</span><span>Запитвания и поръчки — без онлайн предплащане</span></div></div>
-<header class="header"><div class="container head-inner"><a class="brand" href="#home" data-go="home" aria-label="Vinilpechat — начало"><img class="brand-logo" src="/assets/vinilpechat-art-spiral.webp" width="66" height="66" alt="Зелено-златно спирално арт лого на Vinilpechat" /><span class="brand-copy"><strong>Vinilpechat</strong><small>Винил · Брезенти · Печат</small></span></a><div class="desktop-nav"><a href="#home" data-go="home">Начало</a><a href="#design" data-go="design">Нов винил с дизайн</a><a href="#catalog" data-go="catalog">Продукти</a><a href="/teniski/">Печат на тениски</a><a href="#contact" data-go="contact">Контакти</a></div><div class="head-actions"><button class="search-chip" id="focusSearch" type="button" aria-label="Търси">⌕ <span>Търсене</span></button><button class="cart-btn" id="cartOpen" type="button" aria-label="Кошница"><span>🛍</span><b id="cart-count">0</b></button><button class="mobile-menu" id="mobileMenu" type="button" aria-label="Меню">☰</button></div></div></header>
-<div id="mobile-nav" class="mobile-nav hidden"><a href="#home" data-go="home">Начало</a><a href="#design" data-go="design">Нов винил с дизайн</a><a href="#catalog" data-go="catalog">Продукти</a><a href="/teniski/">Печат на тениски</a><a href="#contact" data-go="contact">Контакти</a><a href="#admin" data-go="admin">Администрация</a></div>
+<div class="topbar"><div class="container topbar-inner"><span>Творчески идеи · Индивидуален печат</span><span>Винил · Фолио · Облекло · Брезенти</span></div></div>
+<header class="header v3-header">
+ <div class="container head-inner">
+ <a class="brand" href="#home" data-go="home" aria-label="Vinilpechat — начало">
+  <img class="brand-logo" src="/assets/vinilpechat-spectrum-logo.svg" width="52" height="52" alt="Многоцветно геометрично лого на Vinilpechat">
+  <span class="brand-copy"><strong>Vinilpechat</strong><small>ПЕЧАТ БЕЗ ГРАНИЦИ</small></span>
+ </a>
+ <nav class="desktop-nav" aria-label="Основна навигация">
+  <a href="#home" data-go="home">Начало</a>
+  <a href="/teniski/?category=%D0%A2%D0%B5%D0%BD%D0%B8%D1%81%D0%BA%D0%B8">Тениски</a>
+  <a href="/teniski/?category=%D0%9F%D0%BE%D0%BB%D0%BE">Поло</a>
+  <a href="/teniski/?category=%D0%A1%D1%83%D0%B8%D1%82%D1%88%D1%8A%D1%80%D1%82%D0%B8">Суитшърти</a>
+  <a href="/teniski/?category=%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%BD%D0%B8">Спортни</a>
+  <a href="#design" data-go="design">Печат на винил</a>
+  <a href="#catalog" data-go="catalog">Каталог</a>
+ </nav>
+ <div class="head-actions">
+  <button class="search-chip" id="focusSearch" type="button" aria-label="Търси продукти"><span class="v3-search-icon" aria-hidden="true">⌕</span><span>Търсене</span></button>
+  <button class="cart-btn" id="cartOpen" type="button" aria-label="Отвори количката"><span aria-hidden="true">♧</span><b id="cart-count">0</b></button>
+  <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Отвори меню" aria-expanded="false">☰</button>
+ </div></div>
+</header>
+<div id="mobile-nav" class="mobile-nav hidden" aria-label="Мобилна навигация">
+ <a href="#home" data-go="home">Начало</a>
+ <a href="/teniski/">Печат на тениски</a>
+ <a href="/teniski/?category=%D0%9F%D0%BE%D0%BB%D0%BE">Поло</a>
+ <a href="/teniski/?category=%D0%A1%D1%83%D0%B8%D1%82%D1%88%D1%8A%D1%80%D1%82%D0%B8">Суитшърти</a>
+ <a href="/teniski/?category=%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%BD%D0%B8">Спортни</a>
+ <a href="#design" data-go="design">Нов винил с дизайн</a>
+ <a href="#catalog" data-go="catalog">Всички продукти</a>
+ <a href="#contact" data-go="contact">Контакти</a>
+ <a href="#admin" data-go="admin">Администрация</a>
+</div>
 <main id="main">
   <section class="container seo-home-fallback" aria-labelledby="seo-home-title">
     <span class="choice-eyebrow">Винил & Брезенти · Рекламни решения</span>
