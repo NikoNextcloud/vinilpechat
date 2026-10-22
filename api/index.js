@@ -4,6 +4,8 @@ const { createClient } = require('@supabase/supabase-js');
 const crypto = require('node:crypto');
 const {designQuote}=require('../lib/design-pricing.js');
 const seo=require('../lib/seo-pages.js');
+const shirts=require('../lib/stedman-pricing.js');
+const shirtOrders=require('../lib/stedman-orders.js');
 const MAX_BODY = 5 * 1024 * 1024;
 const json = (res,status,obj) => {res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.status(status).json(obj);};
 const msg = (res,status,message) => json(res,status,{error:message});
@@ -98,6 +100,10 @@ module.exports=async function handler(req,res){
     if(Array.isArray(route))route=route.join('/');
     try{
         if(route==='health')return json(res,200,{ok:true,configured:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),catalogReady:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),ordersReady:!!process.env.SUPABASE_SERVICE_ROLE_KEY,adminReady:!!(process.env.SUPABASE_SERVICE_ROLE_KEY&&process.env.ADMIN_EMAIL&&process.env.SESSION_SECRET)});
+        if(route==='shirts/quote'&&req.method==='POST'){
+          if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
+          return json(res,200,{ok:true,quote:shirts.quote(await body(req))});
+        }
         if(route==='design/quote'&&req.method==='POST'){
             if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
             return json(res,200,designQuote(await body(req)));
@@ -121,9 +127,13 @@ module.exports=async function handler(req,res){
             return res.status(200).send(page.html);
         }
         let {db,auth,privileged}=clients();
-        if(!privileged && (route==='orders'||route.startsWith('admin/')))return msg(res,503,'Магазинът приема само запитвания след завършване на настройките.');
+        if(!privileged && (route==='orders'||route==='shirts/order'||route.startsWith('admin/')))return msg(res,503,'Магазинът приема само запитвания след завършване на настройките.');
         if(req.method==='GET'&&route==='catalog')return json(res,200,await catalog(db));
         if(req.method==='POST'&&route==='orders')return json(res,201,await orders(db,await body(req)));
+        if(req.method==='POST'&&route==='shirts/order'){
+          if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
+          return json(res,201,await shirtOrders.saveShirtOrder(db,await body(req)));
+        }
         if(req.method==='POST'&&route==='admin/login'){
             if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
             let d=await body(req);const email=str(d.email,254).toLowerCase();if(!email || email!==str(process.env.ADMIN_EMAIL).toLowerCase())return msg(res,401,'Неправилни данни за вход');
@@ -139,6 +149,12 @@ module.exports=async function handler(req,res){
         }
         if(route==='admin/data'&&req.method==='GET'){
             if(!await admin(req,db,auth,res))return;return json(res,200,await adminData(db));
+        }
+        if(route==='admin/shirt-files'&&req.method==='GET'){
+          if(!await admin(req,db,auth,res))return;
+          const id=str(req.query?.id,90);
+          if(!/^T[A-Z0-9]{8,40}$/.test(id))return msg(res,400,'Невалиден номер на заявката');
+          return json(res,200,await shirtOrders.signedFiles(db,id));
         }
         if(route==='admin/usage'&&req.method==='GET'){
             if(!await admin(req,db,auth,res))return;
