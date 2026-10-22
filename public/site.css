@@ -229,3 +229,15 @@
 .choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.choice-card{padding:29px 28px;min-width:0}.choice-card--shirts{background:radial-gradient(circle at 82% 4%,#c9e9df 0%,transparent 58%),linear-gradient(135deg,#f1faf6,#fff)}
 @media(max-width:900px){.choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.choice-card--shirts{grid-column:1/-1}}
 @media(max-width:620px){.choice-grid{grid-template-columns:1fr}.choice-card--shirts{grid-column:auto}.choice-card{min-height:315px}}
+
+/* Pricing editor: uniform compact numeric fields and visible unsaved state. */
+.admin-variant-group[data-stedman-label][hidden]{display:none!important}
+.admin-variant-group[data-stedman-label] summary{justify-content:flex-start;flex-wrap:wrap}
+.admin-variant-group[data-stedman-label] summary .pill{margin-left:auto}
+.admin-variant-group[data-stedman-label] .admin-table{min-width:700px}
+.admin-variant-group[data-stedman-label] .admin-table td{vertical-align:middle}
+.admin-variant-group[data-stedman-label] .admin-table input[type=number]{width:118px;max-width:100%;font-weight:650;font-size:13px}
+.admin-variant-group[data-stedman-label] [data-stedman-margin]{font-variant-numeric:tabular-nums}
+.admin-table input[type=number]:invalid{outline:2px solid #d05852;background:#fff7f6}
+#stedman-model-filter{width:100%;max-width:560px}
+#stedman-pricing-status{margin-top:5px}

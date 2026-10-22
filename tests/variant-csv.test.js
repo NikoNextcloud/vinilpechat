@@ -48,7 +48,7 @@ test('preview does not mutate; apply changes only sales/manual flags and existin
  h.context.useServer=true;await h.applyVariantCSV();
  expected[0].variants[0].sale_price=12.5;expected[0].variants[0].manual_sale_price=true;expected[0].variants[1].sale_price=21;expected[0].variants[1].manual_sale_price=true;
  assert.deepEqual(h.db.products,expected);assert.equal(h.context.changedVariants.size,2);
- await h.saveVariantPrices();assert.equal(h.calls[0].url,'/api/admin/data');assert.equal(h.calls[1].url,'/api/admin/variants');const posted=JSON.parse(h.calls[1].options.body).variants;assert.equal(posted.length,2);assert.equal(posted[0].product_id,10);assert.equal(posted[0].variant_key,'s=a&color=green');assert.equal(posted[0].manual_sale_price,true);assert.equal(posted[0].active,false);assert.ok(!('supplier_price' in posted[0]));assert.equal(h.context.changedVariants.size,0);
+ await h.saveVariantPrices();assert.equal(h.calls[0].url,'/api/admin/data');assert.equal(h.calls[1].url,'/api/admin/variants');const posted=JSON.parse(h.calls[1].options.body).variants;assert.equal(posted.length,2);assert.equal(posted[0].product_id,10);assert.equal(posted[0].variant_key,'s=a&color=green');assert.equal(posted[0].manual_sale_price,true);assert.equal(posted[0].active,false);assert.equal(posted[0].supplier_price,3);assert.equal(posted[1].supplier_price,8);assert.equal(h.context.changedVariants.size,0);
 });
 test('a local edit after preview invalidates the whole import',async()=>{
  const h=harness();await h.importVariantCSV(file(edit(h,r=>r[1][7]='12')));h.db.products[0].variants[1].sale_price=25;const before=JSON.stringify(h.db);await h.applyVariantCSV();assert.equal(JSON.stringify(h.db),before);assert.equal(h.context.changedVariants.size,0);

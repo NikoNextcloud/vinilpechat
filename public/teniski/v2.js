@@ -5,7 +5,14 @@
  const el=id=>document.getElementById(id);
  const money2=n=>Number(n).toLocaleString('bg-BG',{style:'currency',currency:'EUR'});
  const checkedSizes=new Map();
+ const retailPrices=new Map();
+ let pricingReady=false;
  let orderBackendReady=false;
+ const retailKey=(model,band,group)=>JSON.stringify([model,band,group]);
+ const saleCents=(model,band,group,supplierPrice)=>{
+  const custom=retailPrices.get(retailKey(model,band,group));
+  return custom===undefined?Math.round(supplierPrice*200):Math.round(custom*100);
+ };
  const ORDER=['3XS','2XS','XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
  const classifications=[
   ['Тениски',m=>/t-shirt|classic-t|comfort-t|lux-t|stretch-t|cotton touch|ben |megan |morgan /i.test(m.name)&&!/polo|hoodie|fleece|jacket|top|tank/i.test(m.name)],
@@ -32,6 +39,15 @@
      const visible=activeCategory==='Всички'||categoryOf(m)===activeCategory;
      card.hidden=!visible;
      if(visible)count++;
+   }
+   for(const card of el('models').querySelectorAll('[data-model]')){
+     const m=models.find(x=>x.id===card.dataset.model);
+     if(!m)continue;
+     const prices=m.groups.flatMap(band=>Object.entries(band)
+      .filter(([group,cost])=>group!=='label'&&typeof cost==='number')
+      .map(([group,cost])=>saleCents(m.id,band.label,group,cost)));
+     const labels=card.querySelectorAll('.tag');
+     if(prices.length&&labels.length)labels[labels.length-1].textContent='От '+money2(Math.min(...prices)/100);
    }
    const info=el('model-count');
    if(info)info.textContent=count+' модела от общо '+models.length;
@@ -239,7 +255,7 @@
   const group=color()?.group;
   const band=selected?.groups.find(g=>sizesForGroup(g.label).includes(size)&&typeof g[group]==='number');
   if(!band)return null;
-  return Math.round(band[group]*200)+printed;
+  return saleCents(selected.id,band.label,group,band[group])+printed;
  }
  function printCents(){
    return printMode==='both'?600:printMode==='front'?300:0;
@@ -476,7 +492,7 @@
    const text=input.closest('label')?.querySelector('small');
    if(text&&price!=null)text.textContent=money2(price/100)+'/бр.';
   }
-  el('v2-place-order').disabled=!valid||!orderBackendReady;
+  el('v2-place-order').disabled=!valid||!orderBackendReady||!pricingReady;
   el('v2-viber').disabled=!valid;
   const text='Здравейте! Запитване за Stedman '+selected.id+' — '+selected.bg+
    '\nЦвят: '+(selectedShade?.name||color()?.name)+'\nРазмери: '+lines.map(l=>l.size+': '+l.quantity+' бр.').join(', ')+
@@ -586,4 +602,26 @@
  // If a model was preselected through the URL, ensure V2 quantities are initialized.
  if(selected)openModel(selected.id);
  renderModels();
+ // Fetch only public retail overrides. Supplier costs are never returned to shoppers.
+ fetch('/api/shirts/prices',{credentials:'same-origin',cache:'no-store'}).then(async response=>{
+  if(!response.ok)throw new Error('Цените временно не са достъпни');
+  return response.json();
+ }).then(result=>{
+  if(!Array.isArray(result.prices))throw new Error('Невалиден отговор за цените');
+  retailPrices.clear();
+  for(const row of result.prices){
+   if(typeof row.model_id!=='string'||typeof row.size_band!=='string'||
+      typeof row.color_group!=='string'||typeof row.sale_price!=='number'||
+      !Number.isFinite(row.sale_price)||row.sale_price<0)continue;
+   retailPrices.set(retailKey(row.model_id,row.size_band,row.color_group),row.sale_price);
+  }
+  pricingReady=true;
+  renderModels();
+  if(selected){renderSizes();renderSizeGuide();describe()}
+ }).catch(error=>{
+  console.warn('Shirt retail prices are unavailable:',error.message);
+  const feedback=el('v2-order-feedback');
+  if(feedback)feedback.textContent='Не можем да потвърдим цените в момента. Можеш да направиш запитване във Viber.';
+  describe();
+ });
 })();
