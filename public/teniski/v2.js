@@ -197,6 +197,11 @@
   el('v2-size-hint').textContent=valid?totalQty+' бр. в '+lines.length+' размера':'Избери поне един размер (до 500 бр. общо).';
   summary.innerHTML=lines.length?'<div class="v2-summary-heading">Разбивка на цената</div>'+
    lines.map(line=>'<div class="v2-summary-line"><span>'+line.size+' · '+line.quantity+' бр. × '+money2(line.unitCents/100)+'</span><strong>'+money2(line.unitCents*line.quantity/100)+'</strong></div>').join(''):'';
+  for(const input of el('v2-sizes').querySelectorAll('[data-v2-size]')){
+   const price=unitForSize(input.dataset.v2Size,printing);
+   const text=input.closest('label')?.querySelector('small');
+   if(text&&price!=null)text.textContent=money2(price/100)+'/бр.';
+  }
   el('v2-place-order').disabled=!valid;
   el('v2-viber').disabled=!valid;
   const text='Здравейте! Запитване за Stedman '+selected.id+' — '+selected.bg+
@@ -207,10 +212,12 @@
    '\nМоля потвърдете наличност, доставка и крайна цена.';
   el('request-text').value=text;
  };
+ const intro=document.querySelector('.intro');
  const originalOpenModel=openModel;
  openModel=function(id){
   checkedSizes.clear();
   originalOpenModel(id);
+  if(intro)intro.hidden=true;
   renderSizes();
   el('v2-order-feedback').textContent='';
   form.reset();
@@ -284,7 +291,7 @@
   window.location.href='viber://chat?number=%2B359879436006';
  });
  const origShowCatalog=showCatalog;
- showCatalog=function(){origShowCatalog();activeCategory='Всички';renderModels();
+ showCatalog=function(){origShowCatalog();if(intro)intro.hidden=false;activeCategory='Всички';renderModels();
   categories.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.shirtCat==='Всички')));};
  // If a model was preselected through the URL, ensure V2 quantities are initialized.
  if(selected){checkedSizes.set(availableSizes().includes('M')?'M':availableSizes()[0],1);renderSizes();}
