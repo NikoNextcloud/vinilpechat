@@ -13,26 +13,30 @@ test('Client and server share all exact 75 catalog models and price tiers',()=>{
  assert.equal(catalog.length,75);
  assert.equal(new Set(catalog.map(x=>x.id)).size,75);
 });
-test('Mixed sizes use each individual supplier tier and add 2 EUR per side per piece',()=>{
+test('Mixed sizes apply the selected EUR 3 front / EUR 6 both print package',()=>{
  const q=quote({model_id:'ST2000',color_code:'WHI',
- sizes:[{size:'M',quantity:2},{size:'3XL',quantity:1}],
+ sizes:[{size:'M',quantity:2},{size:'3XL',quantity:1}],print_mode:'both',shade_code:'WHI',
  prints:{front:{position:{x:50,y:40,size:62,rotation:0}},back:{position:{x:50,y:40,size:62,rotation:0}}}});
  assert.equal(q.quantity,3);
- assert.equal(q.lines[0].unitPrice,8.40);
- assert.equal(q.lines[1].unitPrice,10);
- assert.equal(q.total,26.8);
- assert.equal(q.totalCents,2680);
+ assert.equal(q.lines[0].unitPrice,10.40);
+ assert.equal(q.lines[1].unitPrice,12);
+ assert.equal(q.total,32.8);
+ assert.equal(q.totalCents,3280);
  assert.equal(q.prints.front.rotation,0);
 });
 test('Reject invalid sizes, quantity, color, models and artwork geometry',()=>{
- const base={model_id:'ST2000',color_code:'WHI',sizes:[{size:'M',quantity:1}],prints:{}};
+ const base={model_id:'ST2000',color_code:'WHI',sizes:[{size:'M',quantity:1}],print_mode:'front',prints:{front:{position:{x:50,y:40,size:62,rotation:0}}}}};
  const invalid=[
   {...base,model_id:'ST0000'},
   {...base,color_code:'ORANGE'},
   {...base,sizes:[{size:'6XL',quantity:1}]},
   {...base,sizes:[{size:'M',quantity:1},{size:'M',quantity:2}]},
   {...base,sizes:[{size:'M',quantity:501}]},
-  {...base,prints:{front:{position:{x:1000,y:30,size:60,rotation:0}}}}
+  {...base,prints:{front:{position:{x:1000,y:30,size:60,rotation:0}}}},
+  {...base,print_mode:'back'},
+  {...base,print_mode:'both'},
+  {...base,prints:{front:base.prints.front,back:base.prints.front}},
+  {...base,shade_code:'FAKE'}
  ];
  for(const value of invalid)assert.throws(()=>quote(value));
  assert.deepEqual(expand('S-2XL'),['S','M','L','XL','2XL']);
@@ -58,13 +62,13 @@ test('Private upload only saves accepted PNG and stores order safely',async()=>{
   };
  }};
  const data={model_id:'ST2000',color_code:'WHI',sizes:[{size:'M',quantity:3}],
- prints:{front:{position:{x:50,y:30,size:62,rotation:15},file}},
+ print_mode:'front',shade_code:'WHI',prints:{front:{position:{x:50,y:30,size:62,rotation:15},file}},
  name:'Тест клиент',phone:'0879436006',notes:'Зелено лого',consent:true};
  const res=await saveShirtOrder(db,data);
  assert.equal(res.ok,true);
  assert.equal(saved.length,1);
  assert.equal(inserted.kind,'order');
- assert.equal(inserted.estimated_total,19.2); // (4.40 + 2.00) * 3
+ assert.equal(inserted.estimated_total,22.2); // (4.40 + 3.00) * 3
  assert.equal(inserted.items[0].shirt_size,'M');
  assert.ok(inserted.items[0].shirt_artwork.front.key.startsWith('orders/'+res.order_id+'/front-'));
  const signed=await signedFiles(db,res.order_id);
@@ -89,4 +93,15 @@ test('New checkout remains isolated and admin links require the existing session
  assert.match(v2,/setPointerCapture/);
  assert.match(v2,/readAsDataURL/);
  assert.match(v2,/v2-order-form/);
+});
+
+test('Verified Stedman shade must match selected supplier price group',()=>{
+ const base={model_id:'ST2000',color_code:'COL',shade_code:'NAV',print_mode:'front',sizes:[{size:'M',quantity:1}],prints:{front:{position:{x:50,y:40,size:62,rotation:0}}}};
+ const result=quote(base);
+ assert.equal(result.color_name,'Тъмносиньо');
+ assert.equal(result.shade_code,'NAV');
+ assert.equal(result.total,8.2); // coloured unit 5.20 + front print 3.00
+ assert.throws(()=>quote({...base,color_code:'WHI'}),/цвят/);
+ assert.throws(()=>quote({...base,shade_code:'MADE_UP'}),/цвят/);
+ assert.throws(()=>quote({...base,print_mode:'both'}),/страни/);
 });
