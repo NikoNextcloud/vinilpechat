@@ -20,23 +20,28 @@ test('V3 theme is loaded on all storefront entry points and every crawlable land
  assert.match(read('assets/vinilpechat-spectrum-logo.svg'),/linearGradient/);
 });
 
-test('V3 homepage contains real navigation, four curated products and responsive sections',()=>{
+test('V3 homepage contains exactly three services and social feeds without losing navigation',()=>{
  const js=read('site.js');
  const html=read('index.html');
+ const css=read('v3.css');
  assert.match(js,/function renderChoiceLanding\(\)/);
- for(const mark of ['v3-hero','v3-hero-studio','v3-category-strip','v3-featured-grid','v3-service-grid','v3-trust-strip'])
-  assert(js.includes(mark),'Missing '+mark);
- for(const id of ['ST2000','ST2600','ST3000','ST4500'])
-  assert(js.includes(id),'Model '+id+' should be a real model in V3 featured products');
- assert.match(html,/id="focusSearch"/);
- assert.match(html,/id="cartOpen"/);
- assert.match(html,/id="mobileMenu"/);
- assert.match(html,/id="mobile-nav"/);
- assert.match(read('v3.css'),/@media \(max-width:620px\)/);
- assert.match(read('v3.css'),/\.admin-nav/);
- assert.match(read('v3.css'),/\.drawer/);
- assert.match(read('v3.css'),/\.design-form-card/);
+ assert.equal((js.match(/v3-primary-card v3-primary-/g)||[]).length,3);
+ for(const title of ['Печат на винил','Винили за покриване','Тениски за печат'])
+  assert(js.includes(title),'Missing main category '+title);
+ for(const old of ['v3-hero','v3-hero-studio','v3-category-strip','v3-featured-grid','v3-service-grid','v3-trust-strip'])
+  assert(!js.includes(old),'Removed homepage block unexpectedly present: '+old);
+ assert.match(html,/id="instagram-posts"/);
+ assert.match(html,/instagram\.com\/vinilpechat/);
+ assert.match(html,/facebook\.com\/profile/);
+ for(const id of ['focusSearch','cartOpen','mobileMenu','mobile-nav'])
+  assert(html.includes('id="'+id+'"'),'Missing persistent navigation control '+id);
+ assert.match(css,/\.v3-primary-grid/);
+ assert.match(css,/@media\(max-width:680px\)/);
+ assert.match(css,/\.admin-nav/);
+ assert.match(css,/\.drawer/);
+ assert.match(css,/\.design-form-card/);
 });
+
 test('V3 keeps the 75-model Stedman designer and real supplier/retail pricing code unchanged',()=>{
  const v2=read('teniski/v2.js');
  const html=read('teniski/index.html');
