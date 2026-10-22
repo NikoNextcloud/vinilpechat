@@ -161,8 +161,8 @@ test('Customer-provided universal rear shirt photo is the single back image sour
  const html=fs.readFileSync(path.join(__dirname,'../public/teniski/index.html'),'utf8');
  const app=fs.readFileSync(path.join(__dirname,'../public/teniski/app.js'),'utf8');
  const local='/teniski/assets/universal-back-white.webp';
- assert.match(script,/const UNIVERSAL_BACK_PHOTO='\\/teniski\\/assets\\/universal-back-white\\.webp'/);
+ assert.ok(script.includes("const UNIVERSAL_BACK_PHOTO='"+local+"'"));
  assert.ok(html.includes(local));
  assert.ok(app.includes(local));
- assert.doesNotMatch(script,/ST2000_model_b\\.jpg/);
+ assert.ok(!script.includes('ST2000_model_b.jpg'));
 });
