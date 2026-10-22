@@ -69,6 +69,11 @@ try{
  await page.locator('#v2-size-guide summary').click();
  assert((await page.locator('#v2-size-table').innerText()).includes('55'),'hoodie has verified M chest width in centimeters');
  await page.locator('[data-print-mode="both"]').click();
+ await page.waitForFunction(()=>{
+  const hero=document.getElementById('shirt-photo');
+  return !!hero&&hero.currentSrc.includes('/ST4500/')&&hero.complete&&hero.naturalWidth>0;
+ },null,{timeout:15000});
+ console.log('STEDMAN_HOODIE_IMAGE_DIAGNOSTIC',JSON.stringify({photoSrc:await page.locator('#shirt-photo').getAttribute('src'),width:await page.locator('#shirt-photo').evaluate(el=>el.naturalWidth)}));
  await page.screenshot({path:'test-output/stedman-v2-hoodie-desktop.png',fullPage:true});
  assert((await page.locator('#total-price').innerText()).includes('35,60')||(await page.locator('#total-price').innerText()).includes('35.60'),'hoodie print quote matches server, 35.60 euro');
  await page.locator('#back-to-models').click();
