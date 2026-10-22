@@ -86,7 +86,15 @@ try{
  await page.locator('[data-print-mode="both"]').click();
  await page.locator('[data-gallery-mode="back"]').click();
  const universal=await page.locator('#shirt-photo').getAttribute('src');
- assert(universal.includes('/ST2000/ST2000_model_b.jpg'),'one universal back photo is used');
+ assert(universal==='/teniski/assets/universal-back-white.webp','customer-supplied white back photo is used');
+ await page.waitForFunction(()=>{
+   const img=document.getElementById('shirt-photo');
+   return img&&img.complete&&img.naturalWidth===441&&img.naturalHeight===500;
+ },null,{timeout:12000});
+ assert.equal(await page.locator('#v2-mini-back').getAttribute('src'),universal,'print option uses same back photo');
+ const backThumb=page.locator('[data-gallery-mode="back"] img');
+ assert.equal(await backThumb.getAttribute('src'),universal,'gallery thumbnail uses same back photo');
+ await page.screenshot({path:'test-output/stedman-v2-white-back.png',fullPage:true});
  await page.locator('[data-gallery-mode="front"]').click();
  await page.locator('[data-gallery-mode="model"]').click();
  assert(await page.locator('#print-zone').evaluate(el=>el.classList.contains('v2-preview-hidden')),'logo overlay is hidden on lifestyle photos');
