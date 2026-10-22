@@ -75,7 +75,8 @@ try{
  await page.mouse.up();
  const afterHandle=Number(await page.locator('#art-size').inputValue());
  assert(afterHandle>beforeResize,'corner drag enlarges uploaded artwork');
- await page.mouse.move(box.x+box.width*.5,box.y+box.height*.4);
+ const wheelBox=await zone.boundingBox();
+ await page.mouse.move(wheelBox.x+wheelBox.width*.5,wheelBox.y+wheelBox.height*.4);
  await page.mouse.wheel(0,260);
  const afterWheel=Number(await page.locator('#art-size').inputValue());
  assert(afterWheel<afterHandle,'mouse-wheel shrinks uploaded artwork');
