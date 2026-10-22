@@ -70,7 +70,7 @@ test('public-facing source does not disclose confidential area rate',()=>{
  assert.match(front,/Брезенти и/);
  assert.match(front,/data-design-viber/);
  assert.match(front,/data-design-web/);
- assert.match(front,/data-go="catalog"/);
+ assert.match(html,/data-go="catalog"/);
  assert.match(html,/href="#design"/);
  assert.match(html,/href="#catalog"/);
 });
