@@ -51,7 +51,7 @@
  let printMode='none';
  let selectedShade=null;
  let galleryView='front';
- const UNIVERSAL_BACK_PHOTO='https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model_b.jpg';
+ const UNIVERSAL_BACK_PHOTO='/teniski/assets/universal-back-white.webp';
  const STEDMAN_COLORS=[
   {code:'WHI',group:'WHI',name:'Бяло',css:'#f9f9f6'},
   {code:'BLO',group:'COL',name:'Черно',css:'#171717'},
@@ -105,7 +105,7 @@
   const shades=shadeOptions(selected);
   const base=[{mode:'model',label:'На модел',src:selected.image},
    {mode:'front',label:'Отпред',src:selectedShade?.photo||selected.photoFront||selected.image},
-   {mode:'back',label:'Универсален гръб',src:UNIVERSAL_BACK_PHOTO}];
+   {mode:'back',label:'Бял гръб',src:UNIVERSAL_BACK_PHOTO}];
   return [...base,...shades.filter(sh=>sh.photo).map(sh=>({
    mode:'shade',code:sh.code,label:sh.name,src:sh.photo
   }))];
@@ -339,10 +339,10 @@
    (selectedShade?.photo||selected.photoFront||selected.image);
   el('shirt-photo').src=photo;
   el('shirt-photo').alt=galleryView==='model'?selected.bg+' върху модел':
-   activeSide==='back'?'Универсален изглед на гръб за печат':
+   activeSide==='back'?'Бяла тениска, изглед отзад, предоставен от клиента':
    selected.bg+' · '+(selectedShade?.name||'избран цвят');
   el('preview-side-label').textContent=galleryView==='model'?'Продуктова снимка на модел':
-   activeSide==='back'?'Универсална снимка на гръб · за позициониране':
+   activeSide==='back'?'Универсална бяла тениска отзад · само за разположение на щампата':
    'Преглед на печата отпред · '+(selectedShade?.name||'');
   zone.classList.toggle('v2-preview-hidden',galleryView==='model');
   updateArt();
