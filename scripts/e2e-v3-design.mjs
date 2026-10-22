@@ -73,7 +73,7 @@ try{
  await page.locator('#mobileMenu').click();
  assert(await page.locator('#mobile-nav').isVisible(),'mobile navigation opens');
  await goto('/teniski/?category='+encodeURIComponent('Суитшърти'));
- await page.locator('#models [data-model]').first().waitFor();
+ await page.locator('#models [data-model]:visible').first().waitFor();
  assert((await page.locator('#models [data-model]:visible').count())>0,'mobile category filter works');
  const mobile=await page.evaluate(()=>({width:document.documentElement.scrollWidth,view:window.innerWidth}));
  assert(mobile.width<=mobile.view+5,'mobile clothing has no horizontal page overflow: '+JSON.stringify(mobile));
