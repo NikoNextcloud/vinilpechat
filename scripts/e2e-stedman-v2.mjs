@@ -122,14 +122,29 @@ try{
  const mobileSizeBefore=Number(await page.locator('#art-size').inputValue());
  const touch=await page.context().newCDPSession(page);
  await touch.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+ await page.evaluate(()=>{
+  window.__pinchEvents=[];
+  const z=document.getElementById('print-zone');
+  for(const type of ['pointerdown','pointermove','pointerup','touchstart','touchmove'])
+   z.addEventListener(type,event=>window.__pinchEvents.push({type,pointerId:event.pointerId,pointerType:event.pointerType,
+    touches:event.touches?.length||0}),{capture:true});
+ });
  const pinchPoint=(x,y,id)=>({x:Math.round(mobileZone.x+mobileZone.width*x),
    y:Math.round(mobileZone.y+mobileZone.height*y),id});
  await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[
   pinchPoint(.35,.45,1),pinchPoint(.65,.45,2)]});
+ await page.waitForTimeout(100);
+ await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[
+  pinchPoint(.22,.36,1),pinchPoint(.78,.55,2)]});
+ await page.waitForTimeout(80);
  await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[
   pinchPoint(.16,.30,1),pinchPoint(.84,.60,2)]});
+ await page.waitForTimeout(120);
  await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  const mobileSizeAfter=Number(await page.locator('#art-size').inputValue());
+ console.log('MOBILE_PINCH_DIAGNOSTIC',JSON.stringify({
+  sizeBefore:mobileSizeBefore,sizeAfter:mobileSizeAfter,
+  zone:mobileZone,events:await page.evaluate(()=>window.__pinchEvents)}));
  assert(mobileSizeAfter>mobileSizeBefore,'two-finger pinch increases artwork from '+mobileSizeBefore+' to '+mobileSizeAfter);
  await touch.detach();
  await page.screenshot({path:'test-output/stedman-v2-tshirt-mobile.png',fullPage:true});
