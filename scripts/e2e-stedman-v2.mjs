@@ -72,6 +72,10 @@ try{
  await page.locator('[data-model="ST2000"]').click();
  assert(await page.locator('#v2-order-form').isVisible(),'mobile checkout visible');
  await page.screenshot({path:'test-output/stedman-v2-tshirt-mobile.png',fullPage:true});
+ await page.goto('http://127.0.0.1:3000/teniski/#model-ST4500',{waitUntil:'domcontentloaded'});
+ await page.locator('#v2-color-swatches button').first().waitFor();
+ assert((await page.locator('#v2-color-swatches button').count())>=8,'shared hoodie link initializes color swatches');
+ assert(await page.locator('#v2-print-choice').isVisible(),'shared hoodie link initializes print options');
  assert.equal(errors.length,0,'unexpected browser page errors: '+errors.join('; '));
  console.log('STEDMAN V2 BROWSER PASS',JSON.stringify({models:75,poloCount,dragX:x,mobile:true,printOptionPrices:[3,6],colorSwatches:true,photoGallery:true,sizeGuide:true}));
 }finally{await browser.close()}
