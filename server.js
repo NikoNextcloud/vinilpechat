@@ -28,7 +28,8 @@ function safeText(v,n=1000){return String(v??'').slice(0,n).trim()}
 function numberPrice(x){if(x===null||x===''||x===undefined)return null;let n=Number(x);if(!Number.isFinite(n)||n<0||n>100000000)throw new Error('Невалидна цена');return Math.round(n*100)/100}
 function expose(){return {products:db.products.filter(p=>p.active).map(({supplier_price,image_source,source,...rest})=>({...rest,source})),categories:db.categories,settings:db.settings}}
 function setCookie(res,name,val,req,seconds){let secure=req.socket.encrypted||req.headers['x-forwarded-proto']==='https';res.setHeader('Set-Cookie',`${name}=${encodeURIComponent(val)}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${seconds}${secure?'; Secure':''}`)}
-async function route(req,res){let url=new URL(req.url,'http://localhost');let api=url.pathname;if(req.method==='GET'&&api==='/api/health')return reply(res,200,{ok:true,products:db.products.length,categories:db.categories.length,images:db.products.filter(p=>!!p.image).length});
+async function route(req,res){let url=new URL(req.url,'http://localhost');let api=url.pathname;if(req.method==='GET'&&api==='/api/shirts/prices')return reply(res,200,{ok:true,prices:[]});
+if(req.method==='GET'&&api==='/api/health')return reply(res,200,{ok:true,products:db.products.length,categories:db.categories.length,images:db.products.filter(p=>!!p.image).length});
 if(req.method==='GET'&&api==='/api/catalog')return reply(res,200,expose());
 if(req.method==='GET'&&api==='/api/admin/session'){let s=auth(req);return reply(res,200,{authenticated:!!s,csrf:s?.csrf||''})}
 if(req.method==='POST'&&api==='/api/admin/login'){
