@@ -79,6 +79,7 @@ try{
  await page.screenshot({path:'test-output/stedman-v2-tshirt-mobile.png',fullPage:true});
  await page.goto('http://127.0.0.1:3000/teniski/#model-ST4500',{waitUntil:'domcontentloaded'});
  await page.locator('#v2-color-swatches button').first().waitFor();
+ console.log('V2_DEEP_LINK_DIAGNOSTIC',JSON.stringify({url:page.url(),code:await page.locator('#detail-code').innerText(),swatches:await page.locator('#v2-color-swatches button').count(),gallery:await page.locator('#v2-gallery-thumbs button').count(),pageErrors:errors}));
  assert((await page.locator('#v2-color-swatches button').count())>=8,'shared hoodie link initializes color swatches');
  assert(await page.locator('#v2-print-choice').isVisible(),'shared hoodie link initializes print options');
  assert.equal(errors.length,0,'unexpected browser page errors: '+errors.join('; '));
