@@ -7,6 +7,7 @@ on:
       - 'lib/stedman-*.js'
       - 'tests/stedman-v2.test.js'
       - 'scripts/e2e-stedman-v2.mjs'
+      - 'scripts/e2e-stedman-v2-all.mjs'
       - '.github/workflows/stedman-v2-browser.yml'
 permissions:
   contents: read
@@ -33,6 +34,7 @@ jobs:
             sleep 1
           done
           node scripts/e2e-stedman-v2.mjs
+          node scripts/e2e-stedman-v2-all.mjs
 
       - name: Store visual regression screenshots
         if: always()
