@@ -1,6 +1,15 @@
 'use strict';
 /* V3: small, isolated progressive enhancements. Prices/orders remain owned by site.js and v2.js. */
 (()=>{
+ // On rare unavailable manufacturer model shots, use the verified product packshot,
+ // then a local placeholder; avoid blank products on slow/blocked image hosts.
+ document.addEventListener('error',event=>{
+  const img=event.target;
+  if(img?.tagName!=='IMG'||!img.dataset.v3Fallback)return;
+  const attempt=Number(img.dataset.v3ImageTries||0);
+  if(attempt===0){img.dataset.v3ImageTries='1';img.src=img.dataset.v3Fallback}
+  else if(attempt===1){img.dataset.v3ImageTries='2';img.src='/teniski/shirt-placeholder.svg'}
+ },true);
  const STEDMAN_FRONT='https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_WHI.jpg';
  const STEDMAN_BACK='/teniski/assets/universal-back-white.webp';
  document.addEventListener('click',event=>{
