@@ -48,6 +48,23 @@
       .map(([group,cost])=>saleCents(m.id,band.label,group,cost)));
      const labels=card.querySelectorAll('.tag');
      if(prices.length&&labels.length)labels[labels.length-1].textContent='От '+money2(Math.min(...prices)/100);
+     // Actual catalogue swatches only: no fabricated color choices or dummy wishlist buttons.
+     const available=shadeOptions(m).slice(0,5);
+     if(available.length&&labels.length){
+       const strip=document.createElement('span');
+       strip.className='v3-card-swatches';
+       strip.setAttribute('aria-label','Цветове за модела');
+       for(const shade of available){
+         const dot=document.createElement('i');
+         dot.style.background=shade.css||'#edf1f6';
+         dot.title=shade.name;
+         strip.append(dot);
+       }
+       const description=document.createElement('small');
+       description.textContent=shadeOptions(m).length+' цвята';
+       strip.append(description);
+       labels[labels.length-1].before(strip);
+     }
    }
    const info=el('model-count');
    if(info)info.textContent=count+' модела от общо '+models.length;
