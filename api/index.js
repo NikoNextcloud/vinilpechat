@@ -4,6 +4,7 @@ const { createClient } = require('@supabase/supabase-js');
 const crypto = require('node:crypto');
 const {designQuote}=require('../lib/design-pricing.js');
 const seo=require('../lib/seo-pages.js');
+const shirtPage=require('../lib/stedman-page.js');
 const shirts=require('../lib/stedman-pricing.js');
 const shirtOrders=require('../lib/stedman-orders.js');
 const shirtPrices=require('../lib/stedman-price-store.js');
@@ -115,6 +116,16 @@ module.exports=async function handler(req,res){
         if(route==='design/quote'&&req.method==='POST'){
             if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
             return json(res,200,designQuote(await body(req)));
+        }
+        if(route==='seo/shirt'&&req.method==='GET'){
+          const slug=typeof req.query?.slug==='string'?req.query.slug:'';
+          const page=shirtPage.resolve(slug);
+          if(!page){res.setHeader('X-Robots-Tag','noindex');return res.status(404).send('Моделът не е намерен');}
+          if(page.redirect){res.setHeader('Location',page.redirect);return res.status(308).end();}
+          res.setHeader('Content-Type','text/html; charset=utf-8');
+          res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
+          res.setHeader('X-Content-Type-Options','nosniff');
+          return res.status(200).send(page.html);
         }
         if(req.method==='GET'&&['seo/product','seo/category','seo/sitemap'].includes(route)){
             const {db}=clients();

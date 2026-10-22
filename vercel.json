@@ -8,6 +8,10 @@
       "destination": "/api/index?route=seo/sitemap"
     },
     {
+      "source": "/teniski/:slug",
+      "destination": "/api/index?route=seo/shirt&slug=:slug"
+    },
+    {
       "source": "/produkti/:slug",
       "destination": "/api/index?route=seo/product&slug=:slug"
     },
