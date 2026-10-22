@@ -40,7 +40,7 @@ test('Unknown products fail and wrong label redirects to canonical',()=>{
 });
 test('Vercel and local server resolve the same permalink',()=>{
  const vercel=JSON.parse(fs.readFileSync(path.join(__dirname,'../vercel.json'),'utf8'));
- assert.ok(vercel.rewrites.some(v=>v.source==='/teniski/:slug'&&v.destination.includes('seo/shirt')));
+ assert.ok(vercel.rewrites.some(v=>v.source==='/teniski/:slug(.*-model-ST[0-9]{4})'&&v.destination.includes('seo/shirt')));
  const api=fs.readFileSync(path.join(__dirname,'../api/index.js'),'utf8');
  const server=fs.readFileSync(path.join(__dirname,'../server.js'),'utf8');
  const app=fs.readFileSync(path.join(__dirname,'../public/teniski/app.js'),'utf8');
