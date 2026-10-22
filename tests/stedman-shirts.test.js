@@ -42,12 +42,12 @@ test('First PDF page garments have distinct Stedman codes and selectable nonover
  assert.ok(js.includes('noindex')===false);
 });
 
-test('Home landing has three accessible service cards and catalog has filters',()=>{
+test('V3 homepage has clothing categories, three services and functional catalog filters',()=>{
  const js=fs.readFileSync(path.join(root,'public/site.js'),'utf8');
  const css=fs.readFileSync(path.join(root,'public/site.css'),'utf8');
  const shirts=fs.readFileSync(path.join(root,'public/teniski/index.html'),'utf8');
- assert.match(js,/choice-card--shirts/);
- assert.match(js,/03 · Персонален печат/);
+ assert.match(js,/v3-category-strip/);
+ assert.match(js,/v3-service-grid/);
  assert.match(css,/grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
  assert.match(shirts,/id="model-search"/);
  assert.match(shirts,/id="model-gender"/);
