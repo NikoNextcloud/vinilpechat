@@ -150,3 +150,19 @@ test('V2 editor uses only direct movement and zoom gestures, without exposed sli
  assert.match(v2,/UNIVERSAL_BACK_PHOTO/);
  assert.doesNotMatch(v2,/const transformControls=/);
 });
+
+test('Customer-provided universal rear shirt photo is the single back image source',()=>{
+ const imagePath=path.join(__dirname,'../public/teniski/assets/universal-back-white.webp');
+ const buf=fs.readFileSync(imagePath);
+ assert.equal(buf.toString('ascii',0,4),'RIFF');
+ assert.equal(buf.toString('ascii',8,12),'WEBP');
+ assert.ok(buf.byteLength>2000);
+ const script=fs.readFileSync(path.join(__dirname,'../public/teniski/v2.js'),'utf8');
+ const html=fs.readFileSync(path.join(__dirname,'../public/teniski/index.html'),'utf8');
+ const app=fs.readFileSync(path.join(__dirname,'../public/teniski/app.js'),'utf8');
+ const local='/teniski/assets/universal-back-white.webp';
+ assert.match(script,/const UNIVERSAL_BACK_PHOTO='\\/teniski\\/assets\\/universal-back-white\\.webp'/);
+ assert.ok(html.includes(local));
+ assert.ok(app.includes(local));
+ assert.doesNotMatch(script,/ST2000_model_b\\.jpg/);
+});
