@@ -119,8 +119,8 @@ main{width:min(1330px,calc(100% - 44px));margin:auto}
 .v2-checkout{border:1px solid #ddeef0;background:#f8fbfe;border-radius:18px;padding:19px}
 .v2-checkout input:not([type=checkbox]),.v2-checkout textarea{border:1px solid #d9e6ee;background:#fff;border-radius:11px;color:#142e43}
 .v2-checkout input:not([type=checkbox]):focus,.v2-checkout textarea:focus{outline:0;border-color:#09b187;box-shadow:0 0 0 3px #0dad8320}
-.v2-primary,#customizer .controls button:not(.secondary){background:linear-gradient(110deg,#049a77,#006b53);border:0;border-radius:12px;color:#fff;font-weight:900;box-shadow:0 11px 24px #036e5420}
-.v2-primary:hover,#customizer .controls button:not(.secondary):hover{background:#007156}
+.v2-primary,#customizer .controls>button:not(.secondary){background:linear-gradient(110deg,#049a77,#006b53);border:0;border-radius:12px;color:#fff;font-weight:900;box-shadow:0 11px 24px #036e5420}
+.v2-primary:hover,#customizer .controls>button:not(.secondary):hover{background:#007156}
 #customizer .controls button.secondary{border:1px solid #dce9ee;border-radius:11px;background:#fff;color:#245468;font-weight:850}
 .v3-shirts-footer{margin-top:24px;border-top:1px solid #e4eaf2;background:linear-gradient(115deg,#0d2338,#07463e);color:#d2e4e8;padding:34px max(28px,calc((100vw - 1330px)/2));display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;text-align:left}
 .v3-shirt-footbrand{display:inline-flex;align-items:center;gap:9px;color:white;font-size:22px;font-weight:900}
