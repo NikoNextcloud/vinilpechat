@@ -6,3 +6,51 @@
 
 /* Official Stedman model photographs in product catalogue */
 .cards .card img{display:block;width:100%;height:270px;object-fit:contain;object-position:center;background:#f6f8f6;border-radius:14px;margin-bottom:13px}.cards .card{display:flex;flex-direction:column;gap:7px}.cards .card p{margin:0 0 4px}.cards .card .tag:last-child{margin-top:auto;font-weight:800;font-size:15px;color:#0b7563}.shirt-preview>img{object-fit:contain;background:#fafafa}
+
+
+/* Vinilpechat 2.0: cards, size-matrix, touch designer and private-order form */
+.v2-legacy-hidden{display:none!important}
+.v2-categories{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 24px}
+.v2-categories button{padding:10px 16px;border-radius:30px;background:#fff;color:#285a4b;border:1px solid #d6e5dc;font-size:13px;font-weight:700;display:inline-flex;gap:9px;align-items:center}
+.v2-categories button span{background:#ebf4ed;padding:2px 7px;border-radius:20px;font-size:11px}
+.v2-categories button[aria-pressed=true]{background:#116d58;color:#fff;border-color:#116d58;box-shadow:0 5px 14px #11534222}
+.v2-categories button[aria-pressed=true] span{background:#ffffff2c;color:#fff}
+.card[hidden]{display:none!important}
+.v2-section-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:16px}
+.v2-section-head strong{display:block;font-size:17px;color:#18443b}
+.v2-section-head small{display:block;font-size:12px;color:#688278;margin-top:5px;line-height:1.5}
+.v2-chip{display:inline-block;border:1px solid #bcd7cb;color:#28755d;padding:6px 10px;white-space:nowrap;border-radius:50px;font-weight:800;font-size:11px}
+.v2-size-panel{background:#f7faf6;border-radius:18px;border:1px solid #e0ece4;padding:20px;margin:8px 0 18px}
+.v2-sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(87px,1fr));gap:9px}
+.v2-size-cell{display:grid;grid-template-rows:auto 44px auto;align-items:center;justify-items:stretch;border:1px solid #d9e6dd;background:white;border-radius:13px;padding:10px;gap:5px;text-align:center;font-weight:700;color:#245545}
+.v2-size-cell>span{font-size:14px}
+.v2-size-cell input{margin:0;min-width:0;border:1px solid #dce7dc;padding:6px 5px;text-align:center;font-weight:800;border-radius:9px;font-size:17px;width:100%;appearance:textfield}
+.v2-size-cell input:focus{outline:2px solid #1c8769}
+.v2-size-cell input::-webkit-inner-spin-button{appearance:none}
+.v2-size-cell small{font-size:10px;white-space:nowrap;color:#647b70;font-weight:600}
+.v2-order-summary{border-top:1px solid #dce9df;padding-top:10px}
+.v2-summary-heading{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#6b8578;font-weight:800;margin:5px 0 12px}
+.v2-summary-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;color:#356155;font-size:13px}
+.v2-summary-line strong{white-space:nowrap;color:#174b3f}
+.v2-transform{background:#f5f9f6;border-radius:14px;padding:14px;display:grid;gap:8px}
+.v2-transform>label{display:flex;justify-content:space-between;margin:0}
+.v2-transform input[type=range]{width:100%}
+.v2-transform-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.v2-transform-buttons button{flex:1;font-size:12px;padding:11px 7px}
+.print-zone{pointer-events:auto!important;touch-action:none;cursor:crosshair;background:#329a7122}
+.print-zone img{pointer-events:none;user-select:none;-webkit-user-drag:none}
+.print-zone:focus-visible{outline:3px solid #0f9675;outline-offset:4px}
+.v2-checkout{display:grid;gap:13px;background:#f6faf6;border-radius:18px;padding:20px;border:1px solid #dceadf;margin-top:14px}
+.v2-checkout label:not(.v2-consent){display:grid;gap:6px;font-size:12px;font-weight:800;color:#395f52}
+.v2-checkout input:not([type=checkbox]),.v2-checkout textarea{display:block;box-sizing:border-box;width:100%;padding:12px;border:1px solid #d8e5db;border-radius:11px;font:inherit;background:white;color:#234e42}
+.v2-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v2-consent{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.6;color:#506d60}
+.v2-consent input{margin-top:3px}
+.v2-consent a{text-decoration:underline;color:#0d6d56}
+.v2-primary{font-weight:800;background:#0e765c;letter-spacing:0.01em}
+.v2-primary:hover{background:#085642}
+.v2-primary:disabled{cursor:not-allowed;opacity:.53}
+.v2-feedback{font-size:12px;line-height:1.6;min-height:20px;color:#a24732;margin:0}
+.v2-feedback.v2-success{color:#197147;font-weight:800}
+.v2-honeypot{display:none!important}
+@media(max-width:850px){.v2-field-grid{grid-template-columns:1fr}.v2-size-panel{padding:15px}.v2-checkout{padding:15px}.v2-section-head{flex-wrap:wrap}}
