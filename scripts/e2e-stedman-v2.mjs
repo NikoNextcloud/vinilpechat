@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {mkdirSync} from 'node:fs';
 import {chromium} from 'playwright';
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:1350,height:950}});
@@ -24,6 +24,8 @@ try{
  await page.locator('[data-shade="BLO"]').click();
  assert((await page.locator('#v2-selected-color').innerText()).includes('Черно'),'black color selection');
  await page.locator('[data-shade="WHI"]').click();
+ mkdirSync('test-output',{recursive:true});
+ await page.screenshot({path:'test-output/stedman-v2-tshirt-desktop.png',fullPage:true});
  assert(await page.locator('#v2-order-form').isVisible());
  await page.locator('[data-v2-size="M"]').fill('2');
  await page.locator('[data-v2-size="3XL"]').fill('1');
@@ -62,12 +64,14 @@ try{
  await page.locator('#v2-size-guide summary').click();
  assert((await page.locator('#v2-size-table').innerText()).includes('55'),'hoodie has verified M chest width in centimeters');
  await page.locator('[data-print-mode="both"]').click();
+ await page.screenshot({path:'test-output/stedman-v2-hoodie-desktop.png',fullPage:true});
  assert((await page.locator('#total-price').innerText()).includes('35,60')||(await page.locator('#total-price').innerText()).includes('35.60'),'hoodie print quote matches server, 35.60 euro');
  await page.locator('#back-to-models').click();
 
  await page.setViewportSize({width:390,height:844});
  await page.locator('[data-model="ST2000"]').click();
  assert(await page.locator('#v2-order-form').isVisible(),'mobile checkout visible');
+ await page.screenshot({path:'test-output/stedman-v2-tshirt-mobile.png',fullPage:true});
  assert.equal(errors.length,0,'unexpected browser page errors: '+errors.join('; '));
  console.log('STEDMAN V2 BROWSER PASS',JSON.stringify({models:75,poloCount,dragX:x,mobile:true,printOptionPrices:[3,6],colorSwatches:true,photoGallery:true,sizeGuide:true}));
 }finally{await browser.close()}
