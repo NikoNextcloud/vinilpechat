@@ -66,6 +66,7 @@ try{
  const x=Number(await page.locator('#art-x').inputValue());
  assert(x>=60,'drag and drop moves logo horizontally: '+x);
  await page.locator('#v2-resize-handle').waitFor({state:'visible'});
+ await page.locator('#v2-resize-handle').scrollIntoViewIfNeeded();
  const beforeResize=Number(await page.locator('#art-size').inputValue());
  const resizeBox=await page.locator('#v2-resize-handle').boundingBox();
  await page.mouse.move(resizeBox.x+resizeBox.width/2,resizeBox.y+resizeBox.height/2);
