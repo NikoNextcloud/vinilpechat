@@ -118,6 +118,7 @@ try{
  await page.locator('[data-print-mode="front"]').click();
  await page.locator('#front-upload').setInputFiles({name:'mobile-logo.png',mimeType:'image/png',buffer:png});
  await page.locator('#v2-resize-handle').waitFor({state:'visible'});
+ await page.locator('#print-zone').scrollIntoViewIfNeeded();
  const mobileZone=await page.locator('#print-zone').boundingBox();
  const mobileSizeBefore=Number(await page.locator('#art-size').inputValue());
  const touch=await page.context().newCDPSession(page);
