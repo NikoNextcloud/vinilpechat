@@ -52,7 +52,7 @@ function go(which){
  document.getElementById('mobile-nav').classList.add('hidden');
 }
 let detailReturnUrl=null;
-function navigate(){let route=decodeURIComponent((location.hash||'#home').slice(1));const instagram=$('#instagram-posts');if(instagram)instagram.hidden=route==='admin';if(route.startsWith('item-')){renderHome();openDetail(Number(route.split('-')[1]));return}closeDialog();if(route==='design')renderDesignPage();else if(route==='home'||!route)renderChoiceLanding();else if(['contact','terms','delivery','privacy','admin'].includes(route)){if(route==='admin')renderAdmin();else renderPage(route)}else{renderHome();if(route==='catalog'){requestAnimationFrame(()=>$('#catalog')?.scrollIntoView({block:'start'}))}}window.scrollTo({top:0,behavior:'instant'})}
+function navigate(){if(location.pathname.startsWith('/produkti/')&&state.detail!==null)return;let route=decodeURIComponent((location.hash||'#home').slice(1));const instagram=$('#instagram-posts');if(instagram)instagram.hidden=route==='admin';if(route.startsWith('item-')){renderHome();openDetail(Number(route.split('-')[1]));return}closeDialog();if(route==='design')renderDesignPage();else if(route==='home'||!route)renderChoiceLanding();else if(['contact','terms','delivery','privacy','admin'].includes(route)){if(route==='admin')renderAdmin();else renderPage(route)}else{renderHome();if(route==='catalog'){requestAnimationFrame(()=>$('#catalog')?.scrollIntoView({block:'start'}))}}window.scrollTo({top:0,behavior:'instant'})}
 
 let currentDesignQuote=null;
 let designQuoteSequence=0;
