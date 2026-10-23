@@ -77,10 +77,11 @@ try{
  assert.equal(new URL(page.url()).pathname,coverUrl,'Cover product keeps SEO-friendly pathname inside dialog');
  await page.locator('#productClose').click();
  await page.goto(base+'/#catalog',{waitUntil:'domcontentloaded'});
- const modalLink=page.locator('a.product-photo[data-detail="13"]');
+ const modalLink=page.locator('button.product-photo[data-detail="13"]');
  await modalLink.waitFor({state:'visible'});
  const expected='/produkti/13-lenta-kristal-za-vrati-2000-mikrona';
- assert.equal(await modalLink.getAttribute('href'),expected);
+ const shareLink=page.locator('article.product-card').filter({has:modalLink}).locator('a.seo-product-link');
+ assert.equal(await shareLink.getAttribute('href'),expected);
  await modalLink.click();
  await page.waitForTimeout(850);
  console.log('CATALOG_MODAL_DIAGNOSTIC',JSON.stringify({url:page.url(),modalClass:await page.locator('#productDialog').getAttribute('class'),errors}));

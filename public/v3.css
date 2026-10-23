@@ -398,8 +398,3 @@ border-bottom:1px solid #e9eef5}
  .v3-simple-home .v3-primary-categories{padding-top:32px;padding-bottom:35px}
  .v3-simple-home .v3-primary-card{min-height:225px}
 }
-
-/* Accessible, shareable permalink links on the existing product cards. */
-.product-card .product-title-link{display:block;text-decoration:none;color:inherit;text-align:left}
-.product-card .product-title-link:hover .product-name{color:#087b63}
-.product-card a.product-photo{cursor:pointer;text-decoration:none}
