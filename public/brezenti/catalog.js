@@ -1,80 +1,115 @@
 'use strict';
-/* Cover products come from the same public catalog and retail prices as the main store. */
+/* V3 material catalog — uses the existing public Supabase-backed catalog and cart format. */
 (()=>{
- const list=document.getElementById('cover-grid');
- if(!list)return;
- const count=document.getElementById('cover-count');
- const status=document.getElementById('cover-status');
- const search=document.getElementById('cover-search');
- const category=document.getElementById('cover-category');
- const COVER_WORDS=/винил|брезент|покрив|платн|меш|мреж|зебло|найлон|обков|кристал|pvc|ленти|агротекстил/i;
- const allowedIds=new Set(['bilbord','mesh','lenti','kristal','tir','zeblo','nailon','obkov']);
- const eur=n=>Number(n).toLocaleString('bg-BG',{style:'currency',currency:'EUR'});
- const txt=(type,className,text)=>{const el=document.createElement(type);if(className)el.className=className;el.textContent=text;return el;};
- let products=[],categories=[],activeCategory='all';
+ const grid=document.getElementById('cover-grid');
+ if(!grid)return;
+ const el=id=>document.getElementById(id);
+ const count=el('cover-count'),total=el('cover-total'),status=el('cover-status');
+ const search=el('cover-search'),sort=el('cover-sort'),categoriesNode=el('cover-categories');
+ const money=n=>Number(n).toLocaleString('bg-BG',{style:'currency',currency:'EUR'});
+ const productUrl=window.VinilProductLinks?.productUrl;
+ if(!productUrl){status.textContent='Каталогът не може да се зареди. Опитай презареждане.';return;}
+ const fallback='/assets/placeholder.svg';
+ const create=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
  const safeImage=p=>{
-  const raw=[p.image,...(Array.isArray(p.images)?p.images:[])].find(x=>typeof x==='string'&&x&&!x.includes('id-preview--')&&!x.includes('placeholder'));
-  if(!raw)return '/assets/placeholder.svg';
-  try{
-   const u=new URL(raw,location.origin);
-   return ((u.protocol==='https:'||u.origin===location.origin)&&!u.username&&!u.password)?u.href:'/assets/placeholder.svg';
-  }catch{return '/assets/placeholder.svg';}
+  const image=[p.image,...(Array.isArray(p.images)?p.images:[])].find(v=>typeof v==='string'&&v&&!v.includes('id-preview--')&&!v.includes('placeholder'));
+  if(!image)return fallback;
+  try{const url=new URL(image,location.origin);return ((url.protocol==='https:'||url.origin===location.origin)&&!url.username&&!url.password)?url.href:fallback;}catch{return fallback;}
  };
- const minRetail=p=>{
-  if(Array.isArray(p.supplier_options)&&p.supplier_options.length){
-   const prices=(p.variants||[]).filter(v=>v.active!==false&&v.sale_price!==null&&v.sale_price!==undefined&&Number.isFinite(Number(v.sale_price))).map(v=>Number(v.sale_price));
+ const hasVariants=p=>Array.isArray(p.supplier_options)&&p.supplier_options.length>0;
+ const priceFor=p=>{
+  if(hasVariants(p)){
+   const prices=(p.variants||[]).filter(v=>v.active!==false&&v.sale_price!==null&&v.sale_price!==undefined&&Number.isFinite(Number(v.sale_price))&&Number(v.sale_price)>=0).map(v=>Number(v.sale_price));
    return prices.length?Math.min(...prices):null;
   }
-  return p.sale_price!==null&&p.sale_price!==undefined&&Number.isFinite(Number(p.sale_price))?Number(p.sale_price):null;
+  const x=p.sale_price;
+  return x===null||x===undefined||x===''||!Number.isFinite(Number(x))||Number(x)<0?null:Number(x);
  };
+ let products=[],categories=[],chosen='all',toastTimer;
+ const categoryName=id=>categories.find(c=>c.id===id)?.name||'Материали';
+ const categoryButtons=()=>{
+  categoriesNode.replaceChildren();
+  const entries=[{id:'all',name:'Всички продукти'},...categories.filter(c=>products.some(p=>p.category===c.id))];
+  for(const c of entries){
+   const amount=c.id==='all'?products.length:products.filter(p=>p.category===c.id).length;
+   const button=create('button','cover-category'+(chosen===c.id?' active':''));button.type='button';
+   button.dataset.coverCat=c.id;button.setAttribute('aria-pressed',String(chosen===c.id));
+   button.append(create('span','',c.name),create('small','',String(amount)));categoriesNode.append(button);
+  }
+ };
+ function notify(message){
+  const elToast=el('cover-toast');clearTimeout(toastTimer);elToast.textContent=message;elToast.hidden=false;
+  toastTimer=setTimeout(()=>elToast.hidden=true,3300);
+ }
+ function addToCart(p){
+  if(hasVariants(p)){location.assign('/#item-'+encodeURIComponent(String(p.id)));return;}
+  if(priceFor(p)===null){location.assign(productUrl(p));return;}
+  let cart=[];try{const saved=JSON.parse(localStorage.getItem('vinyl-cart')||'[]');if(Array.isArray(saved))cart=saved.filter(x=>x&&Number.isInteger(Number(x.id))&&Number(x.qty)>0);}catch{}
+  const item=cart.find(x=>Number(x.id)===Number(p.id)&&!x.variant_key);
+  if(item)item.qty=Number(item.qty)+1;else cart.push({id:p.id,qty:1,variant:'',variant_key:''});
+  try{localStorage.setItem('vinyl-cart',JSON.stringify(cart));notify('Добавено в количката: '+p.name);}catch{notify('Количката не може да бъде запазена.');}
+ }
  const card=p=>{
-  const el=txt('article','cover-product','');
-  const href='/#item-'+encodeURIComponent(String(p.id));
-  const photo=document.createElement('a');photo.className='cover-photo';photo.href=href;photo.setAttribute('aria-label','Отвори '+p.name);
-  const img=document.createElement('img');img.loading='lazy';img.decoding='async';img.alt=p.name;img.src=safeImage(p);
-  img.addEventListener('error',()=>{if(!img.dataset.fallback){img.dataset.fallback='1';img.src='/assets/placeholder.svg';}});
-  photo.append(img);el.append(photo);
-  const meta=document.createElement('div');meta.className='cover-content';
-  const label=categories.find(c=>c.id===p.category)?.name||'Покривни материали';
-  meta.append(txt('small','cover-product-category',label));
-  const title=txt('a','cover-product-title',p.name);title.href=href;meta.append(title);
-  const desc=txt('p','cover-product-desc',String(p.description||'').slice(0,145));meta.append(desc);
-  const footer=document.createElement('div');footer.className='cover-product-footer';
-  const retail=minRetail(p);
-  const quote=txt('span','cover-price',retail===null?'По запитване':(p.supplier_options?.length?'От ':'')+eur(retail));
-  const note=txt('small','cover-price-note',retail===null?'Цена при запитване':p.price_verification_needed?'Цената се потвърждава':'Ориентировъчна цена');
-  const stack=document.createElement('span');stack.className='cover-price-stack';stack.append(quote,note);footer.append(stack);
-  const go=txt('a','cover-open',p.supplier_options?.length?'Избери вариант ↗':'Виж продукта ↗');go.href=href;footer.append(go);
-  meta.append(footer);el.append(meta);return el;
+  const item=create('article','cover-product');
+  const url=productUrl(p),photo=create('a','cover-photo');photo.href=url;photo.setAttribute('aria-label','Отвори '+p.name);
+  const image=create('img');image.alt=p.name;image.loading='lazy';image.decoding='async';image.src=safeImage(p);
+  image.addEventListener('error',()=>{if(!image.dataset.fallback){image.dataset.fallback='1';image.src=fallback;}});
+  photo.append(image);item.append(photo);
+  const body=create('div','cover-content');
+  body.append(create('span','cover-product-category',categoryName(p.category)));
+  const title=create('a','cover-product-title',p.name);title.href=url;body.append(title);
+  const description=create('p','cover-product-desc',String(p.description||'').slice(0,195));body.append(description);
+  const details=create('a','cover-detail','Подробности за продукта ↗');details.href=url;body.append(details);
+  const footer=create('div','cover-product-footer');
+  const price=priceFor(p),priceBox=create('div','cover-price-stack');
+  priceBox.append(create('strong','cover-price',price===null?'По запитване':(hasVariants(p)?'От ':'')+money(price)));
+  priceBox.append(create('small','cover-price-unit',price!==null?'/ '+String(p.unit||'бр.'):'Цена при запитване'));
+  footer.append(priceBox);
+  if(hasVariants(p)){
+   const btn=create('button','cover-add','Избери размер ↗');btn.type='button';
+   btn.addEventListener('click',()=>addToCart(p));footer.append(btn);
+  }else if(price!==null){
+   const btn=create('button','cover-add','+ Добави');btn.type='button';
+   btn.addEventListener('click',()=>addToCart(p));footer.append(btn);
+  }else{
+   const btn=create('a','cover-add','Запитване ↗');btn.href=url;footer.append(btn);
+  }
+  body.append(footer);item.append(body);return item;
  };
  const render=()=>{
-  const term=search.value.toLocaleLowerCase('bg-BG').trim();
-  const shown=products.filter(p=>(activeCategory==='all'||p.category===activeCategory)&&
-   (!term||(p.name+' '+(p.description||'')+' '+(categories.find(c=>c.id===p.category)?.name||'')).toLocaleLowerCase('bg-BG').includes(term)));
-  count.textContent=shown.length+' продукта';
-  status.textContent=shown.length?'':'Няма продукти по избраните критерии.';
-  list.replaceChildren(...shown.map(card));
+  const term=search.value.trim().toLocaleLowerCase('bg-BG');
+  const view=products.filter(p=>(chosen==='all'||p.category===chosen)&&
+   (!term||[p.name,p.description,categoryName(p.category)].join(' ').toLocaleLowerCase('bg-BG').includes(term)));
+  if(sort.value==='price_up')view.sort((a,b)=>(priceFor(a)??Infinity)-(priceFor(b)??Infinity));
+  if(sort.value==='price_down')view.sort((a,b)=>(priceFor(b)??-1)-(priceFor(a)??-1));
+  if(sort.value==='name')view.sort((a,b)=>a.name.localeCompare(b.name,'bg'));
+  count.textContent='Показани '+view.length+' продукта';
+  status.textContent=view.length?'':'Няма продукти по избраните критерии.';
+  grid.replaceChildren(...view.map(card));
+  for(const button of categoriesNode.querySelectorAll('[data-cover-cat]')){
+   const active=button.dataset.coverCat===chosen;button.classList.toggle('active',active);
+   button.setAttribute('aria-pressed',String(active));
+  }
  };
- category.addEventListener('change',()=>{activeCategory=category.value;render();});
- search.addEventListener('input',render);
+ categoriesNode.addEventListener('click',event=>{
+  const button=event.target.closest('[data-cover-cat]');if(!button)return;chosen=button.dataset.coverCat;render();
+ });
+ search.addEventListener('input',render);sort.addEventListener('change',render);
  (async()=>{
   try{
    const response=await fetch('/api/catalog',{credentials:'same-origin',headers:{Accept:'application/json'},cache:'no-store'});
-   if(!response.ok)throw new Error('Каталогът временно не е достъпен');
+   if(!response.ok)throw Error('HTTP '+response.status);
    const data=await response.json();
-   if(!Array.isArray(data.products)||!Array.isArray(data.categories))throw new Error('Каталогът върна невалидни данни');
-   categories=data.categories.filter(c=>allowedIds.has(String(c.id).toLowerCase())||COVER_WORDS.test(c.name||''));
-   const ids=new Set(categories.map(c=>c.id));
-   products=data.products.filter(p=>p.active!==false&&ids.has(p.category));
-   for(const c of categories){
-    if(!products.some(p=>p.category===c.id))continue;
-    const option=document.createElement('option');option.value=c.id;option.textContent=c.name;category.append(option);
-   }
-   render();
+   if(!Array.isArray(data.products)||!Array.isArray(data.categories))throw Error('Невалиден отговор');
+   products=data.products.filter(p=>p&&p.active!==false);
+   categories=data.categories;
+   total.textContent=products.length+' продукта';
+   categoryButtons();render();
   }catch(error){
-   count.textContent='Няма връзка';
-   status.textContent='Каталогът временно не може да се зареди. Опитай презареждане или използвай страницата за контакти.';
-   console.warn('Cover catalog unavailable:',error.message);
+   status.textContent='Неуспешно зареждане на каталога. Моля, опитай отново или отвори основния каталог.';
+   const a=create('a','','Отвори каталога →');a.href='/#catalog';status.append(' ',a);
+   count.textContent='Каталогът е недостъпен';
+   console.warn('Vinilpechat cover catalog loading failed:',error.message);
   }
  })();
 })();
