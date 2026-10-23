@@ -63,6 +63,12 @@ try{
  assert(w.scroll<=w.viewport+5,'Mobile page must not overflow horizontally '+JSON.stringify(w));
  await page.screenshot({path:'test-output/v3-covers-catalog-mobile.png',fullPage:true});
  await page.setViewportSize({width:1440,height:900});
+ // Clicking a cover photo opens the existing interactive product dialog, not an inert static screen.
+ const coverUrl=await cards.first().locator('.cover-photo').getAttribute('href');
+ await cards.first().locator('.cover-photo').click();
+ await page.locator('#productDialog').waitFor({state:'visible'});
+ assert.equal(new URL(page.url()).pathname,coverUrl,'Cover product keeps SEO-friendly pathname inside dialog');
+ await page.locator('#productClose').click();
  await page.goto(base+'/#catalog',{waitUntil:'domcontentloaded'});
  const modalLink=page.locator('a.product-photo[data-detail="13"]');
  await modalLink.waitFor({state:'visible'});
