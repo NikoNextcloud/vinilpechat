@@ -30,6 +30,7 @@ test('Main catalogue modal shows canonical product URL and keeps old hash deep l
  const css=fs.readFileSync(path.join(__dirname,'../public/v3.css'),'utf8');
  assert.match(app,/history\.pushState\(\{vinilDetail:p\.id\},'',seoProductHref\(p\)\)/);
  assert.match(app,/route\.startsWith\('item-'\)/);
+ assert.match(app,/if\(location\.pathname\.startsWith\('\/produkti\/'\)\&\&state\.detail!==null\)return/);
  assert.match(app,/a=t\.closest\('\[data-detail\]'\);if\(a\)\{e\.preventDefault\(\)/);
  assert.match(app,/history\.replaceState\(null,'',detailReturnUrl\)/);
  assert.match(app,/new URL\(seoProductHref\(p\),location\.origin\)/);
