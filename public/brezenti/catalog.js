@@ -50,7 +50,7 @@
   try{localStorage.setItem('vinyl-cart',JSON.stringify(cart));notify('Добавено в количката: '+p.name);}catch{notify('Количката не може да бъде запазена.');}
  }
  const card=p=>{
-  const item=create('article','cover-product');
+  const item=create('article','cover-product');item.dataset.productId=String(p.id);
   const url=productUrl(p),photo=create('a','cover-photo');photo.href=url;photo.setAttribute('aria-label','Отвори '+p.name);
   const image=create('img');image.alt=p.name;image.loading='lazy';image.decoding='async';image.src=safeImage(p);
   image.addEventListener('error',()=>{if(!image.dataset.fallback){image.dataset.fallback='1';image.src=fallback;}});
