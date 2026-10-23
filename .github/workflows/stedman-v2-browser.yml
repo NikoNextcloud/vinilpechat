@@ -20,6 +20,9 @@ on:
       - 'public/v3.css'
       - 'public/v3.js'
       - 'public/index.html'
+      - 'public/site.js'
+      - 'public/product-links.js'
+      - 'tests/product-permalinks.test.js'
       - '.github/workflows/stedman-v2-browser.yml'
 permissions:
   contents: read
