@@ -40,7 +40,7 @@ try{
  const href=await cards.first().locator('.cover-product-title').getAttribute('href');
  assert.match(href,/^\/produkti\/\d+-[a-z0-9-]+$/,'Latin SEO product links');
  assert(!href.includes('#item'),'Legacy hash not shown in links');
- await page.screenshot({path:'test-output/v3-covers-catalog-desktop.png',fullPage:true});
+ await page.screenshot({path:'test-output/v3-covers-catalog-desktop.png',fullPage:false});
  await page.locator('#cover-search').fill('кристал');
  assert((await cards.count())>0,'Search works');
  await page.locator('#cover-search').fill('');
@@ -57,11 +57,18 @@ try{
  await simple.locator('button.cover-add').click();
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('vinyl-cart')||'[]'));
  assert(saved.some(x=>String(x.id)===String(cartId)),'Cart is shared with main shop');
+ assert(Number(await page.locator('#cover-cart-badge').innerText())>=1,'Cover cart badge updates');
+ await page.locator('.cover-cart-shortcut').click();
+ await page.locator('#cartDrawer').waitFor({state:'visible'});
+ assert((await page.locator('#cartContents .cart-line').count())>=1,'Shared storefront cart opens');
+ await page.screenshot({path:'test-output/v3-cover-shared-cart.png'});
+ await page.goto(base+'/brezenti/',{waitUntil:'domcontentloaded'});
+ await cards.first().waitFor({state:'visible'});
  await page.setViewportSize({width:390,height:844});
  await overlap();
  const w=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
  assert(w.scroll<=w.viewport+5,'Mobile page must not overflow horizontally '+JSON.stringify(w));
- await page.screenshot({path:'test-output/v3-covers-catalog-mobile.png',fullPage:true});
+ await page.screenshot({path:'test-output/v3-covers-catalog-mobile.png',fullPage:false});
  await page.setViewportSize({width:1440,height:900});
  // Clicking a cover photo opens the existing interactive product dialog, not an inert static screen.
  const coverUrl=await cards.first().locator('.cover-photo').getAttribute('href');
