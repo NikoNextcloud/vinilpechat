@@ -33,6 +33,19 @@ try{
  await goto('/#catalog');
  await page.locator('#catalogSearch').waitFor();
  assert(await page.locator('#productGrid').isVisible(),'existing materials catalog still works');
+ const productCards=page.locator('#productGrid .product-card');
+ await productCards.first().waitFor({state:'visible'});
+ assert.equal(await page.locator('#productGrid .product-photo .photo-tag').count(),0,'product labels not on top of photos');
+ const checkProductStatusLayout=async()=>{
+  const points=await productCards.evaluateAll(cards=>cards.slice(0,20).map(card=>{
+   const photo=card.querySelector('.product-photo')?.getBoundingClientRect();
+   const label=card.querySelector('.product-status')?.getBoundingClientRect();
+   return {found:!!label,bottom:photo?.bottom,top:label?.top};
+  }));
+  assert(points.length>0&&points.every(p=>p.found&&p.top>=p.bottom-1),'product label should sit below image: '+JSON.stringify(points));
+ };
+ await checkProductStatusLayout();
+ await page.screenshot({path:'test-output/v3-catalog-labels-desktop.png',fullPage:false});
  await goto('/#design');
  await page.locator('#designCalculator').waitFor();
  assert(await page.locator('#designWidth').isVisible(),'vinyl pricing calculator retained');
@@ -76,6 +89,10 @@ try{
  await page.screenshot({path:'test-output/v3-home-mobile.png',fullPage:true});
  await page.locator('#mobileMenu').click();
  assert(await page.locator('#mobile-nav').isVisible(),'mobile navigation opens');
+ await goto('/#catalog');
+ await productCards.first().waitFor({state:'visible'});
+ await checkProductStatusLayout();
+ await page.screenshot({path:'test-output/v3-catalog-labels-mobile.png',fullPage:false});
  await goto('/teniski/?category='+encodeURIComponent('Суитшърти'));
  await page.locator('#models [data-model]:visible').first().waitFor();
  assert((await page.locator('#models [data-model]:visible').count())>0,'mobile category filter works');
