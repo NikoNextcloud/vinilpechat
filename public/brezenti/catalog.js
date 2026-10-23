@@ -49,17 +49,24 @@
   if(item)item.qty=Number(item.qty)+1;else cart.push({id:p.id,qty:1,variant:'',variant_key:''});
   try{localStorage.setItem('vinyl-cart',JSON.stringify(cart));notify('Добавено в количката: '+p.name);}catch{notify('Количката не може да бъде запазена.');}
  }
+ const openInteractiveDetail=(event,p)=>{
+  if(event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();
+  // Normal click keeps the existing full variant selector and cart; the final URL is the readable permalink.
+  location.assign('/#item-'+encodeURIComponent(String(p.id)));
+ };
  const card=p=>{
   const item=create('article','cover-product');item.dataset.productId=String(p.id);
   const url=productUrl(p),photo=create('a','cover-photo');photo.href=url;photo.setAttribute('aria-label','Отвори '+p.name);
   const image=create('img');image.alt=p.name;image.loading='lazy';image.decoding='async';image.src=safeImage(p);
   image.addEventListener('error',()=>{if(!image.dataset.fallback){image.dataset.fallback='1';image.src=fallback;}});
+  photo.addEventListener('click',event=>openInteractiveDetail(event,p));
   photo.append(image);item.append(photo);
   const body=create('div','cover-content');
   body.append(create('span','cover-product-category',categoryName(p.category)));
-  const title=create('a','cover-product-title',p.name);title.href=url;body.append(title);
+  const title=create('a','cover-product-title',p.name);title.href=url;title.addEventListener('click',event=>openInteractiveDetail(event,p));body.append(title);
   const description=create('p','cover-product-desc',String(p.description||'').slice(0,195));body.append(description);
-  const details=create('a','cover-detail','Подробности за продукта ↗');details.href=url;body.append(details);
+  const details=create('a','cover-detail','Подробности за продукта ↗');details.href=url;details.addEventListener('click',event=>openInteractiveDetail(event,p));body.append(details);
   const footer=create('div','cover-product-footer');
   const price=priceFor(p),priceBox=create('div','cover-price-stack');
   priceBox.append(create('strong','cover-price',price===null?'По запитване':(hasVariants(p)?'От ':'')+money(price)));
