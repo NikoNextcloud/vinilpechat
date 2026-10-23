@@ -82,6 +82,8 @@ try{
  const expected='/produkti/13-lenta-kristal-za-vrati-2000-mikrona';
  assert.equal(await modalLink.getAttribute('href'),expected);
  await modalLink.click();
+ await page.waitForTimeout(850);
+ console.log('CATALOG_MODAL_DIAGNOSTIC',JSON.stringify({url:page.url(),modalClass:await page.locator('#productDialog').getAttribute('class'),errors}));
  await page.locator('#productDialog').waitFor({state:'visible'});
  assert.equal(new URL(page.url()).pathname,expected,'Opening modal updates to SEO permalink');
  assert((await page.locator('#productDetail h2').innerText()).includes('Лента кристал'));
