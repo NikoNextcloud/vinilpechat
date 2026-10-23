@@ -35,5 +35,5 @@ test('Main catalogue modal shows canonical product URL and keeps old hash deep l
  assert.match(app,/new URL\(seoProductHref\(p\),location\.origin\)/);
  assert.match(app,/data-detail=.*product-card|product-card.*data-detail/);
  assert.match(app,/class="seo-product-link" href="\$\{escaped\(seoProductHref\(p\)\)\}"/);
- assert.match(css,/\.product-title-link/);
+ assert.match(css,/\.product-photo/);
 });
