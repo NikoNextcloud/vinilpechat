@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="bg"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Винили за покриване – актуален каталог | Vinilpechat</title>
+<title>Винили за покриване и каталог с материали | Vinilpechat</title>
 <meta name="description" content="Брезенти, покривни платнища, зебло, градински и защитни материали. Избери продукт, размер и вариант от каталога на Vinilpechat и изпрати запитване във Viber.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://vinilpechat.vercel.app/brezenti/">
@@ -9,25 +9,37 @@
 <link rel="stylesheet" href="/seo.css"><link rel="stylesheet" href="/seo-v3.css"><link rel="icon" type="image/svg+xml" href="/assets/vinilpechat-spectrum-logo.svg">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"Брезенти и покривни платнища","description":"Каталог на брезенти, покривни платнища и материали за покриване.","url":"https://vinilpechat.vercel.app/brezenti/","isPartOf":{"@type":"WebSite","name":"Vinilpechat","url":"https://vinilpechat.vercel.app/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Начало","item":"https://vinilpechat.vercel.app/"},{"@type":"ListItem","position":2,"name":"Брезенти и покривни платнища","item":"https://vinilpechat.vercel.app/brezenti/"}]}]}</script>
 <link rel="stylesheet" href="/brezenti/catalog.css">
+<script src="/product-links.js" defer></script>
 <script src="/brezenti/catalog.js" defer></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head><body>
-<header><nav aria-label="Основна навигация"><a class="seo-brand" href="/"><img src="/assets/vinilpechat-spectrum-logo.svg" alt="Многоцветно геометрично лого Vinilpechat" width="60" height="60"><span>Vinilpechat</span></a><div class="links"><a href="/">Начало</a><a href="/nov-vinil/">Печат на винил</a><a href="/brezenti/">Брезенти</a><a href="/#contact">Контакти</a></div></nav></header>
+<header><nav aria-label="Основна навигация"><a class="seo-brand" href="/"><img src="/assets/vinilpechat-spectrum-logo.svg" alt="Многоцветно геометрично лого Vinilpechat" width="60" height="60"><span>Vinilpechat</span></a><div class="links"><a href="/">Начало</a><a href="/nov-vinil/">Печат на винил</a><a href="/brezenti/">Брезенти</a><a href="/#contact">Контакти</a><a class="cover-cart-shortcut" href="/?cart=open#catalog" aria-label="Отвори количката">Количка <span id="cover-cart-badge">0</span></a></div></nav></header>
 <main class="cover-main">
  <section class="cover-intro" aria-labelledby="covers-title">
-  <span class="eyebrow">ВИНИЛИ · БРЕЗЕНТИ · ПОКРИВАЛА</span>
-  <h1 id="covers-title">Винили за покриване</h1>
-  <p>Разгледай директно наличните платнища, брезенти, мрежи и PVC материали. Избери продукт, виж размерите и изпрати запитване.</p>
+  <span class="eyebrow">ПРОДУКТОВ КАТАЛОГ</span>
+  <h1 id="covers-title">Открий подходящия материал</h1>
+  <p>Преглед на винили, брезенти, покривала и материали за дома и бизнеса. Крайната цена се потвърждава при заявка.</p>
+  <span class="cover-total" id="cover-total">Зареждане на продуктите…</span>
  </section>
- <section class="cover-catalog-section" aria-labelledby="covers-catalog-title">
-  <div class="cover-section-header"><h2 id="covers-catalog-title">Каталог с продукти</h2><span id="cover-count" aria-live="polite">Зареждане…</span></div>
-  <div class="cover-toolbar">
-   <label for="cover-search">Търси продукт<input id="cover-search" type="search" placeholder="Например брезент, кристал, найлон…" autocomplete="off"></label>
-   <label for="cover-category">Категория<select id="cover-category"><option value="all">Всички материали</option></select></label>
+ <section class="cover-catalog-section" aria-label="Продуктов каталог">
+  <div class="cover-layout">
+   <aside class="cover-sidebar" aria-label="Категории на продуктите">
+    <h2>Категории</h2>
+    <div id="cover-categories" class="cover-categories"><button type="button" class="cover-category active" data-cover-cat="all" aria-pressed="true">Всички продукти</button></div>
+   </aside>
+   <div class="cover-results">
+    <div class="cover-toolbar">
+     <label class="cover-search-field" for="cover-search"><span aria-hidden="true">⌕</span><input id="cover-search" type="search" placeholder="Търси винил, брезент, найлон…" autocomplete="off"><span class="cover-sr-only">Търси продукт</span></label>
+     <label class="cover-sr-only" for="cover-sort">Сортиране на продуктите</label>
+     <select id="cover-sort" aria-label="Сортиране"><option value="default">Препоръчани</option><option value="price_up">Цена: възходяща</option><option value="price_down">Цена: низходяща</option><option value="name">По име</option></select>
+    </div>
+    <p id="cover-count" class="cover-count" aria-live="polite">Зареждане…</p>
+    <p id="cover-status" class="cover-status" role="status">Зареждаме актуалните продукти и техните варианти…</p>
+    <div id="cover-grid" class="cover-grid" aria-live="polite"></div>
+   </div>
   </div>
-  <p class="cover-status" id="cover-status" role="status">Зареждаме актуалните продукти и варианти…</p>
-  <div class="cover-grid" id="cover-grid" aria-live="polite"></div>
-  <noscript><p>За да се покажат актуалните цени и продукти, включи JavaScript. Можеш да прегледаш и <a href="/kategorii/tir-tir-vinil-brezenti">брезентите</a>, <a href="/kategorii/kristal-kristal-vinil">кристал винилите</a> и <a href="/kategorii/zeblo-platna-ot-zeblo">платната от зебло</a>.</p></noscript>
+  <noscript><p>За актуалния каталог е необходим JavaScript. Продуктовите страници са достъпни и през <a href="/#catalog">основния каталог</a>.</p></noscript>
  </section>
+ <div id="cover-toast" class="cover-toast" role="status" aria-live="polite" hidden></div>
 </main><footer>© Vinilpechat · <a href="/">Начало</a> · <a href="/#privacy">Поверителност</a></footer>
 </body></html>
