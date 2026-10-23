@@ -12,6 +12,8 @@ test('Vinyl covers open the original storefront-style catalog, not promotional b
  for(const id of ['cover-grid','cover-search','cover-sort','cover-categories','cover-count','cover-total'])
   assert(html.includes('id="'+id+'"'),'Missing '+id);
  assert.match(html,/src="\/product-links\.js" defer/);
+ assert.match(html,/href="\/\?cart=open#catalog"/);
+ assert.match(html,/id="cover-cart-badge"/);
  assert.match(html,/src="\/brezenti\/catalog\.js" defer/);
  assert.doesNotMatch(html,/Разгледай каталога ↗|Свържи се с нас<\/a>|class="hero"/);
 });
