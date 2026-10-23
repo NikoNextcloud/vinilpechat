@@ -29,6 +29,9 @@ test('Products, prices, categories and existing cart use live public catalog',()
  assert.match(js,/categories=data\.categories/);
  assert.match(js,/window\.VinilProductLinks/);
  assert.match(js,/productUrl\(p\)/);
+ assert.match(js,/openInteractiveDetail/);
+ assert.match(js,/photo\.addEventListener\('click'/);
+ assert.match(js,/title\.addEventListener\('click'/);
  assert.match(js,/vinyl-cart/);
  assert.match(js,/variant_key/);
  assert.match(js,/sale_price/);
