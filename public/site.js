@@ -40,7 +40,12 @@ const unit=p=>p.unit||'бр.';
 function toast(t){let el=$('#toast');el.textContent=t;el.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.add('hidden'),3500)}
 function persist(){localStorage.setItem('vinyl-cart',JSON.stringify(state.cart));$('#cart-count').textContent=state.cart.reduce((a,b)=>a+b.qty,0)}
 async function request(url,opt={}){let resp=await fetch(url,{credentials:'same-origin',headers:{'Content-Type':'application/json',...(state.csrf?{'X-CSRF-Token':state.csrf}:{})},...opt});let d=await resp.json().catch(()=>({error:'Невалиден отговор'}));if(!resp.ok)throw Error(d.error||'Грешка при заявката');return d}
-async function load(){if(!demo){try{const [status,d]=await Promise.all([request('/api/health'),request('/api/catalog')]);if(d.products?.length){db={...db,...d};useServer=true;ordersReady=!!status.ordersReady}}catch(e){console.warn('Catalog loading failed:',e.message)}}$('#year').textContent=new Date().getFullYear();persist();navigate()}
+async function load(){if(!demo){try{const [status,d]=await Promise.all([request('/api/health'),request('/api/catalog')]);if(d.products?.length){db={...db,...d};useServer=true;ordersReady=!!status.ordersReady}}catch(e){console.warn('Catalog loading failed:',e.message)}}$('#year').textContent=new Date().getFullYear();persist();navigate();
+ if(new URLSearchParams(location.search).get('cart')==='open'){
+  history.replaceState(null,'',location.pathname+location.hash);
+  requestAnimationFrame(showCart);
+ }
+}
 function go(which){
  if(location.pathname!=='/'){location.assign('/#'+encodeURIComponent(which));return}
  location.hash=which;

@@ -26,6 +26,14 @@
   return x===null||x===undefined||x===''||!Number.isFinite(Number(x))||Number(x)<0?null:Number(x);
  };
  let products=[],categories=[],chosen='all',toastTimer;
+ const updateCartBadge=()=>{
+  const badge=el('cover-cart-badge');if(!badge)return;
+  try{
+   const arr=JSON.parse(localStorage.getItem('vinyl-cart')||'[]');
+   badge.textContent=String(Array.isArray(arr)?arr.reduce((sum,x)=>sum+(Number(x.qty)||0),0):0);
+  }catch{badge.textContent='0'}
+ };
+ updateCartBadge();window.addEventListener('storage',updateCartBadge);
  const categoryName=id=>categories.find(c=>c.id===id)?.name||'Материали';
  const categoryButtons=()=>{
   categoriesNode.replaceChildren();
@@ -47,7 +55,7 @@
   let cart=[];try{const saved=JSON.parse(localStorage.getItem('vinyl-cart')||'[]');if(Array.isArray(saved))cart=saved.filter(x=>x&&Number.isInteger(Number(x.id))&&Number(x.qty)>0);}catch{}
   const item=cart.find(x=>Number(x.id)===Number(p.id)&&!x.variant_key);
   if(item)item.qty=Number(item.qty)+1;else cart.push({id:p.id,qty:1,variant:'',variant_key:''});
-  try{localStorage.setItem('vinyl-cart',JSON.stringify(cart));notify('Добавено в количката: '+p.name);}catch{notify('Количката не може да бъде запазена.');}
+  try{localStorage.setItem('vinyl-cart',JSON.stringify(cart));updateCartBadge();notify('Добавено в количката: '+p.name);}catch{notify('Количката не може да бъде запазена.');}
  }
  const openInteractiveDetail=(event,p)=>{
   if(event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
