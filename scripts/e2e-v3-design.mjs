@@ -39,10 +39,12 @@ try{
  const checkProductStatusLayout=async()=>{
   const points=await productCards.evaluateAll(cards=>cards.slice(0,20).map(card=>{
    const photo=card.querySelector('.product-photo')?.getBoundingClientRect();
-   const label=card.querySelector('.product-status')?.getBoundingClientRect();
-   return {found:!!label,bottom:photo?.bottom,top:label?.top};
+   const badge=card.querySelector('.product-status');
+   const label=badge?.getBoundingClientRect();
+   return {text:badge?.textContent||'',bottom:photo?.bottom,top:label?.top??null};
   }));
-  assert(points.length>0&&points.every(p=>p.found&&p.top>=p.bottom-1),'product label should sit below image: '+JSON.stringify(points));
+  assert(points.length>0&&points.every(p=>p.top===null||p.top>=p.bottom-1),'remaining status labels must be below images: '+JSON.stringify(points));
+  assert(points.every(p=>p.text!=='Цена за потвърждение'),'price-verification badges must not appear');
  };
  await checkProductStatusLayout();
  await page.screenshot({path:'test-output/v3-catalog-labels-desktop.png',fullPage:false});

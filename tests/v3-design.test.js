@@ -59,7 +59,7 @@ test('V3 keeps the 75-model Stedman designer and real supplier/retail pricing co
  assert.match(read('teniski/v3.css'),/\.v2-color-swatches button/);
 });
 
-test('V3 product status labels stay under product photos',()=>{
+test('V3 product price-verification label is never rendered',()=>{
  const js=read('site.js'),css=read('v3.css'),base=read('site.css');
  const start=js.indexOf('function productCard(p){');
  const end=js.indexOf('\nfunction catalog()',start);
@@ -67,11 +67,10 @@ test('V3 product status labels stay under product photos',()=>{
  const markup=js.slice(start,end);
  const photoEnd=markup.indexOf('</button><div class="product-content">');
  assert(photoEnd>0,'photo closes before metadata');
- assert.doesNotMatch(markup.slice(0,photoEnd),/photo-tag|product-status|Цена за потвърждение/);
- assert.equal((markup.match(/class="product-status /g)||[]).length,1);
- assert(markup.indexOf('class="product-status ')>photoEnd,'badge is below photo');
- assert(markup.includes("p.price_verification_needed?'Цена за потвърждение':'В каталога'"));
- assert(css.includes('.product-card .product-status.is-verification'));
- assert(css.includes('white-space:normal;overflow-wrap:anywhere'));
+ assert(!markup.includes('Цена за потвърждение'),'verification badge text must be removed');
+ assert(!markup.slice(0,photoEnd).includes('product-status'),'no badges appear on images');
+ assert(markup.includes("p.price_verification_needed?'':'<span class=\"product-status is-listed\">В каталога</span>'"),'other catalog labels are preserved');
+ assert(css.includes('.product-card .product-status.is-listed'));
+ assert(!css.includes('.product-card .product-status.is-verification'));
  assert(!base.includes('.product-photo .photo-tag{'));
 });
