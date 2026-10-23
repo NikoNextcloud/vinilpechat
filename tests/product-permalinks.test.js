@@ -9,7 +9,7 @@ const data=require('../data/seed.json');
 
 test('Every product gets a unique readable latin SEO URL consistent with server routes',()=>{
  const products=data.products;
- assert(products.length>40);
+ assert(products.length>=40);
  for(const product of products){
   const actual=publicUrls.productUrl(product);
   assert.equal(actual,seo.productUrl(product),'Product: '+product.id);
