@@ -3,12 +3,13 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
+const {productUrl}=require('../public/product-links.js');
 const script=fs.readFileSync('public/site.js','utf8');
 const functions=script.slice(script.indexOf("const viberPhone="),script.indexOf('function productCard(p)'));
 function harness(){
  const p={id:42,name:'Платнище <зелено>',variants:[]};
  const messages=[],copies=[],opened=[],panel={classList:{remove:c=>panel.hidden=false},hidden:true},field={value:'',focus(){this.focused=true},select(){this.selected=true}};
- const context={location:{href:'https://vinilpechat.example/?ref=catalog#catalog'},URL,state:{detail:null},getProduct:id=>id===42?p:null,openDetail:id=>{context.state.detail=id;opened.push(id)},hasOptions:p=>!!p.supplier_options?.length,selectionKey:()=>context.key||'',getVariant:(p,key)=>p.variants.find(v=>v.variant_key===key&&v.active!==false),$:s=>s==='#viberMessage'?field:panel,toast:t=>messages.push(t),navigator:{clipboard:{writeText:async text=>copies.push(text)}}};
+ const context={location:{href:'https://vinilpechat.example/?ref=catalog#catalog',origin:'https://vinilpechat.example'},seoProductHref:productUrl,URL,state:{detail:null},getProduct:id=>id===42?p:null,openDetail:id=>{context.state.detail=id;opened.push(id)},hasOptions:p=>!!p.supplier_options?.length,selectionKey:()=>context.key||'',getVariant:(p,key)=>p.variants.find(v=>v.variant_key===key&&v.active!==false),$:s=>s==='#viberMessage'?field:panel,toast:t=>messages.push(t),navigator:{clipboard:{writeText:async text=>copies.push(text)}}};
  const api=vm.runInNewContext(functions+';({viberChatURL,viberProductMessage,prepareViberInquiry,copyViberMessage})',context);
  return {...api,context,p,messages,copies,opened,panel,field};
 }
@@ -17,7 +18,7 @@ test('Viber link targets the requested Bulgarian number and does not use a recip
 });
 test('product inquiry contains exact product, ID, link and chosen variant',()=>{
  const h=harness(),text=h.viberProductMessage(h.p,{label:'2 x 3 м | Зелен'});
- for(const expected of ['Платнище <зелено>','Код на продукта: 42','Размер / вариант: 2 x 3 м | Зелен','https://vinilpechat.example/?ref=catalog#item-42'])assert.ok(text.includes(expected));assert.ok(!text.includes('#catalog'));
+ for(const expected of ['Платнище <зелено>','Код на продукта: 42','Размер / вариант: 2 x 3 м | Зелен','https://vinilpechat.example/produkti/42-platnishte-zeleno'])assert.ok(text.includes(expected));assert.ok(!text.includes('#catalog'));
 });
 test('product without options prepares copyable inquiry and allows direct Viber navigation',async()=>{
  const h=harness();assert.equal(h.prepareViberInquiry(42),true);await Promise.resolve();assert.deepEqual(h.opened,[42]);assert.equal(h.panel.hidden,false);assert.equal(h.copies[0],h.field.value);assert.ok(h.field.value.includes(h.p.name));
