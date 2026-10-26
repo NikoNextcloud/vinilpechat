@@ -4,6 +4,9 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const seo=require('../lib/seo-pages.js');
+const shirtCatalog=require('../data/stedman-catalog.json');
+const shirtPage=require('../lib/stedman-page.js');
+const {modelPath}=require('../public/teniski/model-links.js');
 const origin='https://vinilpechat.vercel.app';
 const cats=[
  {id:'kristal',name:'Кристал винил',description:'Прозрачни платнища по размер',sort_order:1},
@@ -16,9 +19,9 @@ const products=[
  {id:19,name:'Перфовинил за фасади',category:'mesh',description:'Перфориран материал',active:true,sale_price:15,price_verification_needed:true,images:[]},
  {id:20,name:'Скрит артикул',category:'kristal',description:'Чернова, не е видима',active:false,sale_price:5}
 ];
-function mockDatabase(){
+function mockDatabase(productRows=products,categoryRows=cats){
  return {from(table){
-  const arr=table==='vinyl_products'?products:cats;
+  const arr=table==='vinyl_products'?productRows:categoryRows;
   const matches=[];let limit=Infinity;
   const get=()=>arr.filter(x=>matches.every(([k,v])=>x[k]===v)).sort((a,b)=>(a.id||a.sort_order||0)-(b.id||b.sort_order||0)).slice(0,limit);
   return {
@@ -59,6 +62,12 @@ test('unconfirmed products do not make false price claims',()=>{
   assert.ok(rendered.html.includes('Цена по запитване'));
  }
 });
+test('different products with the same long name retain unique HTML titles',()=>{
+ const name='Еднакво дълго продуктово наименование '.repeat(10);
+ const titles=[101,102].map(id=>seo.productPage({...products[0],id,name},cats[0]).html.match(/<title>([^<]+)<\/title>/)[1]);
+ assert.notEqual(titles[0],titles[1]);
+ assert.ok(titles.every(title=>title.length<=150));
+});
 test('category pages include actual content and crawlable product links',()=>{
  const html=seo.categoryPage(cats[0],products.filter(x=>x.active&&x.category==='kristal'),cats).html;
  assert.ok(html.includes('<h1>Кристал винил</h1>'));
@@ -79,6 +88,35 @@ test('dynamic sitemap includes active products and occupied categories only',asy
  assert.ok(!sitemap.includes('/produkti/20-'));
  assert.ok(!sitemap.includes(seo.categoryUrl(cats[2])));
  assert.ok(!sitemap.includes('#item-'));
+});
+test('sitemap includes all 75 published shirt pages with their exact canonical URLs',async()=>{
+ const sitemap=await seo.sitemapXml(mockDatabase());
+ const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
+ assert.ok(urls.includes(origin+'/teniski/'));
+ assert.equal(new Set(urls).size,urls.length);
+ for(const model of shirtCatalog){
+  const pathname=modelPath(model);
+  assert.ok(urls.includes(origin+pathname),model.id+' missing from sitemap');
+  const page=shirtPage.resolve(pathname.slice('/teniski/'.length));
+  assert.equal(page.canonical,pathname);
+  assert.ok(page.html.includes('rel="canonical" href="'+origin+pathname+'"'));
+ }
+});
+test('renamed categories redirect once, while empty and unknown categories remain 404',async()=>{
+ const db=mockDatabase();
+ assert.deepEqual(await seo.resolveCategory(db,'kristal-old-name'),{redirect:seo.categoryUrl(cats[0])});
+ assert.equal(await seo.resolveCategory(db,'empty-old-name'),null);
+ assert.equal(await seo.resolveCategory(db,'not-a-category'),null);
+ const page=await seo.resolveCategory(db,seo.categoryUrl(cats[0]).split('/').pop());
+ assert.equal(page.canonical,seo.categoryUrl(cats[0]));
+ assert.equal(page.redirect,undefined);
+});
+test('category redirects use the longest hyphenated category ID without matching its prefix',async()=>{
+ const categories=[{id:'scorpio',name:'Основна'},{id:'scorpio-garden',name:'За градината'}];
+ const rows=[{id:1,name:'Продукт',active:true,category:'scorpio-garden'}];
+ const db=mockDatabase(rows,categories);
+ assert.deepEqual(await seo.resolveCategory(db,'scorpio-garden-old-name'),{redirect:'/kategorii/scorpio-garden-za-gradinata'});
+ assert.equal(await seo.resolveCategory(db,'scorpio-old-name'),null);
 });
 test('SSR resolver returns 404 for hidden products and 308 for outdated slugs',async()=>{
  const db=mockDatabase();
