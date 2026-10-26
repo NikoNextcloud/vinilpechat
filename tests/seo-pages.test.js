@@ -59,6 +59,11 @@ test('unconfirmed products do not make false price claims',()=>{
  for(const p of [products[1],products[2]]){
   const rendered=seo.productPage(p,cats.find(c=>c.id===p.category));
   assert.ok(!rendered.html.includes('"@type":"Offer"'));
+  const graph=JSON.parse(rendered.html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+  assert.ok(!graph.some(x=>x['@type']==='Product'),'No incomplete Product entity');
+  const page=graph.find(x=>x['@type']==='WebPage');
+  assert.equal(page.identifier,String(p.id));
+  assert.equal(page.url,origin+seo.productUrl(p));
   assert.ok(rendered.html.includes('Цена по запитване'));
  }
 });

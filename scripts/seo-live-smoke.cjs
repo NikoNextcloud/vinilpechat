@@ -49,7 +49,7 @@ function jsonld(body){
  const byPath=new Map(products.map(p=>[seo.productUrl(p),p]));
  const sample=new Set(['/', '/nov-vinil/', '/brezenti/', '/teniski/',seo.productUrl(products.find(p=>p.id===13)||products[0]),seo.productUrl(products.at(-1)),seo.categoryUrl(categories[0]),modelPath(models[0]),modelPath(models.find(m=>m.id==='ST2300'))]);
  const selected=full?urls:urls.filter(u=>sample.has(new URL(u).pathname));
- let checked=0,withoutOffer=0;
+ let checked=0,inquiryPages=0;
  await pool(selected,async url=>{
   const path=new URL(url).pathname,page=await get(path);
   assert.equal(page.res.status,200,'HTTP status: '+path);
@@ -64,14 +64,16 @@ function jsonld(body){
   const graph=jsonld(page.body);
   if(path.startsWith('/produkti/')||/\/teniski\/.+-model-ST\d{4}$/.test(path)){
    const product=graph.find(x=>x['@type']==='Product');
-   assert.ok(product?.name&&product.sku,'Product name and sku: '+path);
-   assert.equal(href(product.url),href(url),'Product URL: '+path);
-   if(!product.offers&&!product.review&&!product.aggregateRating)withoutOffer++;
+   const entity=product||graph.find(x=>x['@type']==='WebPage');
+   assert.ok(entity?.name&&(entity.sku||entity.identifier),'Page name and product identifier: '+path);
+   assert.equal(href(entity.url),href(url),'Page entity URL: '+path);
+   if(product)assert.ok(product.offers||product.review||product.aggregateRating,'No incomplete Product rich-result markup: '+path);
+   else inquiryPages++;
    const record=byPath.get(path);
    if(record){
-    assert.equal(product.sku,String(record.id));
-    assert.equal(product.name,record.name.trim().replace(/\s+/g,' ').slice(0,250));
-    assert.ok(page.body.includes('<h1>'+seo.escapeHtml(product.name)+'</h1>'));
+    assert.equal(entity.sku||entity.identifier,String(record.id));
+    assert.equal(entity.name,record.name.trim().replace(/\s+/g,' ').slice(0,250));
+    assert.ok(page.body.includes('<h1>'+seo.escapeHtml(entity.name)+'</h1>'));
     assert.ok(graph.some(x=>x['@type']==='BreadcrumbList'));
    }
   }
@@ -107,6 +109,6 @@ function jsonld(body){
   assert.equal(head.body,'');
   assert.match(head.res.headers.get('content-type')||'',path.endsWith('.xml')?/xml/:/text\/html/);
  }
- console.log(JSON.stringify({result:'PASS',base,sitemapUrls:urls.length,activeMaterials:products.length,categories:categories.length,shirtModels:models.length,pagesChecked:checked,productSchemasWithoutVerifiedOffer:withoutOffer}));
+ console.log(JSON.stringify({result:'PASS',base,sitemapUrls:urls.length,activeMaterials:products.length,categories:categories.length,shirtModels:models.length,pagesChecked:checked,inquiryPagesWithWebPageSchema:inquiryPages,incompleteProductSchemas:0}));
  console.log('JSON-LD parsing and identity checked; Google rich-result eligibility and indexing require Search Console/Rich Results Test.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

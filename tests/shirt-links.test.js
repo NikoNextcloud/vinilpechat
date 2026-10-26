@@ -28,7 +28,10 @@ test('ST2300 has the exact requested Bulgarian model address',()=>{
  const page=resolve(requested.slice('/teniski/'.length));
  assert.ok(page.html.includes('href="https://vinilpechat.vercel.app'+requested+'"'));
  assert.ok(page.html.includes('Мъжка тениска с V-образно деколте'));
- assert.ok(page.html.includes('"@type":"Product"'));
+ const graph=JSON.parse(page.html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+ assert.ok(!graph.some(x=>x['@type']==='Product'),'No price-less Product rich result');
+ assert.equal(graph.find(x=>x['@type']==='WebPage')?.identifier,'ST2300');
+ assert.ok(graph.some(x=>x['@type']==='BreadcrumbList'));
  assert.ok(page.html.includes('src="/teniski/model-links.js" defer'));
  assert.doesNotMatch(page.html,/Доставна цена/);
 });
