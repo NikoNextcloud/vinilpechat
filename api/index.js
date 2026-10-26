@@ -101,8 +101,9 @@ module.exports=async function handler(req,res){
     if(Array.isArray(route))route=route.join('/');
     const seoRead=['GET','HEAD'].includes(req.method)&&['seo/product','seo/category','seo/sitemap','seo/shirt'].includes(route);
     if(!['GET','POST'].includes(req.method)&&!seoRead)return msg(res,405,'Непозволен метод');
+    if(seoRead&&process.env.VERCEL_GIT_COMMIT_SHA)res.setHeader('X-Vinilpechat-Commit',process.env.VERCEL_GIT_COMMIT_SHA);
     try{
-        if(route==='health')return json(res,200,{ok:true,configured:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),catalogReady:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),ordersReady:!!process.env.SUPABASE_SERVICE_ROLE_KEY,adminReady:!!(process.env.SUPABASE_SERVICE_ROLE_KEY&&process.env.ADMIN_EMAIL&&process.env.SESSION_SECRET)});
+        if(route==='health')return json(res,200,{ok:true,commit:process.env.VERCEL_GIT_COMMIT_SHA||null,configured:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),catalogReady:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),ordersReady:!!process.env.SUPABASE_SERVICE_ROLE_KEY,adminReady:!!(process.env.SUPABASE_SERVICE_ROLE_KEY&&process.env.ADMIN_EMAIL&&process.env.SESSION_SECRET)});
         if(route==='shirts/prices'&&req.method==='GET'){
           const {db,privileged}=clients();
           const overrides=privileged?await shirtPrices.loadOverrides(db):new Map();

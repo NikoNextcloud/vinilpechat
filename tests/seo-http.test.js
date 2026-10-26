@@ -52,3 +52,25 @@ test('HEAD support does not enable writes or other API methods',async()=>{
  assert.equal((await request('HEAD','orders')).statusCode,405);
  assert.equal((await request('DELETE','seo/product','13-name')).statusCode,405);
 });
+test('health and SEO responses identify the actual deployment without querying the database',async t=>{
+ const previous=process.env.VERCEL_GIT_COMMIT_SHA;
+ const sha='a'.repeat(40);
+ process.env.VERCEL_GIT_COMMIT_SHA=sha;
+ t.mock.method(seo,'resolveProduct',async()=>null);
+ try{
+  const health=await request('GET','health');
+  assert.equal(health.statusCode,200);
+  assert.equal(health.body.commit,sha);
+  assert.equal(health.headers['cache-control'],'no-store');
+  for(const method of ['GET','HEAD']){
+   const page=await request(method,'seo/product','missing');
+   assert.equal(page.statusCode,404);
+   assert.equal(page.headers['x-vinilpechat-commit'],sha);
+  }
+  delete process.env.VERCEL_GIT_COMMIT_SHA;
+  assert.equal((await request('GET','health')).body.commit,null);
+ }finally{
+  if(previous===undefined)delete process.env.VERCEL_GIT_COMMIT_SHA;
+  else process.env.VERCEL_GIT_COMMIT_SHA=previous;
+ }
+});

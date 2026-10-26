@@ -5,11 +5,15 @@ const seo=require('../lib/seo-pages.js');
 const models=require('../data/stedman-catalog.json');
 const {modelPath}=require('../public/teniski/model-links.js');
 const base=(process.env.SEO_BASE_URL||seo.ORIGIN).replace(/\/$/,'');
+const expectedSha=process.env.SEO_EXPECTED_SHA;
 const full=process.argv.includes('--full');
 const decode=s=>s.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 const href=s=>new URL(s,seo.ORIGIN).href;
 async function get(path,method='GET'){
- const res=await fetch(base+path,{method,signal:AbortSignal.timeout(45000),redirect:'manual',headers:{'User-Agent':'Vinilpechat-SEO-Audit/2.0'}});
+ const res=await fetch(base+path,{method,signal:AbortSignal.timeout(45000),redirect:'manual',cache:'no-store',headers:{'User-Agent':'Vinilpechat-SEO-Audit/2.0','Cache-Control':'no-cache'}});
+ if(expectedSha&&(path==='/sitemap.xml'||/^\/(produkti|kategorii)\//.test(path)||/^\/teniski\/.+-model-ST\d{4}$/.test(path))){
+  assert.equal(res.headers.get('x-vinilpechat-commit'),expectedSha,'published SEO response commit (stale deployment/cache): '+path);
+ }
  return {res,body:await res.text()};
 }
 async function pool(items,work){
@@ -27,6 +31,11 @@ function jsonld(body){
  });
 }
 (async()=>{
+ if(expectedSha){
+  const health=await get('/api/health');
+  assert.equal(health.res.status,200);
+  assert.equal(JSON.parse(health.body).commit,expectedSha,'production must serve the commit under test');
+ }
  const robots=await get('/robots.txt');
  assert.equal(robots.res.status,200);
  assert.ok(robots.body.includes('Sitemap: '+seo.ORIGIN+'/sitemap.xml'));
@@ -109,6 +118,6 @@ function jsonld(body){
   assert.equal(head.body,'');
   assert.match(head.res.headers.get('content-type')||'',path.endsWith('.xml')?/xml/:/text\/html/);
  }
- console.log(JSON.stringify({result:'PASS',base,sitemapUrls:urls.length,activeMaterials:products.length,categories:categories.length,shirtModels:models.length,pagesChecked:checked,inquiryPagesWithWebPageSchema:inquiryPages,incompleteProductSchemas:0}));
+ console.log(JSON.stringify({result:'PASS',base,commit:expectedSha||null,sitemapUrls:urls.length,activeMaterials:products.length,categories:categories.length,shirtModels:models.length,pagesChecked:checked,inquiryPagesWithWebPageSchema:inquiryPages,incompleteProductSchemas:0}));
  console.log('JSON-LD parsing and identity checked; Google rich-result eligibility and indexing require Search Console/Rich Results Test.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
