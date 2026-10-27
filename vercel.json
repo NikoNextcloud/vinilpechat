@@ -8,6 +8,10 @@
       "destination": "/api/index?route=seo/sitemap"
     },
     {
+      "source": "/teniski/:slug(.*-model-ST[0-9]{4})",
+      "destination": "/api/index?route=seo/shirt&slug=:slug"
+    },
+    {
       "source": "/produkti/:slug",
       "destination": "/api/index?route=seo/product&slug=:slug"
     },
@@ -19,5 +23,10 @@
       "source": "/api/:path*",
       "destination": "/api/index?route=:path*"
     }
-  ]
+  ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "public/teniski/index.html"
+    }
+  }
 }

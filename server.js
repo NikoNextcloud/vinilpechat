@@ -4,6 +4,7 @@ const http=require('node:http');
 const fs=require('node:fs');
 const path=require('node:path');
 const crypto=require('node:crypto');
+const shirtPage=require('./lib/stedman-page.js');
 const ROOT=__dirname;
 const PUBLIC=path.join(ROOT,'public');
 const DATA=path.join(ROOT,'data','store.json');
@@ -28,7 +29,8 @@ function safeText(v,n=1000){return String(v??'').slice(0,n).trim()}
 function numberPrice(x){if(x===null||x===''||x===undefined)return null;let n=Number(x);if(!Number.isFinite(n)||n<0||n>100000000)throw new Error('Невалидна цена');return Math.round(n*100)/100}
 function expose(){return {products:db.products.filter(p=>p.active).map(({supplier_price,image_source,source,...rest})=>({...rest,source})),categories:db.categories,settings:db.settings}}
 function setCookie(res,name,val,req,seconds){let secure=req.socket.encrypted||req.headers['x-forwarded-proto']==='https';res.setHeader('Set-Cookie',`${name}=${encodeURIComponent(val)}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${seconds}${secure?'; Secure':''}`)}
-async function route(req,res){let url=new URL(req.url,'http://localhost');let api=url.pathname;if(req.method==='GET'&&api==='/api/health')return reply(res,200,{ok:true,products:db.products.length,categories:db.categories.length,images:db.products.filter(p=>!!p.image).length});
+async function route(req,res){let url=new URL(req.url,'http://localhost');let api=url.pathname;if(req.method==='GET'&&api==='/api/shirts/prices')return reply(res,200,{ok:true,prices:[]});
+if(req.method==='GET'&&api==='/api/health')return reply(res,200,{ok:true,products:db.products.length,categories:db.categories.length,images:db.products.filter(p=>!!p.image).length});
 if(req.method==='GET'&&api==='/api/catalog')return reply(res,200,expose());
 if(req.method==='GET'&&api==='/api/admin/session'){let s=auth(req);return reply(res,200,{authenticated:!!s,csrf:s?.csrf||''})}
 if(req.method==='POST'&&api==='/api/admin/login'){
@@ -51,6 +53,13 @@ if(req.method==='POST'&&api==='/api/admin/upload'){
 }
 if(req.method==='POST'&&api==='/api/orders'){
  let d=await body(req,50000),kind=d.kind==='contact'?'contact':'order';let name=safeText(d.name,120),phone=safeText(d.phone,40),email=safeText(d.email,255),message=safeText(d.message,3000);if(name.length<2||phone.length<5)return reject(res,400,'Въведи име и телефон');if(email&&(!/^\S+@\S+\.\S+$/.test(email)))return reject(res,400,'Невалиден имейл');let items=[],total=0;if(kind==='order'){if(!Array.isArray(d.items)||d.items.length<1||d.items.length>100)return reject(res,400,'Заявката няма продукти');for(let x of d.items){let p=db.products.find(z=>z.id===Number(x.product_id)&&z.active);let n=Number(x.quantity);if(!p||!Number.isInteger(n)||n<1||n>100)return reject(res,400,'Невалиден продукт или количество');items.push({product_id:p.id,name:p.name,quantity:n,unit:p.unit,price:p.sale_price,variant:safeText(x.variant,500)});total+=n*(p.sale_price||0)}}let id='Z'+Date.now().toString(36).toUpperCase()+crypto.randomBytes(2).toString('hex').toUpperCase();db.orders.unshift({id,kind,status:'new',customer_name:name,phone,email,message,items,estimated_total:Math.round(total*100)/100,created_at:new Date().toISOString()});persist();return reply(res,201,{ok:true,order_id:id});
+}
+if(req.method==='GET'&&/^\/teniski\/[^/]+-model-ST[0-9]{4}\/?$/.test(api)){
+ const result=shirtPage.resolve(api.replace(/^\/teniski\//,'').replace(/\/$/,''));
+ if(!result)return reject(res,404,'Моделът не е намерен');
+ if(result.redirect){res.writeHead(308,{Location:result.redirect});return res.end();}
+ headers(res,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
+ res.writeHead(200);return res.end(result.html);
 }
 if(api.startsWith('/api/'))return reject(res,404,'Несъществуващ API адрес');
 if(req.method!=='GET'&&req.method!=='HEAD')return reject(res,405,'Методът не е позволен');

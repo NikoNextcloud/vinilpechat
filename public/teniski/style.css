@@ -1,4 +1,4 @@
-:root{font-family:Manrope,system-ui,sans-serif;color:#213f39;background:#f5f8f5}*{box-sizing:border-box}body{margin:0}header{display:flex;align-items:center;justify-content:space-between;gap:12px;background:white;padding:22px max(24px,calc((100vw - 1150px)/2));box-shadow:0 1px 12px #18392c12}a{color:inherit;text-decoration:none}.brand{font-weight:800;color:#086f5c}main{width:min(1150px,calc(100% - 36px));margin:auto}.intro{padding:64px 0 32px}.intro h1{font-size:clamp(32px,5vw,60px);letter-spacing:-.045em;margin:8px 0}.intro p{max-width:690px;color:#526760;line-height:1.65}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:#0b8873;font-weight:800}.catalog h2{margin-top:12px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:18px}.card{border:1px solid #dbe7df;background:#fff;border-radius:20px;padding:18px;text-align:left;cursor:pointer;transition:.2s}.card:hover,.card:focus-visible{box-shadow:0 10px 22px #1a44301d;transform:translateY(-2px)}.card img{width:100%;height:235px;object-fit:contain}.card strong{display:block;font-size:20px}.card p{color:#63766c}.card .tag{font-size:12px;color:#0b8873}.designer{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:30px;margin:40px 0}.preview-pane,.controls{background:#fff;border:1px solid #dce9df;border-radius:24px;padding:24px}.shirt-preview{position:relative;max-width:540px;margin:auto;background:#f7f7f7;overflow:hidden;aspect-ratio:4/5}.shirt-preview>img{width:100%;height:100%;object-fit:contain}.print-zone{position:absolute;left:34%;width:32%;top:29%;height:37%;outline:2px dashed #0c735d9e;overflow:hidden;pointer-events:none}.print-zone img{position:absolute;max-width:none;transform:translate(-50%,-50%);object-fit:contain}.controls{display:flex;flex-direction:column;gap:10px}.controls h2{margin:0}.controls label{font-weight:700;font-size:13px;margin-top:6px}.controls select,.controls input[type=file],textarea{padding:11px;border:1px solid #d7e5dd;border-radius:10px;width:100%;font:inherit}.sliders{display:grid;gap:7px}.sliders input{width:100%}button{font:inherit;border:0;border-radius:11px;background:#0a745f;color:white;padding:13px 16px;font-weight:800;cursor:pointer}.secondary{background:#e6f1eb;color:#1a5046}.totals{background:#eff7f2;padding:10px 18px;border-radius:14px}.totals p{display:flex;justify-content:space-between}.grand{font-size:20px;font-weight:800}.hint{font-size:12px;color:#68796f;line-height:1.5}footer{text-align:center;padding:50px 20px;color:#526f62}@media(max-width:760px){.designer{grid-template-columns:1fr}header{padding:18px}.intro{padding-top:34px}.preview-pane,.controls{padding:15px}}
+:root{font-family:Manrope,system-ui,sans-serif;color:#213f39;background:#f5f8f5}*{box-sizing:border-box}body{margin:0}header{display:flex;align-items:center;justify-content:space-between;gap:12px;background:white;padding:22px max(24px,calc((100vw - 1150px)/2));box-shadow:0 1px 12px #18392c12}a{color:inherit;text-decoration:none}.brand{font-weight:800;color:#086f5c}main{width:min(1150px,calc(100% - 36px));margin:auto}.intro{padding:52px 0 18px}.intro h1{font-size:clamp(32px,5vw,60px);letter-spacing:-.045em;margin:8px 0}.intro p{max-width:690px;color:#526760;line-height:1.65}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:#0b8873;font-weight:800}.catalog h2{margin-top:12px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:18px}.card{border:1px solid #dbe7df;background:#fff;border-radius:20px;padding:18px;text-align:left;cursor:pointer;transition:.2s}.card:hover,.card:focus-visible{box-shadow:0 10px 22px #1a44301d;transform:translateY(-2px)}.card img{width:100%;height:235px;object-fit:contain}.card strong{display:block;font-size:20px}.card p{color:#63766c}.card .tag{font-size:12px;color:#0b8873}.designer{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:30px;margin:40px 0}.preview-pane,.controls{background:#fff;border:1px solid #dce9df;border-radius:24px;padding:24px}.shirt-preview{position:relative;max-width:540px;margin:auto;background:#f7f7f7;overflow:hidden;aspect-ratio:4/5}.shirt-preview>img{width:100%;height:100%;object-fit:contain}.print-zone{position:absolute;left:34%;width:32%;top:29%;height:37%;outline:2px dashed #0c735d9e;overflow:hidden;pointer-events:none}.print-zone img{position:absolute;max-width:none;transform:translate(-50%,-50%);object-fit:contain}.controls{display:flex;flex-direction:column;gap:10px}.controls h2{margin:0}.controls label{font-weight:700;font-size:13px;margin-top:6px}.controls select,.controls input[type=file],textarea{padding:11px;border:1px solid #d7e5dd;border-radius:10px;width:100%;font:inherit}.sliders{display:grid;gap:7px}.sliders input{width:100%}button{font:inherit;border:0;border-radius:11px;background:#0a745f;color:white;padding:13px 16px;font-weight:800;cursor:pointer}.secondary{background:#e6f1eb;color:#1a5046}.totals{background:#eff7f2;padding:10px 18px;border-radius:14px}.totals p{display:flex;justify-content:space-between}.grand{font-size:20px;font-weight:800}.hint{font-size:12px;color:#68796f;line-height:1.5}footer{text-align:center;padding:50px 20px;color:#526f62}@media(max-width:760px){.designer{grid-template-columns:1fr}header{padding:18px}.intro{padding-top:34px}.preview-pane,.controls{padding:15px}}
 .side-switch{display:flex;gap:8px;margin-bottom:8px}.side-switch button{flex:1}.controls input[type=file]{background:#f7faf8}.shirt-preview #artwork{max-height:100%}
 
 /* Catalog-first flow, product detail after selection */
@@ -139,51 +139,23 @@
  .v2-color-swatches button{width:36px;height:36px;min-width:36px}
 }
 
-/* Vinilpechat 2.0: minimal, drag-only editor (no sliders or resize handles). */
-[hidden]{display:none!important}
-.v2-print-setup{
- background:linear-gradient(145deg,#f7fbf8 0%,#f0f8f3 100%);
- border:1px solid #d9eae0;
- border-radius:17px;
- padding:20px;
- display:grid;
- gap:12px;
- animation:v2SetupReveal .24s ease-out;
-}
-@keyframes v2SetupReveal{from{opacity:.35;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
-.v2-print-setup-heading{display:grid;gap:7px;padding-bottom:7px}
-.v2-print-setup-heading strong{font-size:15px;line-height:1.5;color:#205140}
-.v2-print-setup label{font-weight:700;margin:4px 0 0}
-.v2-print-setup input[type=file]{
- border:1px dashed #bbd7c6;background:#fff;
- border-radius:11px;padding:12px;font-size:12px;max-width:100%;
-}
-.v2-print-setup input[type=file]::file-selector-button{
- border:0;border-radius:8px;background:#e5f1e9;
- padding:10px 13px;color:#165940;cursor:pointer;font-weight:750;margin-right:10px
-}
-.v2-print-setup input[type=file]::file-selector-button:hover{background:#cfe8d9}
-#v2-artwork-hint{line-height:1.6;margin:4px 0;color:#4b7360}
-#v2-print-prompt{
- background:#f2f7f2;
- border:1px solid #e2eee7;
- border-radius:11px;
- padding:11px 13px;
- font-size:12px;
- line-height:1.5;
- color:#456b55;
-}
-.v2-print-inactive{display:none!important}
-#artwork{pointer-events:auto!important;touch-action:none;user-select:none;-webkit-user-drag:none;cursor:grab}
-.print-zone.v2-dragging #artwork{cursor:grabbing}
-.print-zone:not(.v2-print-inactive){border:1px dashed #12805c88;background:transparent}
-#customizer .side-switch[hidden],#customizer .v2-print-setup[hidden],
-#customizer .v2-print-charge[hidden]{display:none!important}
-#remove-art{justify-self:start;font-size:12px;padding:11px 16px;border-radius:10px}
-#remove-art[hidden]{display:none!important}
-#v2-side-switch{margin-top:6px}
-@media(max-width:760px){
- .v2-print-setup{padding:14px}
- .v2-print-setup-heading strong{font-size:14px}
- .v2-print-setup input[type=file]::file-selector-button{padding:9px 10px;margin-right:4px}
-}
+/* V2.1 clean artwork editor: only direct drag, no transform controls */
+#customizer .sliders,.v2-transform{display:none!important}
+#customizer .side-switch[hidden],#customizer .side-switch [hidden],
+#customizer .controls label[hidden],#customizer .controls input[hidden],
+#customizer button[hidden],#customizer .hint[hidden]{display:none!important}
+#customizer .print-zone.v2-print-inactive{display:none!important}
+#customizer .print-zone.v2-has-logo{outline:2px dashed rgba(12,132,103,.85);background:rgba(48,155,115,.08);touch-action:none;cursor:move}
+#customizer .print-zone.v2-has-logo:focus-visible{outline:3px solid #0b8765;outline-offset:3px}
+#customizer .print-zone #artwork{user-select:none;-webkit-user-drag:none;pointer-events:auto;touch-action:none}
+#v2-print-prompt{padding:10px 14px;margin:12px 0 0;border:1px solid #dde9e1;background:#f2f8f3;color:#4e7260;border-radius:12px;font-size:12px}
+#v2-artwork-hint{background:#eff8f1;border-left:3px solid #1a926d;border-radius:9px;padding:11px 13px;line-height:1.6;font-size:12px;margin:3px 0}
+#customizer .controls #remove-art{background:transparent;color:#a24d43;padding:5px 0;text-align:left;font-size:12px;font-weight:700}
+#customizer .controls #remove-art:hover{text-decoration:underline}
+#customizer .controls input[type=file]{border:1px dashed #a7cdbc;background:#f9fcfa;padding:13px;border-radius:12px}
+
+#customizer .print-zone #artwork{cursor:grab}
+#customizer .print-zone.v2-dragging #artwork{cursor:grabbing}
+/* Keep long galleries and file names inside the single-column phone layout. */
+#customizer>*{min-width:0}
+#customizer .shirt-preview{width:100%}

@@ -67,10 +67,10 @@ test('public-facing source does not disclose confidential area rate',()=>{
  assert.doesNotMatch(front,/INTERNAL_RATE_EUR_PER_M2|RATE_EUR_PER_M2|13\s*€\s*\/\s*(?:m²|кв)/);
  assert.doesNotMatch(html,/13\s*€\s*\/\s*(?:m²|кв)/);
  assert.match(front,/Нов винил с дизайн/);
- assert.match(front,/Винили за покриване и др\./);
+ assert.match(front,/Винили за покриване/);
  assert.match(front,/data-design-viber/);
  assert.match(front,/data-design-web/);
- assert.match(front,/data-go="catalog"/);
+ assert.match(html,/data-go="catalog"/);
  assert.match(html,/href="#design"/);
  assert.match(html,/href="#catalog"/);
 });

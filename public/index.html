@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#183f3a" />
+<meta name="referrer" content="no-referrer" />
+<meta name="theme-color" content="#ffffff" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
 <link rel="canonical" href="https://vinilpechat.vercel.app/" />
+<link rel="icon" type="image/svg+xml" href="/assets/vinilpechat-spectrum-logo.svg" />
 <link rel="icon" type="image/png" href="/favicon.png?v=spiral1" sizes="64x64" />
 <link rel="apple-touch-icon" href="/favicon.png" />
 <meta name="application-name" content="Vinilpechat" />
@@ -13,28 +15,60 @@
 <meta property="og:locale" content="bg_BG" />
 <meta property="og:site_name" content="Vinilpechat" />
 <meta property="og:url" content="https://vinilpechat.vercel.app/" />
-<meta property="og:title" content="Vinilpechat — печат на винил, брезенти и покривала" />
-<meta property="og:description" content="Поръчай винил по размер със или без дизайн. Разгледай брезенти, покривни платнища и материали. Запитвания във Viber." />
+<meta property="og:title" content="Vinilpechat — печат на винил, винили за покриване и тениски" />
+<meta property="og:description" content="Печат на рекламен винил, винили за покриване и тениски с персонална щампа. Избери категория и изпрати заявка." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="og:image" content="https://vinilpechat.vercel.app/assets/vinilpechat-art-spiral.webp" />
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://vinilpechat.vercel.app/#organization","name":"Vinilpechat","alternateName":"Винил & Брезенти","url":"https://vinilpechat.vercel.app/","logo":"https://vinilpechat.vercel.app/assets/vinilpechat-art-spiral.webp","contactPoint":{"@type":"ContactPoint","telephone":"+359879436006","contactType":"customer service","availableLanguage":"Bulgarian"}},{"@type":"WebSite","@id":"https://vinilpechat.vercel.app/#website","url":"https://vinilpechat.vercel.app/","name":"Vinilpechat","inLanguage":"bg-BG","publisher":{"@id":"https://vinilpechat.vercel.app/#organization"}}]}</script>
-<meta name="description" content="Печат на винил по размер със или без дизайн, брезенти и покривни платнища. Калкулатор за цена, каталог с материали и поръчки чрез Viber." />
-<title>Печат на винил по размер, брезенти и покривала | Vinilpechat</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://vinilpechat.vercel.app/#organization","name":"Vinilpechat","alternateName":"Винил & Брезенти","url":"https://vinilpechat.vercel.app/","logo":"https://vinilpechat.vercel.app/assets/vinilpechat-spectrum-logo.svg","contactPoint":{"@type":"ContactPoint","telephone":"+359879436006","contactType":"customer service","availableLanguage":"Bulgarian"}},{"@type":"WebSite","@id":"https://vinilpechat.vercel.app/#website","url":"https://vinilpechat.vercel.app/","name":"Vinilpechat","inLanguage":"bg-BG","publisher":{"@id":"https://vinilpechat.vercel.app/#organization"}}]}</script>
+<meta name="description" content="Печат на винил по размер, винили за покриване и тениски за печат. Разгледай трите категории и нашите публикации в Instagram и Facebook." />
+<title>Печат на винил, винили за покриване и тениски | Vinilpechat</title>
 <link rel="stylesheet" href="site.css" />
+<link rel="stylesheet" href="/v3.css" />
 <script src="seed.js" defer></script>
 <script src="site.js" defer></script>
+<script src="/v3.js" defer></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
-<div class="topbar"><div class="container topbar-inner"><span>Материали за покриване, реклама и защита</span><span>Запитвания и поръчки — без онлайн предплащане</span></div></div>
-<header class="header"><div class="container head-inner"><a class="brand" href="#home" data-go="home" aria-label="Vinilpechat — начало"><img class="brand-logo" src="/assets/vinilpechat-art-spiral.webp" width="66" height="66" alt="Зелено-златно спирално арт лого на Vinilpechat" /><span class="brand-copy"><strong>Vinilpechat</strong><small>Винил · Брезенти · Печат</small></span></a><div class="desktop-nav"><a href="#home" data-go="home">Начало</a><a href="#design" data-go="design">Нов винил с дизайн</a><a href="#catalog" data-go="catalog">Продукти</a><a href="/teniski/">Печат на тениски</a><a href="#contact" data-go="contact">Контакти</a></div><div class="head-actions"><button class="search-chip" id="focusSearch" type="button" aria-label="Търси">⌕ <span>Търсене</span></button><button class="cart-btn" id="cartOpen" type="button" aria-label="Кошница"><span>🛍</span><b id="cart-count">0</b></button><button class="mobile-menu" id="mobileMenu" type="button" aria-label="Меню">☰</button></div></div></header>
-<div id="mobile-nav" class="mobile-nav hidden"><a href="#home" data-go="home">Начало</a><a href="#design" data-go="design">Нов винил с дизайн</a><a href="#catalog" data-go="catalog">Продукти</a><a href="/teniski/">Печат на тениски</a><a href="#contact" data-go="contact">Контакти</a><a href="#admin" data-go="admin">Администрация</a></div>
+<div class="topbar"><div class="container topbar-inner"><span>Творчески идеи · Индивидуален печат</span><span>Винил · Фолио · Облекло · Брезенти</span></div></div>
+<header class="header v3-header">
+ <div class="container head-inner">
+ <a class="brand" href="#home" data-go="home" aria-label="Vinilpechat — начало">
+  <img class="brand-logo" src="/assets/vinilpechat-spectrum-logo.svg" width="52" height="52" alt="Многоцветно геометрично лого на Vinilpechat">
+  <span class="brand-copy"><strong>Vinilpechat</strong><small>ПЕЧАТ БЕЗ ГРАНИЦИ</small></span>
+ </a>
+ <nav class="desktop-nav" aria-label="Основна навигация">
+  <a href="#home" data-go="home">Начало</a>
+  <a href="#design" data-go="design">Печат на винил</a>
+  <a href="/brezenti/">Винили за покриване</a>
+  <a href="/teniski/">Тениски за печат</a>
+  <a href="#catalog" data-go="catalog">Всички продукти</a>
+ </nav>
+ <div class="head-actions">
+  <button class="search-chip" id="focusSearch" type="button" aria-label="Търси продукти"><span class="v3-search-icon" aria-hidden="true">⌕</span><span>Търсене</span></button>
+  <button class="cart-btn" id="cartOpen" type="button" aria-label="Отвори количката"><svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6H20a2 2 0 0 0 2-1.6l1-7.4H6"/></svg><b id="cart-count">0</b></button>
+  <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Отвори меню" aria-expanded="false">☰</button>
+ </div></div>
+</header>
+<div id="mobile-nav" class="mobile-nav hidden" aria-label="Мобилна навигация">
+ <a href="#home" data-go="home">Начало</a>
+ <a href="#design" data-go="design">Печат на винил</a>
+ <a href="/brezenti/">Винили за покриване</a>
+ <a href="/teniski/">Тениски за печат</a>
+ <a href="#catalog" data-go="catalog">Всички продукти</a>
+ <a href="#contact" data-go="contact">Контакти</a>
+ <a href="#admin" data-go="admin">Администрация</a>
+</div>
 <main id="main">
   <section class="container seo-home-fallback" aria-labelledby="seo-home-title">
-    <span class="choice-eyebrow">Винил & Брезенти · Рекламни решения</span>
-    <h1 id="seo-home-title">Печат на винил по размер, брезенти и покривала</h1>
-    <p>Изработка на рекламен винил по зададени размери, със или без дизайн. Разгледай също платнища, брезенти, кристал винил и материали за покриване, дома и градината.</p>
-    <div class="seo-home-links"><a href="/teniski/">Печат на тениски</a><a href="/nov-vinil/">Печат на рекламен винил</a><a href="/brezenti/">Брезенти и покривала</a><a href="/kategorii/kristal-kristal-vinil">Кристал винил</a><a href="/kategorii/mesh-perfovinil-mesh">Перфовинил меш</a><a href="/kategorii/tir-tir-vinil-brezenti">ТИР винил и брезенти</a><a href="/#catalog">Всички продукти</a></div>
+    <span class="choice-eyebrow">VINILPECHAT · ТРИТЕ ОСНОВНИ УСЛУГИ</span>
+    <h1 id="seo-home-title">Печат на винил, винили за покриване и тениски за печат</h1>
+    <p>Избери една от трите категории и поръчай онлайн. Виж нашите проекти в Instagram и Facebook.</p>
+    <div class="seo-home-links">
+      <a href="/nov-vinil/">Печат на винил</a>
+      <a href="/brezenti/">Винили за покриване</a>
+      <a href="/teniski/">Тениски за печат</a>
+    </div>
   </section>
 </main>
 <section class="instagram-section" id="instagram-posts" aria-labelledby="social-section-title">
@@ -70,7 +104,7 @@
     </div>
   </div>
 </section>
-<footer class="footer"><div class="container footer-cols"><div><div class="footer-brand">Винил <span>&</span> Брезенти</div><p>Продуктови решения за бизнеса, дома, строителството и градината.</p><span class="fine">Каталожните цени подлежат на потвърждение спрямо избрания размер и вариант.</span></div><div><b>Информация</b><a href="#delivery" data-go="delivery">Доставка и плащане</a><a href="#terms" data-go="terms">Общи условия</a><a href="#privacy" data-go="privacy">Поверителност</a></div><div><b>Навигация</b><a href="#design" data-go="design">Нов винил с дизайн</a><a href="/nov-vinil/">Печат на винил по размер</a><a href="/brezenti/">Брезенти и покривни платнища</a><a href="#catalog" data-go="catalog">Всички продукти</a><a href="#contact" data-go="contact">Изпрати запитване</a><a href="#admin" data-go="admin">Администрация</a></div></div><div class="container footer-bottom">© <span id="year"></span> Винил & Брезенти <span>Създадено с внимание към детайла</span></div></footer>
+<footer class="footer"><div class="container footer-cols"><div><div class="footer-brand">Vinilpechat <span>✦</span></div><p>Продуктови решения за бизнеса, дома, строителството и градината.</p><span class="fine">Каталожните цени подлежат на потвърждение спрямо избрания размер и вариант.</span></div><div><b>Информация</b><a href="#delivery" data-go="delivery">Доставка и плащане</a><a href="#terms" data-go="terms">Общи условия</a><a href="#privacy" data-go="privacy">Поверителност</a></div><div><b>Навигация</b><a href="#design" data-go="design">Нов винил с дизайн</a><a href="/nov-vinil/">Печат на винил по размер</a><a href="/brezenti/">Брезенти и покривни платнища</a><a href="#catalog" data-go="catalog">Всички продукти</a><a href="#contact" data-go="contact">Изпрати запитване</a><a href="#admin" data-go="admin">Администрация</a></div></div><div class="container footer-bottom">© <span id="year"></span> Vinilpechat <span>Създадено с внимание към детайла</span></div></footer>
 <div class="overlay hidden" id="overlay"></div><section class="drawer hidden" id="cartDrawer" aria-label="Кошница"><div class="drawer-head"><strong>Вашата заявка</strong><button class="icon-btn" id="cartClose" aria-label="Затвори">×</button></div><div id="cartContents" class="drawer-content"></div></section>
 <div class="modal-wrap hidden" id="productDialog"><div class="modal" role="dialog" aria-modal="true" aria-label="Детайли за продукт"><button class="modal-close icon-btn" id="productClose">×</button><div id="productDetail"></div></div></div>
 <div class="toast hidden" id="toast"></div>

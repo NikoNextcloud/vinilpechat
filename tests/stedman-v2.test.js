@@ -48,7 +48,9 @@ test('Private upload only saves accepted PNG and stores order safely',async()=>{
  let inserted;
  const storage={
   async getBucket(){return {data:{name:BUCKET,public:false},error:null};},
-  from(name){assert.equal(name,BUCKET);return {
+  from(name){if(name==='vinyl-stedman-price-settings')return {
+   async download(){return {data:null,error:{statusCode:404,message:'Object not found'}}}
+  };assert.equal(name,BUCKET);return {
    async upload(key,binary,options){saved.push({key,binary,options});return {error:null}},
    async remove(keys){removed.push(...keys);return {error:null}},
    async createSignedUrl(key,ttl){assert.equal(ttl,600);return {data:{signedUrl:'https://example.test/'+key},error:null}}
@@ -120,31 +122,49 @@ test('Official shirt and hoodie size charts and shade lists match client data',(
 });
 
 
-test('No printing selection has zero printing surcharge, while explicit choices add 3 or 6 euros',()=>{
- const basic={model_id:'ST2000',color_code:'WHI',shade_code:'WHI',
-  sizes:[{size:'M',quantity:2},{size:'3XL',quantity:1}]};
- const pos={x:50,y:40,size:62,rotation:0};
- const empty=quote({...basic,print_mode:'none',prints:{}});
- const front=quote({...basic,print_mode:'front',prints:{front:{position:pos}}});
- const both=quote({...basic,print_mode:'both',prints:{front:{position:pos},back:{position:pos}}});
- assert.equal(empty.total,14.8);
- assert.equal(empty.printCents,0);
- assert.equal(front.total,23.8);
+test('Print pricing starts at zero until the buyer selects a print location',()=>{
+ const bare=quote({model_id:'ST2000',color_code:'WHI',shade_code:'WHI',print_mode:'none',
+  sizes:[{size:'M',quantity:2},{size:'3XL',quantity:1}],prints:{}});
+ assert.equal(bare.printCents,0);
+ assert.equal(bare.total,14.8);
+ assert.equal(bare.printMode,'none');
+ assert.equal(bare.prints.front,null);
+ assert.equal(bare.prints.back,null);
+ assert.throws(()=>quote({model_id:'ST2000',color_code:'WHI',shade_code:'WHI',print_mode:'none',
+  sizes:[{size:'M',quantity:1}],prints:{
+  front:{position:{x:50,y:40,size:62,rotation:0}}}}),/страни/);
+ const front=quote({model_id:'ST2000',color_code:'WHI',shade_code:'WHI',
+  print_mode:'front',sizes:[{size:'M',quantity:1}],
+  prints:{front:{position:{x:50,y:40,size:62,rotation:0}}}});
  assert.equal(front.printCents,300);
- assert.equal(both.total,32.8);
- assert.equal(both.printCents,600);
- assert.throws(()=>quote({...basic,print_mode:'none',prints:{front:{position:pos}}}),/страни/);
+ assert.equal(front.total,7.4);
 });
-test('Drag-only product UI has no sliders, rotation buttons or resize handles',()=>{
+test('V2 editor uses only direct movement, without resize or rotation controls',()=>{
  const html=fs.readFileSync(path.join(__dirname,'../public/teniski/index.html'),'utf8');
- const js=fs.readFileSync(path.join(__dirname,'../public/teniski/v2.js'),'utf8');
- assert.doesNotMatch(html,/type="range"/);
- assert.doesNotMatch(html,/v2-resize-handle/);
- assert.doesNotMatch(html,/v2-center-art|v2-reset-art|v2-rotation/);
- assert.doesNotMatch(js,/v2-center-art|v2-reset-art|v2-rotation/);
- assert.match(html,/id="v2-print-setup"[^>]*hidden/);
- assert.match(html,/data-print-mode="front" aria-pressed="false"/);
- assert.match(html,/data-print-mode="both" aria-pressed="false"/);
- assert.match(js,/let printMode='none'/);
- assert.match(js,/ST2000\/ST2000_model_b\.jpg/);
+ const css=fs.readFileSync(path.join(__dirname,'../public/teniski/style.css'),'utf8');
+ assert.doesNotMatch(html,/id="v2-resize-handle"/);
+ assert.match(html,/class="sliders" hidden/);
+ assert.doesNotMatch(html,/type="range" id="art-size"/);
+ assert.match(css,/#customizer \.sliders,\.v2-transform\{display:none!important\}/);
+ assert.match(v2,/pointerdown/);
+ assert.doesNotMatch(v2,/startPinch/);
+ assert.doesNotMatch(v2,/deltaY/);
+ assert.match(v2,/UNIVERSAL_BACK_PHOTO/);
+ assert.doesNotMatch(v2,/const transformControls=/);
+});
+
+test('Customer-provided universal rear shirt photo is the single back image source',()=>{
+ const imagePath=path.join(__dirname,'../public/teniski/assets/universal-back-white.webp');
+ const buf=fs.readFileSync(imagePath);
+ assert.equal(buf.toString('ascii',0,4),'RIFF');
+ assert.equal(buf.toString('ascii',8,12),'WEBP');
+ assert.ok(buf.byteLength>2000);
+ const script=fs.readFileSync(path.join(__dirname,'../public/teniski/v2.js'),'utf8');
+ const html=fs.readFileSync(path.join(__dirname,'../public/teniski/index.html'),'utf8');
+ const app=fs.readFileSync(path.join(__dirname,'../public/teniski/app.js'),'utf8');
+ const local='/teniski/assets/universal-back-white.webp';
+ assert.ok(script.includes("const UNIVERSAL_BACK_PHOTO='"+local+"'"));
+ assert.ok(html.includes(local));
+ assert.ok(app.includes(local));
+ assert.ok(!script.includes('ST2000_model_b.jpg'));
 });

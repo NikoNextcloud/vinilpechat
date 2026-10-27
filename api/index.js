@@ -4,8 +4,10 @@ const { createClient } = require('@supabase/supabase-js');
 const crypto = require('node:crypto');
 const {designQuote}=require('../lib/design-pricing.js');
 const seo=require('../lib/seo-pages.js');
+const shirtPage=require('../lib/stedman-page.js');
 const shirts=require('../lib/stedman-pricing.js');
 const shirtOrders=require('../lib/stedman-orders.js');
+const shirtPrices=require('../lib/stedman-price-store.js');
 const MAX_BODY = 5 * 1024 * 1024;
 const json = (res,status,obj) => {res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.status(status).json(obj);};
 const msg = (res,status,message) => json(res,status,{error:message});
@@ -94,37 +96,56 @@ const id='Z'+Date.now().toString(36).toUpperCase()+crypto.randomBytes(3).toStrin
 bad(await db.from('vinyl_orders').insert({id,kind,status:'new',customer_name,phone,email,message,items,estimated_total:Math.round(total*100)/100}),'insert order');return {ok:true,order_id:id};}
 async function upload(db,d){const id=Number(d.id),ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[d.mime];if(!Number.isInteger(id)||!ext||typeof d.base64!=='string'||d.base64.length>4.3e6)throw Object.assign(new Error('Невалидно изображение'),{status:400});const row=bad(await db.from('vinyl_products').select('id').eq('id',id).maybeSingle(),'image product');if(!row)throw Object.assign(new Error('Продуктът не съществува'),{status:404});const raw=Buffer.from(d.base64,'base64');if(raw.length<100||raw.length>3*1024*1024)throw Object.assign(new Error('Изображението трябва да е под 3 MB'),{status:400});const valid=ext==='jpg'?raw[0]===255&&raw[1]===216&&raw[2]===255:ext==='png'?raw.subarray(0,8).equals(Buffer.from('89504e470d0a1a0a','hex')):raw.toString('ascii',0,4)==='RIFF'&&raw.toString('ascii',8,12)==='WEBP';if(!valid)throw Object.assign(new Error('Неправилен формат'),{status:400});let key=id+'/'+crypto.randomUUID()+'.'+ext;const result=await db.storage.from('vinyl-product-images').upload(key,raw,{contentType:d.mime,upsert:false,cacheControl:'3600'});if(result.error)throw Object.assign(new Error('Storage: '+result.error.message),{status:500});const url=db.storage.from('vinyl-product-images').getPublicUrl(key).data.publicUrl;bad(await db.from('vinyl_products').update({image:url}).eq('id',id),'save photo');return {ok:true,url};}
 module.exports=async function handler(req,res){
-    if(!['GET','POST'].includes(req.method))return msg(res,405,'Непозволен метод');
     if(req.headers['content-length']&&Number(req.headers['content-length'])>MAX_BODY+1024)return msg(res,413,'Заявката е твърде голяма');
     let route=String(req.query?.route||'').replace(/^\/+|\/+$/g,'')||new URL(req.url,'https://localhost').pathname.replace(/^\/api\//,'');
     if(Array.isArray(route))route=route.join('/');
+    const seoRead=['GET','HEAD'].includes(req.method)&&['seo/product','seo/category','seo/sitemap','seo/shirt'].includes(route);
+    if(!['GET','POST'].includes(req.method)&&!seoRead)return msg(res,405,'Непозволен метод');
+    if(seoRead&&process.env.VERCEL_GIT_COMMIT_SHA)res.setHeader('X-Vinilpechat-Commit',process.env.VERCEL_GIT_COMMIT_SHA);
     try{
-        if(route==='health')return json(res,200,{ok:true,configured:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),catalogReady:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),ordersReady:!!process.env.SUPABASE_SERVICE_ROLE_KEY,adminReady:!!(process.env.SUPABASE_SERVICE_ROLE_KEY&&process.env.ADMIN_EMAIL&&process.env.SESSION_SECRET)});
+        if(route==='health')return json(res,200,{ok:true,commit:process.env.VERCEL_GIT_COMMIT_SHA||null,configured:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),catalogReady:!!(process.env.SUPABASE_URL&&process.env.SUPABASE_ANON_KEY),ordersReady:!!process.env.SUPABASE_SERVICE_ROLE_KEY,adminReady:!!(process.env.SUPABASE_SERVICE_ROLE_KEY&&process.env.ADMIN_EMAIL&&process.env.SESSION_SECRET)});
+        if(route==='shirts/prices'&&req.method==='GET'){
+          const {db,privileged}=clients();
+          const overrides=privileged?await shirtPrices.loadOverrides(db):new Map();
+          return json(res,200,{ok:true,prices:shirtPrices.publicPrices(overrides)});
+        }
         if(route==='shirts/quote'&&req.method==='POST'){
           if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
-          return json(res,200,{ok:true,quote:shirts.quote(await body(req))});
+          const {db,privileged}=clients();
+          const overrides=privileged?await shirtPrices.loadOverrides(db):new Map();
+          return json(res,200,{ok:true,quote:shirts.quote(await body(req),overrides)});
         }
         if(route==='design/quote'&&req.method==='POST'){
             if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
             return json(res,200,designQuote(await body(req)));
         }
-        if(req.method==='GET'&&['seo/product','seo/category','seo/sitemap'].includes(route)){
+        if(route==='seo/shirt'&&seoRead){
+          const slug=typeof req.query?.slug==='string'?req.query.slug:'';
+          const page=shirtPage.resolve(slug);
+          if(!page){res.setHeader('X-Robots-Tag','noindex');return req.method==='HEAD'?res.status(404).end():res.status(404).send('Моделът не е намерен');}
+          if(page.redirect){res.setHeader('Location',page.redirect);return res.status(308).end();}
+          res.setHeader('Content-Type','text/html; charset=utf-8');
+          res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
+          res.setHeader('X-Content-Type-Options','nosniff');
+          return req.method==='HEAD'?res.status(200).end():res.status(200).send(page.html);
+        }
+        if(seoRead){
             const {db}=clients();
             if(route==='seo/sitemap'){
                 const xml=await seo.sitemapXml(db);
                 res.setHeader('Content-Type','application/xml; charset=utf-8');
                 res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
                 res.setHeader('X-Content-Type-Options','nosniff');
-                return res.status(200).send(xml);
+                return req.method==='HEAD'?res.status(200).end():res.status(200).send(xml);
             }
             const slug=typeof req.query?.slug==='string'?req.query.slug:'';
             const page=route==='seo/product'?await seo.resolveProduct(db,slug):await seo.resolveCategory(db,slug);
-            if(!page){res.setHeader('X-Robots-Tag','noindex');return res.status(404).send('Страницата не е намерена');}
+            if(!page){res.setHeader('X-Robots-Tag','noindex');return req.method==='HEAD'?res.status(404).end():res.status(404).send('Страницата не е намерена');}
             if(page.redirect){res.setHeader('Location',page.redirect);return res.status(308).end();}
             res.setHeader('Content-Type','text/html; charset=utf-8');
             res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
             res.setHeader('X-Content-Type-Options','nosniff');
-            return res.status(200).send(page.html);
+            return req.method==='HEAD'?res.status(200).end():res.status(200).send(page.html);
         }
         let {db,auth,privileged}=clients();
         if(!privileged && (route==='orders'||route==='shirts/order'||route.startsWith('admin/')))return msg(res,503,'Магазинът приема само запитвания след завършване на настройките.');
@@ -147,6 +168,10 @@ module.exports=async function handler(req,res){
         if(req.method==='GET'&&route==='admin/session'){
             const token=parseCookie(req,'vinyl_auth');if(!token)return json(res,200,{authenticated:false,csrf:''});const user=await auth.auth.getUser(token);const allow=str(process.env.ADMIN_EMAIL||'',254).toLowerCase();const ok=!!(allow&&user?.data?.user?.email?.toLowerCase()===allow&&user.data.user.email_confirmed_at);return json(res,200,{authenticated:ok,csrf:ok?sessionCsrf(token):''});
         }
+        if(route==='admin/shirt-prices'&&req.method==='GET'){
+          if(!await admin(req,db,auth,res))return;
+          return json(res,200,{ok:true,models:shirtPrices.modelRows(await shirtPrices.loadOverrides(db))});
+        }
         if(route==='admin/data'&&req.method==='GET'){
             if(!await admin(req,db,auth,res))return;return json(res,200,await adminData(db));
         }
@@ -161,16 +186,17 @@ module.exports=async function handler(req,res){
             const usage=bad(await db.rpc('vinyl_store_usage'),'usage');
             return json(res,200,{usage,limits:{database_bytes:500*1024*1024,storage_bytes:1024*1024*1024},plan:'free'});
         }
-        if(['admin/save','admin/order','admin/upload','admin/variants'].includes(route)&&req.method==='POST'){
+        if(['admin/save','admin/order','admin/upload','admin/variants','admin/shirt-prices'].includes(route)&&req.method==='POST'){
             if(!await admin(req,db,auth,res,true))return;const d=await body(req);
             if(route==='admin/save')return json(res,200,await saveProducts(db,d));
+            if(route==='admin/shirt-prices')return json(res,200,await shirtPrices.saveOverrides(db,d.rows));
             if(route==='admin/variants'){
                 if(!Array.isArray(d.variants)||d.variants.length>800) return msg(res,400,'Невалиден списък с варианти');
                 const seen=new Set();
                 for(const v of d.variants){const id=Number(v.product_id),key=str(v.variant_key,500);if(!Number.isInteger(id)||id<1||!key||seen.has(id+':'+key))return msg(res,400,'Невалиден или дублиран вариант');seen.add(id+':'+key);}
                 for(let i=0;i<d.variants.length;i+=12){
                     await Promise.all(d.variants.slice(i,i+12).map(async v=>{
-                      const values={sale_price:price(v.sale_price),manual_sale_price:v.manual_sale_price===true,active:!!v.active,price_verification_needed:!!v.price_verification_needed};
+                      const values={supplier_price:price(v.supplier_price),sale_price:price(v.sale_price),manual_sale_price:v.manual_sale_price===true,active:!!v.active,price_verification_needed:!!v.price_verification_needed};
                       const changed=bad(await db.from('vinyl_variants').update(values).eq('product_id',Number(v.product_id)).eq('variant_key',v.variant_key).select('product_id'),'variant pricing');
                       if(changed.length!==1)throw Object.assign(new Error('Невалиден вариант'),{status:400});
                     }));
