@@ -28,5 +28,10 @@
     "api/index.js": {
       "includeFiles": "public/teniski/index.html"
     }
+  },
+  "git": {
+    "deploymentEnabled": {
+      "feature/vinilpechat-2-0-drag-only": false
+    }
   }
 }
