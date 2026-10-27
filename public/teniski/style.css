@@ -139,7 +139,7 @@
  .v2-color-swatches button{width:36px;height:36px;min-width:36px}
 }
 
-/* V2.1 clean artwork editor: only direct drag, zoom and pinch, no sliders */
+/* V2.1 clean artwork editor: only direct drag, no transform controls */
 #customizer .sliders,.v2-transform{display:none!important}
 #customizer .side-switch[hidden],#customizer .side-switch [hidden],
 #customizer .controls label[hidden],#customizer .controls input[hidden],
@@ -147,12 +147,15 @@
 #customizer .print-zone.v2-print-inactive{display:none!important}
 #customizer .print-zone.v2-has-logo{outline:2px dashed rgba(12,132,103,.85);background:rgba(48,155,115,.08);touch-action:none;cursor:move}
 #customizer .print-zone.v2-has-logo:focus-visible{outline:3px solid #0b8765;outline-offset:3px}
-#customizer .print-zone #artwork{user-select:none;-webkit-user-drag:none;pointer-events:none;touch-action:none}
-.v2-resize-handle{position:absolute;z-index:10;width:30px;height:30px;line-height:1;display:grid;place-items:center;transform:translate(-50%,-50%);background:#0e7f63;color:white;border:2px solid white;border-radius:50%;box-shadow:0 2px 11px #153c3280;cursor:nwse-resize;font-weight:900;font-size:17px;touch-action:none;pointer-events:auto;user-select:none}
-.v2-resize-handle[hidden]{display:none!important}
-.v2-resize-handle:focus-visible{outline:3px solid #184f40;outline-offset:3px}
+#customizer .print-zone #artwork{user-select:none;-webkit-user-drag:none;pointer-events:auto;touch-action:none}
 #v2-print-prompt{padding:10px 14px;margin:12px 0 0;border:1px solid #dde9e1;background:#f2f8f3;color:#4e7260;border-radius:12px;font-size:12px}
 #v2-artwork-hint{background:#eff8f1;border-left:3px solid #1a926d;border-radius:9px;padding:11px 13px;line-height:1.6;font-size:12px;margin:3px 0}
 #customizer .controls #remove-art{background:transparent;color:#a24d43;padding:5px 0;text-align:left;font-size:12px;font-weight:700}
 #customizer .controls #remove-art:hover{text-decoration:underline}
 #customizer .controls input[type=file]{border:1px dashed #a7cdbc;background:#f9fcfa;padding:13px;border-radius:12px}
+
+#customizer .print-zone #artwork{cursor:grab}
+#customizer .print-zone.v2-dragging #artwork{cursor:grabbing}
+/* Keep long galleries and file names inside the single-column phone layout. */
+#customizer>*{min-width:0}
+#customizer .shirt-preview{width:100%}

@@ -139,16 +139,16 @@ test('Print pricing starts at zero until the buyer selects a print location',()=
  assert.equal(front.printCents,300);
  assert.equal(front.total,7.4);
 });
-test('V2 editor uses only direct movement and zoom gestures, without exposed slider controls',()=>{
+test('V2 editor uses only direct movement, without resize or rotation controls',()=>{
  const html=fs.readFileSync(path.join(__dirname,'../public/teniski/index.html'),'utf8');
  const css=fs.readFileSync(path.join(__dirname,'../public/teniski/style.css'),'utf8');
- assert.match(html,/id="v2-resize-handle"/);
+ assert.doesNotMatch(html,/id="v2-resize-handle"/);
  assert.match(html,/class="sliders" hidden/);
  assert.doesNotMatch(html,/type="range" id="art-size"/);
  assert.match(css,/#customizer \.sliders,\.v2-transform\{display:none!important\}/);
  assert.match(v2,/pointerdown/);
- assert.match(v2,/startPinch/);
- assert.match(v2,/deltaY/);
+ assert.doesNotMatch(v2,/startPinch/);
+ assert.doesNotMatch(v2,/deltaY/);
  assert.match(v2,/UNIVERSAL_BACK_PHOTO/);
  assert.doesNotMatch(v2,/const transformControls=/);
 });

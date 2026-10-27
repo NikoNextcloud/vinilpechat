@@ -70,7 +70,7 @@ try{
  assert.equal(await page.locator('#detail-code').innerText(),'ST2000');
  assert.equal(await page.locator('[data-print-mode="front"]').getAttribute('aria-pressed'),'false');
  assert.equal(await page.locator('#front-upload').isVisible(),false);
- assert.equal(await page.locator('#v2-resize-handle').count(),1);
+ assert.equal(await page.locator('#v2-resize-handle').count(),0);
  await page.screenshot({path:'test-output/v3-clothing-designer.png',fullPage:true});
  await page.locator('[data-print-mode="front"]').click();
  assert(await page.locator('#front-upload').isVisible());

@@ -49,12 +49,12 @@ test('V3 keeps the 75-model Stedman designer and real supplier/retail pricing co
  assert.equal(source.length,75);
  assert.match(v2,/UNIVERSAL_BACK_PHOTO/);
  assert.match(v2,/printMode='none'/);
- assert.match(v2,/startPinch/);
+ assert.match(v2,/setPointerCapture/);
  assert.match(v2,/v3-card-swatches/);
  assert.match(v2,/requestedCategory/);
  assert.match(html,/id="v2-print-choice"/);
  assert.match(html,/id="artwork"/);
- assert.match(html,/id="v2-resize-handle"/);
+ assert.doesNotMatch(html,/id="v2-resize-handle"/);
  assert.match(read('teniski/v3.css'),/\.v2-print-card\[aria-pressed=true\]/);
  assert.match(read('teniski/v3.css'),/\.v2-color-swatches button/);
 });

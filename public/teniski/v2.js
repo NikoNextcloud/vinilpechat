@@ -340,40 +340,22 @@
 
  for(const old of ['download-request','viber','copy-request','request-text','message-hint'])el(old)?.classList.add('v2-legacy-hidden');
 
- // Direct manipulation only: drag to move, grab the discreet corner to resize,
- // mouse-wheel to zoom, two fingers on mobile to pinch-zoom. No slider controls.
- const zone=el('print-zone'),logo=el('artwork'),handle=el('v2-resize-handle');
+ // The customer editor only moves artwork; order geometry remains compatible.
+ const zone=el('print-zone'),logo=el('artwork');
  zone.setAttribute('role','group');
  zone.setAttribute('tabindex','0');
- zone.setAttribute('aria-label','Премести логото със стрелките. Увеличи с плюс, намали с минус, или използвай пръстите си.');
- const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
+ zone.setAttribute('aria-label','Област за печат. Стрелките местят щампата.');
  const canEdit=()=>printMode!=='none'&&!!artwork[activeSide].url&&
    galleryView!=='model'&&(activeSide!=='back'||printMode==='both');
- function placeResizeHandle(){
-  if(!canEdit()||logo.hidden||!logo.getBoundingClientRect().width||zone.getBoundingClientRect().width===0){
-   handle.hidden=true;return;
-  }
-  const imgRect=logo.getBoundingClientRect(),area=zone.getBoundingClientRect();
-  handle.hidden=false;
-  handle.style.left=clamp(imgRect.right-area.left,10,area.width-10)+'px';
-  handle.style.top=clamp(imgRect.bottom-area.top,10,area.height-10)+'px';
-  handle.setAttribute('aria-valuenow',String(Math.round(artwork[activeSide].size)));
-  handle.title='Мащаб '+Math.round(artwork[activeSide].size)+'% · плъзни за увеличаване/намаляване';
- }
  const originalUpdateArt=updateArt;
  updateArt=function(){
   originalUpdateArt();
-  const state=artwork[activeSide];
-  logo.style.transform='translate(-50%,-50%) rotate('+(state.rotation||0)+'deg)';
+  logo.style.transform='translate(-50%,-50%)';
   const editing=canEdit();
   zone.classList.toggle('v2-print-inactive',!editing);
   zone.classList.toggle('v2-has-logo',editing);
   el('remove-art').hidden=!editing;
-  handle.hidden=!editing;
-  requestAnimationFrame(placeResizeHandle);
  };
- logo.addEventListener('load',placeResizeHandle);
- window.addEventListener('resize',placeResizeHandle);
  const originalUpdateShirtImage=updateShirtImage;
  updateShirtImage=function(){
   originalUpdateShirtImage();
@@ -399,104 +381,47 @@
   syncGallerySelection();
  };
 
- const pointers=new Map();
- let gesture=null;
- const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
- const midpoint=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
- function updateLocation(x,y){
-  const r=zone.getBoundingClientRect();
-  const art=artwork[activeSide];
-  art.x=clamp(Math.round((x-r.left)/r.width*100),0,100);
-  art.y=clamp(Math.round((y-r.top)/r.height*100),0,100);
-  el('art-x').value=art.x;
-  el('art-y').value=art.y;
-  updateArt();
- }
- function resize(size){
-  if(!canEdit())return;
-  const art=artwork[activeSide];
-  art.size=clamp(Math.round(size),15,100);
-  el('art-size').value=art.size;
-  updateArt();
- }
- function startPinch(){
-  const [a,b]=[...pointers.values()];
-  const art=artwork[activeSide];
-  gesture={type:'pinch',fromDistance:Math.max(distance(a,b),1),
-   fromSize:art.size,fromMid:midpoint(a,b),fromX:art.x,fromY:art.y};
- }
+ let dragging=null;
+ const image=el('artwork');
+ image.draggable=false;
+ image.setAttribute('aria-label','Лого за местене с мишка или докосване');
+ const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
  zone.addEventListener('pointerdown',event=>{
-  if(!canEdit())return;
+  // A drag starts only on the artwork. Clicking empty fabric never jumps the design.
+  if(!canEdit()||dragging||event.target!==image||event.button!==0)return;
   event.preventDefault();
-  const pt={x:event.clientX,y:event.clientY};
-  pointers.set(event.pointerId,pt);
+  dragging={pointerId:event.pointerId,side:activeSide,x:artwork[activeSide].x,
+   y:artwork[activeSide].y,clientX:event.clientX,clientY:event.clientY};
   zone.setPointerCapture(event.pointerId);
-  if(pointers.size>=2){startPinch();return;}
-  const r=zone.getBoundingClientRect(),image=logo.getBoundingClientRect();
-  if(event.target.closest('#v2-resize-handle')){
-   gesture={type:'resize',startX:pt.x,startY:pt.y,startSize:artwork[activeSide].size,
-    zoneWidth:Math.max(r.width,1),zoneHeight:Math.max(r.height,1)};
-  }else{
-   const inside=pt.x>=image.left&&pt.x<=image.right&&pt.y>=image.top&&pt.y<=image.bottom;
-   const center={x:r.left+(artwork[activeSide].x/100)*r.width,
-    y:r.top+(artwork[activeSide].y/100)*r.height};
-   gesture={type:'move',offsetX:inside?pt.x-center.x:0,offsetY:inside?pt.y-center.y:0};
-   if(!inside)updateLocation(pt.x,pt.y);
-  }
+  zone.classList.add('v2-dragging');
  });
  zone.addEventListener('pointermove',event=>{
-  if(!pointers.has(event.pointerId)||!canEdit())return;
-  pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
-  if(pointers.size>=2){
-   if(gesture?.type!=='pinch')startPinch();
-   const [a,b]=[...pointers.values()];
-   const mid=midpoint(a,b);
-   resize(gesture.fromSize*distance(a,b)/gesture.fromDistance);
-   const area=zone.getBoundingClientRect();
-   updateLocation(area.left+gesture.fromX/100*area.width+mid.x-gesture.fromMid.x,
-    area.top+gesture.fromY/100*area.height+mid.y-gesture.fromMid.y);
-  }else if(gesture?.type==='resize'){
-   const dx=(event.clientX-gesture.startX)/gesture.zoneWidth;
-   const dy=(event.clientY-gesture.startY)/gesture.zoneHeight;
-   resize(gesture.startSize+100*(dx+dy));
-  }else if(gesture?.type==='move'){
-   updateLocation(event.clientX-gesture.offsetX,event.clientY-gesture.offsetY);
-  }
+  if(!dragging||event.pointerId!==dragging.pointerId||dragging.side!==activeSide||!canEdit())return;
+  const rect=zone.getBoundingClientRect();
+  if(!rect.width||!rect.height)return;
+  const a=artwork[activeSide],imageRect=image.getBoundingClientRect();
+  const halfX=Math.min(50,a.size/2);
+  const halfY=Math.min(50,(imageRect.height/rect.height)*50);
+  a.x=Math.round(clamp(dragging.x+(event.clientX-dragging.clientX)/rect.width*100,halfX,100-halfX));
+  a.y=Math.round(clamp(dragging.y+(event.clientY-dragging.clientY)/rect.height*100,halfY,100-halfY));
+  el('art-x').value=a.x;el('art-y').value=a.y;
+  updateArt();
  });
  for(const name of ['pointerup','pointercancel','lostpointercapture']){
   zone.addEventListener(name,event=>{
-   pointers.delete(event.pointerId);
-   if(pointers.size>=2)startPinch();
-   else gesture=null;
+   if(event.pointerId!==dragging?.pointerId)return;
+   dragging=null;zone.classList.remove('v2-dragging');
   });
  }
- zone.addEventListener('wheel',event=>{
-  if(!canEdit())return;
-  event.preventDefault();
-  resize(artwork[activeSide].size*Math.exp(-event.deltaY*0.002));
- },{passive:false});
- function handleKeys(event){
-  if(!canEdit())return;
-  const key=event.key,step=event.shiftKey?5:1;
-  const art=artwork[activeSide];
-  if(['+','=','Add','ArrowUp'].includes(key)&&event.target===handle){
-   event.preventDefault();resize(art.size+step);return;
-  }
-  if(['-','Subtract','ArrowDown'].includes(key)&&event.target===handle){
-   event.preventDefault();resize(art.size-step);return;
-  }
-  if(['+','=','Add','-','Subtract'].includes(key)){
-   event.preventDefault();resize(art.size+(['-','Subtract'].includes(key)?-step:step));return;
-  }
-  if(!/^Arrow/.test(key))return;
-  event.preventDefault();
-  if(key==='ArrowLeft')art.x=clamp(art.x-step,0,100);
-  if(key==='ArrowRight')art.x=clamp(art.x+step,0,100);
-  if(key==='ArrowUp')art.y=clamp(art.y-step,0,100);
-  if(key==='ArrowDown')art.y=clamp(art.y+step,0,100);
-  el('art-x').value=art.x;el('art-y').value=art.y;updateArt();
- }
- zone.addEventListener('keydown',handleKeys);
+ zone.addEventListener('keydown',e=>{
+  if(!canEdit()||!/^Arrow/.test(e.key))return;
+  e.preventDefault();const a=artwork[activeSide],step=e.shiftKey?5:1;
+  if(e.key==='ArrowLeft')a.x=Math.max(0,a.x-step);
+  if(e.key==='ArrowRight')a.x=Math.min(100,a.x+step);
+  if(e.key==='ArrowUp')a.y=Math.max(0,a.y-step);
+  if(e.key==='ArrowDown')a.y=Math.min(100,a.y+step);
+  el('art-x').value=a.x;el('art-y').value=a.y;updateArt();
+ });
  const oldDescribe=describe;
  describe=function(){
   if(!selected)return;

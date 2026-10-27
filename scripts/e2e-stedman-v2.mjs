@@ -1,15 +1,21 @@
 import assert from 'node:assert/strict';
-import {mkdirSync} from 'node:fs';
+import {mkdirSync,readFileSync} from 'node:fs';
 import {chromium} from 'playwright';
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:1350,height:950}});
+// Optional fixture keeps interaction tests independent of supplier/network availability.
+// Live runs omit this flag and check the original supplier images.
+if(process.env.STEDMAN_IMAGE_FIXTURE==='1'){
+ await page.route('https://www.stedman.eu/**',r=>r.fulfill({contentType:'image/webp',body:readFileSync('public/teniski/assets/universal-back-white.webp')}));
+ await page.route('https://fonts.googleapis.com/**',r=>r.abort());
+}
 const errors=[];
 const imageErrors=[];
 page.on('response',r=>{if(r.url().includes('stedman.eu')&&!r.ok()&&imageErrors.length<8)imageErrors.push({url:r.url().slice(-74),status:r.status()});});
 page.on('requestfailed',r=>{if(r.url().includes('stedman.eu')&&imageErrors.length<8)imageErrors.push({url:r.url().slice(-74),failure:r.failure()});});
 page.on('pageerror',error=>errors.push(error.message));
 try{
- await page.goto('http://127.0.0.1:3000/teniski/',{waitUntil:'domcontentloaded'});
+ await page.goto((process.env.BASE_URL||'http://127.0.0.1:3000')+'/teniski/',{waitUntil:'domcontentloaded'});
  await page.locator('[data-model]').first().waitFor();
  assert.equal(await page.locator('[data-model]').count(),75);
  await page.locator('[data-shirt-cat="Поло"]').click();
@@ -57,29 +63,27 @@ try{
  await page.locator('[data-print-mode="front"]').click();
  assert(!(await page.locator('#back-upload').isVisible()));
  const zone=page.locator('#print-zone');
+ await zone.scrollIntoViewIfNeeded();
+ await page.waitForFunction(()=>document.getElementById('artwork').naturalWidth>0);
  const box=await zone.boundingBox();
- assert(box,'print zone is visible');
- await page.mouse.move(box.x+box.width*0.50,box.y+box.height*0.40);
+ const logo=await page.locator('#artwork').boundingBox();
+ assert(box&&logo,'print zone and uploaded artwork are visible');
+ const initialX=await page.locator('#art-x').inputValue();
+ await page.mouse.click(box.x+box.width*.02,box.y+box.height*.02);
+ assert.equal(await page.locator('#art-x').inputValue(),initialX,'empty fabric does not move artwork');
+ await page.mouse.move(logo.x+logo.width*.5,logo.y+logo.height*.5);
  await page.mouse.down();
- await page.mouse.move(box.x+box.width*0.75,box.y+box.height*0.58,{steps:6});
+ await page.mouse.move(logo.x+logo.width*.5+box.width*.15,logo.y+logo.height*.5+box.height*.05,{steps:6});
  await page.mouse.up();
  const x=Number(await page.locator('#art-x').inputValue());
- assert(x>=60,'drag and drop moves logo horizontally: '+x);
- await page.locator('#v2-resize-handle').waitFor({state:'visible'});
- await page.locator('#v2-resize-handle').scrollIntoViewIfNeeded();
- const beforeResize=Number(await page.locator('#art-size').inputValue());
- const resizeBox=await page.locator('#v2-resize-handle').boundingBox();
- await page.mouse.move(resizeBox.x+resizeBox.width/2,resizeBox.y+resizeBox.height/2);
- await page.mouse.down();
- await page.mouse.move(resizeBox.x+resizeBox.width/2+23,resizeBox.y+resizeBox.height/2+18,{steps:6});
- await page.mouse.up();
- const afterHandle=Number(await page.locator('#art-size').inputValue());
- assert(afterHandle>beforeResize,'corner drag enlarges uploaded artwork');
- const wheelBox=await zone.boundingBox();
- await page.mouse.move(wheelBox.x+wheelBox.width*.5,wheelBox.y+wheelBox.height*.4);
- await page.mouse.wheel(0,260);
- const afterWheel=Number(await page.locator('#art-size').inputValue());
- assert(afterWheel<afterHandle,'mouse-wheel shrinks uploaded artwork');
+ assert(x>=60&&x<=69,'logo drag moves without jumping or leaving zone: '+x);
+ assert.equal(await page.locator('#v2-resize-handle').count(),0,'no resize handle');
+ const fixedSize=await page.locator('#art-size').inputValue();
+ await page.mouse.wheel(0,100);
+ assert.equal(await page.locator('#art-size').inputValue(),fixedSize,'wheel does not resize artwork');
+ await zone.focus();
+ await page.keyboard.press('ArrowLeft');
+ assert.equal(Number(await page.locator('#art-x').inputValue()),x-1,'keyboard movement remains available');
  await page.locator('[data-print-mode="front"]').click();
  assert.equal(await page.locator('[data-print-mode="front"]').getAttribute('aria-pressed'),'false','same choice can be deselected');
  assert(!(await page.locator('#front-upload').isVisible()));
@@ -127,44 +131,31 @@ try{
  assert.equal(await page.locator('[data-print-mode="front"]').getAttribute('aria-pressed'),'false','mobile product starts unselected');
  await page.locator('[data-print-mode="front"]').click();
  await page.locator('#front-upload').setInputFiles({name:'mobile-logo.png',mimeType:'image/png',buffer:png});
- await page.locator('#v2-resize-handle').waitFor({state:'visible'});
+ await page.waitForFunction(()=>document.getElementById('artwork').naturalWidth>0);
  await page.locator('#print-zone').scrollIntoViewIfNeeded();
  const mobileZone=await page.locator('#print-zone').boundingBox();
- const mobileSizeBefore=Number(await page.locator('#art-size').inputValue());
+ const mobileLogo=await page.locator('#artwork').boundingBox();
+ const mobileSizeBefore=await page.locator('#art-size').inputValue();
+ const mobileXBefore=Number(await page.locator('#art-x').inputValue());
  const touch=await page.context().newCDPSession(page);
  await touch.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
- await page.evaluate(()=>{
-  window.__pinchEvents=[];
-  const z=document.getElementById('print-zone');
-  for(const type of ['pointerdown','pointermove','pointerup','touchstart','touchmove'])
-   z.addEventListener(type,event=>window.__pinchEvents.push({type,pointerId:event.pointerId,pointerType:event.pointerType,
-    touches:event.touches?.length||0}),{capture:true});
- });
- const pinchPoint=(x,y,id)=>({x:Math.round(mobileZone.x+mobileZone.width*x),
-   y:Math.round(mobileZone.y+mobileZone.height*y),id});
- await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[
-  pinchPoint(.35,.45,1),pinchPoint(.65,.45,2)]});
- await page.waitForTimeout(100);
- await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[
-  pinchPoint(.22,.36,1),pinchPoint(.78,.55,2)]});
- await page.waitForTimeout(80);
- await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[
-  pinchPoint(.16,.30,1),pinchPoint(.84,.60,2)]});
- await page.waitForTimeout(120);
+ const tx=Math.round(mobileLogo.x+mobileLogo.width/2),ty=Math.round(mobileLogo.y+mobileLogo.height/2);
+ await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:tx,y:ty,id:1}]});
+ await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:tx+Math.round(mobileZone.width*.12),y:ty+8,id:1}]});
  await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
- const mobileSizeAfter=Number(await page.locator('#art-size').inputValue());
- console.log('MOBILE_PINCH_DIAGNOSTIC',JSON.stringify({
-  sizeBefore:mobileSizeBefore,sizeAfter:mobileSizeAfter,
-  zone:mobileZone,events:await page.evaluate(()=>window.__pinchEvents)}));
- assert(mobileSizeAfter>mobileSizeBefore,'two-finger pinch increases artwork from '+mobileSizeBefore+' to '+mobileSizeAfter);
- await touch.detach();
+ assert(Number(await page.locator('#art-x').inputValue())>mobileXBefore,'real touch drag moves artwork');
+ assert.equal(await page.locator('#art-size').inputValue(),mobileSizeBefore,'touch keeps fixed size');
  await page.screenshot({path:'test-output/stedman-v2-tshirt-mobile.png',fullPage:true});
- await page.goto('http://127.0.0.1:3000/teniski/#model-ST4500',{waitUntil:'domcontentloaded'});
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'mobile has no horizontal overflow');
+ await touch.detach();
+
+ await page.screenshot({path:'test-output/stedman-v2-tshirt-mobile.png',fullPage:true});
+ await page.goto((process.env.BASE_URL||'http://127.0.0.1:3000')+'/teniski/#model-ST4500',{waitUntil:'domcontentloaded'});
  await page.reload({waitUntil:'domcontentloaded'});
  await page.locator('#v2-color-swatches button').first().waitFor();
  console.log('V2_DEEP_LINK_DIAGNOSTIC',JSON.stringify({url:page.url(),code:await page.locator('#detail-code').innerText(),swatches:await page.locator('#v2-color-swatches button').count(),gallery:await page.locator('#v2-gallery-thumbs button').count(),pageErrors:errors}));
  assert((await page.locator('#v2-color-swatches button').count())>=8,'shared hoodie link initializes color swatches');
  assert(await page.locator('#v2-print-choice').isVisible(),'shared hoodie link initializes print options');
  assert.equal(errors.length,0,'unexpected browser page errors: '+errors.join('; '));
- console.log('STEDMAN V2 BROWSER PASS',JSON.stringify({models:75,poloCount,dragX:x,mobile:true,printOptionPrices:[0,3,6],cornerResize:true,wheelZoom:true,mobilePinch:true,universalBack:true,colorSwatches:true,photoGallery:true,sizeGuide:true}));
+ console.log('STEDMAN V2 BROWSER PASS',JSON.stringify({models:75,poloCount,dragX:x,mobile:true,printOptionPrices:[0,3,6],dragOnly:true,touchDrag:true,universalBack:true,colorSwatches:true,photoGallery:true,sizeGuide:true}));
 }finally{await browser.close()}
