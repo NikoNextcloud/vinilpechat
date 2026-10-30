@@ -22,6 +22,7 @@ try{
  await page.locator('#vp-service-add').click();
  assert((await page.locator('#vp-service-status').innerText()).includes('Добавено'));
  await page.screenshot({path:'test-output/v5-komateks-configurator.png',fullPage:false});
+ await goto('/pechatni-produkti/');
  await page.locator('.vp-card').first().waitFor();
  assert.equal(await page.locator('.vp-card').count(),39);
  assert.equal(await page.locator('.vp-group').count(),6);
