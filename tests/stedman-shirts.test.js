@@ -42,12 +42,12 @@ test('First PDF page garments have distinct Stedman codes and selectable nonover
  assert.ok(js.includes('noindex')===false);
 });
 
-test('V3 home focuses on three services and retains the full T-shirt catalog',()=>{
+test('V5 homepage contains four services and retains the full T-shirt catalog',()=>{
  const js=fs.readFileSync(path.join(root,'public/site.js'),'utf8');
  const css=fs.readFileSync(path.join(root,'public/v3.css'),'utf8');
  const shirts=fs.readFileSync(path.join(root,'public/teniski/index.html'),'utf8');
  assert.match(js,/v3-primary-grid/);
- assert.equal((js.match(/v3-primary-card v3-primary-/g)||[]).length,3);
+ assert.equal((js.match(/v3-primary-card v3-primary-/g)||[]).length,4);
  assert.doesNotMatch(js,/v3-category-strip|v3-service-grid|v3-hero/);
  assert.match(js,/function catalog\(\)/);
  assert.match(css,/\.v3-primary-grid/);
