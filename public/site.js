@@ -422,18 +422,19 @@ function renderOrderCard(o){
  const hasArtwork=!!(garmentFiles.front||garmentFiles.back);
  const garmentNote=shirt?'<div class="admin-order-note"><strong>Vinilpechat 2.0 · Stedman '+escaped(shirt.model_id)+'</strong><p>Щампи: '+(garmentFiles.front?'Отпред ':'')+(garmentFiles.back?'Отзад':'')+'. Файловете са в частно хранилище.</p></div>':'';
  return `<article class="admin-order-card">
+ <button type="button" class="admin-order-toggle" aria-expanded="true" aria-controls="order-body-${escaped(o.id)}" onclick="const panel=document.getElementById(this.getAttribute('aria-controls'));const collapsed=!panel.hidden;panel.hidden=collapsed;this.setAttribute('aria-expanded',String(!collapsed));this.textContent=collapsed?'▸ Разгъни поръчката':'▾ Свий поръчката'">▾ Свий поръчката</button>
  <div class="admin-order-head">
    <div><strong class="admin-order-number">Заявка № ${escaped(o.id)}</strong>${date?`<small class="admin-order-date">${escaped(date)}</small>`:''}</div>
    <div class="admin-order-status"><label for="status-${escaped(o.id)}">Статус</label><select id="status-${escaped(o.id)}" data-order-status="${escaped(o.id)}">${[['new','Нова'],['in_progress','Обработка'],['confirmed','Потвърдена'],['completed','Приключена'],['cancelled','Отказана']].map(([v,n])=>`<option ${o.status===v?'selected':''} value="${v}">${n}</option>`).join('')}</select></div>
  </div>
- <div class="admin-order-contact"><div><span>Клиент</span><strong>${escaped(o.customer_name||o.name||'—')}</strong></div><div><span>Телефон</span><strong>${escaped(o.phone||'—')}</strong></div>${o.email?`<div><span>Имейл</span><strong>${escaped(o.email)}</strong></div>`:''}</div>
+ <div class="admin-order-body" id="order-body-${escaped(o.id)}"><div class="admin-order-contact"><div><span>Клиент</span><strong>${escaped(o.customer_name||o.name||'—')}</strong></div><div><span>Телефон</span><strong>${escaped(o.phone||'—')}</strong></div>${o.email?`<div><span>Имейл</span><strong>${escaped(o.email)}</strong></div>`:''}</div>
  <h3 class="admin-order-items-title">Поръчани артикули <span class="pill">${lines.length}</span></h3>
  ${lines.length?`<div class="admin-order-table-wrap"><table class="admin-order-items"><thead><tr><th>Артикул и вариант</th><th>Количество</th><th>Ед. цена</th><th>Стойност</th></tr></thead><tbody>${orderLines}</tbody></table></div>`:`<p class="admin-order-empty">Запитване без избрани артикули.</p>`}
  ${garmentNote}
  ${hasArtwork?`<div class="admin-order-note"><button type="button" class="outline-btn" data-admin-shirt-files="${escaped(o.id)}">Изтегли оригинални файлове за печат ↗</button><div data-shirt-files-result="${escaped(o.id)}" role="status" aria-live="polite"></div></div>`:''}
  ${o.message?`<div class="admin-order-note"><strong>Бележка от клиента:</strong><p>${escaped(o.message)}</p></div>`:''}
  <div class="admin-order-footer"><span>Обща стойност при заявката</span><strong>${lines.length&&Number.isFinite(total)?euro(total):'По запитване'}</strong></div>
- </article>`;
+ </div></article>`;
 }
 
 function renderV5Dashboard(){

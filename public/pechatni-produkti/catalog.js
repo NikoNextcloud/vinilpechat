@@ -21,7 +21,11 @@
   body.append(make('small','vp-cat',p.category));
   const h3=make('h3','vp-title');const title=make('a','vp-title-link',p.name);title.href='/pechatni-produkti/'+p.slug;h3.append(title);body.append(h3);
   body.append(make('p','vp-desc',p.description));
-  body.append(make('div','vp-availability','По индивидуално запитване'));
+  const supplier=Number(p.supplier_price);
+  const listed=Number(p.price);
+  const selling=p.supplier_price!=null&&Number.isFinite(supplier)?(supplier>=10?Math.round((supplier+10)*100)/100:null):p.price!=null&&Number.isFinite(listed)?listed:null;
+  const offer=make('div','vp-availability',selling==null?'По запитване':selling.toLocaleString('bg-BG',{style:'currency',currency:'EUR'}));
+  body.append(offer);
   const detail=make('a','vp-detail','Виж подробности и размери ↗');detail.href='/pechatni-produkti/'+p.slug;body.append(detail);
   const controls=make('div','vp-card-actions');
   const label=make('label','vp-qty-label','Брой');
