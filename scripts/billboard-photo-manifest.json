@@ -1,0 +1,91 @@
+{
+  "origin": "https://shop.billboard.bg",
+  "rights": "User confirmed Billboard permission on 2026-10-30",
+  "manual": {
+    "VP4-001": "/vanshna-reklama/baneri/vinil-baneri/",
+    "VP4-002": "/vanshna-reklama/baneri/pvc-eko-vinil/",
+    "VP4-004": "/vanshna-reklama/baneri/vinil-banners-doublesided/",
+    "VP4-005": "/vanshna-reklama/billboards/billboard-4x3-vinil/",
+    "VP4-006": "/vanshna-reklama/billboards/megabord-12x5-vinil/",
+    "VP4-007": "/vanshna-reklama/flagove/plazhen-flag/",
+    "VP4-008": "/vanshna-reklama/flagove/vetroustoychiv-flag/",
+    "VP4-011": "/vanshna-reklama/tabeli/a-tabela/",
+    "VP4-012": "/vanshna-reklama/tabeli/ukazatelni-tabeli-za-stulb-i-fasada/",
+    "VP4-013": "/izlozhenia/rol-baneri/rol-baner/",
+    "VP4-014": "/izlozhenia/rol-baneri/dvoen-rol-baner/",
+    "VP4-015": "/izlozhenia/rol-baneri/malak-rol-baner/",
+    "VP4-020": "/interior-i-dekoracii/poseteri/poster-s-ramka/",
+    "VP4-023": "/kantselarski-materiali/biznes-vizitki-/biznes-kartichki/",
+    "VP4-027": "/izlozhenia/posteri/poster/",
+    "VP4-033": "/vanshna-reklama/vitrinna-reklama/pesakostroyno/"
+  },
+  "aliases": {
+    "VP4-003": [
+      "Меш",
+      "Еко Меш"
+    ],
+    "VP4-006": [
+      "Мегаборд 12x5м винил"
+    ],
+    "VP4-009": [
+      "Фирмени знамена"
+    ],
+    "VP4-010": [
+      "Арка"
+    ],
+    "VP4-016": [
+      "Рекламна Стена 2х2м"
+    ],
+    "VP4-017": [
+      "Двустранна Рекламна Стена"
+    ],
+    "VP4-018": [
+      "Задно Осветена Рекламна Стена 2x2м"
+    ],
+    "VP4-019": [
+      "Висящ постер"
+    ],
+    "VP4-020": [
+      "Постер със снап рамка"
+    ],
+    "VP4-021": [
+      "Маса за изложения"
+    ],
+    "VP4-022": [
+      "Бариери"
+    ],
+    "VP4-023": [
+      "Бизнес картички"
+    ],
+    "VP4-028": [
+      "Стенен календар"
+    ],
+    "VP4-029": [
+      "Бизнес тефтери"
+    ],
+    "VP4-030": [
+      "Меню"
+    ],
+    "VP4-031": [
+      "Етикети за бутилки"
+    ],
+    "VP4-032": [
+      "Перфофолио"
+    ],
+    "VP4-034": [
+      "Малки стикери с PVC"
+    ],
+    "VP4-035": [
+      "Стикер за под"
+    ],
+    "VP4-036": [
+      "Cling фолио"
+    ],
+    "VP4-037": [
+      "Автомобилно Cast Film 3M"
+    ],
+    "VP4-038": [
+      "Стикер за стена"
+    ]
+  }
+}

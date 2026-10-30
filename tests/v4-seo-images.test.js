@@ -8,21 +8,28 @@ const catalog=require('../public/pechatni-produkti/catalog.json');
 const read=rel=>fs.readFileSync(path.join(__dirname,'..',rel),'utf8');
 const ORIGIN='https://vinilpechat.vercel.app';
 
-test('Every V4 print item has a unique, local 960x640 SVG illustration and alt text',()=>{
+test('Every product image is a local WebP photo or SVG fallback with descriptive alt text',()=>{
  const paths=new Set();
  for(const p of catalog.items){
   assert.match(p.slug,/^vp4-\d{3}-[a-z0-9-]+$/);
-  assert(/^\/pechatni-produkti\/images\/vp4-\d{3}\.svg$/.test(p.image));
+  assert(/^\/pechatni-produkti\/(?:images\/vp4-\d{3}\.svg|photos\/vp4-\d{3}\.webp)$/.test(p.image));
   assert(!paths.has(p.image),'Duplicate product image path '+p.image);
   paths.add(p.image);
   const file=path.join(__dirname,'../public',p.image);
   assert(fs.existsSync(file),'Missing image '+p.image);
-  const svg=fs.readFileSync(file,'utf8');
-  assert.match(svg,/<svg[^>]*width="960" height="640"/);
-  assert.match(svg,/<title id="title">/);
-  assert.match(svg,/<desc id="desc">/);
-  assert(!/<(?:script|image|foreignObject)\b/i.test(svg),'No scripts or embedded external images in '+p.image);
-  assert(!/(?:href|xlink:href)\s*=\s*["']https?:\/\//i.test(svg),'No remote assets in '+p.image);
+  if(p.image.endsWith('.svg')){
+   const svg=fs.readFileSync(file,'utf8');
+   assert.match(svg,/<svg[^>]*width="960" height="640"/);
+   assert.match(svg,/<title id="title">/);
+   assert.match(svg,/<desc id="desc">/);
+   assert(!/<(?:script|image|foreignObject)\b/i.test(svg));
+   assert(!/(?:href|xlink:href)\s*=\s*["']https?:\/\//i.test(svg));
+  }else{
+   const bytes=fs.readFileSync(file);
+   assert(bytes.length>2000&&bytes.length<=1700000);
+   assert.equal(bytes.subarray(0,4).toString('ascii'),'RIFF');
+   assert.equal(bytes.subarray(8,12).toString('ascii'),'WEBP');
+  }
   assert(p.image_alt.includes(p.name));
  }
  assert.equal(paths.size,38);
