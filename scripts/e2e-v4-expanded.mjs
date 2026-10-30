@@ -51,7 +51,7 @@ try{
  assert((await page.locator('.vp-card').count())>=8);
  await page.locator('.vp-group[data-group="all"]').click();
  await page.locator('.vp-card[data-service="VP4-013"] .vp-add').click();
- assert.equal(await page.locator('[data-v4-quote-count]').first().innerText(),'1');
+ assert.equal(await page.locator('[data-v4-quote-count]').first().innerText(),'4','Komatex 3 pcs + roll banner 1 pc');
  await page.setViewportSize({width:390,height:844});
  const measure=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
  assert(measure.scroll<=measure.viewport+5,'mobile page overflow '+JSON.stringify(measure));
