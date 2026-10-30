@@ -20,13 +20,13 @@ test('V3 theme is loaded on all storefront entry points and every crawlable land
  assert.match(read('assets/vinilpechat-spectrum-logo.svg'),/linearGradient/);
 });
 
-test('V3 homepage contains exactly three services and social feeds without losing navigation',()=>{
+test('V3 homepage contains four services and social feeds without losing navigation',()=>{
  const js=read('site.js');
  const html=read('index.html');
  const css=read('v3.css');
  assert.match(js,/function renderChoiceLanding\(\)/);
- assert.equal((js.match(/v3-primary-card v3-primary-/g)||[]).length,3);
- for(const title of ['Печат на винил','Винили за покриване','Тениски за печат'])
+ assert.equal((js.match(/v3-primary-card v3-primary-/g)||[]).length,4);
+ for(const title of ['Печат на винил','Винили за покриване','Тениски за печат','Печатни продукти'])
   assert(js.includes(title),'Missing main category '+title);
  for(const old of ['v3-hero','v3-hero-studio','v3-category-strip','v3-featured-grid','v3-service-grid','v3-trust-strip'])
   assert(!js.includes(old),'Removed homepage block unexpectedly present: '+old);

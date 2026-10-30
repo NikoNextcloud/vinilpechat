@@ -4,7 +4,7 @@ const escaped=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>
 const euro=v=>v==null?'По запитване':Number(v).toLocaleString('bg-BG',{style:'currency',currency:'EUR'});
 const demo=!['http:','https:'].includes(location.protocol);
 let db=structuredClone(window.SEED_DATA||{products:[],categories:[],settings:{},orders:[]});
-let state={cat:'all',q:'',sort:'default',cart:JSON.parse(localStorage.getItem('vinyl-cart')||'[]'),isAdmin:false,csrf:'',adminTab:'products',detail:null};
+let state={cat:'all',q:'',sort:'default',cart:JSON.parse(localStorage.getItem('vinyl-cart')||'[]'),isAdmin:false,csrf:'',adminTab:'overview',detail:null};
 let useServer=false;
 let ordersReady=false;
 const missingImage='/assets/placeholder.svg';
@@ -59,14 +59,15 @@ let designQuoteSequence=0;
 let designDebounce=null;
 let designInquiryDraft='';
 function renderChoiceLanding(){
- document.title='Печат на винил | Винили за покриване | Тениски за печат | Vinilpechat';
+ document.title='Печат на винил, винили, тениски и печатни продукти | Vinilpechat';
  $('#main').innerHTML=`<div class="v3-landing v3-simple-home">
  <section class="v3-primary-categories container" aria-labelledby="v3-primary-title">
-  <div class="v3-primary-heading"><span class="v3-section-kicker">ТРИ НАЧИНА ДА РЕАЛИЗИРАШ ИДЕЯТА СИ</span><h1 id="v3-primary-title">Какво искаш да създадем?</h1><p>Избери услуга и премини директно към продуктите или калкулатора.</p></div>
+  <div class="v3-primary-heading"><span class="v3-section-kicker">ЧЕТИРИ НАЧИНА ДА РЕАЛИЗИРАШ ИДЕЯТА СИ</span><h1 id="v3-primary-title">Какво искаш да създадем?</h1><p>Избери услуга и премини директно към продуктите или калкулатора.</p></div>
   <div class="v3-primary-grid">
-   <a class="v3-primary-card v3-primary-print" href="#design" data-go="design"><span class="v3-primary-number">01 / РЕКЛАМЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">▧</span><strong>Печат на винил</strong><span class="v3-primary-description">Рекламни банери по размер, със или без изработка на дизайн.</span><span class="v3-primary-cta">Изчисли цена <span aria-hidden="true">↗</span></span></a>
-   <a class="v3-primary-card v3-primary-cover" href="/brezenti/"><span class="v3-primary-number">02 / ПОКРИВНИ МАТЕРИАЛИ</span><span class="v3-primary-art" aria-hidden="true">◫</span><strong>Винили за покриване</strong><span class="v3-primary-description">Брезенти, PVC платнища и материали за защита и покриване.</span><span class="v3-primary-cta">Разгледай винилите <span aria-hidden="true">↗</span></span></a>
-   <a class="v3-primary-card v3-primary-shirts" href="/teniski/"><span class="v3-primary-number">03 / ПЕРСОНАЛЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">✦</span><strong>Тениски за печат</strong><span class="v3-primary-description">75 модела Stedman с избор на размер, цвят и собствена щампа.</span><span class="v3-primary-cta">Избери тениска <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-print" href="#design" data-go="design"><span class="v3-primary-number">01 / РЕКЛАМЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">▧</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-print.svg" alt="" loading="eager" decoding="async"></span><strong>Печат на винил</strong><span class="v3-primary-description">Рекламни банери по размер, със или без изработка на дизайн.</span><span class="v3-primary-cta">Изчисли цена <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-cover" href="/brezenti/"><span class="v3-primary-number">02 / ПОКРИВНИ МАТЕРИАЛИ</span><span class="v3-primary-art" aria-hidden="true">◫</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-cover.svg" alt="" loading="eager" decoding="async"></span><strong>Винили за покриване</strong><span class="v3-primary-description">Брезенти, PVC платнища и материали за защита и покриване.</span><span class="v3-primary-cta">Разгледай винилите <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-shirts" href="/teniski/"><span class="v3-primary-number">03 / ПЕРСОНАЛЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">✦</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-shirt.svg" alt="" loading="eager" decoding="async"></span><strong>Тениски за печат</strong><span class="v3-primary-description">75 модела Stedman с избор на размер, цвят и собствена щампа.</span><span class="v3-primary-cta">Избери тениска <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-products" href="/pechatni-produkti/"><span class="v3-primary-number">04 / ПЕЧАТНИ ИЗДЕЛИЯ</span><span class="v3-primary-art" aria-hidden="true">▤</span><span class="v4-card-visual" aria-hidden="true"><img src="/pechatni-produkti/photos/vp4-013.webp" alt="" loading="eager" decoding="async"></span><strong>Печатни продукти</strong><span class="v3-primary-description">39 вида рекламни изделия — табели, флагове, рол банери, Коматекс и още. Избери размери и варианти.</span><span class="v3-primary-cta">Разгледай продуктите <span aria-hidden="true">↗</span></span></a>
   </div>
  </section>
  </div>`;
@@ -83,7 +84,16 @@ function renderDesignPage(){
   <span class="design-kicker">Рекламен винил · Печат по твой размер</span>
   <h1>Твоят дизайн.<br><em>Твоят размер.</em></h1>
   <p class="design-lead">Изчисли цена за нов винил по размер. Избери дали искаш да изготвим дизайн, след което изпрати запитване през Viber.</p>
-  <div class="design-sample" aria-hidden="true"><div class="design-print-preview"><div class="design-preview-top">ТВОЯТА РЕКЛАМА</div><div class="design-preview-middle"><span>ИДЕЯ</span><strong>→</strong><span>ДИЗАЙН</span></div><div class="design-preview-bottom">ГОТОВ ВИНИЛ ПО РАЗМЕР</div></div></div>
+  <div class="v4-artwork-stage" aria-label="Визуален преглед на пропорциите и избрания файл">
+    <div class="v4-preview-banner" id="v4PreviewBanner" style="--v4-aspect:1">
+      <span>ТВОЯТА ВИЗИЯ</span><small>РЕКЛАМЕН ВИНИЛ · VINILPECHAT</small>
+      <img id="v4ArtworkImage" alt="Локален преглед на избрания файл" hidden>
+      <span class="v4-trim" aria-hidden="true"></span>
+    </div>
+    <div class="v4-preview-size" id="v4SizeLabel">100 × 100 см</div>
+  </div>
+  <p class="v4-studio-guide" id="v4AreaLabel" aria-live="polite">Площ: 1 м² за 1 бр.</p>
+  <div class="v4-order-flow" aria-label="Как работи заявката"><span>① Избери размер</span><span>② Уточни обработка</span><span>③ Изпрати запитване</span></div>
   <div class="design-perks"><span>✓ Дизайн по желание</span><span>✓ Избираш точни размери</span><span>✓ Поръчката се потвърждава преди печат</span></div>
  </div>
  <div class="design-form-card" id="designCalculator">
@@ -94,9 +104,36 @@ function renderDesignPage(){
     <div class="design-measure-times" aria-hidden="true">×</div>
     <div class="form-field"><label for="designHeight">Височина (см)</label><input id="designHeight" data-design-field inputmode="decimal" type="number" min="1" max="5000" step="0.1" value="100" required></div>
    </div>
+   <div class="v4-presets" role="group" aria-label="Често използвани размери">
+      <button type="button" class="v4-preset" data-v4-preset="100x100">1 × 1 м</button>
+      <button type="button" class="v4-preset" data-v4-preset="200x100">2 × 1 м</button>
+      <button type="button" class="v4-preset" data-v4-preset="300x150">3 × 1,5 м</button>
+      <button type="button" class="v4-preset" data-v4-preset="400x200">4 × 2 м</button>
+   </div>
    <div class="form-field"><label for="designQuantity">Количество (бр.)</label><input id="designQuantity" data-design-field inputmode="numeric" type="number" min="1" max="100" step="1" value="1" required></div>
+   <fieldset class="v4-finish-group" aria-label="Довършителна обработка">
+    <legend class="v4-step-heading"><span class="v4-step-count">02</span> Довършителна обработка</legend>
+    <div class="v4-finish-options">
+     <label class="v4-finish-card"><input type="radio" name="v4Finishing" value="none" checked><strong>Без обработка</strong><small>Стандартен печат</small></label>
+     <label class="v4-finish-card"><input type="radio" name="v4Finishing" value="eyelets"><strong>Подгъв и капси</strong><small>Допълнителна оферта</small></label>
+     <label class="v4-finish-card"><input type="radio" name="v4Finishing" value="pockets"><strong>Джобове за пръти</strong><small>Допълнителна оферта</small></label>
+    </div>
+    <p id="v4FinishNote" class="v4-finish-note" aria-live="polite">За допълнителна обработка се изготвя отделна оферта.</p>
+   </fieldset>
+   <div class="v4-upload-block">
+    <div class="v4-step-heading"><span class="v4-step-count">03</span> Готов дизайн или файл за печат</div>
+    <label class="v4-upload-label" for="v4File"><span><strong>Избери PDF, JPG, PNG или WebP</strong><small>До 15 MB · локален преглед</small></span><span aria-hidden="true">↥</span></label>
+    <input type="file" id="v4File" accept="application/pdf,image/png,image/jpeg,image/webp" aria-describedby="v4UploadStatus">
+    <p id="v4UploadStatus" class="v4-upload-status" role="status">Файлът остава на устройството ти. Изпрати го отделно във Viber, след като изпратиш запитването.</p>
+    <div class="v4-helper-actions">
+     <button id="v4Guide" type="button" class="v4-helper-btn">↓ PDF шаблон с размерите</button>
+     <button id="v4Share" type="button" class="v4-helper-btn">↗ Сподели конфигурацията</button>
+     <button id="v4AddInquiry" type="button" class="v4-helper-btn v4-to-inquiry">+ Към общото запитване</button><a class="v4-quote-studio-link" href="/zapitvane/">Отвори общото запитване ↗</a>
+    </div>
+    <input id="v4ShareLink" class="v4-copy-field" aria-label="Връзка за споделяне" readonly hidden>
+   </div>
    <div class="form-field"><label for="designNotes">Бележки към заявката <span class="design-optional">(по желание)</span></label><textarea id="designNotes" rows="3" maxlength="600" placeholder="Текст за дизайна или информация за готовия файл за печат."></textarea></div>
-   <div class="design-price-summary" aria-live="polite" aria-atomic="true"><span>Цена за заявката</span><strong id="designTotal">Изчисляване...</strong><small id="designPriceNote">Минимална стойност на заявката: 20 €.</small></div>
+   <div class="design-price-summary" aria-live="polite" aria-atomic="true"><span>Цена за заявката</span><strong id="designTotal">Изчисляване...</strong><small id="designPriceNote">Минимална стойност на заявката: 20 €.</small><small class="v4-quote-note" id="v4FinishingPriceNote" hidden>Допълнителната обработка не е включена в посочената цена. За нея ще изпратим оферта.</small></div>
    <div class="design-actions">
     <a class="primary-btn design-viber-button" id="designViberButton" href="${viberChatURL}" data-design-viber aria-disabled="true"><span aria-hidden="true">✆</span> Пиши във Viber <span aria-hidden="true">↗</span></a>
     <button type="button" class="outline-btn design-copy-button" data-design-copy>Копирай текста за Viber</button>
@@ -107,6 +144,7 @@ function renderDesignPage(){
  </div>
  </section>`;
  refreshDesignQuote();
+ window.VinilV4?.mountDesign();
 }
 function designDimensions(){
  const width=document.querySelector('#designWidth'),height=document.querySelector('#designHeight'),qty=document.querySelector('#designQuantity');
@@ -128,6 +166,7 @@ async function refreshDesignQuote(){
    currentDesignQuote=q;
    el.textContent=euro(q.total_eur);
    note.textContent='Обща площ: '+designFormat(q.area_m2*q.quantity)+' м² • '+(q.includes_design?'С включен дизайн':'Без дизайн')+' • Минимум 20 €. Цената се потвърждава при запитване.';
+   if(window.VinilV4?.finishingNeedsQuote())note.textContent+=' Допълнителната обработка се калкулира отделно.';
    if(viber)viber.setAttribute('aria-disabled','false');
  }catch(err){
    if(seq!==designQuoteSequence||!$('#designTotal'))return;
@@ -146,6 +185,7 @@ function designViberText(){
   'Количество: '+q.quantity+' бр.',
   'Обща площ: '+designFormat(q.area_m2*q.quantity)+' м²',
   'Изчислена обща цена: '+euro(q.total_eur),
+  ...(window.VinilV4?.inquiryLines?.()||[]),
   notes?'Уточнения: '+notes:'',
   'Моля, потвърдете цената, изработката и срока.'].filter(Boolean).join('\n');
 }
@@ -191,7 +231,7 @@ function prepareViberInquiry(id){
  copyViberMessage();return true;
 }
 
-function productCard(p){return `<article class="product-card"><button class="product-photo" data-detail="${p.id}" aria-label="Отвори ${escaped(p.name)}"><img loading="lazy" decoding="async" width="320" height="240" src="${escaped(src(p))}" alt="${escaped(p.name)}" onerror="this.onerror=null;this.src='${escaped(fallback(p))}'" /></button><div class="product-content"><span class="product-category">${escaped(getCat(p.category))}</span>${p.price_verification_needed?'':'<span class="product-status is-listed">В каталога</span>'}<button data-detail="${p.id}" style="padding:0;text-align:left;border:0;background:transparent"><h3 class="product-name">${escaped(p.name)}</h3></button><p class="product-desc">${escaped(p.description)}</p><a class="seo-product-link" href="${escaped(seoProductHref(p))}" aria-label="Подробна страница за ${escaped(p.name)}">Подробности за продукта ↗</a></div><div class="product-foot"><div class="price ${p.sale_price==null?'ask':''}">${hasOptions(p)&&retailDisplayPrice(p)!=null?'от ':''}${euro(retailDisplayPrice(p))} ${retailDisplayPrice(p)==null?'':`<small>/ ${escaped(unit(p))}</small>`}</div>${!hasOptions(p)&&p.sale_price==null?`<a class="add-cart viber-btn" href="${viberChatURL}" data-viber-product="${p.id}" aria-label="Пиши във Viber за ${escaped(p.name)}">Пиши</a>`:`<button class="add-cart" data-add="${p.id}">${hasOptions(p)?'Избери размер ↗':'+ Добави'}</button>`}</div></article>`}
+function productCard(p){return `<article class="product-card"><button class="product-photo" data-detail="${p.id}" aria-label="Отвори ${escaped(p.name)}"><img loading="lazy" decoding="async" width="320" height="240" src="${escaped(src(p))}" alt="${escaped(p.name)}" onerror="this.onerror=null;this.src='${escaped(fallback(p))}'" /></button><div class="product-content"><span class="product-category">${escaped(getCat(p.category))}</span>${p.price_verification_needed?'':'<span class="product-status is-listed">В каталога</span>'}<button data-detail="${p.id}" style="padding:0;text-align:left;border:0;background:transparent"><h3 class="product-name">${escaped(p.name)}</h3></button><p class="product-desc">${escaped(p.description)}</p><a class="seo-product-link" href="${escaped(seoProductHref(p))}" aria-label="Подробна страница за ${escaped(p.name)}">Подробности за продукта ↗</a></div><div class="product-foot"><div class="price ${p.sale_price==null?'ask':''}">${hasOptions(p)&&retailDisplayPrice(p)!=null?'от ':''}${euro(retailDisplayPrice(p))} ${retailDisplayPrice(p)==null?'':`<small>/ ${escaped(unit(p))}</small>`}</div>${!hasOptions(p)&&p.sale_price==null?`<a class="add-cart viber-btn" href="${viberChatURL}" data-viber-product="${p.id}" aria-label="Пиши във Viber за ${escaped(p.name)}">Пиши</a>`:`<button class="add-cart" data-add="${p.id}">${hasOptions(p)?'Избери размер ↗':'+ Добави'}</button>`}</div><div class="v4-combined-option"><button type="button" data-v4-add-material="${p.id}">+ Към общото запитване</button></div></article>`}
 function catalog(){let p=filters();return `<section class="container catalog-section" id="catalog"><div class="section-head"><div><span class="section-eyebrow">ПРОДУКТОВ КАТАЛОГ</span><h2 class="section-title">Открий подходящия материал</h2><p class="section-sub">Преглед на предложенията. Крайната цена се потвърждава при заявката.</p></div><span class="pill">${db.products.filter(x=>x.active).length} продукта</span></div><div class="catalog-layout"><aside class="filter-sidebar"><h3>Категории</h3><div class="filter-options"><button class="filter-item ${state.cat==='all'?'active':''}" data-filter="all">Всички продукти <span class="count">${db.products.filter(p=>p.active).length}</span></button>${db.categories.map(c=>`<button class="filter-item ${state.cat===c.id?'active':''}" data-filter="${c.id}">${escaped(c.name)} <span class="count">${db.products.filter(p=>p.active&&p.category===c.id).length}</span></button>`).join('')}</div></aside><div><div class="catalog-tools"><label class="search-field"><span>⌕</span><input id="catalogSearch" type="search" placeholder="Търси винил, брезент, найлон..." value="${escaped(state.q)}"></label><select id="catalogSort" class="sort"><option value="default" ${state.sort==='default'?'selected':''}>Препоръчани</option><option value="price_up" ${state.sort==='price_up'?'selected':''}>Цена: възходяща</option><option value="price_down" ${state.sort==='price_down'?'selected':''}>Цена: низходяща</option><option value="name" ${state.sort==='name'?'selected':''}>По име</option></select></div><p class="results-hint">Показани ${p.length} продукта${state.cat!=='all'?' в '+escaped(getCat(state.cat)):''}</p><div class="products-grid" id="productGrid">${p.length?p.map(productCard).join(''):'<div class="empty">Няма продукти по избраните критерии.</div>'}</div></div></div></section>`}
 function renderHome(){document.title='Винил & Брезенти | Продуктов каталог';$('#main').innerHTML=(!useServer?'<div class="preview-note container">ТЕСТОВ КАТАЛОГ — няма връзка с базата. Не изпращайте лични данни; поръчки не се приемат.</div>':!ordersReady?'<div class="preview-note container">Каталогът работи, но приемането на заявки все още се настройва. Моля, не изпращайте поръчки.</div>':'')+hero()+catalog()+`<section class="container cta"><div><h2>Не откри точния размер?</h2><p>Изпрати запитване с размери, материал и количество.</p></div><button class="primary-btn" data-goto="contact">Изпрати запитване ↗</button></section>`;}
 function renderPage(route){let s=db.settings||{};let head={contact:['Контакти и запитвания','Имаш въпрос или индивидуална поръчка? Свържи се с нас.'],terms:['Общи условия','Информация за поръчките, цените и отговорностите.'],delivery:['Доставка и плащане','Уточняваме детайлите преди изпълнение на заявката.'],privacy:['Политика за поверителност','Информация за обработката на данни.']}[route];let body='';if(route==='contact'){body=`<div class="page-columns"><div class="form-card"><h2>Изпрати запитване</h2><p class="section-sub">Ще получиш потвърждение за крайна цена, размер и доставка.</p><form id="contactForm"><div class="form-field"><label>Име *</label><input name="name" required maxlength="120"></div><div class="field-row"><div class="form-field"><label>Телефон *</label><input name="phone" required maxlength="40"></div><div class="form-field"><label>Имейл</label><input type="email" name="email" maxlength="255"></div></div><div class="form-field"><label>Какво търсиш? *</label><textarea name="message" required>${escaped(designInquiryDraft)}</textarea></div><button type="submit" class="primary-btn">Изпрати запитване ↗</button><p class="form-note">Данните се използват единствено за обработка на запитването.</p></form></div><div class="contact-aside"><span class="eyebrow">ЗА КОНТАКТ</span><h2>Ще намерим правилния материал за твоя проект.</h2><p><b>Телефон:</b> ${escaped(s.phone||'Предстои попълване')}<br><b>Имейл:</b> ${escaped(s.email||'Предстои попълване')}<br><b>Адрес:</b> ${escaped(s.address||'Предстои попълване')}</p><p><a class="outline-btn viber-btn" href="${viberChatURL}">Пиши във Viber · 0879436006</a></p><p class="form-note">Отваря приложението Viber на устройството ти.</p></div></div>`}else{let paras={terms:['Цените в каталога са ориентировъчни и подлежат на потвърждение според конкретния размер, количество и наличност.','Договор за покупко-продажба възниква след изрично потвърждение на заявката от търговеца.','Данните на търговеца и пълните общи условия трябва да бъдат попълнени преди публично използване.'],delivery:[s.shipping||'Доставката и цената на транспорта се уточняват индивидуално.','Плащането се договаря с клиента при потвърждаване на заявката. Няма активирано онлайн картово плащане.'],privacy:[s.privacy||'Политиката за поверителност трябва да бъде попълнена от собственика.','Сайтът приема име, телефон и евентуално имейл само във връзка със запитвания и поръчки.','Преди публикуване трябва да се попълнят администраторът на личните данни, сроковете за съхранение и основанието за обработване.']}[route];body=`<article class="doc"><span class="pill">Подлежи на попълване преди публикация</span>${paras.map(a=>`<p>${escaped(a)}</p>`).join('')}<p><strong>Търговец:</strong> ${escaped(s.company||'[Име на фирма — за попълване]')}</p></article>`}$('#main').innerHTML=`<section class="container page-pad"><div class="crumbs"><a href="#home">Начало</a> / ${head[0]}</div><div class="page-head"><h1>${head[0]}</h1><p>${head[1]}</p></div>${body}</section>`;document.title=head[0]+' | Винил & Брезенти'}
@@ -218,7 +258,17 @@ function renderCart(){let content=state.cart.map((l,i)=>{let p=getProduct(l.id);
 function showCart(){renderCart();closeDialog();$('#overlay').classList.remove('hidden');$('#cartDrawer').classList.remove('hidden');document.body.style.overflow='hidden'}
 function closeCart(){$('#cartDrawer').classList.add('hidden');$('#overlay').classList.add('hidden');document.body.style.overflow=''}
 async function sendForm(form,type){let fd=new FormData(form);let o=Object.fromEntries(fd);o.kind=type;if(type==='order'){o.items=state.cart.map(x=>({product_id:x.id,quantity:x.qty,variant_key:x.variant_key||''}));if(!o.items.length){toast('Добави продукт в заявката');return}}if(!demo&&!ordersReady){toast('Приемането на заявки все още не е активирано.');return}if(useServer){try{const r=await request('/api/orders',{method:'POST',body:JSON.stringify(o)});toast('Заявката е регистрирана: № '+r.order_id);if(type==='order'){state.cart=[];persist();closeCart()}form.reset()}catch(e){toast('Неуспешно изпращане: '+e.message)}}else if(demo){let local=JSON.parse(localStorage.getItem('vinyl-local-orders')||'[]');local.unshift({...o,id:'DEMO-'+Date.now(),status:'new',created_at:new Date().toISOString()});localStorage.setItem('vinyl-local-orders',JSON.stringify(local));toast('Демо режим: заявката е запазена само в този браузър, не е изпратена.');if(type==='order'){state.cart=[];persist();closeCart()}form.reset()}}
-function adminLogin(){return `<div class="container page-pad"><div class="page-head"><h1>Администрация</h1><p>Вход за собственика на магазина.</p></div><div class="form-card" style="max-width:430px"><h2>Вход в панела</h2><form id="loginForm"><div class="form-field"><label>Администраторски имейл</label><input type="email" name="email" required autocomplete="username"></div><div class="form-field"><label>Парола</label><input type="password" name="password" required autocomplete="current-password"></div><button class="primary-btn">Вход ↗</button></form><p class="form-note">Входът използва Supabase Auth. Администраторът се задава с ADMIN_EMAIL във Vercel.</p></div></div>`}
+function adminLogin(){
+ return `<section class="container page-pad v5-auth-section"><div class="v5-auth-shell">
+  <div class="v5-auth-intro"><div class="v5-auth-symbol">VP<span>5</span></div><span class="v5-auth-overline">VINILPECHAT STUDIO · ADMIN</span><h1>Всичко за магазина.<br><em>На едно място.</em></h1><p>Управлявай продукти, ценови варианти, заявки и изображения в защитената администрация на Vinilpechat.</p>
+  <div class="v5-auth-points"><span>◈ Управление на продукти</span><span>◈ Контрол на цените</span><span>◈ Заявки и печатни услуги</span></div></div>
+  <div class="v5-auth-panel"><div class="v5-auth-dot">● Защитен достъп</div><h2>Добре дошъл обратно</h2><p>Влез с администраторския си профил.</p>
+   <form id="loginForm" class="v5-login-form"><label>Имейл адрес<input name="email" type="email" required autocomplete="username" placeholder="admin@domain.com"></label>
+    <label>Парола<input name="password" type="password" required autocomplete="current-password" placeholder="••••••••"></label>
+    <button class="primary-btn" type="submit">Влез в администрацията →</button>
+   </form><small>Входът се удостоверява чрез Supabase Auth. Само разрешеният администратор има достъп до данните.</small></div>
+ </div></section>`;
+}
 
 let stedmanPriceModels=null;
 let changedStedmanPrices=new Set();
@@ -288,9 +338,54 @@ async function saveStedmanPricing(){
  }finally{if(btn)btn.disabled=false}
 }
 
-async function renderAdmin(){document.title='Администрация | Винил & Брезенти';if(!useServer){state.isAdmin=false;}
-else if(!state.isAdmin){try{let r=await request('/api/admin/session');state.isAdmin=r.authenticated;state.csrf=r.csrf||'';if(r.authenticated){let info=await request('/api/admin/data');db={...db,...info}}}catch(e){}}
-if(!state.isAdmin){$('#main').innerHTML=adminLogin();return}let tabs=[['products','Продукти и цени'],['variants','Размери и варианти'],['stedman','Облекло Stedman · Цени'],['orders','Заявки'],['settings','Настройки'],['images','Снимки'],['usage','База данни'],['visitors','Посещения']];$('#main').innerHTML=`<section class="container page-pad"><div class="page-head"><h1>Администрация</h1><p>Управление на магазина и продуктовия каталог.</p></div><div class="admin-layout"><nav class="admin-nav">${tabs.map(([k,t])=>`<button class="${state.adminTab===k?'active':''}" data-admin-tab="${k}">${t}</button>`).join('')}<button data-admin-logout>Изход</button></nav><div class="admin-body" id="adminPane"></div></div></section>`;renderAdminPane()}
+async function renderAdmin(){
+ document.title='Административен панел | Vinilpechat';
+ if(!useServer)state.isAdmin=false;
+ else if(!state.isAdmin){try{
+  const session=await request('/api/admin/session');
+  state.isAdmin=session.authenticated;
+  state.csrf=session.csrf||'';
+  if(session.authenticated){const info=await request('/api/admin/data');db={...db,...info}}
+ }catch(error){state.isAdmin=false}}
+ if(!state.isAdmin){$('#main').innerHTML=adminLogin();return}
+ const tabs=[
+ ['overview','Обзор','◈','Начало'],
+ ['products','Продукти и цени','▦','Търговия'],
+ ['variants','Размери и варианти','◫','Търговия'],
+ ['stedman','Цени Stedman','♧','Търговия'],
+ ['print-products','Печатни изделия','▤','Търговия'],
+ ['orders','Получени заявки','▣','Поръчки'],
+ ['print-inquiries','Запитвания за печат','✎','Поръчки'],
+ ['images','Снимки и медия','▧','Съдържание'],
+ ['settings','Настройки','⚙','Система'],
+ ['usage','База данни','◷','Система'],
+ ['visitors','Посещения','◉','Система']
+ ];
+ const current=tabs.find(x=>x[0]===state.adminTab)||tabs[0];
+ const groups=['Начало','Търговия','Поръчки','Съдържание','Система'];
+ const nav=groups.map(group=>'<div class="v5-admin-menu-group"><div class="v5-admin-menu-heading">'+group+'</div>'+
+  tabs.filter(x=>x[3]===group).map(([key,label,glyph])=>
+   '<button type="button" data-admin-tab="'+key+'" class="'+(state.adminTab===key?'active':'')+'" aria-current="'+(state.adminTab===key?'page':'false')+'"><span class="v5-admin-menu-icon" aria-hidden="true">'+glyph+'</span><span>'+label+'</span></button>'
+  ).join('')+'</div>').join('');
+ const totalRequests=Array.isArray(db.orders)?db.orders.length:0;
+ $('#main').innerHTML=`<section class="container page-pad v5-admin-container">
+ <div class="v5-admin-shell"><aside class="v5-admin-sidebar">
+  <div class="v5-admin-brand"><span class="v5-admin-logo">VP<span>5</span></span><span><strong>Vinilpechat</strong><small>CONTROL CENTER</small></span></div>
+  <div class="v5-admin-sidenav-caption">АДМИНИСТРАЦИЯ</div>
+  <nav class="admin-nav" aria-label="Администраторско меню">${nav}</nav>
+  <div class="v5-admin-sidebar-bottom"><div class="v5-admin-server-light"><span></span> Защитен панел</div><button type="button" class="v5-admin-logout" data-admin-logout>Изход от профила ↗</button></div>
+ </aside><div class="v5-admin-workspace">
+  <header class="v5-admin-topbar"><div class="v5-admin-location">VINILPECHAT / АДМИНИСТРАЦИЯ / <strong>${escaped(current[1])}</strong></div>
+   <div class="v5-admin-top-actions"><a href="/" target="_blank" rel="noopener" class="v5-admin-shop-link">↗ Виж магазина</a><button class="v5-admin-refresh" type="button" data-v5-admin-refresh title="Обнови данните">↻</button></div>
+  </header>
+  <div class="v5-admin-heading"><div><span class="v5-admin-eyebrow">ПРОФЕСИОНАЛНО УПРАВЛЕНИЕ</span><h1>${escaped(current[1])}</h1>
+   <p>Управление на каталога, поръчките и печатните изделия от едно място.</p></div>
+   <div class="v5-admin-badge"><span class="v5-admin-live-dot"></span>${totalRequests} заявки в системата</div></div>
+  ${['products','variants','orders','print-inquiries','stedman'].includes(state.adminTab)?'<div class="v5-admin-search-wrap"><span aria-hidden="true">⌕</span><input id="v5-admin-search" type="search" autocomplete="off" placeholder="Търси в текущия раздел..." aria-label="Търси в административния раздел"></div>':''}
+  <div class="admin-body v5-admin-content" id="adminPane"></div>
+ </div></div></section>`;
+ renderAdminPane();
+}
 
 function renderOrderCard(o){
  const lines=Array.isArray(o.items)?o.items:[];
@@ -324,9 +419,70 @@ function renderOrderCard(o){
  </article>`;
 }
 
-function renderAdminPane(){const el=$('#adminPane');if(!el)return;let t=state.adminTab;if(t==='products'){el.innerHTML=`<h2>Продукти и цени <span class="pill">${db.products.length} артикула</span></h2><p class="admin-hint">Продажната цена се задава ръчно от теб и не се променя автоматично при редакция на доставната цена. Въведи цена и натисни „Запази промените“.</p><div class="admin-toolbar"><button class="primary-btn" data-admin-save>Запази промените ✓</button><button class="outline-btn" data-admin-export>Експорт CSV ↧</button><button class="outline-btn" data-admin-import>Импорт CSV ↥</button><input type="file" id="csvImportFile" accept=".csv,text/csv" hidden></div><div class="table-scroll"><table class="admin-table"><thead><tr><th>#</th><th>Продукт</th><th>Връзки</th><th>Доставна €</th><th>Цена в Scorpioplast</th><th>Продажна €</th><th>Активен</th></tr></thead><tbody>${db.products.map(p=>`<tr><td>${p.id}</td><td class="titlecell">${escaped(p.name)}</td><td><div class="admin-product-links">${supplierURL(p)?`<a class="outline-btn admin-source-btn" target="_blank" rel="noopener noreferrer" href="${escaped(supplierURL(p))}" title="Отвори конкретния продукт при доставчика">Доставчик ↗</a>`:`<small class="admin-no-source">Липсва адрес</small>`}<a class="outline-btn admin-source-btn" target="_blank" rel="noopener noreferrer" href="${escaped(seoProductHref(p))}" title="Отвори продукта в магазина">В магазина ↗</a></div></td><td><input type="number" min="0" step="0.01" data-field="supplier_price" data-id="${p.id}" value="${p.supplier_price??''}"></td><td>${p.public_supplier_reference?`<div class="admin-reference-price"><strong>${euro(p.public_supplier_reference.public_min_price)}${p.public_supplier_reference.public_max_price!==p.public_supplier_reference.public_min_price?' – '+euro(p.public_supplier_reference.public_max_price):''}</strong><small>Обявена цена на сайта, не доставна</small></div>`:'—'}</td><td><div class="admin-sale-editor"><input type="number" min="0" step="0.01" data-field="sale_price" data-id="${p.id}" value="${p.sale_price??''}" title="Въведи продажната цена"></div></td><td><input type="checkbox" data-field="active" data-id="${p.id}" ${p.active?'checked':''}></td></tr>`).join('')}</tbody></table></div>`}
+function renderV5Dashboard(){
+ const orders=Array.isArray(db.orders)?db.orders:[];
+ const products=Array.isArray(db.products)?db.products:[];
+ const inquiries=orders.filter(o=>o.kind==='contact');
+ const recent=orders.slice().sort((a,b)=>Date.parse(b.created_at||0)-Date.parse(a.created_at||0)).slice(0,5);
+ const unpriced=products.filter(p=>p.active&&p.sale_price==null&&!(p.variants||[]).some(v=>v.sale_price!=null));
+ const active=products.filter(p=>p.active).length;
+ const metric=(glyph,label,value,description)=>'<article class="v5-kpi"><span class="v5-kpi-icon" aria-hidden="true">'+glyph+'</span><div class="v5-kpi-label">'+label+'</div><strong>'+value+'</strong><small>'+description+'</small></article>';
+ const lastOrders=recent.map(o=>{
+  const date=o.created_at?new Date(o.created_at):null;
+  const formatted=date&&!Number.isNaN(date.getTime())?date.toLocaleDateString('bg-BG'):'—';
+  const label=String(o.kind||'order')==='contact'?'Запитване':'Поръчка';
+  return '<tr><td><strong>#'+escaped(o.id)+'</strong></td><td>'+label+'</td><td>'+escaped(formatted)+'</td><td><span class="v5-admin-state">'+escaped(o.status||'Нова')+'</span></td></tr>';
+ }).join('');
+ const alerts=unpriced.length?
+  '<div class="v5-admin-alert"><span>!</span><div><strong>'+unpriced.length+' активни продукта без зададена продажна цена</strong><p>Провери ги преди активни кампании и продажби.</p></div><button type="button" data-v5-admin-shortcut="products">Преглед →</button></div>':
+  '<div class="v5-admin-good">✓ Няма активни обикновени продукти с липсваща продажна цена.</div>';
+ return '<section class="v5-dashboard"><div class="v5-kpi-grid">'+
+  metric('▦','Продукти',products.length,'Общо в продуктовата база')+
+  metric('◉','Активни',active,'Публикувани в каталога')+
+  metric('▣','Заявки',orders.length,'Записани в системата')+
+  metric('✎','Контактни',inquiries.length,'Контактни запитвания')+
+  '</div><div class="v5-admin-welcome"><div><span>БЪРЗИ ДЕЙСТВИЯ</span><h2>Управлявай магазина по-бързо.</h2><p>Доставни и продажни цени, продуктови вариации, Stedman и новите печатни изделия — подредени на едно място.</p></div><div class="v5-admin-shortcuts">'+
+  '<button type="button" data-v5-admin-shortcut="products">Продукти и цени ↗</button><button type="button" data-v5-admin-shortcut="orders">Нови заявки ↗</button><button type="button" data-v5-admin-shortcut="print-products">Печатни изделия ↗</button></div></div>'+
+  '<div class="v5-dashboard-columns"><article class="v5-dashboard-card"><div class="v5-dashboard-card-head"><div><h3>Последни заявки</h3><p>Най-новите записи в Supabase</p></div><button type="button" data-v5-admin-shortcut="orders">Всички →</button></div>'+
+  (recent.length?'<div class="table-scroll"><table class="v5-recent-table"><thead><tr><th>Номер</th><th>Тип</th><th>Дата</th><th>Статус</th></tr></thead><tbody>'+lastOrders+'</tbody></table></div>':'<div class="v5-admin-empty">Все още няма получени заявки.</div>')+
+  '</article><article class="v5-dashboard-card"><div class="v5-dashboard-card-head"><div><h3>Приоритети</h3><p>Информация за каталога</p></div></div>'+alerts+
+  '<div class="v5-dashboard-info"><div><span>75</span><small>модела Stedman</small></div><div><span>39</span><small>печатни изделия за запитване</small></div></div>'+
+  '<div class="v5-dashboard-links"><button type="button" data-v5-admin-shortcut="variants">Редактирай варианти</button><button type="button" data-v5-admin-shortcut="stedman">Цени на Stedman</button></div></article></div></section>';
+}
+async function loadV5PrintProducts(){
+ const pane=document.getElementById('v5-service-list');if(!pane||state.adminTab!=='print-products')return;
+ try{
+  const [a,b]=await Promise.all([
+   fetch('/pechatni-produkti/catalog.json',{cache:'no-store'}),
+   fetch('/pechatni-produkti/variation-config.json',{cache:'no-store'})
+  ]);
+  if(!a.ok||!b.ok)throw Error('Каталогът не е достъпен');
+  const data=await a.json(),cfg=await b.json();
+  if(state.adminTab!=='print-products'||!pane.isConnected)return;
+  const cards=data.items.map(p=>{
+   const fields=cfg.items[p.id]?.fields||[];
+   return '<article class="v5-service-row" data-v5-service-search="'+escaped((p.id+' '+p.name+' '+p.category).toLocaleLowerCase('bg-BG'))+'">'+
+    '<img src="'+escaped(p.image)+'" alt="'+escaped(p.image_alt||p.name)+'" loading="lazy" width="92" height="76">'+
+    '<div class="v5-service-row-info"><small>'+escaped(p.id)+' · '+escaped(p.category)+'</small><strong>'+escaped(p.name)+'</strong>'+
+    '<p>'+fields.map(f=>escaped(f.label)).join(' · ')+'</p></div>'+
+    '<div class="v5-service-row-action"><span class="v5-service-quote-only">По запитване</span><a href="/pechatni-produkti/'+escaped(p.slug)+'" target="_blank" rel="noopener">Преглед ↗</a></div></article>';
+  }).join('');
+  pane.innerHTML='<div class="v5-service-header"><span>'+data.items.length+' типа печат</span><span>Опции за запитване, без фиктивни цени</span></div>'+
+   '<label class="v5-service-filter-label" for="v5-service-filter">Търси печатно изделие<input type="search" id="v5-service-filter" placeholder="Например Коматекс, флаг, винил..."></label>'+
+   '<div class="v5-service-list">'+cards+'</div>';
+ }catch(e){if(pane.isConnected)pane.textContent='Каталогът не може да се зареди. Опитай да презаредиш страницата.'}
+}
+
+function renderAdminPane(){const el=$('#adminPane');if(!el)return;let t=state.adminTab;
+if(t==='overview'){el.innerHTML=renderV5Dashboard();return}
+if(t==='print-products'){el.innerHTML='<div class="v5-print-admin"><h2>Печатни изделия <span class="pill">39 продукта</span></h2><p class="admin-hint">Новите продуктови варианти са конфигурация за индивидуални запитвания. В този Preview се разглеждат и проверяват, без да променят реални цени, наличности или Supabase записи.</p><div id="v5-service-list" role="status">Зареждане на продуктовата матрица…</div></div>';loadV5PrintProducts();return}if(t==='products'){el.innerHTML=`<h2>Продукти и цени <span class="pill">${db.products.length} артикула</span></h2><p class="admin-hint">Продажната цена се задава ръчно от теб и не се променя автоматично при редакция на доставната цена. Въведи цена и натисни „Запази промените“.</p><div class="admin-toolbar"><button class="primary-btn" data-admin-save>Запази промените ✓</button><button class="outline-btn" data-admin-export>Експорт CSV ↧</button><button class="outline-btn" data-admin-import>Импорт CSV ↥</button><input type="file" id="csvImportFile" accept=".csv,text/csv" hidden></div><div class="table-scroll"><table class="admin-table"><thead><tr><th>#</th><th>Продукт</th><th>Връзки</th><th>Доставна €</th><th>Цена в Scorpioplast</th><th>Продажна €</th><th>Активен</th></tr></thead><tbody>${db.products.map(p=>`<tr><td>${p.id}</td><td class="titlecell">${escaped(p.name)}</td><td><div class="admin-product-links">${supplierURL(p)?`<a class="outline-btn admin-source-btn" target="_blank" rel="noopener noreferrer" href="${escaped(supplierURL(p))}" title="Отвори конкретния продукт при доставчика">Доставчик ↗</a>`:`<small class="admin-no-source">Липсва адрес</small>`}<a class="outline-btn admin-source-btn" target="_blank" rel="noopener noreferrer" href="${escaped(seoProductHref(p))}" title="Отвори продукта в магазина">В магазина ↗</a></div></td><td><input type="number" min="0" step="0.01" data-field="supplier_price" data-id="${p.id}" value="${p.supplier_price??''}"></td><td>${p.public_supplier_reference?`<div class="admin-reference-price"><strong>${euro(p.public_supplier_reference.public_min_price)}${p.public_supplier_reference.public_max_price!==p.public_supplier_reference.public_min_price?' – '+euro(p.public_supplier_reference.public_max_price):''}</strong><small>Обявена цена на сайта, не доставна</small></div>`:'—'}</td><td><div class="admin-sale-editor"><input type="number" min="0" step="0.01" data-field="sale_price" data-id="${p.id}" value="${p.sale_price??''}" title="Въведи продажната цена"></div></td><td><input type="checkbox" data-field="active" data-id="${p.id}" ${p.active?'checked':''}></td></tr>`).join('')}</tbody></table></div>`}
 if(t==='variants'){const matching=db.products.filter(p=>(p.variants||[]).length);el.innerHTML=`<h2>Размери и варианти <span class="pill">${matching.reduce((n,p)=>n+p.variants.length,0)} комбинации</span></h2><p class="admin-hint">Редактирай доставната и продажната цена независимо за всеки размер или цвят. Промените се записват със зеления бутон.</p><div class="admin-toolbar"><button class="primary-btn" data-admin-save-variants>Запази цените и настройките ✓</button><button class="outline-btn" data-variant-csv-export>Експорт цени CSV ↧</button><button class="outline-btn" data-variant-csv-import>Импорт цени CSV ↥</button><input type="file" id="variantCSVFile" accept=".csv,text/csv" hidden></div><p class="admin-hint">В CSV попълни само new_sale_price в евро (напр. 12,50). Празно = без промяна; 0 = нулева цена. Не променяй идентификаторите и останалите колони. След проверка приложи цените и ги запази.</p><div id="variantCSVPreview" aria-live="polite"></div><div class="admin-variant-groups">${matching.map(p=>`<details class="admin-variant-group"><summary>${escaped(p.name)} <span class="pill">${p.variants.length} варианта</span></summary><div class="table-scroll"><table class="admin-table"><thead><tr><th>Вариант / размер</th><th>Доставна цена €</th><th>Продажна цена €</th><th>Активен</th><th>За потвърждение</th></tr></thead><tbody>${p.variants.map(v=>`<tr><td>${escaped(v.label)}</td><td><input type="number" min="0" step="0.01" data-variant-supplier-price data-id="${p.id}" data-variant-key="${escaped(v.variant_key)}" value="${v.supplier_price??''}" aria-label="Доставна цена ${escaped(v.label)}"></td><td><div class="admin-sale-editor"><input type="number" min="0" step="0.01" data-variant-price data-id="${p.id}" title="Редактирай продажната цена на избрания вариант" data-variant-key="${escaped(v.variant_key)}" value="${v.sale_price??''}"></div></td><td><input type="checkbox" data-variant-active data-id="${p.id}" data-variant-key="${escaped(v.variant_key)}" ${v.active!==false?'checked':''}></td><td><input type="checkbox" data-variant-verify data-id="${p.id}" data-variant-key="${escaped(v.variant_key)}" ${v.price_verification_needed?'checked':''}></td></tr>`).join('')}</tbody></table></div></details>`).join('')}</div>`}
 if(t==='stedman'){renderStedmanPricing()}
+if(t==='print-inquiries'){
+ const records=(db.orders||[]).filter(o=>o.kind==='contact'&&String(o.message||'').includes('[Vinilpechat V4]'));
+ const rows=records.map(o=>renderOrderCard(o)+'<button type="button" class="outline-btn v4-spec-download" data-v4-spec-export="'+escaped(o.id)+'">↓ Изтегли спецификация</button>').join('');
+ el.innerHTML='<h2>Комбинирани запитвания за печат <span class="pill">'+records.length+'</span></h2><p class="admin-hint">Списъкът се чете от съществуващите защитени заявки в Supabase. Файловете се изпращат отделно и тук се виждат само имената им.</p>'+(records.length?'<div class="admin-orders">'+rows+'</div>':'<div class="empty">Няма получени комбинирани запитвания.</div>');
+}
 if(t==='orders'){const records=db.orders||[];el.innerHTML=`<h2>Получени заявки <span class="pill">${records.length}</span></h2><p class="admin-hint">Всеки артикул се показва с количество, размер или вариант, единична цена и стойност към момента на заявката. Промени в каталога не променят старите заявки.</p>${records.length?`<div class="admin-orders">${records.map(renderOrderCard).join('')}</div>`:`<div class="empty">Все още няма получени заявки.</div>`}`}
 if(t==='settings'){let s=db.settings;el.innerHTML=`<h2>Настройки на магазина</h2><div class="field-row"><div class="form-field"><label>Име на магазина</label><input data-setting="brand" value="${escaped(s.brand||'')}"></div><div class="form-field"><label>Име на фирма</label><input data-setting="company" value="${escaped(s.company||'')}"></div><div class="form-field"><label>Телефон</label><input data-setting="phone" value="${escaped(s.phone||'')}"></div><div class="form-field"><label>Имейл</label><input data-setting="email" value="${escaped(s.email||'')}"></div></div><div class="form-field"><label>Адрес</label><input data-setting="address" value="${escaped(s.address||'')}"></div><div class="form-field"><label>Доставка</label><textarea data-setting="shipping">${escaped(s.shipping||'')}</textarea></div><div class="form-field"><label>Поверителност (попълни преди публикуване)</label><textarea data-setting="privacy">${escaped(s.privacy||'')}</textarea></div><button class="primary-btn" data-admin-save>Запази настройките ✓</button>`}
 if(t==='usage'){el.innerHTML='<h2>Използване на Supabase</h2><p class="admin-hint">Реално заети данни в твоя проект. Месечният трафик и разходите се проверяват отделно в Supabase Dashboard.</p><div id="adminUsagePanel">Зареждане...</div>';loadAdminUsage()}
@@ -479,12 +635,43 @@ let a=t.closest('[data-design-viber]');if(a){
  return
 }
 a=t.closest('[data-design-copy]');if(a){await copyDesignViberMessage();return}
+a=t.closest('#v4AddInquiry');if(a){
+ const q=designDimensions();
+ if(!q||!currentDesignQuote){toast('Попълни размерите и изчакай изчисляването на цената.');return}
+ const notes=[q.width_cm+' × '+q.height_cm+' см',q.with_design?'С дизайн':'Без дизайн',
+  (window.VinilV4?.inquiryLines?.()||[]).join('; '),($('#designNotes')?.value||'').trim()].filter(Boolean).join(' · ');
+ const result=window.VinilQuote?.addDraft({id:'vinyl-custom',type:'vinyl',name:'Печат на винил по размер',quantity:q.quantity,details:notes});
+ toast(result?.ok?'Винилът е добавен към общото запитване.':result?.error||'Списъкът не е достъпен.');return
+}
+a=t.closest('[data-v4-add-material]');if(a){
+ const p=getProduct(a.dataset.v4AddMaterial);
+ if(!p){toast('Продуктът не е намерен.');return}
+ const result=window.VinilQuote?.addDraft({id:'material-'+p.id,type:'material',name:p.name,quantity:1,details:'Материал · '+getCat(p.category)+' · Цена и размер по запитване'});
+ toast(result?.ok?'Продуктът е добавен към общото запитване.':result?.error||'Списъкът не е достъпен.');return
+}
+a=t.closest('[data-v4-spec-export]');if(a){
+ const order=(db.orders||[]).find(o=>String(o.id)===a.dataset.v4SpecExport);
+ if(order&&state.isAdmin){
+  const data='Заявка № '+order.id+'\nДата: '+(order.created_at||'')+'\n'+(order.message||'');
+  const blob=new Blob([data],{type:'text/plain;charset=utf-8'}),uri=URL.createObjectURL(blob),link=document.createElement('a');
+  link.href=uri;link.download='vinilpechat-zayavka-'+String(order.id).replace(/[^a-zA-Z0-9-]/g,'')+'.txt';link.click();
+  setTimeout(()=>URL.revokeObjectURL(uri),1000);
+ }return
+}
+
 a=t.closest('[data-design-web]');if(a){
  const q=designDimensions(),notes=($('#designNotes')?.value||'').trim();
  designInquiryDraft=designViberText()||['Здравейте! Искам нов винил.',q?'Дизайн: '+(q.with_design?'С дизайн':'Без дизайн'):'',q?'Ширина: '+q.width_cm+' см':'',q?'Височина: '+q.height_cm+' см':'',q?'Количество: '+q.quantity+' бр.':'',notes?'Дизайн: '+notes:'','Моля за оферта.'].filter(Boolean).join('\n');
  go('contact');return
 }
-a=t.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}a=t.closest('[data-goto]');if(a){go(a.dataset.goto);return}a=t.closest('[data-catgo]');if(a){state.cat=a.dataset.catgo;go('catalog');return}a=t.closest('[data-filter]');if(a){state.cat=a.dataset.filter;renderHome();$('#catalog')?.scrollIntoView();$('#catalogSearch')?.focus();return}a=t.closest('[data-detail]');if(a){e.preventDefault();openDetail(Number(a.dataset.detail));return}a=t.closest('[data-viber-product]');if(a){if(!prepareViberInquiry(Number(a.dataset.viberProduct)))e.preventDefault();return}a=t.closest('[data-copy-viber]');if(a){await copyViberMessage();return}a=t.closest('[data-add]');if(a){addCart(a.dataset.add);return}a=t.closest('[data-showcart]');if(a){showCart();return}a=t.closest('[data-thumb]');if(a){let p=getProduct(state.detail);let url=images(p)[Number(a.dataset.thumb)];$('#detailMainImage').src=url;document.querySelectorAll('[data-thumb]').forEach(x=>x.classList.toggle('sel',x===a));return}a=t.closest('[data-plus],[data-minus],[data-remove]');if(a){let i=Number(a.dataset.plus??a.dataset.minus??a.dataset.remove);let l=state.cart[i];if(l){if(a.dataset.remove!==undefined)state.cart.splice(i,1);else {l.qty+=a.dataset.plus!==undefined?1:-1;if(l.qty<=0)state.cart.splice(i,1)}}persist();renderCart();return}a=t.closest('[data-admin-tab]');if(a){state.adminTab=a.dataset.adminTab;renderAdmin();return}a=t.closest('[data-admin-shirt-files]');if(a){
+a=t.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}a=t.closest('[data-goto]');if(a){go(a.dataset.goto);return}a=t.closest('[data-catgo]');if(a){state.cat=a.dataset.catgo;go('catalog');return}a=t.closest('[data-filter]');if(a){state.cat=a.dataset.filter;renderHome();$('#catalog')?.scrollIntoView();$('#catalogSearch')?.focus();return}a=t.closest('[data-detail]');if(a){e.preventDefault();openDetail(Number(a.dataset.detail));return}a=t.closest('[data-viber-product]');if(a){if(!prepareViberInquiry(Number(a.dataset.viberProduct)))e.preventDefault();return}a=t.closest('[data-copy-viber]');if(a){await copyViberMessage();return}a=t.closest('[data-add]');if(a){addCart(a.dataset.add);return}a=t.closest('[data-showcart]');if(a){showCart();return}a=t.closest('[data-thumb]');if(a){let p=getProduct(state.detail);let url=images(p)[Number(a.dataset.thumb)];$('#detailMainImage').src=url;document.querySelectorAll('[data-thumb]').forEach(x=>x.classList.toggle('sel',x===a));return}a=t.closest('[data-plus],[data-minus],[data-remove]');if(a){let i=Number(a.dataset.plus??a.dataset.minus??a.dataset.remove);let l=state.cart[i];if(l){if(a.dataset.remove!==undefined)state.cart.splice(i,1);else {l.qty+=a.dataset.plus!==undefined?1:-1;if(l.qty<=0)state.cart.splice(i,1)}}persist();renderCart();return}a=t.closest('[data-v5-admin-refresh]');if(a){
+ a.disabled=true;
+ try{const info=await request('/api/admin/data');db={...db,...info};renderAdmin();toast('Данните са обновени.')}
+ catch(error){toast('Неуспешно обновяване: '+error.message);a.disabled=false}
+ return;
+}
+a=t.closest('[data-v5-admin-shortcut]');if(a){state.adminTab=a.dataset.v5AdminShortcut;renderAdmin();return}
+a=t.closest('[data-admin-tab]');if(a){state.adminTab=a.dataset.adminTab;renderAdmin();return}a=t.closest('[data-admin-shirt-files]');if(a){
  const id=a.dataset.adminShirtFiles;
  const panel=[...document.querySelectorAll('[data-shirt-files-result]')].find(x=>x.dataset.shirtFilesResult===id);
  if(!panel)return;
@@ -512,6 +699,16 @@ a=t.closest('[data-stedman-save]');if(a){saveStedmanPricing();return}
 a=t.closest('[data-stedman-reload]');if(a){stedmanPriceModels=null;changedStedmanPrices.clear();renderStedmanPricing();return}
 a=t.closest('[data-admin-reload-usage]');if(a){loadAdminUsage();return}a=t.closest('[data-variant-csv-export]');if(a){download('vinil-variant-prices.csv',buildVariantCSV(db.products),'text/csv;charset=utf-8');return}a=t.closest('[data-variant-csv-import]');if(a){$('#variantCSVFile').click();return}a=t.closest('[data-variant-csv-apply]');if(a){await applyVariantCSV();return}a=t.closest('[data-admin-save-variants]');if(a){saveVariantPrices();return}a=t.closest('[data-admin-save]');if(a){saveAdmin();return}a=t.closest('[data-admin-export]');if(a){exportCSV();return}a=t.closest('[data-admin-import]');if(a){$('#csvImportFile').click();return}a=t.closest('[data-upload]');if(a){uploadImage();return}a=t.closest('[data-admin-logout]');if(a){if(useServer)await request('/api/admin/logout',{method:'POST',body:'{}'}).catch(()=>{});state.isAdmin=false;state.csrf='';go('home');toast('Изход');return}});
 document.addEventListener('input',e=>{let t=e.target;
+if(t.id==='v5-admin-search'){
+ const query=t.value.trim().toLocaleLowerCase('bg-BG');
+ document.querySelectorAll('#adminPane tbody tr').forEach(row=>{row.hidden=!row.textContent.toLocaleLowerCase('bg-BG').includes(query)});
+ return
+}
+if(t.id==='v5-service-filter'){
+ const query=t.value.trim().toLocaleLowerCase('bg-BG');
+ document.querySelectorAll('.v5-service-row').forEach(row=>{row.hidden=!row.dataset.v5ServiceSearch.includes(query)});
+ return
+}
 if(t.id==='stedman-model-filter'){const q=t.value.trim().toLocaleLowerCase('bg-BG');document.querySelectorAll('[data-stedman-label]').forEach(el=>el.hidden=!el.dataset.stedmanLabel.includes(q));return}
 if(t.matches('[data-stedman-edit]')){
  const m=(stedmanPriceModels||[]).find(x=>x.id===t.dataset.stedmanId);

@@ -86,3 +86,9 @@ test('Vercel exposes its design quote route without requiring Supabase to be con
  assert.equal(res.data.total_eur,23);
  assert.equal(headers['cache-control'],'no-store');
 });
+test('local development server reuses the production-authoritative vinyl quote logic',()=>{
+ const s=fs.readFileSync('server.js','utf8');
+ assert.match(s,/const \{designQuote\}=require\('\.\/lib\/design-pricing\.js'\)/);
+ assert.match(s,/api==='\/api\/design\/quote'/);
+ assert.match(s,/return reply\(res,200,designQuote\(input\)\)/);
+});

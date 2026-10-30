@@ -1,0 +1,49 @@
+name: Import licensed Billboard product photographs
+on:
+  push:
+    branches: [feature/vinilpechat-4-professional-preview-20261030]
+    paths:
+      - 'scripts/sync_billboard_photos.py'
+      - 'scripts/billboard-photo-manifest.json'
+      - '.github/workflows/import-billboard-photos.yml'
+permissions:
+  contents: write
+jobs:
+  import_photographs:
+    if: contains(github.event.head_commit.message, '[image-sync-stage]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install local image optimizer
+        run: python -m pip install --disable-pip-version-check 'Pillow==11.3.0'
+      - name: Import product pictures from permitted Billboard source
+        run: python scripts/sync_billboard_photos.py
+        env:
+          BILLBOARD_MIN_IMPORTED: '5'
+      - name: Validate, remove temporary Preview gate, commit imported photos
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('vercel.json');j=json.loads(p.read_text('utf8'))
+          key='feature/vinilpechat-4-professional-preview-20261030'
+          assert j.get('git',{}).get('deploymentEnabled',{}).get(key) is False
+          del j['git']['deploymentEnabled'][key]
+          if not j['git']['deploymentEnabled']: del j['git']['deploymentEnabled']
+          if not j['git']: del j['git']
+          p.write_text(json.dumps(j,ensure_ascii=False,indent=2)+'\n','utf8')
+          report=json.loads(pathlib.Path('docs/billboard-photo-import.json').read_text('utf8'))
+          assert report['downloaded']>=5 and report['total']==39
+          PY
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git add vercel.json public/pechatni-produkti/catalog.json public/pechatni-produkti/index.html public/pechatni-produkti/photos docs/billboard-photo-import.json
+          git diff --cached --stat
+          git commit -m 'Import and optimize licensed Billboard product photos for Vinilpechat'
+          git push origin HEAD:refs/heads/feature/vinilpechat-4-professional-preview-20261030

@@ -43,7 +43,7 @@ function jsonld(body){
  const sitemap=await get('/sitemap.xml');
  assert.equal(sitemap.res.status,200);
  assert.match(sitemap.res.headers.get('content-type')||'',/xml/);
- assert.match(sitemap.body,/<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9">/);
+ assert.match(sitemap.body,/<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9" xmlns:image="http:\/\/www.google.com\/schemas\/sitemap-image\/1.1">/);
  const urls=[...sitemap.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
  assert.equal(new Set(urls).size,urls.length,'duplicate sitemap URLs');
  for(const url of urls){assert.ok(url.startsWith(seo.ORIGIN+'/'));assert.equal(new URL(url).hash,'');}

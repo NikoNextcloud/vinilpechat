@@ -1,0 +1,3309 @@
+{
+  "version": 1,
+  "purpose": "Клиентски предпочитания за индивидуална оферта, не потвърдена наличност и не тарифи",
+  "unit": "cm",
+  "minimum_cm": 5,
+  "maximum_cm": 2000,
+  "minimum_qty": 1,
+  "maximum_qty": 1000,
+  "items": {
+    "VP4-001": {
+      "presets": [
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 100,
+          "label": "200 × 100 см"
+        },
+        {
+          "width_cm": 300,
+          "height_cm": 150,
+          "label": "300 × 150 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "finish",
+          "label": "Довършителна обработка",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без допълнителна обработка"
+            },
+            {
+              "value": "eyelets",
+              "label": "Подгъв и капси"
+            },
+            {
+              "value": "pockets",
+              "label": "Джобове за пръти"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-002": {
+      "presets": [
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 100,
+          "label": "200 × 100 см"
+        },
+        {
+          "width_cm": 300,
+          "height_cm": 150,
+          "label": "300 × 150 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "finish",
+          "label": "Довършителна обработка",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без допълнителна обработка"
+            },
+            {
+              "value": "eyelets",
+              "label": "Подгъв и капси"
+            },
+            {
+              "value": "pockets",
+              "label": "Джобове за пръти"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-003": {
+      "presets": [
+        {
+          "width_cm": 200,
+          "height_cm": 100,
+          "label": "200 × 100 см"
+        },
+        {
+          "width_cm": 300,
+          "height_cm": 150,
+          "label": "300 × 150 см"
+        },
+        {
+          "width_cm": 400,
+          "height_cm": 200,
+          "label": "400 × 200 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "finish",
+          "label": "Довършителна обработка",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без допълнителна обработка"
+            },
+            {
+              "value": "eyelets",
+              "label": "Подгъв и капси"
+            },
+            {
+              "value": "pockets",
+              "label": "Джобове за пръти"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-004": {
+      "presets": [
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 100,
+          "label": "200 × 100 см"
+        },
+        {
+          "width_cm": 300,
+          "height_cm": 150,
+          "label": "300 × 150 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "finish",
+          "label": "Довършителна обработка",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без допълнителна обработка"
+            },
+            {
+              "value": "eyelets",
+              "label": "Подгъв и капси"
+            },
+            {
+              "value": "pockets",
+              "label": "Джобове за пръти"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-005": {
+      "presets": [
+        {
+          "width_cm": 400,
+          "height_cm": 300,
+          "label": "400 × 300 см"
+        },
+        {
+          "width_cm": 600,
+          "height_cm": 300,
+          "label": "600 × 300 см"
+        },
+        {
+          "width_cm": 1200,
+          "height_cm": 500,
+          "label": "1200 × 500 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "finish",
+          "label": "Довършителна обработка",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без допълнителна обработка"
+            },
+            {
+              "value": "eyelets",
+              "label": "Подгъв и капси"
+            },
+            {
+              "value": "pockets",
+              "label": "Джобове за пръти"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-006": {
+      "presets": [
+        {
+          "width_cm": 400,
+          "height_cm": 300,
+          "label": "400 × 300 см"
+        },
+        {
+          "width_cm": 600,
+          "height_cm": 300,
+          "label": "600 × 300 см"
+        },
+        {
+          "width_cm": 1200,
+          "height_cm": 500,
+          "label": "1200 × 500 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "finish",
+          "label": "Довършителна обработка",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без допълнителна обработка"
+            },
+            {
+              "value": "eyelets",
+              "label": "Подгъв и капси"
+            },
+            {
+              "value": "pockets",
+              "label": "Джобове за пръти"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-007": {
+      "presets": [
+        {
+          "width_cm": 60,
+          "height_cm": 180,
+          "label": "60 × 180 см"
+        },
+        {
+          "width_cm": 80,
+          "height_cm": 200,
+          "label": "80 × 200 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 300,
+          "label": "100 × 300 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-008": {
+      "presets": [
+        {
+          "width_cm": 60,
+          "height_cm": 180,
+          "label": "60 × 180 см"
+        },
+        {
+          "width_cm": 80,
+          "height_cm": 200,
+          "label": "80 × 200 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 300,
+          "label": "100 × 300 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-009": {
+      "presets": [
+        {
+          "width_cm": 60,
+          "height_cm": 180,
+          "label": "60 × 180 см"
+        },
+        {
+          "width_cm": 80,
+          "height_cm": 200,
+          "label": "80 × 200 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 300,
+          "label": "100 × 300 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-010": {
+      "presets": [
+        {
+          "width_cm": 300,
+          "height_cm": 250,
+          "label": "300 × 250 см"
+        },
+        {
+          "width_cm": 400,
+          "height_cm": 300,
+          "label": "400 × 300 см"
+        },
+        {
+          "width_cm": 500,
+          "height_cm": 350,
+          "label": "500 × 350 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-011": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 70,
+          "label": "50 × 70 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 120,
+          "height_cm": 80,
+          "label": "120 × 80 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-012": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 70,
+          "label": "50 × 70 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 120,
+          "height_cm": 80,
+          "label": "120 × 80 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-013": {
+      "presets": [
+        {
+          "width_cm": 85,
+          "height_cm": 200,
+          "label": "85 × 200 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 200,
+          "label": "100 × 200 см"
+        },
+        {
+          "width_cm": 120,
+          "height_cm": 200,
+          "label": "120 × 200 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-014": {
+      "presets": [
+        {
+          "width_cm": 85,
+          "height_cm": 200,
+          "label": "85 × 200 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 200,
+          "label": "100 × 200 см"
+        },
+        {
+          "width_cm": 120,
+          "height_cm": 200,
+          "label": "120 × 200 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-015": {
+      "presets": [
+        {
+          "width_cm": 85,
+          "height_cm": 200,
+          "label": "85 × 200 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 200,
+          "label": "100 × 200 см"
+        },
+        {
+          "width_cm": 120,
+          "height_cm": 200,
+          "label": "120 × 200 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-016": {
+      "presets": [
+        {
+          "width_cm": 200,
+          "height_cm": 200,
+          "label": "200 × 200 см"
+        },
+        {
+          "width_cm": 300,
+          "height_cm": 230,
+          "label": "300 × 230 см"
+        },
+        {
+          "width_cm": 400,
+          "height_cm": 250,
+          "label": "400 × 250 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-017": {
+      "presets": [
+        {
+          "width_cm": 200,
+          "height_cm": 200,
+          "label": "200 × 200 см"
+        },
+        {
+          "width_cm": 300,
+          "height_cm": 230,
+          "label": "300 × 230 см"
+        },
+        {
+          "width_cm": 400,
+          "height_cm": 250,
+          "label": "400 × 250 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-018": {
+      "presets": [
+        {
+          "width_cm": 200,
+          "height_cm": 200,
+          "label": "200 × 200 см"
+        },
+        {
+          "width_cm": 300,
+          "height_cm": 230,
+          "label": "300 × 230 см"
+        },
+        {
+          "width_cm": 400,
+          "height_cm": 250,
+          "label": "400 × 250 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-019": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 70,
+          "label": "50 × 70 см"
+        },
+        {
+          "width_cm": 70,
+          "height_cm": 100,
+          "label": "70 × 100 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 140,
+          "label": "100 × 140 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-020": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 70,
+          "label": "50 × 70 см"
+        },
+        {
+          "width_cm": 70,
+          "height_cm": 100,
+          "label": "70 × 100 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 140,
+          "label": "100 × 140 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-021": {
+      "presets": [
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 150,
+          "height_cm": 100,
+          "label": "150 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 120,
+          "label": "200 × 120 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-022": {
+      "presets": [
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 150,
+          "height_cm": 100,
+          "label": "150 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 120,
+          "label": "200 × 120 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "stand",
+          "label": "Стойка или конструкция",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "print-only",
+              "label": "Само печат"
+            },
+            {
+              "value": "with-stand",
+              "label": "Със стойка/конструкция"
+            },
+            {
+              "value": "unsure",
+              "label": "Нужна е консултация"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-023": {
+      "presets": [
+        {
+          "width_cm": 9,
+          "height_cm": 5,
+          "label": "9 × 5 см"
+        },
+        {
+          "width_cm": 14.8,
+          "height_cm": 21,
+          "label": "14.8 × 21 см"
+        },
+        {
+          "width_cm": 21,
+          "height_cm": 29.7,
+          "label": "21 × 29.7 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-024": {
+      "presets": [
+        {
+          "width_cm": 9,
+          "height_cm": 5,
+          "label": "9 × 5 см"
+        },
+        {
+          "width_cm": 14.8,
+          "height_cm": 21,
+          "label": "14.8 × 21 см"
+        },
+        {
+          "width_cm": 21,
+          "height_cm": 29.7,
+          "label": "21 × 29.7 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-025": {
+      "presets": [
+        {
+          "width_cm": 9,
+          "height_cm": 5,
+          "label": "9 × 5 см"
+        },
+        {
+          "width_cm": 14.8,
+          "height_cm": 21,
+          "label": "14.8 × 21 см"
+        },
+        {
+          "width_cm": 21,
+          "height_cm": 29.7,
+          "label": "21 × 29.7 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-026": {
+      "presets": [
+        {
+          "width_cm": 9,
+          "height_cm": 5,
+          "label": "9 × 5 см"
+        },
+        {
+          "width_cm": 14.8,
+          "height_cm": 21,
+          "label": "14.8 × 21 см"
+        },
+        {
+          "width_cm": 21,
+          "height_cm": 29.7,
+          "label": "21 × 29.7 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-027": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 70,
+          "label": "50 × 70 см"
+        },
+        {
+          "width_cm": 70,
+          "height_cm": 100,
+          "label": "70 × 100 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 140,
+          "label": "100 × 140 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-028": {
+      "presets": [
+        {
+          "width_cm": 9,
+          "height_cm": 5,
+          "label": "9 × 5 см"
+        },
+        {
+          "width_cm": 14.8,
+          "height_cm": 21,
+          "label": "14.8 × 21 см"
+        },
+        {
+          "width_cm": 21,
+          "height_cm": 29.7,
+          "label": "21 × 29.7 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-029": {
+      "presets": [
+        {
+          "width_cm": 9,
+          "height_cm": 5,
+          "label": "9 × 5 см"
+        },
+        {
+          "width_cm": 14.8,
+          "height_cm": 21,
+          "label": "14.8 × 21 см"
+        },
+        {
+          "width_cm": 21,
+          "height_cm": 29.7,
+          "label": "21 × 29.7 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-030": {
+      "presets": [
+        {
+          "width_cm": 9,
+          "height_cm": 5,
+          "label": "9 × 5 см"
+        },
+        {
+          "width_cm": 14.8,
+          "height_cm": 21,
+          "label": "14.8 × 21 см"
+        },
+        {
+          "width_cm": 21,
+          "height_cm": 29.7,
+          "label": "21 × 29.7 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-031": {
+      "presets": [
+        {
+          "width_cm": 5,
+          "height_cm": 5,
+          "label": "5 × 5 см"
+        },
+        {
+          "width_cm": 10,
+          "height_cm": 10,
+          "label": "10 × 10 см"
+        },
+        {
+          "width_cm": 20,
+          "height_cm": 10,
+          "label": "20 × 10 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-032": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 100,
+          "label": "50 × 100 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 150,
+          "label": "200 × 150 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "surface",
+          "label": "Предпочитано покритие",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "matte",
+              "label": "Мат"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланц"
+            },
+            {
+              "value": "unsure",
+              "label": "По препоръка"
+            }
+          ]
+        },
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-033": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 100,
+          "label": "50 × 100 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 150,
+          "label": "200 × 150 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "surface",
+          "label": "Предпочитано покритие",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "matte",
+              "label": "Мат"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланц"
+            },
+            {
+              "value": "unsure",
+              "label": "По препоръка"
+            }
+          ]
+        },
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-034": {
+      "presets": [
+        {
+          "width_cm": 5,
+          "height_cm": 5,
+          "label": "5 × 5 см"
+        },
+        {
+          "width_cm": 10,
+          "height_cm": 10,
+          "label": "10 × 10 см"
+        },
+        {
+          "width_cm": 20,
+          "height_cm": 10,
+          "label": "20 × 10 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-035": {
+      "presets": [
+        {
+          "width_cm": 5,
+          "height_cm": 5,
+          "label": "5 × 5 см"
+        },
+        {
+          "width_cm": 10,
+          "height_cm": 10,
+          "label": "10 × 10 см"
+        },
+        {
+          "width_cm": 20,
+          "height_cm": 10,
+          "label": "20 × 10 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "paper",
+          "label": "Предпочитана хартия",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "standard",
+              "label": "Стандартна"
+            },
+            {
+              "value": "170g",
+              "label": "170 г/м²"
+            },
+            {
+              "value": "250g",
+              "label": "250 г/м²"
+            },
+            {
+              "value": "350g",
+              "label": "350 г/м²"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-036": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 100,
+          "label": "50 × 100 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 150,
+          "label": "200 × 150 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "surface",
+          "label": "Предпочитано покритие",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "matte",
+              "label": "Мат"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланц"
+            },
+            {
+              "value": "unsure",
+              "label": "По препоръка"
+            }
+          ]
+        },
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-037": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 100,
+          "label": "50 × 100 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 150,
+          "label": "200 × 150 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "surface",
+          "label": "Предпочитано покритие",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "matte",
+              "label": "Мат"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланц"
+            },
+            {
+              "value": "unsure",
+              "label": "По препоръка"
+            }
+          ]
+        },
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-038": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 100,
+          "label": "50 × 100 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 200,
+          "height_cm": 150,
+          "label": "200 × 150 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "surface",
+          "label": "Предпочитано покритие",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "matte",
+              "label": "Мат"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланц"
+            },
+            {
+              "value": "unsure",
+              "label": "По препоръка"
+            }
+          ]
+        },
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "lamination",
+          "label": "Допълнителна защита",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "none",
+              "label": "Без ламинация"
+            },
+            {
+              "value": "matte",
+              "label": "Матова ламинация"
+            },
+            {
+              "value": "gloss",
+              "label": "Гланцова ламинация"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    },
+    "VP4-039": {
+      "presets": [
+        {
+          "width_cm": 50,
+          "height_cm": 70,
+          "label": "50 × 70 см"
+        },
+        {
+          "width_cm": 100,
+          "height_cm": 100,
+          "label": "100 × 100 см"
+        },
+        {
+          "width_cm": 120,
+          "height_cm": 80,
+          "label": "120 × 80 см"
+        }
+      ],
+      "fields": [
+        {
+          "id": "thickness",
+          "label": "Дебелина на Коматекс",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "3",
+              "label": "3 мм",
+              "hint": "Лек вариант за табели и дисплеи."
+            },
+            {
+              "value": "5",
+              "label": "5 мм",
+              "hint": "Универсален вариант за рекламни пана."
+            },
+            {
+              "value": "8",
+              "label": "8 мм",
+              "hint": "По-висока твърдост за големи формати."
+            }
+          ]
+        },
+        {
+          "id": "cut",
+          "label": "Начин на рязане",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "rectangle",
+              "label": "Правоъгълен"
+            },
+            {
+              "value": "custom",
+              "label": "Персонализирана форма"
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "label": "Вид печат",
+          "kind": "radio",
+          "choices": [
+            {
+              "value": "one",
+              "label": "Едностранен печат"
+            },
+            {
+              "value": "both",
+              "label": "Двустранен печат"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "label": "Подготовка на дизайна",
+          "kind": "select",
+          "choices": [
+            {
+              "value": "ready",
+              "label": "Имам готов файл"
+            },
+            {
+              "value": "help",
+              "label": "Искам съдействие"
+            },
+            {
+              "value": "later",
+              "label": "Ще уточним"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

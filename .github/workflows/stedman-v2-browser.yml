@@ -18,6 +18,26 @@ on:
       - 'scripts/e2e-stedman-admin-pricing.mjs'
       - 'scripts/e2e-v3-design.mjs'
       - 'public/v3.css'
+      - 'public/v4.css'
+      - 'public/v5-admin.css'
+      - 'public/pechatni-produkti/variation-config.json'
+      - 'tests/v5-variants-admin.test.js'
+      - 'scripts/e2e-v5-admin.mjs'
+      - 'public/v4.js'
+      - 'public/v4/**'
+      - 'tests/v4-design.test.js'
+      - 'tests/v4-expanded.test.js'
+      - 'tests/v4-seo-images.test.js'
+      - 'lib/print-service-pages.js'
+      - 'docs/seo-standards.md'
+      - 'AGENTS.md'
+      - 'scripts/e2e-v4-expanded.mjs'
+      - 'public/pechatni-produkti/**'
+      - 'public/zapitvane/**'
+      - 'public/quote-cart.js'
+      - 'scripts/e2e-v4-design.mjs'
+      - 'public/nov-vinil/**'
+      - 'lib/seo-pages.js'
       - 'public/v3.js'
       - 'public/index.html'
       - 'public/site.js'
@@ -28,7 +48,7 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Pin supported runner for Playwright Chromium 1.56
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -53,6 +73,9 @@ jobs:
           node scripts/e2e-stedman-v2-all.mjs
           node scripts/e2e-stedman-admin-pricing.mjs
           node scripts/e2e-v3-design.mjs
+          node scripts/e2e-v4-design.mjs
+          node scripts/e2e-v4-expanded.mjs
+          node scripts/e2e-v5-admin.mjs
 
       - name: Store visual regression screenshots
         if: always()

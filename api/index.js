@@ -4,6 +4,7 @@ const { createClient } = require('@supabase/supabase-js');
 const crypto = require('node:crypto');
 const {designQuote}=require('../lib/design-pricing.js');
 const seo=require('../lib/seo-pages.js');
+const printServices=require('../lib/print-service-pages.js');
 const shirtPage=require('../lib/stedman-page.js');
 const shirts=require('../lib/stedman-pricing.js');
 const shirtOrders=require('../lib/stedman-orders.js');
@@ -99,7 +100,7 @@ module.exports=async function handler(req,res){
     if(req.headers['content-length']&&Number(req.headers['content-length'])>MAX_BODY+1024)return msg(res,413,'Заявката е твърде голяма');
     let route=String(req.query?.route||'').replace(/^\/+|\/+$/g,'')||new URL(req.url,'https://localhost').pathname.replace(/^\/api\//,'');
     if(Array.isArray(route))route=route.join('/');
-    const seoRead=['GET','HEAD'].includes(req.method)&&['seo/product','seo/category','seo/sitemap','seo/shirt'].includes(route);
+    const seoRead=['GET','HEAD'].includes(req.method)&&['seo/product','seo/category','seo/sitemap','seo/shirt','seo/print-service'].includes(route);
     if(!['GET','POST'].includes(req.method)&&!seoRead)return msg(res,405,'Непозволен метод');
     if(seoRead&&process.env.VERCEL_GIT_COMMIT_SHA)res.setHeader('X-Vinilpechat-Commit',process.env.VERCEL_GIT_COMMIT_SHA);
     try{
@@ -118,6 +119,17 @@ module.exports=async function handler(req,res){
         if(route==='design/quote'&&req.method==='POST'){
             if(!sameOrigin(req))return msg(res,403,'Заявката трябва да е от този сайт');
             return json(res,200,designQuote(await body(req)));
+        }
+        if(route==='seo/print-service'&&seoRead){
+          const slug=typeof req.query?.slug==='string'?req.query.slug:'';
+          const page=printServices.detail(slug);
+          if(!page){res.setHeader('X-Robots-Tag','noindex');return req.method==='HEAD'?res.status(404).end():res.status(404).send('Изделието не е намерено');}
+          if(page.redirect){res.setHeader('Location',page.redirect);return res.status(308).end();}
+          res.setHeader('Content-Type','text/html; charset=utf-8');
+          res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
+          res.setHeader('X-Content-Type-Options','nosniff');
+          if(!page.verified)res.setHeader('X-Robots-Tag','noindex, follow');
+          return req.method==='HEAD'?res.status(200).end():res.status(200).send(page.html);
         }
         if(route==='seo/shirt'&&seoRead){
           const slug=typeof req.query?.slug==='string'?req.query.slug:'';

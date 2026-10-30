@@ -12,12 +12,15 @@ const goto=async path=>{await page.goto(base+path,{waitUntil:'domcontentloaded'}
 try{
  await goto('/');
  await page.locator('.v3-primary-card').first().waitFor();
- assert.equal(await page.locator('.v3-primary-card').count(),3,'homepage has exactly three main categories');
+ assert.equal(await page.locator('.v3-primary-card').count(),4,'homepage has exactly four main categories');
  assert.equal(await page.locator('#main section').count(),1,'homepage contains no other content sections');
  assert.equal(await page.locator('.v3-hero,.v3-category-block,.v3-featured,.v3-trust-strip,.v3-services').count(),0,'other homepage sections removed');
  assert.equal(await page.locator('.v3-primary-print strong').innerText(),'Печат на винил');
  assert.equal(await page.locator('.v3-primary-cover strong').innerText(),'Винили за покриване');
  assert.equal(await page.locator('.v3-primary-shirts strong').innerText(),'Тениски за печат');
+ assert.equal(await page.locator('.v3-primary-products strong').innerText(),'Печатни продукти');
+ assert.equal(await page.locator('.v3-primary-products').getAttribute('href'),'/pechatni-produkti/');
+ assert(await page.locator('.v3-primary-products .v4-card-visual img').evaluate(img=>img.complete&&img.naturalWidth>0),'Fourth category photo loads');
  assert.equal(await page.locator('.v3-primary-print').getAttribute('href'),'#design');
  assert.equal(await page.locator('.v3-primary-cover').getAttribute('href'),'/brezenti/');
  assert.equal(await page.locator('.v3-primary-shirts').getAttribute('href'),'/teniski/');
@@ -84,7 +87,7 @@ try{
  await page.setViewportSize({width:390,height:844});
  await goto('/');
  await page.locator('.v3-primary-card').first().waitFor();
- assert.equal(await page.locator('.v3-primary-card').count(),3,'mobile has exactly the three top-level categories');
+ assert.equal(await page.locator('.v3-primary-card').count(),4,'mobile has exactly the four top-level categories');
  assert(await page.locator('#instagram-posts').isVisible(),'mobile social section visible');
  const dimensions=await page.evaluate(()=>({width:document.documentElement.scrollWidth,view:window.innerWidth}));
  assert(dimensions.width<=dimensions.view+5,'mobile home has no horizontal page overflow: '+JSON.stringify(dimensions));
@@ -103,7 +106,7 @@ try{
  await page.screenshot({path:'test-output/v3-clothing-mobile.png',fullPage:true});
  assert.deepEqual(errors,[],'browser JavaScript error list');
  console.log('VINILPECHAT_V3_BROWSER_PASS',JSON.stringify({
-  homepage:true,primaryCategories:3,socialCards:2,vinyl:true,tarps:true,admin:true,
+  homepage:true,primaryCategories:4,socialCards:2,vinyl:true,tarps:true,admin:true,
   modelFilter:true,editor:true,mobile:true,errors:errors.length
  }));
 }finally{await browser.close()}
