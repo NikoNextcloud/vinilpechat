@@ -64,9 +64,9 @@ function renderChoiceLanding(){
  <section class="v3-primary-categories container" aria-labelledby="v3-primary-title">
   <div class="v3-primary-heading"><span class="v3-section-kicker">ТРИ НАЧИНА ДА РЕАЛИЗИРАШ ИДЕЯТА СИ</span><h1 id="v3-primary-title">Какво искаш да създадем?</h1><p>Избери услуга и премини директно към продуктите или калкулатора.</p></div>
   <div class="v3-primary-grid">
-   <a class="v3-primary-card v3-primary-print" href="#design" data-go="design"><span class="v3-primary-number">01 / РЕКЛАМЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">▧</span><strong>Печат на винил</strong><span class="v3-primary-description">Рекламни банери по размер, със или без изработка на дизайн.</span><span class="v3-primary-cta">Изчисли цена <span aria-hidden="true">↗</span></span></a>
-   <a class="v3-primary-card v3-primary-cover" href="/brezenti/"><span class="v3-primary-number">02 / ПОКРИВНИ МАТЕРИАЛИ</span><span class="v3-primary-art" aria-hidden="true">◫</span><strong>Винили за покриване</strong><span class="v3-primary-description">Брезенти, PVC платнища и материали за защита и покриване.</span><span class="v3-primary-cta">Разгледай винилите <span aria-hidden="true">↗</span></span></a>
-   <a class="v3-primary-card v3-primary-shirts" href="/teniski/"><span class="v3-primary-number">03 / ПЕРСОНАЛЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">✦</span><strong>Тениски за печат</strong><span class="v3-primary-description">75 модела Stedman с избор на размер, цвят и собствена щампа.</span><span class="v3-primary-cta">Избери тениска <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-print" href="#design" data-go="design"><span class="v3-primary-number">01 / РЕКЛАМЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">▧</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-print.svg" alt="" loading="eager" decoding="async"></span><strong>Печат на винил</strong><span class="v3-primary-description">Рекламни банери по размер, със или без изработка на дизайн.</span><span class="v3-primary-cta">Изчисли цена <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-cover" href="/brezenti/"><span class="v3-primary-number">02 / ПОКРИВНИ МАТЕРИАЛИ</span><span class="v3-primary-art" aria-hidden="true">◫</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-cover.svg" alt="" loading="eager" decoding="async"></span><strong>Винили за покриване</strong><span class="v3-primary-description">Брезенти, PVC платнища и материали за защита и покриване.</span><span class="v3-primary-cta">Разгледай винилите <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-shirts" href="/teniski/"><span class="v3-primary-number">03 / ПЕРСОНАЛЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">✦</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-shirt.svg" alt="" loading="eager" decoding="async"></span><strong>Тениски за печат</strong><span class="v3-primary-description">75 модела Stedman с избор на размер, цвят и собствена щампа.</span><span class="v3-primary-cta">Избери тениска <span aria-hidden="true">↗</span></span></a>
   </div>
  </section>
  </div>`;
@@ -83,7 +83,16 @@ function renderDesignPage(){
   <span class="design-kicker">Рекламен винил · Печат по твой размер</span>
   <h1>Твоят дизайн.<br><em>Твоят размер.</em></h1>
   <p class="design-lead">Изчисли цена за нов винил по размер. Избери дали искаш да изготвим дизайн, след което изпрати запитване през Viber.</p>
-  <div class="design-sample" aria-hidden="true"><div class="design-print-preview"><div class="design-preview-top">ТВОЯТА РЕКЛАМА</div><div class="design-preview-middle"><span>ИДЕЯ</span><strong>→</strong><span>ДИЗАЙН</span></div><div class="design-preview-bottom">ГОТОВ ВИНИЛ ПО РАЗМЕР</div></div></div>
+  <div class="v4-artwork-stage" aria-label="Визуален преглед на пропорциите и избрания файл">
+    <div class="v4-preview-banner" id="v4PreviewBanner" style="--v4-aspect:1">
+      <span>ТВОЯТА ВИЗИЯ</span><small>РЕКЛАМЕН ВИНИЛ · VINILPECHAT</small>
+      <img id="v4ArtworkImage" alt="Локален преглед на избрания файл" hidden>
+      <span class="v4-trim" aria-hidden="true"></span>
+    </div>
+    <div class="v4-preview-size" id="v4SizeLabel">100 × 100 см</div>
+  </div>
+  <p class="v4-studio-guide" id="v4AreaLabel" aria-live="polite">Площ: 1 м² за 1 бр.</p>
+  <div class="v4-order-flow" aria-label="Как работи заявката"><span>① Избери размер</span><span>② Уточни обработка</span><span>③ Изпрати запитване</span></div>
   <div class="design-perks"><span>✓ Дизайн по желание</span><span>✓ Избираш точни размери</span><span>✓ Поръчката се потвърждава преди печат</span></div>
  </div>
  <div class="design-form-card" id="designCalculator">
@@ -94,9 +103,35 @@ function renderDesignPage(){
     <div class="design-measure-times" aria-hidden="true">×</div>
     <div class="form-field"><label for="designHeight">Височина (см)</label><input id="designHeight" data-design-field inputmode="decimal" type="number" min="1" max="5000" step="0.1" value="100" required></div>
    </div>
+   <div class="v4-presets" role="group" aria-label="Често използвани размери">
+      <button type="button" class="v4-preset" data-v4-preset="100x100">1 × 1 м</button>
+      <button type="button" class="v4-preset" data-v4-preset="200x100">2 × 1 м</button>
+      <button type="button" class="v4-preset" data-v4-preset="300x150">3 × 1,5 м</button>
+      <button type="button" class="v4-preset" data-v4-preset="400x200">4 × 2 м</button>
+   </div>
    <div class="form-field"><label for="designQuantity">Количество (бр.)</label><input id="designQuantity" data-design-field inputmode="numeric" type="number" min="1" max="100" step="1" value="1" required></div>
+   <fieldset class="v4-finish-group" aria-label="Довършителна обработка">
+    <legend class="v4-step-heading"><span class="v4-step-count">02</span> Довършителна обработка</legend>
+    <div class="v4-finish-options">
+     <label class="v4-finish-card"><input type="radio" name="v4Finishing" value="none" checked><strong>Без обработка</strong><small>Стандартен печат</small></label>
+     <label class="v4-finish-card"><input type="radio" name="v4Finishing" value="eyelets"><strong>Подгъв и капси</strong><small>Допълнителна оферта</small></label>
+     <label class="v4-finish-card"><input type="radio" name="v4Finishing" value="pockets"><strong>Джобове за пръти</strong><small>Допълнителна оферта</small></label>
+    </div>
+    <p id="v4FinishNote" class="v4-finish-note" aria-live="polite">За допълнителна обработка се изготвя отделна оферта.</p>
+   </fieldset>
+   <div class="v4-upload-block">
+    <div class="v4-step-heading"><span class="v4-step-count">03</span> Готов дизайн или файл за печат</div>
+    <label class="v4-upload-label" for="v4File"><span><strong>Избери PDF, JPG, PNG или WebP</strong><small>До 15 MB · локален преглед</small></span><span aria-hidden="true">↥</span></label>
+    <input type="file" id="v4File" accept="application/pdf,image/png,image/jpeg,image/webp" aria-describedby="v4UploadStatus">
+    <p id="v4UploadStatus" class="v4-upload-status" role="status">Файлът остава на устройството ти. Изпрати го отделно във Viber, след като изпратиш запитването.</p>
+    <div class="v4-helper-actions">
+     <button id="v4Guide" type="button" class="v4-helper-btn">↓ PDF шаблон с размерите</button>
+     <button id="v4Share" type="button" class="v4-helper-btn">↗ Сподели конфигурацията</button>
+    </div>
+    <input id="v4ShareLink" class="v4-copy-field" aria-label="Връзка за споделяне" readonly hidden>
+   </div>
    <div class="form-field"><label for="designNotes">Бележки към заявката <span class="design-optional">(по желание)</span></label><textarea id="designNotes" rows="3" maxlength="600" placeholder="Текст за дизайна или информация за готовия файл за печат."></textarea></div>
-   <div class="design-price-summary" aria-live="polite" aria-atomic="true"><span>Цена за заявката</span><strong id="designTotal">Изчисляване...</strong><small id="designPriceNote">Минимална стойност на заявката: 20 €.</small></div>
+   <div class="design-price-summary" aria-live="polite" aria-atomic="true"><span>Цена за заявката</span><strong id="designTotal">Изчисляване...</strong><small id="designPriceNote">Минимална стойност на заявката: 20 €.</small><small class="v4-quote-note" id="v4FinishingPriceNote" hidden>Допълнителната обработка не е включена в посочената цена. За нея ще изпратим оферта.</small></div>
    <div class="design-actions">
     <a class="primary-btn design-viber-button" id="designViberButton" href="${viberChatURL}" data-design-viber aria-disabled="true"><span aria-hidden="true">✆</span> Пиши във Viber <span aria-hidden="true">↗</span></a>
     <button type="button" class="outline-btn design-copy-button" data-design-copy>Копирай текста за Viber</button>
@@ -107,6 +142,7 @@ function renderDesignPage(){
  </div>
  </section>`;
  refreshDesignQuote();
+ window.VinilV4?.mountDesign();
 }
 function designDimensions(){
  const width=document.querySelector('#designWidth'),height=document.querySelector('#designHeight'),qty=document.querySelector('#designQuantity');
@@ -128,6 +164,7 @@ async function refreshDesignQuote(){
    currentDesignQuote=q;
    el.textContent=euro(q.total_eur);
    note.textContent='Обща площ: '+designFormat(q.area_m2*q.quantity)+' м² • '+(q.includes_design?'С включен дизайн':'Без дизайн')+' • Минимум 20 €. Цената се потвърждава при запитване.';
+   if(window.VinilV4?.finishingNeedsQuote())note.textContent+=' Допълнителната обработка се калкулира отделно.';
    if(viber)viber.setAttribute('aria-disabled','false');
  }catch(err){
    if(seq!==designQuoteSequence||!$('#designTotal'))return;
@@ -146,6 +183,7 @@ function designViberText(){
   'Количество: '+q.quantity+' бр.',
   'Обща площ: '+designFormat(q.area_m2*q.quantity)+' м²',
   'Изчислена обща цена: '+euro(q.total_eur),
+  ...(window.VinilV4?.inquiryLines?.()||[]),
   notes?'Уточнения: '+notes:'',
   'Моля, потвърдете цената, изработката и срока.'].filter(Boolean).join('\n');
 }
