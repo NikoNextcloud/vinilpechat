@@ -20,7 +20,7 @@ test('Public Stedman catalog is indexable and no longer labeled a test',()=>{
 test('Analytics navigation is rendered only inside authorized administration',()=>{
  const js=read('public/site.js');
  assert.match(js,/if\(!state\.isAdmin\)\{\$\('#main'\)\.innerHTML=adminLogin\(\);return\}/);
- assert.match(js,/\['visitors','Посещения'\]/);
+ assert.match(js,/\['visitors','Посещения','◉','Система'\]/);
  assert.match(js,/if\(t==='visitors'\)/);
  assert.match(js,/https:\/\/vercel\.com\/ni-ko2\/vinilpechat\/analytics/);
  assert.doesNotMatch(read('public/index.html'),/vercel\.com\/ni-ko2\/vinilpechat\/analytics/);

@@ -42,7 +42,7 @@ test('Existing product, apparel, vinyl and admin pages have quote integration',(
  const shirts=read('public/teniski/index.html'),covers=read('public/brezenti/index.html');
  for(const html of [main,shirts,covers]){assert(html.includes('/quote-cart.js'));assert(html.includes('/zapitvane/'))}
  assert(shop.includes('data-v4-add-material'));assert(shop.includes('id="v4AddInquiry"'));
- assert(shop.includes("['print-inquiries','Запитвания за печат']"));
+ assert(shop.includes("['print-inquiries','Запитвания за печат'"));
  assert(shop.includes('function renderCart()')&&shop.includes('function sendForm(form,type)'));
  assert(shirts.includes('id="v2-resize-handle"'));
 });

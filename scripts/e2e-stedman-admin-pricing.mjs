@@ -35,6 +35,7 @@ await page.route('**/api/admin/shirt-prices',route=>{
 try{
  await page.goto('http://127.0.0.1:3000/#admin',{waitUntil:'domcontentloaded'});
  await page.locator('[data-admin-tab="products"]').waitFor({state:'visible'});
+ await page.locator('[data-admin-tab="products"]').click();
  assert(await page.locator('[data-field="supplier_price"]').isVisible(),'ordinary product supplier editable');
  assert(await page.locator('[data-field="sale_price"]').isVisible(),'ordinary product retail editable');
  await page.locator('[data-field="supplier_price"]').fill('9.25');

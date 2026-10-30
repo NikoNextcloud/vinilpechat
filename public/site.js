@@ -433,7 +433,7 @@ function renderV5Dashboard(){
   return '<tr><td><strong>#'+escaped(o.id)+'</strong></td><td>'+label+'</td><td>'+escaped(formatted)+'</td><td><span class="v5-admin-state">'+escaped(o.status||'Нова')+'</span></td></tr>';
  }).join('');
  const alerts=unpriced.length?
-  '<div class="v5-admin-alert"><span>!</span><div><strong>'+unpriced.length+' активни продукта без зададена продажна цена</strong><p>Провери ги преди активни кампании и продажби.</p></div><button type="button" data-admin-tab="products">Преглед →</button></div>':
+  '<div class="v5-admin-alert"><span>!</span><div><strong>'+unpriced.length+' активни продукта без зададена продажна цена</strong><p>Провери ги преди активни кампании и продажби.</p></div><button type="button" data-v5-admin-shortcut="products">Преглед →</button></div>':
   '<div class="v5-admin-good">✓ Няма активни обикновени продукти с липсваща продажна цена.</div>';
  return '<section class="v5-dashboard"><div class="v5-kpi-grid">'+
   metric('▦','Продукти',products.length,'Общо в продуктовата база')+
@@ -441,12 +441,12 @@ function renderV5Dashboard(){
   metric('▣','Заявки',orders.length,'Записани в системата')+
   metric('✎','Контактни',inquiries.length,'Контактни запитвания')+
   '</div><div class="v5-admin-welcome"><div><span>БЪРЗИ ДЕЙСТВИЯ</span><h2>Управлявай магазина по-бързо.</h2><p>Доставни и продажни цени, продуктови вариации, Stedman и новите печатни изделия — подредени на едно място.</p></div><div class="v5-admin-shortcuts">'+
-  '<button type="button" data-admin-tab="products">Продукти и цени ↗</button><button type="button" data-admin-tab="orders">Нови заявки ↗</button><button type="button" data-admin-tab="print-products">Печатни изделия ↗</button></div></div>'+
-  '<div class="v5-dashboard-columns"><article class="v5-dashboard-card"><div class="v5-dashboard-card-head"><div><h3>Последни заявки</h3><p>Най-новите записи в Supabase</p></div><button type="button" data-admin-tab="orders">Всички →</button></div>'+
+  '<button type="button" data-v5-admin-shortcut="products">Продукти и цени ↗</button><button type="button" data-v5-admin-shortcut="orders">Нови заявки ↗</button><button type="button" data-v5-admin-shortcut="print-products">Печатни изделия ↗</button></div></div>'+
+  '<div class="v5-dashboard-columns"><article class="v5-dashboard-card"><div class="v5-dashboard-card-head"><div><h3>Последни заявки</h3><p>Най-новите записи в Supabase</p></div><button type="button" data-v5-admin-shortcut="orders">Всички →</button></div>'+
   (recent.length?'<div class="table-scroll"><table class="v5-recent-table"><thead><tr><th>Номер</th><th>Тип</th><th>Дата</th><th>Статус</th></tr></thead><tbody>'+lastOrders+'</tbody></table></div>':'<div class="v5-admin-empty">Все още няма получени заявки.</div>')+
   '</article><article class="v5-dashboard-card"><div class="v5-dashboard-card-head"><div><h3>Приоритети</h3><p>Информация за каталога</p></div></div>'+alerts+
   '<div class="v5-dashboard-info"><div><span>75</span><small>модела Stedman</small></div><div><span>39</span><small>печатни изделия за запитване</small></div></div>'+
-  '<div class="v5-dashboard-links"><button type="button" data-admin-tab="variants">Редактирай варианти</button><button type="button" data-admin-tab="stedman">Цени на Stedman</button></div></article></div></section>';
+  '<div class="v5-dashboard-links"><button type="button" data-v5-admin-shortcut="variants">Редактирай варианти</button><button type="button" data-v5-admin-shortcut="stedman">Цени на Stedman</button></div></article></div></section>';
 }
 async function loadV5PrintProducts(){
  const pane=document.getElementById('v5-service-list');if(!pane||state.adminTab!=='print-products')return;
@@ -669,6 +669,7 @@ a=t.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}a=t.cl
  catch(error){toast('Неуспешно обновяване: '+error.message);a.disabled=false}
  return;
 }
+a=t.closest('[data-v5-admin-shortcut]');if(a){state.adminTab=a.dataset.v5AdminShortcut;renderAdmin();return}
 a=t.closest('[data-admin-tab]');if(a){state.adminTab=a.dataset.adminTab;renderAdmin();return}a=t.closest('[data-admin-shirt-files]');if(a){
  const id=a.dataset.adminShirtFiles;
  const panel=[...document.querySelectorAll('[data-shirt-files-result]')].find(x=>x.dataset.shirtFilesResult===id);
