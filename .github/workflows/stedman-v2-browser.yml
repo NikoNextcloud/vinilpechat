@@ -18,6 +18,13 @@ on:
       - 'scripts/e2e-stedman-admin-pricing.mjs'
       - 'scripts/e2e-v3-design.mjs'
       - 'public/v3.css'
+      - 'public/v4.css'
+      - 'public/v4.js'
+      - 'public/v4/**'
+      - 'tests/v4-design.test.js'
+      - 'scripts/e2e-v4-design.mjs'
+      - 'public/nov-vinil/**'
+      - 'lib/seo-pages.js'
       - 'public/v3.js'
       - 'public/index.html'
       - 'public/site.js'
@@ -53,6 +60,7 @@ jobs:
           node scripts/e2e-stedman-v2-all.mjs
           node scripts/e2e-stedman-admin-pricing.mjs
           node scripts/e2e-v3-design.mjs
+          node scripts/e2e-v4-design.mjs
 
       - name: Store visual regression screenshots
         if: always()
