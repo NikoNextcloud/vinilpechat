@@ -21,7 +21,8 @@ test('Every V4 print item has a unique, local 960x640 SVG illustration and alt t
   assert.match(svg,/<svg[^>]*width="960" height="640"/);
   assert.match(svg,/<title id="title">/);
   assert.match(svg,/<desc id="desc">/);
-  assert(!/https?:\/\/|<script\b|xlink:href=/.test(svg),'No remote assets/scripts in '+p.image);
+  assert(!/<(?:script|image|foreignObject)\b/i.test(svg),'No scripts or embedded external images in '+p.image);
+  assert(!/(?:href|xlink:href)\s*=\s*["']https?:\/\//i.test(svg),'No remote assets in '+p.image);
   assert(p.image_alt.includes(p.name));
  }
  assert.equal(paths.size,38);
