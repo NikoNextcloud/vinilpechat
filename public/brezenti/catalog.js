@@ -89,7 +89,12 @@
   }else{
    const btn=create('a','cover-add','Запитване ↗');btn.href=url;footer.append(btn);
   }
-  body.append(footer);item.append(body);return item;
+  const quote=document.createElement('button');quote.type='button';quote.className='v4-cover-quote';quote.textContent='+ Към общото запитване';
+  quote.addEventListener('click',()=>{
+   const result=window.VinilQuote?.addDraft({id:'material-'+p.id,type:'material',name:p.name,quantity:1,details:'Материал · '+categoryName(p.category)+' · Вариант и цена по запитване'});
+   notify(result?.ok?'Добавено към общото запитване.':result?.error||'Списъкът е недостъпен.');
+  });
+  body.append(footer,quote);item.append(body);return item;
  };
  const render=()=>{
   const term=search.value.trim().toLocaleLowerCase('bg-BG');

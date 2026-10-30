@@ -142,6 +142,13 @@ $('viber').addEventListener('click',()=>{
  window.location.href='viber://chat?number=%2B359879436006';
 });
 
+$('v4-shirt-add').addEventListener('click',()=>{
+ if(!selected||!validQuantity(Number($('quantity').value)))return;
+ const files=['front','back'].map(side=>$(side+'-upload').files[0]?.name||'').filter(Boolean).join(', ');
+ const details=[$('request-text').value.slice(0,460),files?'Файлове (не са качени): '+files:''].filter(Boolean).join(' · ');
+ const result=window.VinilQuote?.addDraft({id:'stedman-'+selected.id,type:'shirt',name:'Тениска '+selected.id,quantity:Number($('quantity').value),details});
+ $('message-hint').textContent=result?.ok?'Тениската е добавена. Файловете се изпращат отделно.':result?.error||'Неуспешно добавяне.';
+});
 $('download-request').addEventListener('click',()=>{
  if(!selected||!validQuantity(Number($('quantity').value)))return;
  const layout=['front','back'].map(side=>{
