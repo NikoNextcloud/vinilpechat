@@ -35,7 +35,7 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Pin supported runner for Playwright Chromium 1.56
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
