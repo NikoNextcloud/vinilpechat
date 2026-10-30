@@ -15,8 +15,8 @@ test('Each of 39 print products has exact, typed variation options and size pres
   assert(conf.presets.length>=2);
   const keys=new Set();
   for(const preset of conf.presets){
-   assert(preset.width_cm>=5&&preset.width_cm<=1000);
-   assert(preset.height_cm>=5&&preset.height_cm<=1000);
+   assert(preset.width_cm>=5&&preset.width_cm<=2000);
+   assert(preset.height_cm>=5&&preset.height_cm<=2000);
   }
   for(const field of conf.fields){
    assert(/^[a-z]+$/.test(field.id),'Unexpected field ID '+field.id);

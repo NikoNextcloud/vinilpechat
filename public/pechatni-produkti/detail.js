@@ -32,7 +32,7 @@
    ...fields.map(f=>f.label+': '+f.choices.find(c=>c.value===v.selections[f.id]).label)].join(' · ');
  }
  function update(){
-  const v=values();error.hidden=!!v;error.textContent=v?'':'Въведи ширина и височина от 5 до 1000 см и количество от 1 до 1000 бр.';
+  const v=values();error.hidden=!!v;error.textContent=v?'':'Въведи ширина и височина от 5 до 2000 см и количество от 1 до 1000 бр.';
   $('#vp-service-add').disabled=!v;$('#vp-config-share').disabled=!v;
   $('#vp-config-dimensions').textContent=v?fmt(v.w)+' × '+fmt(v.h)+' см · '+v.q+' бр.':'Провери размерите и количеството';
   $('#vp-config-variant-summary').textContent=v?fields.map(f=>f.choices.find(c=>c.value===v.selections[f.id]).label).join(' · '):'Необходимо е да уточниш размер';

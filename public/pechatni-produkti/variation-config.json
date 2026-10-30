@@ -3,7 +3,7 @@
   "purpose": "Клиентски предпочитания за индивидуална оферта, не потвърдена наличност и не тарифи",
   "unit": "cm",
   "minimum_cm": 5,
-  "maximum_cm": 1000,
+  "maximum_cm": 2000,
   "minimum_qty": 1,
   "maximum_qty": 1000,
   "items": {
