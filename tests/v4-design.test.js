@@ -14,13 +14,15 @@ const seo=read('lib/seo-pages.js');
 const skin=read('public/v4.css');
 const studio=read('public/v4.js');
 const design=shop.slice(shop.indexOf('function renderDesignPage(){'),shop.indexOf('function designDimensions(){'));
-test('Home retains exactly three highlighted services and social channels',()=>{
- assert.equal((shop.match(/class="v3-primary-card v3-primary-/g)||[]).length,3);
- assert.equal((shop.match(/class="v4-card-visual"/g)||[]).length,3);
+test('Home highlights four services and social channels',()=>{
+ assert.equal((shop.match(/class="v3-primary-card v3-primary-/g)||[]).length,4);
+ assert.equal((shop.match(/class="v4-card-visual"/g)||[]).length,4);
  for(const name of ['art-print.svg','art-cover.svg','art-shirt.svg']){
   assert(shop.includes(name));assert(fs.existsSync(path.join(root,'public/v4',name)));
  }
  assert.match(home,/id="instagram-posts"/);
+ assert(shop.includes('/pechatni-produkti/photos/vp4-013.webp'));
+ assert(fs.existsSync(path.join(root,'public/pechatni-produkti/photos/vp4-013.webp')));
  assert.match(home,/id="facebook-card-title"/);
  assert.match(home,/src="\/v4.js" defer/);
 });

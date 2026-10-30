@@ -14,9 +14,9 @@ test('No copied external descriptions, images or prices; unconfirmed services ar
  }
  assert(read('public/pechatni-produkti/index.html').includes('noindex,follow'));
 });
-test('Original homepage, three main services and social feeds remain',()=>{
+test('Original homepage, four main services and social feeds remain',()=>{
  const js=read('public/site.js'),html=read('public/index.html');
- assert.equal((js.match(/class="v3-primary-card v3-primary-/g)||[]).length,3);
+ assert.equal((js.match(/class="v3-primary-card v3-primary-/g)||[]).length,4);
  assert(html.includes('id="instagram-posts"')&&html.includes('id="facebook-card-title"'));
  assert(!js.includes('class="vp-grid"'));
 });

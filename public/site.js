@@ -59,14 +59,15 @@ let designQuoteSequence=0;
 let designDebounce=null;
 let designInquiryDraft='';
 function renderChoiceLanding(){
- document.title='Печат на винил | Винили за покриване | Тениски за печат | Vinilpechat';
+ document.title='Печат на винил, винили, тениски и печатни продукти | Vinilpechat';
  $('#main').innerHTML=`<div class="v3-landing v3-simple-home">
  <section class="v3-primary-categories container" aria-labelledby="v3-primary-title">
-  <div class="v3-primary-heading"><span class="v3-section-kicker">ТРИ НАЧИНА ДА РЕАЛИЗИРАШ ИДЕЯТА СИ</span><h1 id="v3-primary-title">Какво искаш да създадем?</h1><p>Избери услуга и премини директно към продуктите или калкулатора.</p></div>
+  <div class="v3-primary-heading"><span class="v3-section-kicker">ЧЕТИРИ НАЧИНА ДА РЕАЛИЗИРАШ ИДЕЯТА СИ</span><h1 id="v3-primary-title">Какво искаш да създадем?</h1><p>Избери услуга и премини директно към продуктите или калкулатора.</p></div>
   <div class="v3-primary-grid">
    <a class="v3-primary-card v3-primary-print" href="#design" data-go="design"><span class="v3-primary-number">01 / РЕКЛАМЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">▧</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-print.svg" alt="" loading="eager" decoding="async"></span><strong>Печат на винил</strong><span class="v3-primary-description">Рекламни банери по размер, със или без изработка на дизайн.</span><span class="v3-primary-cta">Изчисли цена <span aria-hidden="true">↗</span></span></a>
    <a class="v3-primary-card v3-primary-cover" href="/brezenti/"><span class="v3-primary-number">02 / ПОКРИВНИ МАТЕРИАЛИ</span><span class="v3-primary-art" aria-hidden="true">◫</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-cover.svg" alt="" loading="eager" decoding="async"></span><strong>Винили за покриване</strong><span class="v3-primary-description">Брезенти, PVC платнища и материали за защита и покриване.</span><span class="v3-primary-cta">Разгледай винилите <span aria-hidden="true">↗</span></span></a>
    <a class="v3-primary-card v3-primary-shirts" href="/teniski/"><span class="v3-primary-number">03 / ПЕРСОНАЛЕН ПЕЧАТ</span><span class="v3-primary-art" aria-hidden="true">✦</span><span class="v4-card-visual" aria-hidden="true"><img src="/v4/art-shirt.svg" alt="" loading="eager" decoding="async"></span><strong>Тениски за печат</strong><span class="v3-primary-description">75 модела Stedman с избор на размер, цвят и собствена щампа.</span><span class="v3-primary-cta">Избери тениска <span aria-hidden="true">↗</span></span></a>
+   <a class="v3-primary-card v3-primary-products" href="/pechatni-produkti/"><span class="v3-primary-number">04 / ПЕЧАТНИ ИЗДЕЛИЯ</span><span class="v3-primary-art" aria-hidden="true">▤</span><span class="v4-card-visual" aria-hidden="true"><img src="/pechatni-produkti/photos/vp4-013.webp" alt="" loading="eager" decoding="async"></span><strong>Печатни продукти</strong><span class="v3-primary-description">39 вида рекламни изделия — табели, флагове, рол банери, Коматекс и още. Избери размери и варианти.</span><span class="v3-primary-cta">Разгледай продуктите <span aria-hidden="true">↗</span></span></a>
   </div>
  </section>
  </div>`;

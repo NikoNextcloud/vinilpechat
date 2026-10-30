@@ -11,9 +11,9 @@ const goto=path=>page.goto(base+path,{waitUntil:'domcontentloaded'});
 try{
  await goto('/');
  await page.locator('.v3-primary-card').first().waitFor({state:'visible'});
- assert.equal(await page.locator('.v3-primary-card').count(),3);
+ assert.equal(await page.locator('.v3-primary-card').count(),4);
  assert.equal(await page.locator('#main section').count(),1);
- assert.equal(await page.locator('.v4-card-visual img').count(),3);
+ assert.equal(await page.locator('.v4-card-visual img').count(),4);
  assert.equal(await page.locator('#instagram-posts .social-card').count(),2);
  await page.screenshot({path:'test-output/v4-home-desktop.png',fullPage:true});
  await goto('/#design');

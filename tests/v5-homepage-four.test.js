@@ -1,0 +1,31 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.join(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+test('Approved homepage shows exactly four accessible categories, including print products',()=>{
+ const s=read('public/site.js'),h=read('public/index.html'),css=read('public/v4.css');
+ const home=s.slice(s.indexOf('function renderChoiceLanding(){'),s.indexOf('const designFormat'));
+ assert.equal((home.match(/class="v3-primary-card v3-primary-/g)||[]).length,4);
+ assert.equal((home.match(/class="v4-card-visual"/g)||[]).length,4);
+ assert(home.includes('ЧЕТИРИ НАЧИНА'));
+ assert(home.includes('class="v3-primary-card v3-primary-products" href="/pechatni-produkti/"'));
+ assert(home.includes('Печатни продукти'));
+ assert(home.includes('/pechatni-produkti/photos/vp4-013.webp'));
+ assert(fs.existsSync(path.join(root,'public/pechatni-produkti/photos/vp4-013.webp')));
+ assert(h.includes('ЧЕТИРИ ОСНОВНИ КАТЕГОРИИ'));
+ const staticLinks=h.slice(h.indexOf('<div class="seo-home-links">'),h.indexOf('</div>',h.indexOf('<div class="seo-home-links">')));
+ assert.equal((staticLinks.match(/<a href=/g)||[]).length,4);
+ assert(staticLinks.includes('<a href="/pechatni-produkti/">Печатни продукти</a>'));
+ assert.match(css,/\.v3-simple-home \.v3-primary-grid\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+ assert.match(css,/@media\(max-width:1100px\)/);
+ assert.match(css,/@media\(max-width:800px\)/);
+ for(const link of ['/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/'])assert(staticLinks.includes(link));
+});
+test('Home marketing and metadata consistently describe four service groups',()=>{
+ const h=read('public/index.html'),s=read('public/site.js');
+ assert.match(h,/<meta name="description" content="[^"]*печатни рекламни продукти/);
+ assert.match(h,/rel="canonical" href="https:\/\/vinilpechat\.vercel\.app\/"/);
+ assert(!s.includes('ТРИ НАЧИНА ДА РЕАЛИЗИРАШ ИДЕЯТА СИ'));
+ assert(!h.includes('Избери една от трите категории'));
+ assert(!h.includes('Разширен каталог</a>'));
+});
