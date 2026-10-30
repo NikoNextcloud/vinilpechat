@@ -32,10 +32,5 @@
     "api/index.js": {
       "includeFiles": "public/teniski/index.html"
     }
-  },
-  "git": {
-    "deploymentEnabled": {
-      "feature/vinilpechat-4-professional-preview-20261030": false
-    }
   }
 }
