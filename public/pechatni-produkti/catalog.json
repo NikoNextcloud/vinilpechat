@@ -17,7 +17,10 @@
       "description": "Банери за външна реклама по размер, материал и начин на закрепване.",
       "visual": "banner",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-001-vinil-baneri",
+      "image": "/pechatni-produkti/images/vp4-001.svg",
+      "image_alt": "Винил банери – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-002",
@@ -26,7 +29,10 @@
       "description": "Рекламни платна с избор на материал според проекта.",
       "visual": "banner",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-002-eko-vinil",
+      "image": "/pechatni-produkti/images/vp4-002.svg",
+      "image_alt": "EKO винил – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-003",
@@ -35,7 +41,10 @@
       "description": "Перфорирани рекламни платна за места с вятър.",
       "visual": "mesh",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-003-mesh-baneri",
+      "image": "/pechatni-produkti/images/vp4-003.svg",
+      "image_alt": "Меш банери – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-004",
@@ -44,7 +53,10 @@
       "description": "Печатна визия от двете страни на платното.",
       "visual": "banner",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-004-dvustranni-baneri",
+      "image": "/pechatni-produkti/images/vp4-004.svg",
+      "image_alt": "Двустранни банери – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-005",
@@ -53,7 +65,10 @@
       "description": "Голямоформатна визия за билборд конструкция.",
       "visual": "billboard",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-005-bilbord-4-3-m",
+      "image": "/pechatni-produkti/images/vp4-005.svg",
+      "image_alt": "Билборд 4 × 3 м – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-006",
@@ -62,7 +77,10 @@
       "description": "Широкоформатни платна за големи рекламни площи.",
       "visual": "billboard",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-006-megabord-vinil",
+      "image": "/pechatni-produkti/images/vp4-006.svg",
+      "image_alt": "Мегаборд винил – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-007",
@@ -71,7 +89,10 @@
       "description": "Рекламен флаг за промоции на открито.",
       "visual": "flag",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-007-plazhen-flag",
+      "image": "/pechatni-produkti/images/vp4-007.svg",
+      "image_alt": "Плажен флаг – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-008",
@@ -80,7 +101,10 @@
       "description": "Флаг за външни промоции с подходяща стойка.",
       "visual": "flag",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-008-vetroustoychiv-flag",
+      "image": "/pechatni-produkti/images/vp4-008.svg",
+      "image_alt": "Ветроустойчив флаг – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-009",
@@ -89,7 +113,10 @@
       "description": "Корпоративни знамена по индивидуално запитване.",
       "visual": "flag",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-009-firmeni-znamena",
+      "image": "/pechatni-produkti/images/vp4-009.svg",
+      "image_alt": "Фирмени знамена – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-010",
@@ -98,7 +125,10 @@
       "description": "Арка за промоция или спортно събитие.",
       "visual": "arch",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-010-reklamna-arka",
+      "image": "/pechatni-produkti/images/vp4-010.svg",
+      "image_alt": "Рекламна арка – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-011",
@@ -107,7 +137,10 @@
       "description": "Двустранна табела за вход или събитие.",
       "visual": "board",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-011-a-tabela",
+      "image": "/pechatni-produkti/images/vp4-011.svg",
+      "image_alt": "А-табела – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-012",
@@ -116,7 +149,10 @@
       "description": "Информационни табели по размер.",
       "visual": "board",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-012-ukazatelni-tabeli",
+      "image": "/pechatni-produkti/images/vp4-012.svg",
+      "image_alt": "Указателни табели – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-013",
@@ -125,7 +161,10 @@
       "description": "Преносима вертикална рекламна система със стойка.",
       "visual": "rollup",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-013-rol-baner",
+      "image": "/pechatni-produkti/images/vp4-013.svg",
+      "image_alt": "Рол банер – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-014",
@@ -134,7 +173,10 @@
       "description": "Рекламен дисплей с визия от двете страни.",
       "visual": "rollup",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-014-dvoen-rol-baner",
+      "image": "/pechatni-produkti/images/vp4-014.svg",
+      "image_alt": "Двоен рол банер – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-015",
@@ -143,7 +185,10 @@
       "description": "Компактен дисплей за бюро или щанд.",
       "visual": "rollup",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-015-mini-rol-baner",
+      "image": "/pechatni-produkti/images/vp4-015.svg",
+      "image_alt": "Мини рол банер – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-016",
@@ -152,7 +197,10 @@
       "description": "Заден фон за изложение, среща или събитие.",
       "visual": "wall",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-016-reklamna-stena-2-2-m",
+      "image": "/pechatni-produkti/images/vp4-016.svg",
+      "image_alt": "Рекламна стена 2 × 2 м – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-017",
@@ -161,7 +209,10 @@
       "description": "Лека текстилна визия с възможна конструкция.",
       "visual": "wall",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-017-tekstilna-reklamna-stena",
+      "image": "/pechatni-produkti/images/vp4-017.svg",
+      "image_alt": "Текстилна рекламна стена – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-018",
@@ -170,7 +221,10 @@
       "description": "Дисплей с подсветка за изложение.",
       "visual": "wall",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-018-sveteshta-reklamna-stena",
+      "image": "/pechatni-produkti/images/vp4-018.svg",
+      "image_alt": "Светеща рекламна стена – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-019",
@@ -179,7 +233,10 @@
       "description": "Плакат за окачване в магазин или зала.",
       "visual": "poster",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-019-visyasht-poster",
+      "image": "/pechatni-produkti/images/vp4-019.svg",
+      "image_alt": "Висящ постер – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-020",
@@ -188,7 +245,10 @@
       "description": "Сменяем постер в рамка за вътрешна реклама.",
       "visual": "poster",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-020-snap-ramka-s-poster",
+      "image": "/pechatni-produkti/images/vp4-020.svg",
+      "image_alt": "Снап рамка с постер – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-021",
@@ -197,7 +257,10 @@
       "description": "Представяне на продукти на рекламен щанд.",
       "visual": "stand",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-021-promotsionalna-masa",
+      "image": "/pechatni-produkti/images/vp4-021.svg",
+      "image_alt": "Промоционална маса – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-022",
@@ -206,7 +269,10 @@
       "description": "Лека система за обозначаване на зона.",
       "visual": "stand",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-022-reklamna-bariera",
+      "image": "/pechatni-produkti/images/vp4-022.svg",
+      "image_alt": "Рекламна бариера – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-023",
@@ -215,7 +281,10 @@
       "description": "Делови визитки с избор на формат и тираж.",
       "visual": "print",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-023-vizitni-kartichki",
+      "image": "/pechatni-produkti/images/vp4-023.svg",
+      "image_alt": "Визитни картички – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-024",
@@ -224,7 +293,10 @@
       "description": "Едностранни или двустранни флаери.",
       "visual": "print",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-024-flaeri",
+      "image": "/pechatni-produkti/images/vp4-024.svg",
+      "image_alt": "Флаери – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-025",
@@ -233,7 +305,10 @@
       "description": "Сгънати или многолистови рекламни брошури.",
       "visual": "print",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-025-broshuri",
+      "image": "/pechatni-produkti/images/vp4-025.svg",
+      "image_alt": "Брошури – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-026",
@@ -242,7 +317,10 @@
       "description": "Печатни каталози с различни страници и тираж.",
       "visual": "print",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-026-katalozi-i-knizhki",
+      "image": "/pechatni-produkti/images/vp4-026.svg",
+      "image_alt": "Каталози и книжки – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-027",
@@ -251,7 +329,10 @@
       "description": "Печат върху хартия в подходящ размер.",
       "visual": "poster",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-027-plakati-i-posteri",
+      "image": "/pechatni-produkti/images/vp4-027.svg",
+      "image_alt": "Плакати и постери – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-028",
@@ -260,7 +341,10 @@
       "description": "Календари с фирмена визия.",
       "visual": "print",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-028-stenni-kalendari",
+      "image": "/pechatni-produkti/images/vp4-028.svg",
+      "image_alt": "Стенни календари – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-029",
@@ -269,7 +353,10 @@
       "description": "Фирмени бележници за офиса.",
       "visual": "print",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-029-belezhnitsi",
+      "image": "/pechatni-produkti/images/vp4-029.svg",
+      "image_alt": "Бележници – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-030",
@@ -278,7 +365,10 @@
       "description": "Печатни менюта за заведения.",
       "visual": "print",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-030-menyuta",
+      "image": "/pechatni-produkti/images/vp4-030.svg",
+      "image_alt": "Менюта – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-031",
@@ -287,7 +377,10 @@
       "description": "Етикети според формата на опаковката.",
       "visual": "label",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-031-etiketi-za-butilki",
+      "image": "/pechatni-produkti/images/vp4-031.svg",
+      "image_alt": "Етикети за бутилки – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-032",
@@ -296,7 +389,10 @@
       "description": "Визия за витрини с перфорирано фолио.",
       "visual": "film",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-032-perfofolio-za-staklo",
+      "image": "/pechatni-produkti/images/vp4-032.svg",
+      "image_alt": "Перфофолио за стъкло – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-033",
@@ -305,7 +401,10 @@
       "description": "Декоративно покритие за стъкло.",
       "visual": "film",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-033-pyasakostruyno-folio",
+      "image": "/pechatni-produkti/images/vp4-033.svg",
+      "image_alt": "Пясъкоструйно фолио – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-034",
@@ -314,7 +413,10 @@
       "description": "Стикери за реклами и витрини.",
       "visual": "label",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-034-pvc-reklamni-stikeri",
+      "image": "/pechatni-produkti/images/vp4-034.svg",
+      "image_alt": "PVC рекламни стикери – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-035",
@@ -323,7 +425,10 @@
       "description": "Подово рекламно обозначение по проект.",
       "visual": "label",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-035-podovi-stikeri",
+      "image": "/pechatni-produkti/images/vp4-035.svg",
+      "image_alt": "Подови стикери – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-036",
@@ -332,7 +437,10 @@
       "description": "Фолио за временно приложение върху гладки повърхности.",
       "visual": "film",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-036-cling-folio",
+      "image": "/pechatni-produkti/images/vp4-036.svg",
+      "image_alt": "Cling фолио – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-037",
@@ -341,7 +449,10 @@
       "description": "Графични елементи за превозни средства.",
       "visual": "film",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-037-avtomobilno-folio",
+      "image": "/pechatni-produkti/images/vp4-037.svg",
+      "image_alt": "Автомобилно фолио – оригинална продуктова илюстрация на Vinilpechat"
     },
     {
       "id": "VP4-038",
@@ -350,7 +461,10 @@
       "description": "Стенни графики и надписи по размер.",
       "visual": "film",
       "price": null,
-      "quote_only": true
+      "quote_only": true,
+      "slug": "vp4-038-stikeri-za-steni",
+      "image": "/pechatni-produkti/images/vp4-038.svg",
+      "image_alt": "Стикери за стени – оригинална продуктова илюстрация на Vinilpechat"
     }
   ]
 }
