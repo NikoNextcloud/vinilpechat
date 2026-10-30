@@ -241,3 +241,30 @@
 .admin-table input[type=number]:invalid{outline:2px solid #d05852;background:#fff7f6}
 #stedman-model-filter{width:100%;max-width:560px}
 #stedman-pricing-status{margin-top:5px}
+
+
+/* Responsive vinyl and perforated-film homepage hero */
+.vp-hero{background:radial-gradient(circle at 74% 25%,#34424e 0%,transparent 45%),linear-gradient(130deg,#0b1016,#171b21 62%,#080b0f);color:#fff;overflow:hidden}
+.vp-hero-inner{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;gap:clamp(20px,4vw,60px);padding-top:clamp(38px,6vw,86px);padding-bottom:clamp(40px,6vw,88px)}
+.vp-hero-label{font-size:12px;letter-spacing:2px;color:#ffda23;font-weight:900}
+.vp-hero-copy h1{color:white;font-size:clamp(38px,4.4vw,74px);line-height:1.08;letter-spacing:-1.7px;margin:22px 0;max-width:750px}
+.vp-hero-copy h1 strong{color:#ffdb16;font-weight:950}
+.vp-hero-copy p{font-size:clamp(15px,1.35vw,19px);color:#e6e7eb;line-height:1.6;max-width:550px}
+.vp-hero-copy ul{list-style:none;margin:28px 0;padding:0;display:grid;gap:12px}
+.vp-hero-copy li{font-size:clamp(14px,1.2vw,17px);font-weight:750;display:flex;align-items:center;gap:12px}
+.vp-hero-copy li:before{content:'✓';color:#ffe200;border:2px solid #ffdb16;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none}
+.vp-hero-cta{display:inline-flex;align-items:center;gap:18px;background:#ffdf13;border-radius:12px;padding:17px 25px;color:#10151a;font-weight:900;text-decoration:none;box-shadow:0 12px 30px #ffce0042}
+.vp-hero-cta:hover{background:#fff028;transform:translateY(-2px)}
+.vp-hero-tagline{display:block;color:#ffe029;font-style:italic;font-weight:850;font-size:clamp(19px,2vw,27px);margin-top:25px}
+.vp-hero-visual{min-height:450px;position:relative;display:flex;align-items:center;justify-content:center}
+.vp-hero-print{position:absolute;inset:0 0 14% 1%;overflow:hidden;border-radius:26px;border:1px solid #4a4f57;box-shadow:0 24px 65px #0008}
+.vp-hero-print img{width:100%;height:100%;object-fit:cover}
+.vp-hero-print:after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#05080c52,#10151a32)}
+.vp-hero-screen{position:absolute;bottom:1%;left:0;width:76%;min-height:54%;border:12px solid #222a30;border-bottom-width:25px;border-radius:18px;background:linear-gradient(135deg,#131820e6,#121b25c7),linear-gradient(90deg,#e6cb19,#e42095);box-shadow:12px 22px 28px #0009;transform:rotate(-3deg);padding:16px;box-sizing:border-box}
+.vp-hero-browser{display:block;color:#f9c915;font-size:9px;letter-spacing:3px}.vp-hero-browser b{color:#fff;letter-spacing:1px;font-size:12px;margin-left:15px}
+.vp-hero-screen-caption{display:block;font-weight:950;line-height:1.16;font-size:clamp(20px,3vw,44px);margin-top:25px}
+.vp-hero-screen-caption em{font-style:normal;color:#ffdf1e}
+.vp-hero-phone{position:absolute;right:0;bottom:-3%;width:25%;height:57%;max-width:155px;border:8px solid #242a2e;border-radius:26px;background:linear-gradient(160deg,#16191e 50%,#f6dc18 50%,#ee20a9 75%,#2399eb);box-shadow:0 10px 32px #000b;padding:18px 9px;color:white;display:flex;flex-direction:column;gap:22px;transform:rotate(5deg);box-sizing:border-box}
+.vp-hero-phone span{font-weight:900;font-size:10px}.vp-hero-phone b{font-size:clamp(12px,1.3vw,19px);line-height:1.2}.vp-hero-phone i{font-size:10px;font-style:normal;background:#ffe000;color:#111;padding:8px 5px;border-radius:7px;font-weight:850}
+@media(max-width:850px){.vp-hero-inner{grid-template-columns:1fr;padding-top:32px;padding-bottom:52px}.vp-hero-copy h1{font-size:clamp(33px,8vw,57px);margin:14px 0}.vp-hero-visual{min-height:clamp(260px,65vw,490px)}.vp-hero-copy ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.vp-hero-copy li{font-size:13px}.vp-hero-print{right:4%}}
+@media(max-width:480px){.vp-hero-inner{gap:10px}.vp-hero-copy ul{grid-template-columns:1fr;margin:22px 0}.vp-hero-copy h1{letter-spacing:-.8px}.vp-hero-visual{min-height:265px}.vp-hero-screen{border-width:7px;border-bottom-width:15px;border-radius:10px;padding:9px}.vp-hero-screen-caption{margin-top:14px;font-size:21px}.vp-hero-phone{border-width:5px;border-radius:18px;padding:11px 6px;gap:15px}.vp-hero-phone span{font-size:8px}.vp-hero-phone b{font-size:11px}.vp-hero-phone i{font-size:8px}}

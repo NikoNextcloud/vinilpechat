@@ -61,6 +61,23 @@ let designInquiryDraft='';
 function renderChoiceLanding(){
  document.title='Печат на винил, винили, тениски и печатни продукти | Vinilpechat';
  $('#main').innerHTML=`<div class="v3-landing v3-simple-home">
+ <section class="vp-hero" aria-labelledby="vp-hero-title">
+  <div class="vp-hero-inner container">
+   <div class="vp-hero-copy">
+    <span class="vp-hero-label">VINILPECHAT · РЕКЛАМЕН ПЕЧАТ</span>
+    <h1 id="vp-hero-title">Печат на <strong>винил</strong> и <strong>перфо фолио</strong></h1>
+    <p>Впечатляващи рекламни визии за витрини, автомобили, интериор и бизнес.</p>
+    <ul><li>Високо качество на печат</li><li>Бърза изработка</li><li>Индивидуални проекти и дизайн</li><li>Конкурентни цени</li></ul>
+    <a href="#design" data-go="design" class="vp-hero-cta">Разгледай услугите <span aria-hidden="true">→</span></a>
+    <span class="vp-hero-tagline">Вашите идеи на голям формат!</span>
+   </div>
+   <div class="vp-hero-visual" aria-hidden="true">
+    <div class="vp-hero-print"><img src="/pechatni-produkti/photos/vp4-013.webp" width="960" height="640" loading="eager" fetchpriority="high" decoding="async" alt=""></div>
+    <div class="vp-hero-screen"><span class="vp-hero-browser">● ● ● <b>VINILPECHAT</b></span><span class="vp-hero-screen-caption">ПЕЧАТ НА ВИНИЛ<br><em>И ПЕРФО ФОЛИО</em></span></div>
+    <div class="vp-hero-phone"><span>VINILPECHAT</span><b>Печат без граници</b><i>Разгледай услугите →</i></div>
+   </div>
+  </div>
+ </section>
  <section class="v3-primary-categories container" aria-labelledby="v3-primary-title">
   <div class="v3-primary-heading"><span class="v3-section-kicker">ЧЕТИРИ НАЧИНА ДА РЕАЛИЗИРАШ ИДЕЯТА СИ</span><h1 id="v3-primary-title">Какво искаш да създадем?</h1><p>Избери услуга и премини директно към продуктите или калкулатора.</p></div>
   <div class="v3-primary-grid">
