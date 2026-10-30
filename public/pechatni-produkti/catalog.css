@@ -75,3 +75,5 @@
 .vp-title-link:hover,.vp-detail:hover{color:#008873}
 .vp-detail{font-size:11px;font-weight:850;color:#087963;display:inline-block;margin-top:4px}
 @media(prefers-reduced-motion:reduce){.vp-picture{transition:none}}
+
+.vp-card .vp-detail{color:#08785f;font-weight:900}.vp-card .vp-availability{background:#f8f1e3}

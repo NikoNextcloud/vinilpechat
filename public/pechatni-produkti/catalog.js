@@ -26,9 +26,9 @@
   const controls=make('div','vp-card-actions');
   const label=make('label','vp-qty-label','Брой');
   const input=make('input','vp-qty');input.type='number';input.min='1';input.max='1000';input.step='1';input.value='1';input.setAttribute('aria-label','Количество за '+p.name);label.append(input);controls.append(label);
-  const button=make('button','vp-add','+ Към запитването');button.type='button';
+  const button=make('button','vp-add','Бързо запитване +');button.type='button';
   button.addEventListener('click',()=>{
-   const value=Number(input.value);const result=window.VinilQuote.addDraft({id:p.id,name:p.name,type:'service',quantity:value,details:'По индивидуална оферта'});
+   const value=Number(input.value);const result=window.VinilQuote.addDraft({id:p.id,name:p.name,type:'service',quantity:value,details:'Бързо запитване. Размери и варианти ще бъдат уточнени при офертата.'});
    if(!result.ok){status.textContent=result.error;return}
    status.textContent='Добавено: '+p.name+'. Можеш да добавиш още изделия или да отвориш общото запитване.';
    button.textContent='✓ Добавено';setTimeout(()=>{if(button.isConnected)button.textContent='+ Към запитването'},1700);

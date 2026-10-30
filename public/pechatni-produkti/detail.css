@@ -26,3 +26,45 @@
 .vp-service-back a{color:#087b66;font-weight:850;font-size:12px}
 @media(max-width:850px){.vp-service-layout{grid-template-columns:1fr}.vp-service-related>div{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:500px){.vp-service-main{padding-top:20px}.vp-service-info{padding:20px}.vp-service-related>div{gap:8px}.vp-service-related-card span{padding:10px;font-size:11px}}
+
+/* Product variations — dimension controls and selection cards like a professional print configurator. */
+.vp-configurator{margin-top:30px;border-top:1px solid #e3ebf0;padding-top:23px;display:grid;gap:17px;min-width:0}
+.vp-config-kicker{color:#008778;font-size:10px;font-weight:950;letter-spacing:1.4px}
+.vp-configurator h2{font-size:24px;letter-spacing:-.65px;margin:0;color:#193b50}
+.vp-config-note{font-size:11px!important;line-height:1.7;color:#688495;margin:0}
+.vp-choice-group{min-width:0;border:1px solid #e4edf1;background:#fbfdfe;padding:17px;border-radius:17px;margin:0}
+.vp-choice-group legend{font-size:13px;font-weight:950;color:#23495d;padding:0 7px}
+.vp-size-preset-label{font-size:10px;font-weight:800;color:#6a8696;margin:0 0 9px}
+.vp-size-presets{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.vp-preset{border:1px solid #d9e7eb;background:#fff;color:#446375;padding:9px 11px;border-radius:11px;font-size:11px;cursor:pointer;font-weight:800}
+.vp-preset.is-active{border-color:#148d79;background:#e8f8ef;color:#006e59}
+.vp-size-inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.vp-measure-label{display:grid;gap:7px;min-width:0}.vp-measure-label span{font-size:10px;color:#678292;font-weight:850}
+.vp-measure-label input{min-width:0;width:100%;box-sizing:border-box;border:1px solid #d3e2e9;background:#fff;border-radius:11px;padding:12px 8px;color:#254a5d;font:inherit;font-size:13px;outline-offset:2px}
+.vp-measure-label input:focus,.vp-choice-select select:focus{outline:2px solid #23a18a}
+.vp-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.vp-choice-card{display:block;min-width:0;position:relative;cursor:pointer}
+.vp-choice-card input{position:absolute;left:11px;top:17px;accent-color:#007d67;z-index:1}
+.vp-choice-title{display:flex;align-items:center;min-height:44px;padding:11px 11px 11px 35px;border:1px solid #d9e7e8;border-radius:11px;background:#fff;font-size:11px;font-weight:900;color:#496c7b;line-height:1.4}
+.vp-choice-card small{display:block;padding:3px 8px 8px 35px;color:#78919d;font-size:10px;line-height:1.5}
+.vp-choice-card:has(input:checked) .vp-choice-title{background:#e6f8f0;border-color:#1c9b7b;color:#066d59}
+.vp-choice-card:has(input:focus-visible) .vp-choice-title{outline:2px solid #067e71}
+.vp-choice-select select{width:100%;border:1px solid #d5e5ea;padding:13px;border-radius:11px;background:#fff;font-size:12px;color:#234c5c}
+.vp-visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.vp-config-bottom{display:grid;gap:13px}
+.vp-config-summary{background:linear-gradient(135deg,#eaf7f2,#f6fbfa);border:1px solid #cfe6dc;border-radius:17px;padding:17px;color:#245c50;display:grid;gap:10px}
+.vp-config-summary>strong{font-size:15px}
+.vp-config-live{display:grid;gap:6px;font-size:12px}
+#vp-config-dimensions{font-weight:950;color:#183c4b}
+#vp-config-variant-summary{font-size:11px;line-height:1.6;color:#6c8790}
+.vp-config-estimate{padding-top:10px;border-top:1px solid #d1e8de;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:11px}
+.vp-config-estimate strong{font-size:17px;color:#00876d}
+.vp-config-summary>small{font-size:10px;color:#698579;line-height:1.5}
+#vp-service-add:disabled,#vp-config-share:disabled{opacity:.46;cursor:not-allowed}
+.vp-form-error{font-size:11px;color:#bc4848;margin:10px 0 0}
+.vp-form-error[hidden]{display:none}
+.vp-share-tools{display:grid;gap:8px}
+#vp-config-share{border:1px solid #a8d7c8;background:#fff;border-radius:11px;color:#097b64;padding:12px;font-weight:900;cursor:pointer;text-align:left}
+#vp-share-url{border:1px solid #d3e6e5;border-radius:9px;padding:9px 11px;font-size:10px;min-width:0;color:#567582;width:100%;box-sizing:border-box}
+.vp-service-safety{display:block;margin-top:12px!important}
+@media(max-width:540px){.vp-size-inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.vp-choice-grid{grid-template-columns:1fr}.vp-configurator h2{font-size:21px}.vp-choice-group{padding:13px}}
