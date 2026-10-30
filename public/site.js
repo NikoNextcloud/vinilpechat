@@ -4,7 +4,7 @@ const escaped=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>
 const euro=v=>v==null?'По запитване':Number(v).toLocaleString('bg-BG',{style:'currency',currency:'EUR'});
 const demo=!['http:','https:'].includes(location.protocol);
 let db=structuredClone(window.SEED_DATA||{products:[],categories:[],settings:{},orders:[]});
-let state={cat:'all',q:'',sort:'default',cart:JSON.parse(localStorage.getItem('vinyl-cart')||'[]'),isAdmin:false,csrf:'',adminTab:'products',detail:null};
+let state={cat:'all',q:'',sort:'default',cart:JSON.parse(localStorage.getItem('vinyl-cart')||'[]'),isAdmin:false,csrf:'',adminTab:'overview',detail:null};
 let useServer=false;
 let ordersReady=false;
 const missingImage='/assets/placeholder.svg';
@@ -257,7 +257,17 @@ function renderCart(){let content=state.cart.map((l,i)=>{let p=getProduct(l.id);
 function showCart(){renderCart();closeDialog();$('#overlay').classList.remove('hidden');$('#cartDrawer').classList.remove('hidden');document.body.style.overflow='hidden'}
 function closeCart(){$('#cartDrawer').classList.add('hidden');$('#overlay').classList.add('hidden');document.body.style.overflow=''}
 async function sendForm(form,type){let fd=new FormData(form);let o=Object.fromEntries(fd);o.kind=type;if(type==='order'){o.items=state.cart.map(x=>({product_id:x.id,quantity:x.qty,variant_key:x.variant_key||''}));if(!o.items.length){toast('Добави продукт в заявката');return}}if(!demo&&!ordersReady){toast('Приемането на заявки все още не е активирано.');return}if(useServer){try{const r=await request('/api/orders',{method:'POST',body:JSON.stringify(o)});toast('Заявката е регистрирана: № '+r.order_id);if(type==='order'){state.cart=[];persist();closeCart()}form.reset()}catch(e){toast('Неуспешно изпращане: '+e.message)}}else if(demo){let local=JSON.parse(localStorage.getItem('vinyl-local-orders')||'[]');local.unshift({...o,id:'DEMO-'+Date.now(),status:'new',created_at:new Date().toISOString()});localStorage.setItem('vinyl-local-orders',JSON.stringify(local));toast('Демо режим: заявката е запазена само в този браузър, не е изпратена.');if(type==='order'){state.cart=[];persist();closeCart()}form.reset()}}
-function adminLogin(){return `<div class="container page-pad"><div class="page-head"><h1>Администрация</h1><p>Вход за собственика на магазина.</p></div><div class="form-card" style="max-width:430px"><h2>Вход в панела</h2><form id="loginForm"><div class="form-field"><label>Администраторски имейл</label><input type="email" name="email" required autocomplete="username"></div><div class="form-field"><label>Парола</label><input type="password" name="password" required autocomplete="current-password"></div><button class="primary-btn">Вход ↗</button></form><p class="form-note">Входът използва Supabase Auth. Администраторът се задава с ADMIN_EMAIL във Vercel.</p></div></div>`}
+function adminLogin(){
+ return `<section class="container page-pad v5-auth-section"><div class="v5-auth-shell">
+  <div class="v5-auth-intro"><div class="v5-auth-symbol">VP<span>5</span></div><span class="v5-auth-overline">VINILPECHAT STUDIO · ADMIN</span><h1>Всичко за магазина.<br><em>На едно място.</em></h1><p>Управлявай продукти, ценови варианти, заявки и изображения в защитената администрация на Vinilpechat.</p>
+  <div class="v5-auth-points"><span>◈ Управление на продукти</span><span>◈ Контрол на цените</span><span>◈ Заявки и печатни услуги</span></div></div>
+  <div class="v5-auth-panel"><div class="v5-auth-dot">● Защитен достъп</div><h2>Добре дошъл обратно</h2><p>Влез с администраторския си профил.</p>
+   <form id="loginForm" class="v5-login-form"><label>Имейл адрес<input name="email" type="email" required autocomplete="username" placeholder="admin@domain.com"></label>
+    <label>Парола<input name="password" type="password" required autocomplete="current-password" placeholder="••••••••"></label>
+    <button class="primary-btn" type="submit">Влез в администрацията →</button>
+   </form><small>Входът се удостоверява чрез Supabase Auth. Само разрешеният администратор има достъп до данните.</small></div>
+ </div></section>`;
+}
 
 let stedmanPriceModels=null;
 let changedStedmanPrices=new Set();
@@ -327,9 +337,54 @@ async function saveStedmanPricing(){
  }finally{if(btn)btn.disabled=false}
 }
 
-async function renderAdmin(){document.title='Администрация | Винил & Брезенти';if(!useServer){state.isAdmin=false;}
-else if(!state.isAdmin){try{let r=await request('/api/admin/session');state.isAdmin=r.authenticated;state.csrf=r.csrf||'';if(r.authenticated){let info=await request('/api/admin/data');db={...db,...info}}}catch(e){}}
-if(!state.isAdmin){$('#main').innerHTML=adminLogin();return}let tabs=[['products','Продукти и цени'],['variants','Размери и варианти'],['stedman','Облекло Stedman · Цени'],['orders','Заявки'],['print-inquiries','Запитвания за печат'],['settings','Настройки'],['images','Снимки'],['usage','База данни'],['visitors','Посещения']];$('#main').innerHTML=`<section class="container page-pad"><div class="page-head"><h1>Администрация</h1><p>Управление на магазина и продуктовия каталог.</p></div><div class="admin-layout"><nav class="admin-nav">${tabs.map(([k,t])=>`<button class="${state.adminTab===k?'active':''}" data-admin-tab="${k}">${t}</button>`).join('')}<button data-admin-logout>Изход</button></nav><div class="admin-body" id="adminPane"></div></div></section>`;renderAdminPane()}
+async function renderAdmin(){
+ document.title='Административен панел | Vinilpechat';
+ if(!useServer)state.isAdmin=false;
+ else if(!state.isAdmin){try{
+  const session=await request('/api/admin/session');
+  state.isAdmin=session.authenticated;
+  state.csrf=session.csrf||'';
+  if(session.authenticated){const info=await request('/api/admin/data');db={...db,...info}}
+ }catch(error){state.isAdmin=false}}
+ if(!state.isAdmin){$('#main').innerHTML=adminLogin();return}
+ const tabs=[
+ ['overview','Обзор','◈','Начало'],
+ ['products','Продукти и цени','▦','Търговия'],
+ ['variants','Размери и варианти','◫','Търговия'],
+ ['stedman','Цени Stedman','♧','Търговия'],
+ ['print-products','Печатни изделия','▤','Търговия'],
+ ['orders','Получени заявки','▣','Поръчки'],
+ ['print-inquiries','Запитвания за печат','✎','Поръчки'],
+ ['images','Снимки и медия','▧','Съдържание'],
+ ['settings','Настройки','⚙','Система'],
+ ['usage','База данни','◷','Система'],
+ ['visitors','Посещения','◉','Система']
+ ];
+ const current=tabs.find(x=>x[0]===state.adminTab)||tabs[0];
+ const groups=['Начало','Търговия','Поръчки','Съдържание','Система'];
+ const nav=groups.map(group=>'<div class="v5-admin-menu-group"><div class="v5-admin-menu-heading">'+group+'</div>'+
+  tabs.filter(x=>x[3]===group).map(([key,label,glyph])=>
+   '<button type="button" data-admin-tab="'+key+'" class="'+(state.adminTab===key?'active':'')+'" aria-current="'+(state.adminTab===key?'page':'false')+'"><span class="v5-admin-menu-icon" aria-hidden="true">'+glyph+'</span><span>'+label+'</span></button>'
+  ).join('')+'</div>').join('');
+ const totalRequests=Array.isArray(db.orders)?db.orders.length:0;
+ $('#main').innerHTML=`<section class="container page-pad v5-admin-container">
+ <div class="v5-admin-shell"><aside class="v5-admin-sidebar">
+  <div class="v5-admin-brand"><span class="v5-admin-logo">VP<span>5</span></span><span><strong>Vinilpechat</strong><small>CONTROL CENTER</small></span></div>
+  <div class="v5-admin-sidenav-caption">АДМИНИСТРАЦИЯ</div>
+  <nav class="admin-nav" aria-label="Администраторско меню">${nav}</nav>
+  <div class="v5-admin-sidebar-bottom"><div class="v5-admin-server-light"><span></span> Защитен панел</div><button type="button" class="v5-admin-logout" data-admin-logout>Изход от профила ↗</button></div>
+ </aside><div class="v5-admin-workspace">
+  <header class="v5-admin-topbar"><div class="v5-admin-location">VINILPECHAT / АДМИНИСТРАЦИЯ / <strong>${escaped(current[1])}</strong></div>
+   <div class="v5-admin-top-actions"><a href="/" target="_blank" rel="noopener" class="v5-admin-shop-link">↗ Виж магазина</a><button class="v5-admin-refresh" type="button" data-v5-admin-refresh title="Обнови данните">↻</button></div>
+  </header>
+  <div class="v5-admin-heading"><div><span class="v5-admin-eyebrow">ПРОФЕСИОНАЛНО УПРАВЛЕНИЕ</span><h1>${escaped(current[1])}</h1>
+   <p>Управление на каталога, поръчките и печатните изделия от едно място.</p></div>
+   <div class="v5-admin-badge"><span class="v5-admin-live-dot"></span>${totalRequests} заявки в системата</div></div>
+  ${['products','variants','orders','print-inquiries','stedman'].includes(state.adminTab)?'<div class="v5-admin-search-wrap"><span aria-hidden="true">⌕</span><input id="v5-admin-search" type="search" autocomplete="off" placeholder="Търси в текущия раздел..." aria-label="Търси в административния раздел"></div>':''}
+  <div class="admin-body v5-admin-content" id="adminPane"></div>
+ </div></div></section>`;
+ renderAdminPane();
+}
 
 function renderOrderCard(o){
  const lines=Array.isArray(o.items)?o.items:[];
@@ -363,7 +418,63 @@ function renderOrderCard(o){
  </article>`;
 }
 
-function renderAdminPane(){const el=$('#adminPane');if(!el)return;let t=state.adminTab;if(t==='products'){el.innerHTML=`<h2>Продукти и цени <span class="pill">${db.products.length} артикула</span></h2><p class="admin-hint">Продажната цена се задава ръчно от теб и не се променя автоматично при редакция на доставната цена. Въведи цена и натисни „Запази промените“.</p><div class="admin-toolbar"><button class="primary-btn" data-admin-save>Запази промените ✓</button><button class="outline-btn" data-admin-export>Експорт CSV ↧</button><button class="outline-btn" data-admin-import>Импорт CSV ↥</button><input type="file" id="csvImportFile" accept=".csv,text/csv" hidden></div><div class="table-scroll"><table class="admin-table"><thead><tr><th>#</th><th>Продукт</th><th>Връзки</th><th>Доставна €</th><th>Цена в Scorpioplast</th><th>Продажна €</th><th>Активен</th></tr></thead><tbody>${db.products.map(p=>`<tr><td>${p.id}</td><td class="titlecell">${escaped(p.name)}</td><td><div class="admin-product-links">${supplierURL(p)?`<a class="outline-btn admin-source-btn" target="_blank" rel="noopener noreferrer" href="${escaped(supplierURL(p))}" title="Отвори конкретния продукт при доставчика">Доставчик ↗</a>`:`<small class="admin-no-source">Липсва адрес</small>`}<a class="outline-btn admin-source-btn" target="_blank" rel="noopener noreferrer" href="${escaped(seoProductHref(p))}" title="Отвори продукта в магазина">В магазина ↗</a></div></td><td><input type="number" min="0" step="0.01" data-field="supplier_price" data-id="${p.id}" value="${p.supplier_price??''}"></td><td>${p.public_supplier_reference?`<div class="admin-reference-price"><strong>${euro(p.public_supplier_reference.public_min_price)}${p.public_supplier_reference.public_max_price!==p.public_supplier_reference.public_min_price?' – '+euro(p.public_supplier_reference.public_max_price):''}</strong><small>Обявена цена на сайта, не доставна</small></div>`:'—'}</td><td><div class="admin-sale-editor"><input type="number" min="0" step="0.01" data-field="sale_price" data-id="${p.id}" value="${p.sale_price??''}" title="Въведи продажната цена"></div></td><td><input type="checkbox" data-field="active" data-id="${p.id}" ${p.active?'checked':''}></td></tr>`).join('')}</tbody></table></div>`}
+function renderV5Dashboard(){
+ const orders=Array.isArray(db.orders)?db.orders:[];
+ const products=Array.isArray(db.products)?db.products:[];
+ const inquiries=orders.filter(o=>o.kind==='contact');
+ const recent=orders.slice().sort((a,b)=>Date.parse(b.created_at||0)-Date.parse(a.created_at||0)).slice(0,5);
+ const unpriced=products.filter(p=>p.active&&p.sale_price==null&&!(p.variants||[]).some(v=>v.sale_price!=null));
+ const active=products.filter(p=>p.active).length;
+ const metric=(glyph,label,value,description)=>'<article class="v5-kpi"><span class="v5-kpi-icon" aria-hidden="true">'+glyph+'</span><div class="v5-kpi-label">'+label+'</div><strong>'+value+'</strong><small>'+description+'</small></article>';
+ const lastOrders=recent.map(o=>{
+  const date=o.created_at?new Date(o.created_at):null;
+  const formatted=date&&!Number.isNaN(date.getTime())?date.toLocaleDateString('bg-BG'):'—';
+  const label=String(o.kind||'order')==='contact'?'Запитване':'Поръчка';
+  return '<tr><td><strong>#'+escaped(o.id)+'</strong></td><td>'+label+'</td><td>'+escaped(formatted)+'</td><td><span class="v5-admin-state">'+escaped(o.status||'Нова')+'</span></td></tr>';
+ }).join('');
+ const alerts=unpriced.length?
+  '<div class="v5-admin-alert"><span>!</span><div><strong>'+unpriced.length+' активни продукта без зададена продажна цена</strong><p>Провери ги преди активни кампании и продажби.</p></div><button type="button" data-admin-tab="products">Преглед →</button></div>':
+  '<div class="v5-admin-good">✓ Няма активни обикновени продукти с липсваща продажна цена.</div>';
+ return '<section class="v5-dashboard"><div class="v5-kpi-grid">'+
+  metric('▦','Продукти',products.length,'Общо в продуктовата база')+
+  metric('◉','Активни',active,'Публикувани в каталога')+
+  metric('▣','Заявки',orders.length,'Записани в системата')+
+  metric('✎','Контактни',inquiries.length,'Контактни запитвания')+
+  '</div><div class="v5-admin-welcome"><div><span>БЪРЗИ ДЕЙСТВИЯ</span><h2>Управлявай магазина по-бързо.</h2><p>Доставни и продажни цени, продуктови вариации, Stedman и новите печатни изделия — подредени на едно място.</p></div><div class="v5-admin-shortcuts">'+
+  '<button type="button" data-admin-tab="products">Продукти и цени ↗</button><button type="button" data-admin-tab="orders">Нови заявки ↗</button><button type="button" data-admin-tab="print-products">Печатни изделия ↗</button></div></div>'+
+  '<div class="v5-dashboard-columns"><article class="v5-dashboard-card"><div class="v5-dashboard-card-head"><div><h3>Последни заявки</h3><p>Най-новите записи в Supabase</p></div><button type="button" data-admin-tab="orders">Всички →</button></div>'+
+  (recent.length?'<div class="table-scroll"><table class="v5-recent-table"><thead><tr><th>Номер</th><th>Тип</th><th>Дата</th><th>Статус</th></tr></thead><tbody>'+lastOrders+'</tbody></table></div>':'<div class="v5-admin-empty">Все още няма получени заявки.</div>')+
+  '</article><article class="v5-dashboard-card"><div class="v5-dashboard-card-head"><div><h3>Приоритети</h3><p>Информация за каталога</p></div></div>'+alerts+
+  '<div class="v5-dashboard-info"><div><span>75</span><small>модела Stedman</small></div><div><span>39</span><small>печатни изделия за запитване</small></div></div>'+
+  '<div class="v5-dashboard-links"><button type="button" data-admin-tab="variants">Редактирай варианти</button><button type="button" data-admin-tab="stedman">Цени на Stedman</button></div></article></div></section>';
+}
+async function loadV5PrintProducts(){
+ const pane=document.getElementById('v5-service-list');if(!pane||state.adminTab!=='print-products')return;
+ try{
+  const [a,b]=await Promise.all([
+   fetch('/pechatni-produkti/catalog.json',{cache:'no-store'}),
+   fetch('/pechatni-produkti/variation-config.json',{cache:'no-store'})
+  ]);
+  if(!a.ok||!b.ok)throw Error('Каталогът не е достъпен');
+  const data=await a.json(),cfg=await b.json();
+  if(state.adminTab!=='print-products'||!pane.isConnected)return;
+  const cards=data.items.map(p=>{
+   const fields=cfg.items[p.id]?.fields||[];
+   return '<article class="v5-service-row" data-v5-service-search="'+escaped((p.id+' '+p.name+' '+p.category).toLocaleLowerCase('bg-BG'))+'">'+
+    '<img src="'+escaped(p.image)+'" alt="'+escaped(p.image_alt||p.name)+'" loading="lazy" width="92" height="76">'+
+    '<div class="v5-service-row-info"><small>'+escaped(p.id)+' · '+escaped(p.category)+'</small><strong>'+escaped(p.name)+'</strong>'+
+    '<p>'+fields.map(f=>escaped(f.label)).join(' · ')+'</p></div>'+
+    '<div class="v5-service-row-action"><span class="v5-service-quote-only">По запитване</span><a href="/pechatni-produkti/'+escaped(p.slug)+'" target="_blank" rel="noopener">Преглед ↗</a></div></article>';
+  }).join('');
+  pane.innerHTML='<div class="v5-service-header"><span>'+data.items.length+' типа печат</span><span>Опции за запитване, без фиктивни цени</span></div>'+
+   '<label class="v5-service-filter-label" for="v5-service-filter">Търси печатно изделие<input type="search" id="v5-service-filter" placeholder="Например Коматекс, флаг, винил..."></label>'+
+   '<div class="v5-service-list">'+cards+'</div>';
+ }catch(e){if(pane.isConnected)pane.textContent='Каталогът не може да се зареди. Опитай да презаредиш страницата.'}
+}
+
+function renderAdminPane(){const el=$('#adminPane');if(!el)return;let t=state.adminTab;
+if(t==='overview'){el.innerHTML=renderV5Dashboard();return}
+if(t==='print-products'){el.innerHTML='<div class="v5-print-admin"><h2>Печатни изделия <span class="pill">39 продукта</span></h2><p class="admin-hint">Новите продуктови варианти са конфигурация за индивидуални запитвания. В този Preview се разглеждат и проверяват, без да променят реални цени, наличности или Supabase записи.</p><div id="v5-service-list" role="status">Зареждане на продуктовата матрица…</div></div>';loadV5PrintProducts();return}if(t==='products'){el.innerHTML=`<h2>Продукти и цени <span class="pill">${db.products.length} артикула</span></h2><p class="admin-hint">Продажната цена се задава ръчно от теб и не се променя автоматично при редакция на доставната цена. Въведи цена и натисни „Запази промените“.</p><div class="admin-toolbar"><button class="primary-btn" data-admin-save>Запази промените ✓</button><button class="outline-btn" data-admin-export>Експорт CSV ↧</button><button class="outline-btn" data-admin-import>Импорт CSV ↥</button><input type="file" id="csvImportFile" accept=".csv,text/csv" hidden></div><div class="table-scroll"><table class="admin-table"><thead><tr><th>#</th><th>Продукт</th><th>Връзки</th><th>Доставна €</th><th>Цена в Scorpioplast</th><th>Продажна €</th><th>Активен</th></tr></thead><tbody>${db.products.map(p=>`<tr><td>${p.id}</td><td class="titlecell">${escaped(p.name)}</td><td><div class="admin-product-links">${supplierURL(p)?`<a class="outline-btn admin-source-btn" target="_blank" rel="noopener noreferrer" href="${escaped(supplierURL(p))}" title="Отвори конкретния продукт при доставчика">Доставчик ↗</a>`:`<small class="admin-no-source">Липсва адрес</small>`}<a class="outline-btn admin-source-btn" target="_blank" rel="noopener noreferrer" href="${escaped(seoProductHref(p))}" title="Отвори продукта в магазина">В магазина ↗</a></div></td><td><input type="number" min="0" step="0.01" data-field="supplier_price" data-id="${p.id}" value="${p.supplier_price??''}"></td><td>${p.public_supplier_reference?`<div class="admin-reference-price"><strong>${euro(p.public_supplier_reference.public_min_price)}${p.public_supplier_reference.public_max_price!==p.public_supplier_reference.public_min_price?' – '+euro(p.public_supplier_reference.public_max_price):''}</strong><small>Обявена цена на сайта, не доставна</small></div>`:'—'}</td><td><div class="admin-sale-editor"><input type="number" min="0" step="0.01" data-field="sale_price" data-id="${p.id}" value="${p.sale_price??''}" title="Въведи продажната цена"></div></td><td><input type="checkbox" data-field="active" data-id="${p.id}" ${p.active?'checked':''}></td></tr>`).join('')}</tbody></table></div>`}
 if(t==='variants'){const matching=db.products.filter(p=>(p.variants||[]).length);el.innerHTML=`<h2>Размери и варианти <span class="pill">${matching.reduce((n,p)=>n+p.variants.length,0)} комбинации</span></h2><p class="admin-hint">Редактирай доставната и продажната цена независимо за всеки размер или цвят. Промените се записват със зеления бутон.</p><div class="admin-toolbar"><button class="primary-btn" data-admin-save-variants>Запази цените и настройките ✓</button><button class="outline-btn" data-variant-csv-export>Експорт цени CSV ↧</button><button class="outline-btn" data-variant-csv-import>Импорт цени CSV ↥</button><input type="file" id="variantCSVFile" accept=".csv,text/csv" hidden></div><p class="admin-hint">В CSV попълни само new_sale_price в евро (напр. 12,50). Празно = без промяна; 0 = нулева цена. Не променяй идентификаторите и останалите колони. След проверка приложи цените и ги запази.</p><div id="variantCSVPreview" aria-live="polite"></div><div class="admin-variant-groups">${matching.map(p=>`<details class="admin-variant-group"><summary>${escaped(p.name)} <span class="pill">${p.variants.length} варианта</span></summary><div class="table-scroll"><table class="admin-table"><thead><tr><th>Вариант / размер</th><th>Доставна цена €</th><th>Продажна цена €</th><th>Активен</th><th>За потвърждение</th></tr></thead><tbody>${p.variants.map(v=>`<tr><td>${escaped(v.label)}</td><td><input type="number" min="0" step="0.01" data-variant-supplier-price data-id="${p.id}" data-variant-key="${escaped(v.variant_key)}" value="${v.supplier_price??''}" aria-label="Доставна цена ${escaped(v.label)}"></td><td><div class="admin-sale-editor"><input type="number" min="0" step="0.01" data-variant-price data-id="${p.id}" title="Редактирай продажната цена на избрания вариант" data-variant-key="${escaped(v.variant_key)}" value="${v.sale_price??''}"></div></td><td><input type="checkbox" data-variant-active data-id="${p.id}" data-variant-key="${escaped(v.variant_key)}" ${v.active!==false?'checked':''}></td><td><input type="checkbox" data-variant-verify data-id="${p.id}" data-variant-key="${escaped(v.variant_key)}" ${v.price_verification_needed?'checked':''}></td></tr>`).join('')}</tbody></table></div></details>`).join('')}</div>`}
 if(t==='stedman'){renderStedmanPricing()}
 if(t==='print-inquiries'){
@@ -552,7 +663,13 @@ a=t.closest('[data-design-web]');if(a){
  designInquiryDraft=designViberText()||['Здравейте! Искам нов винил.',q?'Дизайн: '+(q.with_design?'С дизайн':'Без дизайн'):'',q?'Ширина: '+q.width_cm+' см':'',q?'Височина: '+q.height_cm+' см':'',q?'Количество: '+q.quantity+' бр.':'',notes?'Дизайн: '+notes:'','Моля за оферта.'].filter(Boolean).join('\n');
  go('contact');return
 }
-a=t.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}a=t.closest('[data-goto]');if(a){go(a.dataset.goto);return}a=t.closest('[data-catgo]');if(a){state.cat=a.dataset.catgo;go('catalog');return}a=t.closest('[data-filter]');if(a){state.cat=a.dataset.filter;renderHome();$('#catalog')?.scrollIntoView();$('#catalogSearch')?.focus();return}a=t.closest('[data-detail]');if(a){e.preventDefault();openDetail(Number(a.dataset.detail));return}a=t.closest('[data-viber-product]');if(a){if(!prepareViberInquiry(Number(a.dataset.viberProduct)))e.preventDefault();return}a=t.closest('[data-copy-viber]');if(a){await copyViberMessage();return}a=t.closest('[data-add]');if(a){addCart(a.dataset.add);return}a=t.closest('[data-showcart]');if(a){showCart();return}a=t.closest('[data-thumb]');if(a){let p=getProduct(state.detail);let url=images(p)[Number(a.dataset.thumb)];$('#detailMainImage').src=url;document.querySelectorAll('[data-thumb]').forEach(x=>x.classList.toggle('sel',x===a));return}a=t.closest('[data-plus],[data-minus],[data-remove]');if(a){let i=Number(a.dataset.plus??a.dataset.minus??a.dataset.remove);let l=state.cart[i];if(l){if(a.dataset.remove!==undefined)state.cart.splice(i,1);else {l.qty+=a.dataset.plus!==undefined?1:-1;if(l.qty<=0)state.cart.splice(i,1)}}persist();renderCart();return}a=t.closest('[data-admin-tab]');if(a){state.adminTab=a.dataset.adminTab;renderAdmin();return}a=t.closest('[data-admin-shirt-files]');if(a){
+a=t.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}a=t.closest('[data-goto]');if(a){go(a.dataset.goto);return}a=t.closest('[data-catgo]');if(a){state.cat=a.dataset.catgo;go('catalog');return}a=t.closest('[data-filter]');if(a){state.cat=a.dataset.filter;renderHome();$('#catalog')?.scrollIntoView();$('#catalogSearch')?.focus();return}a=t.closest('[data-detail]');if(a){e.preventDefault();openDetail(Number(a.dataset.detail));return}a=t.closest('[data-viber-product]');if(a){if(!prepareViberInquiry(Number(a.dataset.viberProduct)))e.preventDefault();return}a=t.closest('[data-copy-viber]');if(a){await copyViberMessage();return}a=t.closest('[data-add]');if(a){addCart(a.dataset.add);return}a=t.closest('[data-showcart]');if(a){showCart();return}a=t.closest('[data-thumb]');if(a){let p=getProduct(state.detail);let url=images(p)[Number(a.dataset.thumb)];$('#detailMainImage').src=url;document.querySelectorAll('[data-thumb]').forEach(x=>x.classList.toggle('sel',x===a));return}a=t.closest('[data-plus],[data-minus],[data-remove]');if(a){let i=Number(a.dataset.plus??a.dataset.minus??a.dataset.remove);let l=state.cart[i];if(l){if(a.dataset.remove!==undefined)state.cart.splice(i,1);else {l.qty+=a.dataset.plus!==undefined?1:-1;if(l.qty<=0)state.cart.splice(i,1)}}persist();renderCart();return}a=t.closest('[data-v5-admin-refresh]');if(a){
+ a.disabled=true;
+ try{const info=await request('/api/admin/data');db={...db,...info};renderAdmin();toast('Данните са обновени.')}
+ catch(error){toast('Неуспешно обновяване: '+error.message);a.disabled=false}
+ return;
+}
+a=t.closest('[data-admin-tab]');if(a){state.adminTab=a.dataset.adminTab;renderAdmin();return}a=t.closest('[data-admin-shirt-files]');if(a){
  const id=a.dataset.adminShirtFiles;
  const panel=[...document.querySelectorAll('[data-shirt-files-result]')].find(x=>x.dataset.shirtFilesResult===id);
  if(!panel)return;
@@ -580,6 +697,16 @@ a=t.closest('[data-stedman-save]');if(a){saveStedmanPricing();return}
 a=t.closest('[data-stedman-reload]');if(a){stedmanPriceModels=null;changedStedmanPrices.clear();renderStedmanPricing();return}
 a=t.closest('[data-admin-reload-usage]');if(a){loadAdminUsage();return}a=t.closest('[data-variant-csv-export]');if(a){download('vinil-variant-prices.csv',buildVariantCSV(db.products),'text/csv;charset=utf-8');return}a=t.closest('[data-variant-csv-import]');if(a){$('#variantCSVFile').click();return}a=t.closest('[data-variant-csv-apply]');if(a){await applyVariantCSV();return}a=t.closest('[data-admin-save-variants]');if(a){saveVariantPrices();return}a=t.closest('[data-admin-save]');if(a){saveAdmin();return}a=t.closest('[data-admin-export]');if(a){exportCSV();return}a=t.closest('[data-admin-import]');if(a){$('#csvImportFile').click();return}a=t.closest('[data-upload]');if(a){uploadImage();return}a=t.closest('[data-admin-logout]');if(a){if(useServer)await request('/api/admin/logout',{method:'POST',body:'{}'}).catch(()=>{});state.isAdmin=false;state.csrf='';go('home');toast('Изход');return}});
 document.addEventListener('input',e=>{let t=e.target;
+if(t.id==='v5-admin-search'){
+ const query=t.value.trim().toLocaleLowerCase('bg-BG');
+ document.querySelectorAll('#adminPane tbody tr').forEach(row=>{row.hidden=!row.textContent.toLocaleLowerCase('bg-BG').includes(query)});
+ return
+}
+if(t.id==='v5-service-filter'){
+ const query=t.value.trim().toLocaleLowerCase('bg-BG');
+ document.querySelectorAll('.v5-service-row').forEach(row=>{row.hidden=!row.dataset.v5ServiceSearch.includes(query)});
+ return
+}
 if(t.id==='stedman-model-filter'){const q=t.value.trim().toLocaleLowerCase('bg-BG');document.querySelectorAll('[data-stedman-label]').forEach(el=>el.hidden=!el.dataset.stedmanLabel.includes(q));return}
 if(t.matches('[data-stedman-edit]')){
  const m=(stedmanPriceModels||[]).find(x=>x.id===t.dataset.stedmanId);
