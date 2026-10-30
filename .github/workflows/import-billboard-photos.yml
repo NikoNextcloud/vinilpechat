@@ -39,7 +39,7 @@ jobs:
           if not j['git']: del j['git']
           p.write_text(json.dumps(j,ensure_ascii=False,indent=2)+'\n','utf8')
           report=json.loads(pathlib.Path('docs/billboard-photo-import.json').read_text('utf8'))
-          assert report['downloaded']>=5 and report['total']==38
+          assert report['downloaded']>=5 and report['total']==39
           PY
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git config user.name 'github-actions[bot]'
