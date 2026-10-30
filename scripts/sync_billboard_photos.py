@@ -130,8 +130,20 @@ def main():
   links=[];print('Homepage unavailable:',str(e)[:150],flush=True)
  folder=ROOT/'public/pechatni-produkti/photos';folder.mkdir(parents=True,exist_ok=True)
  results=[]
+ history_path=ROOT/'docs/billboard-photo-import.json'
+ previous={}
+ if history_path.exists():
+  history=json.loads(history_path.read_text('utf8'))
+  previous={entry['id']:entry for entry in history.get('products',[])}
  for item in catalog['items']:
-  ident=item['id'];url,direct=source_page(item,links)
+  ident=item['id']
+  if item['image'].endswith('.webp') and (ROOT/'public'/item['image'].lstrip('/')).exists():
+   old=previous.get(ident)
+   if not old:raise ValueError('Missing provenance for previously imported image '+ident)
+   results.append(old)
+   print(ident,'already imported',flush=True)
+   continue
+  url,direct=source_page(item,links)
   entry={'id':ident,'name':item['name'],'page':url,'status':'fallback','original_image':None,'saved_image':item['image']}
   if not url:
    entry['reason']='No exact source product URL'
