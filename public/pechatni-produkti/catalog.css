@@ -65,3 +65,13 @@
 @media(max-width:800px){.vp-nav{flex-wrap:wrap;padding:12px 0}.vp-nav-links{order:3;flex:1 0 100%;justify-content:center}.vp-layout{display:block}.vp-sidebar{position:static;margin-bottom:17px}.vp-groups{flex-direction:row;overflow:auto}.vp-group{white-space:nowrap;width:auto;flex:0 0 auto}.vp-side-help{display:none}.vp-main{padding-top:20px}.vp-intro{padding:24px}}
 @media(max-width:570px){.vp-grid{grid-template-columns:1fr}.vp-toolbar{flex-direction:column;align-items:stretch}.vp-intro h1{font-size:36px}.vp-brand strong{font-size:16px}.vp-quote-link{font-size:11px}.vp-art{height:200px}.vp-desc{min-height:0}}
 @media(prefers-reduced-motion:reduce){.vp-card{transition:none}}
+
+/* Actual local SVG images in the markup: crawlable, descriptive alt, efficient loading. */
+.vp-art-image{display:block;position:relative;line-height:0;overflow:hidden;background:#e9f4f8}
+.vp-art-image .vp-picture{display:block;width:100%;height:100%;object-fit:cover}
+.vp-art-image:hover .vp-picture{transform:scale(1.035)}
+.vp-picture{transition:transform .18s ease}
+.vp-title-link{text-decoration:none;color:inherit}
+.vp-title-link:hover,.vp-detail:hover{color:#008873}
+.vp-detail{font-size:11px;font-weight:850;color:#087963;display:inline-block;margin-top:4px}
+@media(prefers-reduced-motion:reduce){.vp-picture{transition:none}}

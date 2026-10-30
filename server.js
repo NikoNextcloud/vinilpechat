@@ -5,6 +5,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const crypto=require('node:crypto');
 const shirtPage=require('./lib/stedman-page.js');
+const printServices=require('./lib/print-service-pages.js');
 const {designQuote}=require('./lib/design-pricing.js');
 const ROOT=__dirname;
 const PUBLIC=path.join(ROOT,'public');
@@ -58,6 +59,13 @@ if(req.method==='POST'&&api==='/api/admin/upload'){
 }
 if(req.method==='POST'&&api==='/api/orders'){
  let d=await body(req,50000),kind=d.kind==='contact'?'contact':'order';let name=safeText(d.name,120),phone=safeText(d.phone,40),email=safeText(d.email,255),message=safeText(d.message,3000);if(name.length<2||phone.length<5)return reject(res,400,'Въведи име и телефон');if(email&&(!/^\S+@\S+\.\S+$/.test(email)))return reject(res,400,'Невалиден имейл');let items=[],total=0;if(kind==='order'){if(!Array.isArray(d.items)||d.items.length<1||d.items.length>100)return reject(res,400,'Заявката няма продукти');for(let x of d.items){let p=db.products.find(z=>z.id===Number(x.product_id)&&z.active);let n=Number(x.quantity);if(!p||!Number.isInteger(n)||n<1||n>100)return reject(res,400,'Невалиден продукт или количество');items.push({product_id:p.id,name:p.name,quantity:n,unit:p.unit,price:p.sale_price,variant:safeText(x.variant,500)});total+=n*(p.sale_price||0)}}let id='Z'+Date.now().toString(36).toUpperCase()+crypto.randomBytes(2).toString('hex').toUpperCase();db.orders.unshift({id,kind,status:'new',customer_name:name,phone,email,message,items,estimated_total:Math.round(total*100)/100,created_at:new Date().toISOString()});persist();return reply(res,201,{ok:true,order_id:id});
+}
+if(['GET','HEAD'].includes(req.method)&&/^\/pechatni-produkti\/vp4-[0-9]{3}-[a-z0-9-]+\/?$/.test(api)){
+ const result=printServices.detail(api.replace(/^\/pechatni-produkti\//,'').replace(/\/$/,''));
+ if(!result)return reject(res,404,'Изделието не е намерено');
+ if(result.redirect){res.writeHead(308,{Location:result.redirect});return res.end()}
+ headers(res,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache',...(!result.verified?{'X-Robots-Tag':'noindex, follow'}:{})});
+ res.writeHead(200);return req.method==='HEAD'?res.end():res.end(result.html);
 }
 if(req.method==='GET'&&/^\/teniski\/[^/]+-model-ST[0-9]{4}\/?$/.test(api)){
  const result=shirtPage.resolve(api.replace(/^\/teniski\//,'').replace(/\/$/,''));

@@ -5,19 +5,24 @@
  if(!grid||!window.VinilQuote)return;
  let all=[],categories=[],selected='all';
  const make=(tag,cls,content)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(content!==undefined)el.textContent=content;return el};
- function picture(visual){
-  const art=make('div','vp-art');art.dataset.visual=visual;
-  for(let i=0;i<3;i++)art.append(make('span','vp-shape vp-shape-'+i));
-  return art;
+ function picture(product,index){
+  const frame=make('a','vp-art vp-art-image');frame.href='/pechatni-produkti/'+product.slug;
+  frame.setAttribute('aria-label','Подробности за '+product.name);
+  const img=make('img','vp-picture');
+  img.src=product.image;img.alt=product.image_alt;img.width=960;img.height=640;
+  img.loading=index<3?'eager':'lazy';img.decoding='async';
+  frame.append(img);
+  return frame;
  }
- function card(p){
+ function card(p,index){
   const el=make('article','vp-card');el.dataset.service=p.id;
-  el.append(picture(p.visual));
+  el.append(picture(p,index));
   const body=make('div','vp-card-body');
   body.append(make('small','vp-cat',p.category));
-  body.append(make('h3','vp-title',p.name));
+  const h3=make('h3','vp-title');const title=make('a','vp-title-link',p.name);title.href='/pechatni-produkti/'+p.slug;h3.append(title);body.append(h3);
   body.append(make('p','vp-desc',p.description));
   body.append(make('div','vp-availability','По индивидуално запитване'));
+  const detail=make('a','vp-detail','Виж подробности и размери ↗');detail.href='/pechatni-produkti/'+p.slug;body.append(detail);
   const controls=make('div','vp-card-actions');
   const label=make('label','vp-qty-label','Брой');
   const input=make('input','vp-qty');input.type='number';input.min='1';input.max='1000';input.step='1';input.value='1';input.setAttribute('aria-label','Количество за '+p.name);label.append(input);controls.append(label);
@@ -45,7 +50,7 @@
   const shown=all.filter(x=>(selected==='all'||x.category===selected)&&(!q||(x.name+' '+x.description+' '+x.category).toLocaleLowerCase('bg-BG').includes(q)));
   if(sort.value==='name')shown.sort((a,b)=>a.name.localeCompare(b.name,'bg'));
   status.textContent='Показани '+shown.length+' от '+all.length+' изделия · за индивидуална оферта';
-  grid.replaceChildren(...shown.map(card));
+  grid.replaceChildren(...shown.map((p,i)=>card(p,i)));
   if(!shown.length)grid.append(make('p','vp-empty','Няма съвпадения. Опитай друга дума.'));
  }
  search.addEventListener('input',render);sort.addEventListener('change',render);

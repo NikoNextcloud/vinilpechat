@@ -1,0 +1,28 @@
+/* Product detail — responsive, image-first and accessible */
+.vp-service-main{width:min(1170px,calc(100% - 32px));margin:0 auto;padding:30px 0 70px}
+.vp-service-crumbs{font-size:11px;color:#728b99;margin:0 0 24px;line-height:1.6}
+.vp-service-crumbs a{color:#227d6d}
+.vp-service-layout{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(320px,.87fr);gap:29px;align-items:start}
+.vp-service-figure{margin:0;overflow:hidden;border-radius:25px;background:#eff8f9;box-shadow:0 15px 42px #1e516a1a}
+.vp-service-figure>img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+.vp-service-figure figcaption{padding:13px 20px;background:white;color:#778d9a;font-size:10px;text-align:center}
+.vp-service-info{border:1px solid #e2ebf0;background:white;border-radius:23px;padding:29px;box-shadow:0 12px 30px #1c486509}
+.vp-service-info h1{font-size:clamp(28px,3vw,43px);line-height:1.12;letter-spacing:-1.4px;margin:13px 0 16px;color:#18354b;overflow-wrap:anywhere}
+.vp-service-info h2{font-size:17px;color:#17374d;margin-top:23px}
+.vp-service-info>p{font-size:12px;line-height:1.8;color:#6e8795}
+.vp-service-info .vp-service-lead{font-size:14px;color:#4c6a78}
+.vp-service-info ul{padding-left:18px;color:#567381;font-size:12px;line-height:1.95}
+.vp-service-qty{font-size:12px;font-weight:900;color:#2e5662;display:flex;gap:18px;align-items:center;margin:24px 0 12px}
+.vp-service-qty input{width:86px;padding:11px;border:1px solid #cadce3;border-radius:10px}
+#vp-service-add{width:100%;padding:15px}
+#vp-service-status{color:#087560;min-height:1.4em}
+.vp-service-quote-link{font-weight:900;color:#007c67;display:inline-flex;font-size:12px;padding:10px 0}
+.vp-service-info>small{display:block;font-size:10px;color:#8095a3;margin-top:10px}
+.vp-service-related{margin:55px 0}.vp-service-related h2{font-size:23px;color:#19384e;margin-bottom:21px}
+.vp-service-related>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.vp-service-related-card{display:flex;flex-direction:column;border-radius:17px;overflow:hidden;background:white;border:1px solid #e3edf1;text-decoration:none;color:#234b5d;box-shadow:0 8px 25px #234b5d0a}
+.vp-service-related-card img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+.vp-service-related-card span{font-size:12px;font-weight:850;line-height:1.4;padding:14px}
+.vp-service-back a{color:#087b66;font-weight:850;font-size:12px}
+@media(max-width:850px){.vp-service-layout{grid-template-columns:1fr}.vp-service-related>div{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){.vp-service-main{padding-top:20px}.vp-service-info{padding:20px}.vp-service-related>div{gap:8px}.vp-service-related-card span{padding:10px;font-size:11px}}

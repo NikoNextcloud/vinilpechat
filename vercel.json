@@ -20,6 +20,10 @@
       "destination": "/api/index?route=seo/category&slug=:slug"
     },
     {
+      "source": "/pechatni-produkti/:slug(vp4-[0-9]{3}-[a-z0-9-]+)",
+      "destination": "/api/index?route=seo/print-service&slug=:slug"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/index?route=:path*"
     }
