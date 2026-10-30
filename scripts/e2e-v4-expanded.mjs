@@ -9,12 +9,25 @@ const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const base='http://127.0.0.1:3000',goto=p=>page.goto(base+p,{waitUntil:'domcontentloaded'});
 try{
  await goto('/pechatni-produkti/');
+ await goto('/pechatni-produkti/vp4-039-komateks');
+ await page.locator('#vp-product-config').waitFor();
+ assert.equal(await page.locator('input[name="vp-thickness"]').count(),3,'3/5/8 mm thickness options');
+ await page.locator('input[name="vp-thickness"][value="5"]').check();
+ await page.locator('input[name="vp-cut"][value="custom"]').check();
+ await page.locator('#vp-width').fill('100');
+ await page.locator('#vp-height').fill('150');
+ await page.locator('#vp-service-qty').fill('3');
+ await page.locator('#vp-config-share').click();
+ assert((await page.locator('#vp-share-url').inputValue()).includes('vp_thickness=5'),'Shareable option details');
+ await page.locator('#vp-service-add').click();
+ assert((await page.locator('#vp-service-status').innerText()).includes('Добавено'));
+ await page.screenshot({path:'test-output/v5-komateks-configurator.png',fullPage:false});
  await page.locator('.vp-card').first().waitFor();
- assert.equal(await page.locator('.vp-card').count(),38);
- assert.equal(await page.locator('.vp-group').count(),5);
+ assert.equal(await page.locator('.vp-card').count(),39);
+ assert.equal(await page.locator('.vp-group').count(),6);
  await page.screenshot({path:'test-output/v4-extended-catalog-desktop.png',fullPage:false});
  await page.locator('.vp-picture').first().waitFor({state:'visible'});
- assert.equal(await page.locator('.vp-picture').count(),38,'38 real image elements, not CSS backgrounds');
+ assert.equal(await page.locator('.vp-picture').count(),39,'39 real image elements, not CSS backgrounds');
  assert(await page.locator('.vp-picture').first().evaluate(img=>img.complete&&img.naturalWidth>0),'SVG product images must load');
  await goto('/pechatni-produkti/vp4-013-rol-baner');
  await page.locator('.vp-service-info h1').waitFor({state:'visible'});
@@ -57,7 +70,7 @@ try{
  await page.locator('[data-v4-add-material]').first().click();
  await goto('/zapitvane/');
  await page.locator('.vp-item').first().waitFor();
- assert.equal(await page.locator('.vp-item').count(),4);
+ assert.equal(await page.locator('.vp-item').count(),5);
  assert(await page.locator('#vp-submit').isDisabled(),'Unconfigured checkout must not submit');
  await page.screenshot({path:'test-output/v4-combined-inquiry.png',fullPage:false});
  // Mock payment-free submission; no real order or customer data is ever sent.
@@ -77,8 +90,11 @@ try{
  assert(posted.message.includes('Рол банер'));
  assert(posted.message.includes('Тениска ST2300'));
  assert(posted.message.includes('Печат на винил по размер'));
+ assert(posted.message.includes('Коматекс'));
+ assert(posted.message.includes('Дебелина на Коматекс: 5 мм'));
+ assert(posted.message.includes('Начин на рязане: Персонализирана форма'));
  assert(posted.message.includes('Материал'));
  assert.equal(await page.locator('.vp-item').count(),0);
  assert.deepEqual(errors,[]);
- console.log('VINILPECHAT_V4_EXTENDED_QUOTE_PASS',JSON.stringify({services:38,groups:4,mixedQuote:true,apiMocked:true,mobile:true,errors:0}));
+ console.log('VINILPECHAT_V4_EXTENDED_QUOTE_PASS',JSON.stringify({services:39,groups:5,mixedQuote:true,apiMocked:true,mobile:true,errors:0}));
 }finally{await browser.close();}

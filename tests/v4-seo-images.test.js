@@ -32,7 +32,7 @@ test('Every product image is a local WebP photo or SVG fallback with descriptive
   }
   assert(p.image_alt.includes(p.name));
  }
- assert.equal(paths.size,38);
+ assert.equal(paths.size,39);
 });
 
 test('Static overview uses discoverable image file references and accessible links',()=>{
@@ -47,7 +47,7 @@ test('Static overview uses discoverable image file references and accessible lin
  assert(html.includes('noindex,follow'));
 });
 
-test('All 38 independent HTML service pages have self canonical, OG image and breadcrumbs',()=>{
+test('All 39 independent HTML service pages have self canonical, OG image and breadcrumbs',()=>{
  for(const p of catalog.items){
   const page=service.detail(p.slug);
   assert(page&&page.html);

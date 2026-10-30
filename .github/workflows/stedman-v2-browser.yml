@@ -19,6 +19,10 @@ on:
       - 'scripts/e2e-v3-design.mjs'
       - 'public/v3.css'
       - 'public/v4.css'
+      - 'public/v5-admin.css'
+      - 'public/pechatni-produkti/variation-config.json'
+      - 'tests/v5-variants-admin.test.js'
+      - 'scripts/e2e-v5-admin.mjs'
       - 'public/v4.js'
       - 'public/v4/**'
       - 'tests/v4-design.test.js'
@@ -71,6 +75,7 @@ jobs:
           node scripts/e2e-v3-design.mjs
           node scripts/e2e-v4-design.mjs
           node scripts/e2e-v4-expanded.mjs
+          node scripts/e2e-v5-admin.mjs
 
       - name: Store visual regression screenshots
         if: always()

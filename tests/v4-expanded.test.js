@@ -3,9 +3,9 @@ const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const read=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8');
 const data=JSON.parse(read('public/pechatni-produkti/catalog.json'));
-test('38 original print-service entries in four quote-only groups',()=>{
- assert.equal(data.items.length,38);assert.equal(data.categories.length,4);
- assert.equal(new Set(data.items.map(p=>p.id)).size,38);
+test('39 original print-service entries in five quote-only groups',()=>{
+ assert.equal(data.items.length,39);assert.equal(data.categories.length,5);
+ assert.equal(new Set(data.items.map(p=>p.id)).size,39);
  for(const p of data.items){assert(data.categories.includes(p.category));assert(p.name&&p.description&&p.visual);assert.equal(p.price,null);assert.equal(p.quote_only,true)}
 });
 test('No copied external descriptions, images or prices; unconfirmed services are noindex',()=>{
