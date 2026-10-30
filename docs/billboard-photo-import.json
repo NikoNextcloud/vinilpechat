@@ -1,0 +1,521 @@
+{
+  "imported_at": "2026-10-30T11:02:50.922808+00:00",
+  "rights_basis": "User confirmed Billboard permission on 2026-10-30",
+  "total": 38,
+  "downloaded": 34,
+  "fallback": 4,
+  "products": [
+    {
+      "id": "VP4-001",
+      "name": "Винил банери",
+      "page": "https://shop.billboard.bg/vanshna-reklama/baneri/vinil-baneri/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/__________-____________.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-001.webp",
+      "bytes": 41192,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "986f7efef54fc607050bdcf630cb0877685842ea7fe5356e2c72a0bb740f26bc"
+    },
+    {
+      "id": "VP4-002",
+      "name": "EKO винил",
+      "page": "https://shop.billboard.bg/vanshna-reklama/baneri/pvc-eko-vinil/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/______-__________-____________.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-002.webp",
+      "bytes": 73970,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "d6f4ae4d4bd42d83ab8c7c2a00f1ba5b57cebc3f7843ca622b18d8965ac108da"
+    },
+    {
+      "id": "VP4-003",
+      "name": "Меш банери",
+      "page": "https://shop.billboard.bg/profesionalno-printirane-/vinili/pvc-free-mesh-banner-282/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/______-______-_____________11140620202508.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-003.webp",
+      "bytes": 101500,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "7049128f55538e8b8df81c1418e525c455f98caed117c6284d5027fe2a1a4d34"
+    },
+    {
+      "id": "VP4-004",
+      "name": "Двустранни банери",
+      "page": "https://shop.billboard.bg/vanshna-reklama/baneri/vinil-banners-doublesided/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/Blockout_1_.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-004.webp",
+      "bytes": 211952,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "c055ceb329ddf7566bd2c37d096828a2aefbde9dc62defe07e88a0bbdfbe2325"
+    },
+    {
+      "id": "VP4-005",
+      "name": "Билборд 4 × 3 м",
+      "page": "https://shop.billboard.bg/vanshna-reklama/billboards/billboard-4x3-vinil/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/PSD_Billboard_in_road_Mockup_01002622202505.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-005.webp",
+      "bytes": 166818,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "da9f5f215cc5d095c8b78a1e26762964172a766563e69aba37cad37e196aefe2"
+    },
+    {
+      "id": "VP4-006",
+      "name": "Мегаборд винил",
+      "page": "https://shop.billboard.bg/vanshna-reklama/billboards/megabord-12x5-vinil/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_enhance_93478_02240609202505.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-006.webp",
+      "bytes": 159792,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "66a2fff86008df6f2fe76e10c0f7d50477d31cad975563eb1ce5086f2558fbcf"
+    },
+    {
+      "id": "VP4-007",
+      "name": "Плажен флаг",
+      "page": "https://shop.billboard.bg/vanshna-reklama/flagove/plazhen-flag/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/beach_flag_drop_1_12243704202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-007.webp",
+      "bytes": 12118,
+      "dimensions": [
+        600,
+        600
+      ],
+      "sha256": "e9c80eb17c589371b5140f300b3790e63bf6ced7048e1c89206b7e7caf5d895c"
+    },
+    {
+      "id": "VP4-008",
+      "name": "Ветроустойчив флаг",
+      "page": "https://shop.billboard.bg/vanshna-reklama/flagove/vetroustoychiv-flag/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/banderole_flag_3_05565001202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-008.webp",
+      "bytes": 14660,
+      "dimensions": [
+        600,
+        600
+      ],
+      "sha256": "001a0122e711010dd30ff9647979a561b1492b81350bc51939f336559df66b88"
+    },
+    {
+      "id": "VP4-009",
+      "name": "Фирмени знамена",
+      "page": "https://shop.billboard.bg/vanshna-reklama/znamena/firmeni-flag-271/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_expand_73015.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-009.webp",
+      "bytes": 52730,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "b267943b3858b43468b8fefce36466531f41ece63f296f564fa403a4ed86acc1"
+    },
+    {
+      "id": "VP4-010",
+      "name": "Рекламна арка",
+      "page": "https://shop.billboard.bg/vanshna-reklama/flagove/arka/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/zoom_arch_3_05325915202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-010.webp",
+      "bytes": 11190,
+      "dimensions": [
+        600,
+        600
+      ],
+      "sha256": "61ed0967f1d0bfcfbb2c0c63db279fc8cd822fe7086262fb26f354bc812cea6a"
+    },
+    {
+      "id": "VP4-011",
+      "name": "А-табела",
+      "page": "https://shop.billboard.bg/vanshna-reklama/tabeli/a-tabela/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_enhance_69188_04033403202501.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-011.webp",
+      "bytes": 42804,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "1794ee0de61b82d1e18e2836ae1a79e5f9317c7213deceb08e03f98029987948"
+    },
+    {
+      "id": "VP4-012",
+      "name": "Указателни табели",
+      "page": "https://shop.billboard.bg/vanshna-reklama/tabeli/ukazatelni-tabeli-za-stulb-i-fasada/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/Untitled-1_12480222202505.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-012.webp",
+      "bytes": 146796,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "f6e173c29cad1b3b87e61685015163820c99e6e167653c44d63cc97b667fa2be"
+    },
+    {
+      "id": "VP4-013",
+      "name": "Рол банер",
+      "page": "https://shop.billboard.bg/izlozhenia/rol-baneri/rol-baner/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/roll_banner_2_01572612202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-013.webp",
+      "bytes": 18448,
+      "dimensions": [
+        600,
+        600
+      ],
+      "sha256": "87085f4cd9feacff2b86dd0b36184dd7e93d0ae1b8adab8a575ae7ff52922e40"
+    },
+    {
+      "id": "VP4-014",
+      "name": "Двоен рол банер",
+      "page": "https://shop.billboard.bg/izlozhenia/rol-baneri/dvoen-rol-baner/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/dragonfly-2-2-main-80045_12181424202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-014.webp",
+      "bytes": 14636,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "fcd3a7ded213de0aaaed1e4f73631e38046faf4876311609e0016dae4f066963"
+    },
+    {
+      "id": "VP4-015",
+      "name": "Мини рол банер",
+      "page": "https://shop.billboard.bg/izlozhenia/rol-baneri/malak-rol-baner/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/Mini_Banner_Stand_E05A6S-2_11065715202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-015.webp",
+      "bytes": 16742,
+      "dimensions": [
+        736,
+        736
+      ],
+      "sha256": "73695d7da73684117ce07fcc91e011719b5a62b87aed9fa23ad9771d81ec75ae"
+    },
+    {
+      "id": "VP4-016",
+      "name": "Рекламна стена 2 × 2 м",
+      "page": "https://shop.billboard.bg/izlozhenia/tekstilni-steni/frontlight-wall-276/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_enhance_3479.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-016.webp",
+      "bytes": 21766,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "16f75ca8dd62dbe142a21ca28b34e73d0d1df5835e47b2c52f8b64656c6388cb"
+    },
+    {
+      "id": "VP4-017",
+      "name": "Текстилна рекламна стена",
+      "page": "https://shop.billboard.bg/izlozhenia/tekstilni-steni/double-sided-wall/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/________________________________________________.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-017.webp",
+      "bytes": 42884,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "a99564325050f2700383b142e5261bf7ef59fe8f5b0b4507f2eeeb44197ccd5f"
+    },
+    {
+      "id": "VP4-018",
+      "name": "Светеща рекламна стена",
+      "page": "https://shop.billboard.bg/izlozhenia/sveteshti-steni/backlit-wall-273/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/illumigo-2x2-85090.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-018.webp",
+      "bytes": 51650,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "3aef5132dcf4f9bb98b28f36b0892a46ccf09a6b5f9136bd9ce0d797c995ff35"
+    },
+    {
+      "id": "VP4-019",
+      "name": "Висящ постер",
+      "page": "https://shop.billboard.bg/interior-i-dekoracii/poseteri/visyasht-poster-166/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/twista_1_05233615202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-019.webp",
+      "bytes": 7544,
+      "dimensions": [
+        600,
+        600
+      ],
+      "sha256": "1265efa7854645c4c8b4b2b1f5c4eabd882628faea730e1377dc7aa712bff478"
+    },
+    {
+      "id": "VP4-020",
+      "name": "Снап рамка с постер",
+      "page": "https://shop.billboard.bg/interior-i-dekoracii/poseteri/poster-s-ramka/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/trappa-frame-81492_02161928202411.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-020.webp",
+      "bytes": 78446,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "df3f9ad2999069817310074e2b4956ada6a7168f44b9f04cc084939c3c9a2460"
+    },
+    {
+      "id": "VP4-021",
+      "name": "Промоционална маса",
+      "page": "https://shop.billboard.bg/izlozhenia/katedri-26/masa-za-izlozheia/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/pop-up-counta-85327.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-021.webp",
+      "bytes": 36400,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "1c0f9b58abe0d3d8136166118e8149c08a6fdbcf16d3cff8329c261b97cab0fc"
+    },
+    {
+      "id": "VP4-022",
+      "name": "Рекламна бариера",
+      "page": "https://shop.billboard.bg/vanshna-reklama/tabeli/barieri/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/economy-cafe-82524_1726046414806_04302003202501.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-022.webp",
+      "bytes": 46144,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "9710a086dde28516540b4b5efcae4d705b6815b2d7510e23802109c77e64c9b8"
+    },
+    {
+      "id": "VP4-023",
+      "name": "Визитни картички",
+      "page": "https://shop.billboard.bg/kantselarski-materiali/biznes-vizitki-/biznes-kartichki/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/pikaso_embed-14_1__02035826202502.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-023.webp",
+      "bytes": 12640,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "30e920622395bdfa05968620623fb6d57bd6906c0bbb7dd983ac72493f43b5b6"
+    },
+    {
+      "id": "VP4-024",
+      "name": "Флаери",
+      "page": "https://shop.billboard.bg/kantselarski-materiali/broshuri-flaeri/flaeri/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/flyer_3_03063903202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-024.webp",
+      "bytes": 24390,
+      "dimensions": [
+        600,
+        600
+      ],
+      "sha256": "d64ff96fa1ec952893181ca79b05f383f81d9a87c39058f3262fda3f94f7aee9"
+    },
+    {
+      "id": "VP4-025",
+      "name": "Брошури",
+      "page": "https://shop.billboard.bg/kantselarski-materiali/broshuri-flaeri/broshuri/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/brochure_600x600_1_03193003202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-025.webp",
+      "bytes": 9938,
+      "dimensions": [
+        600,
+        600
+      ],
+      "sha256": "8c9013fd5a21e1ff12b2181a194781cde020a8df2d9cd89711f11327e07b83bc"
+    },
+    {
+      "id": "VP4-026",
+      "name": "Каталози и книжки",
+      "page": null,
+      "status": "fallback",
+      "original_image": null,
+      "saved_image": "/pechatni-produkti/images/vp4-026.svg",
+      "reason": "No exact source product URL"
+    },
+    {
+      "id": "VP4-027",
+      "name": "Плакати и постери",
+      "page": "https://shop.billboard.bg/izlozhenia/posteri/poster/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_upload_4501_01301828202411.jpeg",
+      "saved_image": "/pechatni-produkti/photos/vp4-027.webp",
+      "bytes": 22688,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "dd75e6671ca84fa2022df183fdbdfccb8fd73c8d4c65f4f386b4dae50385abc1"
+    },
+    {
+      "id": "VP4-028",
+      "name": "Стенни календари",
+      "page": null,
+      "status": "fallback",
+      "original_image": null,
+      "saved_image": "/pechatni-produkti/images/vp4-028.svg",
+      "reason": "No exact source product URL"
+    },
+    {
+      "id": "VP4-029",
+      "name": "Бележници",
+      "page": "https://shop.billboard.bg/kantselarski-materiali/ofis-materiali-/biznes-tefteri/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/glued_notpad_05532631202410.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-029.webp",
+      "bytes": 36828,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "673eca17501b903b2fa196ac0b22a90b6a743ed642d49b7b2a5cabc7830aa804"
+    },
+    {
+      "id": "VP4-030",
+      "name": "Менюта",
+      "page": "https://shop.billboard.bg/kantselarski-materiali/menyu/menyu/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/pikaso_embed-6_05340909202410.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-030.webp",
+      "bytes": 51242,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "afeca47db8dfe423bbf972f3657f981f2ec555aa47b70fe486d91aefa2a9708b"
+    },
+    {
+      "id": "VP4-031",
+      "name": "Етикети за бутилки",
+      "page": "https://shop.billboard.bg/kantselarski-materiali/etiketi/etiket-za-butilki/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/bottle_tag_4_01495103202410.jpg",
+      "saved_image": "/pechatni-produkti/photos/vp4-031.webp",
+      "bytes": 7882,
+      "dimensions": [
+        600,
+        600
+      ],
+      "sha256": "b2e27fb4fdd1fca1df03a97320af763dbc499070ef999bc072ad53d52b403f3a"
+    },
+    {
+      "id": "VP4-032",
+      "name": "Перфофолио за стъкло",
+      "page": "https://shop.billboard.bg/profesionalno-printirane-/stikeri-za-staklo/perfofolio/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_enhance_7896_03532910202501.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-032.webp",
+      "bytes": 186242,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "e8e1a0658741d8b7a0da4966264ca7f6dda62f489c493e9be5c35d60264afb57"
+    },
+    {
+      "id": "VP4-033",
+      "name": "Пясъкоструйно фолио",
+      "page": "https://shop.billboard.bg/vanshna-reklama/vitrinna-reklama/pesakostroyno/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_expand_37796_03280510202501.jpeg",
+      "saved_image": "/pechatni-produkti/photos/vp4-033.webp",
+      "bytes": 57416,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "7a59bae8f2afe3a5e9d912a6f705e92feedab00c9ca3bf7cede3c14a2ccc0c00"
+    },
+    {
+      "id": "VP4-034",
+      "name": "PVC рекламни стикери",
+      "page": "https://shop.billboard.bg/profesionalno-printirane-/malki-stikeri/malki-stikeri-s-pvc-film-272/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/ChatGPT_Image_May_14_2025_06_55_55_PM.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-034.webp",
+      "bytes": 78820,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "b0b2217dbe57778c1017ddce822a79529e90dcfa526b1b49747cce57aa34321a"
+    },
+    {
+      "id": "VP4-035",
+      "name": "Подови стикери",
+      "page": null,
+      "status": "fallback",
+      "original_image": null,
+      "saved_image": "/pechatni-produkti/images/vp4-035.svg",
+      "reason": "No exact source product URL"
+    },
+    {
+      "id": "VP4-036",
+      "name": "Cling фолио",
+      "page": "https://shop.billboard.bg/profesionalno-printirane-/stikeri-za-staklo/klink/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_enhance_21682_02382714202501.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-036.webp",
+      "bytes": 63516,
+      "dimensions": [
+        964,
+        960
+      ],
+      "sha256": "3c54b65d20513f98ef03cf27e83f946290eb24183003db486e3c293fddac83fd"
+    },
+    {
+      "id": "VP4-037",
+      "name": "Автомобилно фолио",
+      "page": "https://shop.billboard.bg/profesionalno-printirane-/brandirane-na-prevozni-sredstva/avtomobilno-cast-film-3m/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_enhance_37838.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-037.webp",
+      "bytes": 38252,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "0c78c75d1685a86553c20169f1e031ea5e2df8c7305a7d96e78138680bc1d37c"
+    },
+    {
+      "id": "VP4-038",
+      "name": "Стикери за стени",
+      "page": null,
+      "status": "fallback",
+      "original_image": null,
+      "saved_image": "/pechatni-produkti/images/vp4-038.svg",
+      "reason": "No exact source product URL"
+    }
+  ]
+}
