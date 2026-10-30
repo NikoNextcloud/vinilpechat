@@ -33,6 +33,8 @@ try{
  await page.locator('#v4Share').click();
  const share=await page.locator('#v4ShareLink').inputValue();
  assert(share.includes('vp_width=300')&&share.includes('vp_finish=eyelets')&&share.includes('#design'));
+ // Wait for clipboard result before selecting artwork; the share result uses the same status area.
+ await page.waitForFunction(()=>/копиран|копирай/i.test(document.querySelector('#v4UploadStatus')?.textContent||''),null,{timeout:15000});
  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScL1UgAAAABJRU5ErkJggg==','base64');
  await page.locator('#v4File').setInputFiles({name:'vinyl-preview.png',mimeType:'image/png',buffer:png});
  assert((await page.locator('#v4UploadStatus').innerText()).includes('НЕ е изпратен'));
