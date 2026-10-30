@@ -183,3 +183,6 @@ CSV променя само `sale_price` и отбелязва `manual_sale_pric
 
 ## Vinilpechat 4.0 — preview за одобрение
 Виж [`docs/v4-preview.md`](docs/v4-preview.md). Преглед в отделен клон, без production или Supabase промени.
+
+## Постоянно SEO правило (Vinilpechat 4.2)
+При всяка бъдеща промяна спазвай [`docs/seo-standards.md`](docs/seo-standards.md) и [`AGENTS.md`](AGENTS.md). Новите 38 вида печатни изделия са с оригинални локални изображения и SEO HTML страници, но остават noindex до потвърждаване на реално предлагане. Съществуващите публични продукти получават image sitemap и индексирането им остава активно.
