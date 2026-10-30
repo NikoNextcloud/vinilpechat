@@ -1,8 +1,8 @@
 {
-  "imported_at": "2026-10-30T11:05:32.206881+00:00",
+  "imported_at": "2026-10-30T11:56:05.912248+00:00",
   "rights_basis": "User confirmed Billboard permission on 2026-10-30",
-  "total": 38,
-  "downloaded": 36,
+  "total": 39,
+  "downloaded": 37,
   "fallback": 2,
   "products": [
     {
@@ -526,6 +526,20 @@
         960
       ],
       "sha256": "024c15ae9d84495ae9e95ca4aa06c8bebf47cb8f418e0e0bc7d13498f09eddb0"
+    },
+    {
+      "id": "VP4-039",
+      "name": "Коматекс",
+      "page": "https://shop.billboard.bg/profesionalno-printirane-/ploskosti/komateks/",
+      "status": "downloaded",
+      "original_image": "https://djuqbvg97u5zb.cloudfront.net/billboard/images/product/freepik_expand_37471_03543113202412.png",
+      "saved_image": "/pechatni-produkti/photos/vp4-039.webp",
+      "bytes": 52832,
+      "dimensions": [
+        960,
+        960
+      ],
+      "sha256": "83ab4790c21f6555cd47970bfc550f7f8a2ac91f1fe42230487f86ac0f3be069"
     }
   ]
 }
