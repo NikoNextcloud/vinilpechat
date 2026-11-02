@@ -151,3 +151,12 @@ test('single-function Vercel SSR rewrites and transparent home fallback are wire
  assert.ok(js.includes('seoProductHref(p)'));
  assert.ok(js.includes('seoCategoryHref(c)'));
 });
+
+
+test('print product catalog hub remains indexable and included in sitemap', async()=>{
+ const html=fs.readFileSync(path.join(__dirname,'../public/pechatni-produkti/index.html'),'utf8');
+ assert.match(html,/<meta name="robots" content="index,follow/);
+ assert.match(html,/<link rel="canonical" href="https:\/\/vinilpechat\.vercel\.app\/pechatni-produkti\/">/);
+ const sitemap=await seo.sitemapXml(mockDatabase());
+ assert.match(sitemap,/<loc>https:\/\/vinilpechat\.vercel\.app\/pechatni-produkti\/<\/loc>/);
+});
