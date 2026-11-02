@@ -12,7 +12,7 @@ test('No copied external descriptions, images or prices; unconfirmed services ar
  for(const path of ['public/pechatni-produkti/catalog.json','public/pechatni-produkti/index.html','public/pechatni-produkti/catalog.js']){
   assert(!read(path).includes('billboard.bg'));assert(!read(path).includes('cloudfront.net'));
  }
- assert(read('public/pechatni-produkti/index.html').includes('noindex,follow'));
+ assert(read('public/pechatni-produkti/index.html').includes('index,follow,max-image-preview:large'));
 });
 test('Original homepage, four main services and social feeds remain',()=>{
  const js=read('public/site.js'),html=read('public/index.html');

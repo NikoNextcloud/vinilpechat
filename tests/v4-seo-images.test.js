@@ -44,7 +44,7 @@ test('Static overview uses discoverable image file references and accessible lin
  assert(html.includes('<noscript>'));
  for(const p of catalog.items)assert(html.includes('/pechatni-produkti/'+p.slug));
  assert(html.includes('"@type":"CollectionPage"'));
- assert(html.includes('noindex,follow'));
+ assert(html.includes('index,follow,max-image-preview:large'));
 });
 
 test('All 39 independent HTML service pages have self canonical, OG image and breadcrumbs',()=>{
