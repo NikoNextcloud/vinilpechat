@@ -70,7 +70,7 @@ try{
  await page.locator('#view-back').click().catch(()=>{});
  await goto('/nov-vinil/');
  assert(await page.locator('link[href="/seo-v3.css"]').count()===1,'vinyl SEO page new theme');
- assert(await page.locator('.seo-brand').isVisible());
+ assert(await page.locator('#vp-site-header a.brand').isVisible(),'shared header is visible on the SEO service page');
  await goto('/brezenti/');
  assert(await page.locator('link[href="/seo-v3.css"]').count()===1,'tarps SEO page new theme');
 
