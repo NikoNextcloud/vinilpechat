@@ -146,7 +146,8 @@ test('single-function Vercel SSR rewrites and transparent home fallback are wire
  assert.ok(api.includes("route==='seo/sitemap'"));
  const index=fs.readFileSync(path.join(root,'public/index.html'),'utf8');
  assert.ok(index.includes('<main id="main">'));
- assert.ok(index.includes('<h1 id="seo-home-title">Печат на винил'));
+ assert.match(index,/<h1 id="aero-title">[^<]+<br>[^<]+<\/h1>/);
+ for(const href of ['/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/'])assert(index.includes('href="'+href+'"'));
  const js=fs.readFileSync(path.join(root,'public/site.js'),'utf8');
  assert.ok(js.includes('seoProductHref(p)'));
  assert.ok(js.includes('seoCategoryHref(c)'));

@@ -14,15 +14,13 @@ const seo=read('lib/seo-pages.js');
 const skin=read('public/v4.css');
 const studio=read('public/v4.js');
 const design=shop.slice(shop.indexOf('function renderDesignPage(){'),shop.indexOf('function designDimensions(){'));
-test('Home highlights four services and social channels',()=>{
- assert.equal((shop.match(/class="v3-primary-card v3-primary-/g)||[]).length,4);
- assert.equal((shop.match(/class="v4-card-visual"/g)||[]).length,4);
- for(const name of ['art-print.svg','art-cover.svg','art-shirt.svg']){
-  assert(shop.includes(name));assert(fs.existsSync(path.join(root,'public/v4',name)));
+test('Home highlights four service sections and social channels',()=>{
+ assert.equal((home.match(/<section class="aero-panel /g)||[]).length,4);
+ for(const image of ['vp4-001.webp','vp4-003.webp','vp4-005.webp']){
+  assert(home.includes(image));assert(fs.existsSync(path.join(root,'public/pechatni-produkti/photos',image)));
  }
+ assert(home.includes('https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model.jpg'));
  assert.match(home,/id="instagram-posts"/);
- assert(shop.includes('/pechatni-produkti/photos/vp4-013.webp'));
- assert(fs.existsSync(path.join(root,'public/pechatni-produkti/photos/vp4-013.webp')));
  assert.match(home,/id="facebook-card-title"/);
  assert.match(home,/src="\/v4.js" defer/);
 });

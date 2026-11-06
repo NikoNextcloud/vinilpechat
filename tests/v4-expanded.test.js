@@ -16,7 +16,8 @@ test('No copied external descriptions, images or prices; unconfirmed services ar
 });
 test('Original homepage, four main services and social feeds remain',()=>{
  const js=read('public/site.js'),html=read('public/index.html');
- assert.equal((js.match(/class="v3-primary-card v3-primary-/g)||[]).length,4);
+ assert.equal((html.match(/<section class="aero-panel /g)||[]).length,4);
+ assert(js.includes('function renderChoiceLanding(){'));
  assert(html.includes('id="instagram-posts"')&&html.includes('id="facebook-card-title"'));
  assert(!js.includes('class="vp-grid"'));
 });

@@ -25,9 +25,9 @@ test('V3 homepage contains four services and social feeds without losing navigat
  const html=read('index.html');
  const css=read('v3.css');
  assert.match(js,/function renderChoiceLanding\(\)/);
- assert.equal((js.match(/v3-primary-card v3-primary-/g)||[]).length,4);
- for(const title of ['Печат на винил','Винили за покриване','Тениски за печат','Печатни продукти'])
-  assert(js.includes(title),'Missing main category '+title);
+ assert.equal((html.match(/<section class="aero-panel /g)||[]).length,4);
+ for(const href of ['/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/'])
+  assert(html.includes('href="'+href+'"'),'Missing main category '+href);
  for(const old of ['v3-hero','v3-hero-studio','v3-category-strip','v3-featured-grid','v3-service-grid','v3-trust-strip'])
   assert(!js.includes(old),'Removed homepage block unexpectedly present: '+old);
  assert.match(html,/id="instagram-posts"/);
