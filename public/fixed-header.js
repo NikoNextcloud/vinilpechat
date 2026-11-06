@@ -1,28 +1,74 @@
-(()=>{
- const links=[['Начало','/'],['Печат на винил','/nov-vinil/'],['Винили за покриване','/brezenti/'],['Тениски за печат','/teniski/'],['Печатни продукти','/pechatni-produkti/'],['Общо запитване','/zapitvane/'],['Контакти','/#contact']];
- const linkMarkup=(t,u)=>{const current=u==='/#contact'?location.pathname==='/'&&location.hash==='#contact':u==='/'?location.pathname==='/'&&!['#design','#catalog','#contact','#admin'].includes(location.hash):location.pathname===u||location.pathname.startsWith(u);return `<a href="${u}" class="${current?'is-active':''}"${current?' aria-current="page"':''}>${t}</a>`};
- const style=document.createElement('style');style.textContent=`.vp-fixed-header{position:sticky;top:0;z-index:50;background:#fffffffa;backdrop-filter:blur(14px);border-bottom:1px solid #e5eaf0;box-shadow:0 5px 20px #172c4210}.vp-fixed-inner{max-width:1440px;min-height:76px;margin:auto;padding:10px 24px;display:flex;align-items:center;gap:22px}.vp-fixed-brand{display:flex;align-items:center;gap:9px;flex:0 0 auto;color:#14263e;text-decoration:none;font-weight:900;font-size:20px;white-space:nowrap}.vp-fixed-brand img{width:44px;height:44px;object-fit:contain}.vp-fixed-inner nav{max-width:none;margin:0;padding:0}.vp-fixed-links{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));align-items:stretch;gap:6px;flex:1;min-width:0}.vp-fixed-links a,.vp-fixed-actions a{color:#29445c;text-decoration:none;font-size:14px;font-weight:850;white-space:nowrap}.vp-fixed-links a{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:100%;min-height:48px;padding:6px 5px;border-radius:12px;background:#f3f7fa;line-height:1.15;text-align:center;white-space:normal;transition:background .15s,color .15s}.vp-fixed-links a:hover,.vp-fixed-actions a:hover{color:#007b64}.vp-fixed-links a.is-active,.vp-fixed-mobile a.is-active{background:#087b64;color:#fff;box-shadow:0 3px 10px #087b6433}.vp-fixed-actions{display:flex;align-items:center;gap:14px;flex:0 0 auto}.vp-fixed-actions .vp-cart{border:1px solid #dce5ec;border-radius:12px;padding:10px 12px}.vp-fixed-toggle{display:none;border:1px solid #dce5ec;border-radius:10px;background:white;padding:9px 12px;font-size:19px;color:#14263e}.vp-fixed-mobile{display:none;max-width:1440px;margin:auto;padding:0 24px 16px;gap:7px;grid-template-columns:repeat(2,minmax(0,1fr))}.vp-fixed-mobile a{display:flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:46px;padding:8px 10px;color:#29445c;text-align:center;text-decoration:none;font-size:15px;font-weight:800;line-height:1.15;background:#f3f7fa;border-radius:11px}.vp-fixed-mobile.open{display:grid}@media(max-width:1350px){.vp-fixed-inner{min-height:68px;padding:8px 16px;gap:12px}.vp-fixed-links{display:none}.vp-fixed-actions{margin-left:auto}.vp-fixed-toggle{display:block}.vp-fixed-actions .vp-cart{padding:9px}.vp-fixed-mobile{padding:0 16px 12px}}@media(max-width:430px){.vp-fixed-brand{font-size:17px}.vp-fixed-brand img{width:38px;height:38px}.vp-fixed-actions{gap:8px}.vp-fixed-actions .vp-quote{font-size:11px}}`;
- document.head.append(style);
- const stableStyle=document.createElement('style');
- stableStyle.textContent=`#vp-fixed-header{display:block!important;position:sticky!important;top:0!important;z-index:50!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;box-sizing:border-box!important;align-items:initial!important;justify-content:initial!important;gap:0!important;background:#fffffffa!important;box-shadow:0 5px 20px #172c4210!important;border-bottom:1px solid #e5eaf0!important}#vp-fixed-header .vp-fixed-inner{display:flex!important;width:100%!important;max-width:1440px!important;height:76px!important;min-height:76px!important;box-sizing:border-box!important;margin:0 auto!important;padding:10px 24px!important;align-items:center!important;justify-content:initial!important;gap:18px!important}
- #vp-fixed-header .vp-fixed-links{display:grid!important;grid-template-columns:75px 125px 140px 123px 130px 130px 100px!important;align-items:stretch!important;gap:5px!important;flex:1 1 0!important;min-width:0!important}
- #vp-fixed-header .vp-fixed-links a{all:unset;position:relative;display:flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;width:100%!important;height:50px!important;min-height:50px!important;padding:0 4px!important;border:0!important;border-radius:11px!important;background:transparent!important;color:#29445c!important;font-family:inherit!important;font-size:14px!important;font-weight:800!important;line-height:1.15!important;text-align:center!important;white-space:nowrap!important;overflow-wrap:normal!important;font-family:Manrope,Arial,sans-serif!important;letter-spacing:0!important;cursor:pointer!important;transition:background-color .15s,color .15s!important}
- #vp-fixed-header .vp-fixed-links a:hover{background:#f0f6f8!important;color:#087b64!important}
- #vp-fixed-header .vp-fixed-links a.is-active{background:#eaf7f3!important;color:#087b64!important}
- #vp-fixed-header .vp-fixed-links a::after{content:"";position:absolute;left:22%;right:22%;bottom:3px;height:3px;border-radius:9px;background:transparent}
- #vp-fixed-header .vp-fixed-links a.is-active::after{background:#087b64}
- #vp-fixed-header .vp-fixed-mobile{display:none!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
- #vp-fixed-header .vp-fixed-mobile.open{display:grid!important}
- #vp-fixed-header .vp-fixed-mobile a{all:unset;position:relative;display:flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;width:100%!important;height:48px!important;min-height:48px!important;padding:0 8px!important;border-radius:11px!important;background:#f3f7fa!important;color:#29445c!important;font-family:inherit!important;font-size:15px!important;font-weight:800!important;line-height:1.15!important;text-align:center!important;cursor:pointer!important}
- #vp-fixed-header .vp-fixed-mobile a.is-active{background:#eaf7f3!important;color:#087b64!important;box-shadow:inset 0 0 0 1px #b5e2d4!important}
- #vp-fixed-header .vp-fixed-mobile a.is-active::after{content:"";position:absolute;left:25%;right:25%;bottom:3px;height:3px;border-radius:9px;background:#087b64}
- #vp-fixed-header .vp-fixed-actions .vp-quote{min-width:116px;text-align:center}
- #vp-fixed-header .vp-fixed-actions .vp-cart{min-width:92px;text-align:center}
- @media(max-width:1350px){#vp-fixed-header .vp-fixed-inner{height:68px!important;min-height:68px!important;padding:8px 16px!important}#vp-fixed-header .vp-fixed-links{display:none!important}#vp-fixed-header .vp-fixed-toggle{display:block!important}}
- @media(max-width:430px){#vp-fixed-header .vp-fixed-actions .vp-quote{min-width:88px;font-size:12px!important}#vp-fixed-header .vp-fixed-actions .vp-cart{min-width:78px}}`;
- document.head.append(stableStyle);
+(function headerBoot(){
+ 'use strict';
  const old=document.querySelector('header');if(!old)return;
- const header=document.createElement('header');header.className='vp-fixed-header';header.id='vp-fixed-header';header.innerHTML=`<div class="vp-fixed-inner"><a class="vp-fixed-brand" href="/" aria-label="Vinilpechat — начало"><img src="/assets/vinilpechat-spectrum-logo.svg" alt="" width="44" height="44"><span>Vinilpechat</span></a><nav class="vp-fixed-links" aria-label="Основна навигация">${links.map(([t,u])=>linkMarkup(t,u)).join('')}</nav><div class="vp-fixed-actions"><a class="vp-quote" href="/zapitvane/">Запитване <b data-v4-quote-count>0</b></a><a class="vp-cart" href="/?cart=open#catalog">Количка <b id="cart-count">0</b></a><button class="vp-fixed-toggle" type="button" aria-label="Отвори меню" aria-expanded="false">☰</button></div></div><nav class="vp-fixed-mobile" aria-label="Мобилна навигация">${links.map(([t,u])=>linkMarkup(t,u)).join('')}</nav>`;
- old.replaceWith(header);document.querySelectorAll('.mobile-nav').forEach(n=>n.remove());
- const toggle=header.querySelector('.vp-fixed-toggle'),mobile=header.querySelector('.vp-fixed-mobile');toggle.addEventListener('click',()=>{const open=mobile.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'×':'☰'});
+ const host=document.createElement('header');host.id='vp-site-header';
+ host.style.cssText='all:initial!important;display:block!important;position:sticky!important;top:0!important;z-index:100!important;width:100%!important;margin:0!important;padding:0!important;box-sizing:border-box!important;';
+ const shadow=host.attachShadow({mode:'open'});
+ const items=[['Начало','/'],['Печат на винил','/nov-vinil/'],['Винили за покриване','/brezenti/'],['Тениски за печат','/teniski/'],['Печатни продукти','/pechatni-produkti/'],['Общо запитване','/zapitvane/'],['Контакти','/#contact']];
+ shadow.innerHTML=`
+ <style>
+ :host{font-family:Arial,Helvetica,sans-serif;color:#17334b}
+ *,*::before,*::after{box-sizing:border-box}
+ .surface{background:#fff;border-bottom:1px solid #dce6ed;box-shadow:0 4px 18px #17334b08;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:600;line-height:1.25}
+ .bar{max-width:1440px;width:100%;height:70px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+ a{color:inherit;text-decoration:none}
+ .brand{display:flex;align-items:center;gap:12px;flex:none;white-space:nowrap}
+ .brand img{display:block;width:42px;height:42px}
+ .brand strong{display:block;font-size:22px;line-height:26px;font-weight:700;letter-spacing:0}
+ .brand small{display:block;font-size:10px;font-weight:400;letter-spacing:1.5px;color:#64798a;line-height:15px}
+ .actions{display:flex;align-items:center;gap:20px;white-space:nowrap}
+ .phone{font-size:14px;font-weight:600}
+ .cart{display:flex;align-items:center;gap:10px;height:40px;padding:0 16px;border:1px solid #dce6ed;border-radius:10px;background:#f8fafb;font-size:14px}
+ .count{display:inline-flex;min-width:20px;justify-content:center;font-variant-numeric:tabular-nums}
+ .nav-wrap{border-top:1px solid #edf2f5;background:#f8fafb}
+ nav{max-width:1440px;width:100%;height:56px;padding:6px 28px;margin:0 auto;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+ .nav-link{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:44px;padding:0 8px;border-radius:8px;white-space:nowrap;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:600;line-height:20px;letter-spacing:0;background:transparent}
+ .nav-link:hover{background:#eaf0f3}
+ .nav-link[aria-current="page"]{background:#e1f3ec;color:#08775e}
+ .nav-link[aria-current="page"]::after{content:"";position:absolute;bottom:3px;left:28%;right:28%;height:3px;border-radius:3px;background:#08775e}
+ a:focus-visible,button:focus-visible{outline:2px solid #08775e;outline-offset:2px}
+ .toggle{display:none;align-items:center;justify-content:center;width:42px;height:40px;border:1px solid #dce6ed;border-radius:10px;background:white;color:#17334b;font:600 20px Arial,Helvetica,sans-serif;cursor:pointer}
+ @media(max-width:1050px){
+ .bar{height:70px;padding:0 18px;gap:12px}.phone{display:none}.actions{gap:10px}.toggle{display:flex}
+ .nav-wrap{display:none}.nav-wrap.open{display:block}
+ nav{height:auto;padding:12px 18px;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .nav-link{font-size:14px;height:44px;background:#f0f5f7;padding:0 6px}
+ }
+ @media(max-width:430px){.bar{padding:0 12px}.brand{gap:8px}.brand img{width:34px;height:34px}.brand strong{font-size:18px}.brand small{font-size:8px;letter-spacing:.8px}.cart{padding:0 10px;gap:4px;font-size:12px}.actions{gap:7px}nav{padding:10px 12px;gap:6px}.nav-link{font-size:12px}}
+ </style>
+ <div class="surface">
+ <div class="bar">
+ <a class="brand" href="/" aria-label="Vinilpechat — начало"><img src="/assets/vinilpechat-spectrum-logo.svg" alt="" width="42" height="42"><span><strong>Vinilpechat</strong><small>ПЕЧАТ БЕЗ ГРАНИЦИ</small></span></a>
+ <div class="actions"><a class="phone" href="tel:+359879436006">0879 436 006</a><a class="cart" href="/?cart=open#catalog">Количка <span class="count" id="cart-value">0</span></a><button class="toggle" aria-label="Отвори меню" aria-expanded="false" aria-controls="main-navigation">☰</button></div>
+ </div>
+ <div class="nav-wrap"><nav id="main-navigation" aria-label="Основна навигация">${items.map(([title,href])=>`<a class="nav-link" href="${href}">${title}</a>`).join('')}</nav></div>
+ </div>`;
+ // Keep the existing home-page cart and hash router DOM hooks available.
+ const bridge=document.createElement('span');bridge.id='cart-count';bridge.hidden=true;host.append(bridge);
+ old.replaceWith(host);
+ let legacyMobile=document.getElementById('mobile-nav');
+ if(!legacyMobile){legacyMobile=document.createElement('div');legacyMobile.id='mobile-nav';host.append(legacyMobile)}
+ legacyMobile.hidden=true;legacyMobile.style.setProperty('display','none','important');
+ function markCurrent(){
+  const path=location.pathname,hash=location.hash;
+  shadow.querySelectorAll('.nav-link').forEach(a=>{
+   const u=a.getAttribute('href');
+   const active=u==='/#contact'?path==='/'&&hash==='#contact':
+    u==='/'?path==='/'&&(!hash||hash==='#home'):
+    u==='/nov-vinil/'?(path.startsWith(u)||(path==='/'&&hash==='#design')):
+    u==='/pechatni-produkti/'?(path.startsWith(u)||path.startsWith('/produkti/')):
+    path.startsWith(u);
+   if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+  });
+ }
+ function refreshCount(){try{const cart=JSON.parse(localStorage.getItem('vinyl-cart')||'[]');shadow.getElementById('cart-value').textContent=String(Array.isArray(cart)?cart.reduce((sum,item)=>sum+(Number(item.qty)||0),0):0)}catch{}}
+ const toggle=shadow.querySelector('.toggle'),panel=shadow.querySelector('.nav-wrap');
+ function close(){panel.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.textContent='☰'}
+ toggle.addEventListener('click',()=>{const open=panel.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'×':'☰'});
+ shadow.querySelectorAll('.nav-link').forEach(a=>a.addEventListener('click',close));
+ window.addEventListener('hashchange',()=>{markCurrent();close()});
+ window.addEventListener('storage',refreshCount);
+ new MutationObserver(refreshCount).observe(bridge,{childList:true,characterData:true,subtree:true});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+ markCurrent();refreshCount();
 })();
