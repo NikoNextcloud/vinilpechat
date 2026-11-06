@@ -46,8 +46,9 @@ test('V5 homepage contains four services and retains the full T-shirt catalog',(
  const js=fs.readFileSync(path.join(root,'public/site.js'),'utf8');
  const css=fs.readFileSync(path.join(root,'public/v3.css'),'utf8');
  const shirts=fs.readFileSync(path.join(root,'public/teniski/index.html'),'utf8');
- assert.match(js,/v3-primary-grid/);
- assert.equal((js.match(/v3-primary-card v3-primary-/g)||[]).length,4);
+ assert.match(js,/aero-home/);
+ const home=fs.readFileSync(path.join(root,'public/index.html'),'utf8');
+ assert.equal((home.match(/<section class="aero-panel /g)||[]).length,4);
  assert.doesNotMatch(js,/v3-category-strip|v3-service-grid|v3-hero/);
  assert.match(js,/function catalog\(\)/);
  assert.match(css,/\.v3-primary-grid/);
