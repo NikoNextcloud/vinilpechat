@@ -53,10 +53,11 @@ function jsonld(body){
  const products=catalog.products.filter(p=>p.active===true);
  const occupied=new Set(products.map(p=>p.category));
  const categories=catalog.categories.filter(c=>occupied.has(c.id));
- const expected=['/','/nov-vinil/','/brezenti/','/teniski/',...products.map(seo.productUrl),...categories.map(seo.categoryUrl),...models.map(modelPath)].map(x=>seo.ORIGIN+x);
+ const staticSeoPages=['/pechatni-produkti/'];
+ const expected=[...new Set(['/','/nov-vinil/','/brezenti/','/teniski/',...staticSeoPages,...products.map(seo.productUrl),...categories.map(seo.categoryUrl),...models.map(modelPath)])].map(x=>seo.ORIGIN+x);
  assert.deepEqual(new Set(urls),new Set(expected),'sitemap must exactly match active materials, occupied categories and published shirts');
  const byPath=new Map(products.map(p=>[seo.productUrl(p),p]));
- const sample=new Set(['/', '/nov-vinil/', '/brezenti/', '/teniski/',seo.productUrl(products.find(p=>p.id===13)||products[0]),seo.productUrl(products.at(-1)),seo.categoryUrl(categories[0]),modelPath(models[0]),modelPath(models.find(m=>m.id==='ST2300'))]);
+ const sample=new Set(['/', '/nov-vinil/', '/brezenti/', '/teniski/', ...staticSeoPages, seo.productUrl(products.find(p=>p.id===13)||products[0]),seo.productUrl(products.at(-1)),seo.categoryUrl(categories[0]),modelPath(models[0]),modelPath(models.find(m=>m.id==='ST2300'))]);
  const selected=full?urls:urls.filter(u=>sample.has(new URL(u).pathname));
  let checked=0,inquiryPages=0;
  await pool(selected,async url=>{
@@ -86,7 +87,7 @@ function jsonld(body){
     assert.ok(graph.some(x=>x['@type']==='BreadcrumbList'));
    }
   }
-  if(path.startsWith('/kategorii/'))assert.ok(graph.some(x=>x['@type']==='CollectionPage'));
+  if(path.startsWith('/kategorii/')||staticSeoPages.includes(path))assert.ok(graph.some(x=>x['@type']==='CollectionPage'));
   checked++;
   if(checked%25===0)console.log('Checked',checked,'/',selected.length,'pages');
  });
