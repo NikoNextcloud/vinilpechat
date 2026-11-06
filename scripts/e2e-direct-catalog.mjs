@@ -117,7 +117,7 @@ try{
  await page.locator('#detail-code').waitFor({state:'visible'});
  assert.equal(await page.locator('#detail-code').innerText(),'ST2300');
  assert.equal(new URL(page.url()).pathname,shirt);
- const mobileProduct=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
+ const mobileProduct=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth,overflow:[...document.querySelectorAll('body *')].map(el=>{const r=el.getBoundingClientRect();return {tag:el.tagName,id:el.id,className:typeof el.className==='string'?el.className:'',left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),scrollWidth:el.scrollWidth,clientWidth:el.clientWidth};}).filter(x=>x.right>innerWidth+2||x.scrollWidth>x.clientWidth+3).sort((a,b)=>b.right-a.right).slice(0,12)}));
  assert(mobileProduct.scroll<=mobileProduct.viewport+5,'Mobile product page must not overflow horizontally '+JSON.stringify(mobileProduct));
  await page.screenshot({path:'test-output/v3-shirt-product-mobile.png',fullPage:false});
  await page.locator('#back-to-models').click();
