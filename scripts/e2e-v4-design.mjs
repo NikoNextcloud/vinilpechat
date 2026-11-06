@@ -62,7 +62,7 @@ try{
  await page.screenshot({path:'test-output/v4-admin.png'});
  await page.setViewportSize({width:390,height:844});
  await goto('/');
- await page.locator('.v3-primary-card').first().waitFor({state:'visible'});
+ await page.locator('.aero-panel').first().waitFor({state:'visible'});
  const metrics=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:innerWidth}));
  assert(metrics.width<=metrics.viewport+5,'No mobile overflow: '+JSON.stringify(metrics));
  await page.screenshot({path:'test-output/v4-home-mobile.png',fullPage:true});
