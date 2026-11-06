@@ -3,7 +3,7 @@
  document.documentElement.style.setProperty('scrollbar-gutter','stable');
  document.documentElement.style.setProperty('overflow-y','scroll');
 
- const aeroStyle=document.createElement('link');aeroStyle.rel='stylesheet';aeroStyle.href='/aerospace.css';document.head.append(aeroStyle);
+ if(!document.querySelector('link[href="/aerospace.css"]')){const aeroStyle=document.createElement('link');aeroStyle.rel='stylesheet';aeroStyle.href='/aerospace.css';document.head.append(aeroStyle);}
  const syncAero=()=>document.body.classList.toggle('vp-aero',location.hash!=='#admin');syncAero();window.addEventListener('hashchange',syncAero);
  const old=document.querySelector('header');if(!old)return;
  const host=document.createElement('header');host.id='vp-site-header';
