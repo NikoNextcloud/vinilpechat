@@ -1,5 +1,7 @@
 (function headerBoot(){
  'use strict';
+ document.documentElement.style.setProperty('scrollbar-gutter','stable');
+ document.documentElement.style.setProperty('overflow-y','scroll');
  const old=document.querySelector('header');if(!old)return;
  const host=document.createElement('header');host.id='vp-site-header';
  host.style.cssText='all:initial!important;display:block!important;position:sticky!important;top:0!important;z-index:100!important;width:100%!important;margin:0!important;padding:0!important;box-sizing:border-box!important;';
