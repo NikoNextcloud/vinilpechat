@@ -84,3 +84,24 @@ body.vp-aero :is(footer,.footer,.v3-shirts-footer,.vp-check-footer) :is(h2,h3,h4
  body.vp-aero .v3-shirt-hero-art{min-height:300px}
 }
 @media(prefers-reduced-motion:reduce){body.vp-aero *{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Distinct cinematic section transitions — shared by static and JS-rendered home. */
+body.vp-aero .aero-home > .aero-panel + .aero-panel {
+  margin-top: clamp(18px, 2.1vw, 34px);
+  box-shadow: 0 -1px 0 rgba(255,255,255,.20), 0 -12px 28px rgba(0,0,0,.5);
+}
+body.vp-aero .aero-home > .aero-panel + .aero-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 9;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, #13d9ea 18%, #eb4fb8 50%, #f5d44a 82%, transparent 100%);
+  box-shadow: 0 2px 18px rgba(243,224,235,.32);
+}
+@media (max-width: 800px) {
+  body.vp-aero .aero-home > .aero-panel + .aero-panel { margin-top: 18px; }
+  body.vp-aero .aero-home > .aero-panel + .aero-panel::after { height: 2px; }
+}
