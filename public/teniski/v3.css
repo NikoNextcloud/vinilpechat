@@ -202,3 +202,10 @@ main{width:min(1330px,calc(100% - 44px));margin:auto}
 @media(prefers-reduced-motion:reduce){
  .card,.v3-shirt-start{transition:none}
 }
+
+/* Keep the editor grid and its panels within narrow phone viewports. */
+@media(max-width:760px){
+ #customizer.designer{grid-template-columns:minmax(0,1fr);min-width:0;width:100%}
+ #customizer .preview-pane,#customizer .controls{min-width:0;max-width:100%}
+ #customizer .controls>*{min-width:0;max-width:100%}
+}

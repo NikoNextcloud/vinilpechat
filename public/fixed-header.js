@@ -96,7 +96,7 @@
  toggle.addEventListener('click',()=>{const open=panel.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'×':'☰'});
  shadow.querySelectorAll('.nav-link').forEach(a=>a.addEventListener('click',close));
  window.addEventListener('hashchange',()=>{markCurrent();close()});
- window.addEventListener('storage',refreshCount);
+ window.addEventListener('storage',refreshCount);window.addEventListener('vinilpechat:cart-updated',refreshCount);
  new MutationObserver(refreshCount).observe(bridge,{childList:true,characterData:true,subtree:true});
  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
  markCurrent();refreshCount();
