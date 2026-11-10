@@ -36,7 +36,7 @@
 <script defer src="/_vercel/insights/script.js"></script>
 <script src="/fixed-header.js" defer></script><link rel="stylesheet" href="/aerospace.css"><style>
 /* Живо платно — self-contained landing hero */
-body.vp-aero .live-canvas{--lc-bg:#0a0a0a;position:relative;isolation:isolate;min-height:min(850px,calc(100svh - 126px));padding:clamp(72px,9vw,126px) clamp(20px,6vw,92px) 88px;background:var(--lc-bg);color:#fff;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial,Helvetica,sans-serif}
+body.vp-aero .live-canvas{--lc-bg:#0a0a0a;position:relative;isolation:isolate;height:auto;min-height:min(850px,calc(100svh - 126px));padding:clamp(72px,9vw,126px) clamp(20px,6vw,92px) 88px;background:var(--lc-bg);color:#fff;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial,Helvetica,sans-serif}
 body.vp-aero .live-canvas::before{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(#ffffff0d 1px,transparent 1px),linear-gradient(90deg,#ffffff0d 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,#0008,transparent 95%);pointer-events:none}
 body.vp-aero .live-canvas::after{content:"";position:absolute;inset:0;z-index:5;opacity:.13;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E")}
 body.vp-aero .live-canvas *{box-sizing:border-box}
@@ -111,16 +111,16 @@ body.vp-aero .lc-scroll::after{content:"";width:1px;height:22px;background:linea
  <a href="#admin" data-go="admin">Администрация</a>
 </div>
 <main id="main"><div class="aero-home">
-<section class="live-canvas" aria-labelledby="lc-title" id="live-canvas">
+<section class="aero-panel live-canvas" aria-labelledby="aero-title" id="live-canvas">
  <div class="lc-top"><p class="lc-kicker">VINILPECHAT / PRINT LAB</p><span class="lc-count"><span class="lc-dot" aria-hidden="true"></span>39 вида продукти</span></div>
- <div class="lc-heading"><h1 id="lc-title"><span class="lc-line" data-lc-letters>ПЕЧАТ БЕЗ</span><span class="lc-line" data-lc-letters>ГРАНИЦИ</span></h1></div>
+ <div class="lc-heading"><h1 id="aero-title"><span class="lc-line" data-lc-letters>ПЕЧАТ БЕЗ</span><span class="lc-line" data-lc-letters>ГРАНИЦИ</span></h1></div>
  <div class="lc-demo" role="img" aria-label="Анимирана демонстрация на разгъване на цветен печатен винил с металически отблясък и изрязан надпис">
   <div class="lc-vinyl"><span class="lc-cutout" aria-hidden="true">ТВОЯТА ИДЕЯ.</span></div>
   <span class="lc-demo-caption" aria-hidden="true">CMYK / ПРОЦЕС НА ПЕЧАТ</span><div class="lc-machine" aria-hidden="true"></div>
  </div>
  <p class="lc-subtitle">От първата идея до впечатляващия резултат. Печат на винил, тениски и рекламни изделия за твоя бизнес.</p>
  <nav class="lc-chips" aria-label="Избери категория"><a class="lc-chip" href="/nov-vinil/">ВИНИЛ</a><a class="lc-chip" href="/teniski/">ТЕНИСКИ</a><a class="lc-chip" href="/pechatni-produkti/">РЕКЛАМНИ ИЗДЕЛИЯ</a></nav>
- <a class="lc-cta" href="/nov-vinil/" aria-label="Изчисли цена за печат на винил">ИЗЧИСЛИ ЦЕНА <span aria-hidden="true">↗</span></a>
+ <a class="lc-cta" href="/#design" aria-label="Изчисли цена за печат на винил">ИЗЧИСЛИ ЦЕНА <span aria-hidden="true">↗</span></a>
  <a class="lc-scroll" href="#aero-shirts" aria-label="Продължи към следващата секция">РАЗГЛЕДАЙ</a>
 </section>
 <section class="aero-panel aero-apparel" id="aero-shirts" aria-labelledby="aero-shirts-title">
