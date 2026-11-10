@@ -16,7 +16,10 @@ const studio=read('public/v4.js');
 const design=shop.slice(shop.indexOf('function renderDesignPage(){'),shop.indexOf('function designDimensions(){'));
 test('Home highlights four service sections and social channels',()=>{
  assert.equal((home.match(/<section class="aero-panel /g)||[]).length,4);
- for(const image of ['vp4-001.webp','vp4-003.webp','vp4-005.webp']){
+ assert.match(home,/<section class="aero-panel live-canvas"[^>]*aria-labelledby="aero-title"/);
+ assert.match(home,/<h1 id="aero-title">/);
+ assert.match(home,/data-lc-letters/);
+ for(const image of ['vp4-003.webp','vp4-005.webp']){
   assert(home.includes(image));assert(fs.existsSync(path.join(root,'public/pechatni-produkti/photos',image)));
  }
  assert(home.includes('https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model.jpg'));
