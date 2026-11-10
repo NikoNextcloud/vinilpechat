@@ -34,7 +34,48 @@
 <script src="/v3.js" defer></script>
 <script src="/v4.js" defer></script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script src="/fixed-header.js" defer></script><link rel="stylesheet" href="/aerospace.css"></head>
+<script src="/fixed-header.js" defer></script><link rel="stylesheet" href="/aerospace.css"><style>
+/* Живо платно — self-contained landing hero */
+body.vp-aero .live-canvas{--lc-bg:#0a0a0a;position:relative;isolation:isolate;min-height:min(850px,calc(100svh - 126px));padding:clamp(72px,9vw,126px) clamp(20px,6vw,92px) 88px;background:var(--lc-bg);color:#fff;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial,Helvetica,sans-serif}
+body.vp-aero .live-canvas::before{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(#ffffff0d 1px,transparent 1px),linear-gradient(90deg,#ffffff0d 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,#0008,transparent 95%);pointer-events:none}
+body.vp-aero .live-canvas::after{content:"";position:absolute;inset:0;z-index:5;opacity:.13;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E")}
+body.vp-aero .live-canvas *{box-sizing:border-box}
+body.vp-aero .lc-top{position:absolute;top:28px;left:clamp(20px,6vw,92px);right:clamp(20px,6vw,92px);display:flex;align-items:center;justify-content:space-between;gap:15px;z-index:6}
+body.vp-aero .lc-kicker{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#aeb4c0;margin:0}
+body.vp-aero .lc-count{display:inline-flex;align-items:center;gap:9px;color:#dadde5;font-size:11px;font-weight:700;letter-spacing:.08em;white-space:nowrap}
+body.vp-aero .lc-dot{display:inline-block;width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#00e6ff;box-shadow:0 0 0 0 #00e6ff60;animation:lc-pulse 2.2s infinite}
+body.vp-aero .lc-heading{position:relative;z-index:4;text-align:center;width:100%;max-width:1080px;margin:0 auto -35px;pointer-events:none}
+body.vp-aero .live-canvas .lc-heading h1{font:900 clamp(44px,9.6vw,144px)/.87 Arial,Helvetica,sans-serif;letter-spacing:-.075em;margin:0;color:#fff;max-width:none;overflow:visible}
+body.vp-aero .lc-line{display:block;white-space:nowrap}
+body.vp-aero .lc-letter{display:inline-block;opacity:0;transform:translateY(.32em);animation:lc-letter-in .65s cubic-bezier(.22,1,.36,1) forwards;animation-delay:calc(var(--letter-index)*36ms + .2s)}
+body.vp-aero .lc-demo{position:relative;width:min(100%,1040px);height:clamp(220px,29vw,390px);border:1px solid #555a69;border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#202231,#101014 70%);box-shadow:0 40px 100px #000b,0 0 0 7px #ffffff08;isolation:isolate}
+body.vp-aero .lc-demo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 24px,#ffffff08 25px),repeating-linear-gradient(90deg,transparent 0 24px,#ffffff08 25px);opacity:.5}
+body.vp-aero .lc-vinyl{position:absolute;inset:13% 7%;border-radius:8px;overflow:hidden;background:linear-gradient(118deg,#00d8fa 0%,#32b5e8 25%,#c739aa 48%,#ee3799 64%,#fbd53e 86%,#ffed8f 100%);clip-path:inset(0 100% 0 0 round 8px);animation:lc-unroll 6.5s cubic-bezier(.55,0,.17,1) infinite;box-shadow:inset 0 0 30px #ffffff55}
+body.vp-aero .lc-vinyl::before{content:"";position:absolute;inset:-120% -45%;background:linear-gradient(105deg,transparent 35%,#fff0 42%,#ffffffbb 50%,#fff0 58%,transparent 65%);transform:translateX(-85%) rotate(-8deg);animation:lc-shine 6.5s ease-in-out infinite;mix-blend-mode:screen}
+body.vp-aero .lc-vinyl::after{content:"";position:absolute;top:0;bottom:0;right:0;width:20px;background:linear-gradient(90deg,#ffffff0d,#fff9,#25192d9a);box-shadow:-10px 0 22px #20102244}
+body.vp-aero .lc-cutout{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;mix-blend-mode:difference;font:900 clamp(26px,7.1vw,98px)/1 Arial,Helvetica,sans-serif;letter-spacing:-.065em;color:#fff;text-align:center;white-space:nowrap;user-select:none}
+body.vp-aero .lc-machine{position:absolute;left:0;right:0;bottom:0;height:16px;background:linear-gradient(#777b83,#15161a 35%,#41434a 50%,#101114);box-shadow:0 -3px 14px #0009;z-index:3}
+body.vp-aero .lc-machine::after{content:"";position:absolute;top:2px;left:0;width:30%;height:2px;background:#fff6;animation:lc-travel 6.5s linear infinite}
+body.vp-aero .lc-demo-caption{position:absolute;z-index:3;bottom:27px;left:21px;color:#e6e9ef;font:600 10px/1.4 Arial,sans-serif;letter-spacing:.15em;text-shadow:0 1px 8px #000}
+body.vp-aero .lc-subtitle{position:relative;z-index:4;text-align:center;max-width:610px;color:#b8beca;font-size:clamp(13px,1.5vw,16px);line-height:1.65;margin:32px 0 22px}
+body.vp-aero .lc-chips{position:relative;z-index:6;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px}
+body.vp-aero .lc-chip{--chip:#00e6ff;display:inline-flex;justify-content:center;align-items:center;min-height:44px;padding:0 20px;border:1px solid #686b75;border-radius:999px;background:#16161b;color:white;text-decoration:none;font-size:11px;font-weight:800;letter-spacing:.12em;transition:background .25s,box-shadow .25s,color .25s,border-color .25s,transform .25s}
+body.vp-aero .lc-chip:nth-child(2){--chip:#ff3db8}body.vp-aero .lc-chip:nth-child(3){--chip:#ffe14a}
+body.vp-aero .lc-chip:hover,body.vp-aero .lc-chip:focus-visible{background:var(--chip);color:#08090a;border-color:var(--chip);box-shadow:0 0 28px color-mix(in srgb,var(--chip),transparent 55%);transform:translateY(-3px)}
+body.vp-aero .lc-cta{position:relative;z-index:6;display:inline-flex;align-items:center;justify-content:space-between;gap:46px;min-width:260px;min-height:56px;margin-top:28px;padding:0 22px;border-radius:7px;border:1px solid #00ddfb;background:linear-gradient(100deg,#00ddfb,#e739b6,#ffe253) left / 0% 100% no-repeat;color:#fff;text-decoration:none;font-weight:800;font-size:12px;letter-spacing:.12em;box-shadow:inset 0 0 0 1px #00ddfb22,0 0 24px #00ddfb22;transition:background-size .35s,color .35s,box-shadow .35s}
+body.vp-aero .lc-cta:hover,body.vp-aero .lc-cta:focus-visible{background-size:100% 100%;color:#101014;box-shadow:0 0 35px #00ddfb77}
+body.vp-aero .lc-scroll{position:absolute;z-index:6;bottom:21px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;color:#9197a3;font-size:9px;letter-spacing:.16em;text-decoration:none}
+body.vp-aero .lc-scroll::after{content:"";width:1px;height:22px;background:linear-gradient(#00e6ff,transparent);animation:lc-scroll 1.8s ease-in-out infinite}
+@keyframes lc-letter-in{to{opacity:1;transform:translateY(0)}}
+@keyframes lc-pulse{50%{box-shadow:0 0 0 8px #00e6ff00}}
+@keyframes lc-unroll{0%,7%{clip-path:inset(0 100% 0 0 round 8px)}45%,85%{clip-path:inset(0 0 0 0 round 8px)}100%{clip-path:inset(0 100% 0 0 round 8px)}}
+@keyframes lc-shine{0%,32%{transform:translateX(-85%) rotate(-8deg)}70%,100%{transform:translateX(85%) rotate(-8deg)}}
+@keyframes lc-travel{0%{transform:translateX(-100%)}85%,100%{transform:translateX(340%)}}
+@keyframes lc-scroll{50%{transform:translateY(6px);opacity:.35}}
+@media(max-width:650px){body.vp-aero .live-canvas{min-height:690px;padding:95px 15px 90px}body.vp-aero .lc-top{top:21px;left:17px;right:17px}body.vp-aero .lc-kicker{font-size:8px;letter-spacing:.12em}body.vp-aero .lc-count{font-size:9px}body.vp-aero .live-canvas .lc-heading h1{font-size:clamp(39px,11vw,68px)}body.vp-aero .lc-heading{margin-bottom:-12px}body.vp-aero .lc-demo{height:255px;border-radius:10px}body.vp-aero .lc-vinyl{inset:18% 5%}body.vp-aero .lc-cutout{font-size:clamp(27px,8vw,55px)}body.vp-aero .lc-chips{gap:8px}body.vp-aero .lc-chip{padding:0 13px;font-size:9px;min-height:41px}body.vp-aero .lc-subtitle{margin:26px auto 17px;max-width:340px}body.vp-aero .lc-cta{margin-top:22px}}
+@media(prefers-reduced-motion:reduce){body.vp-aero .lc-letter{opacity:1;transform:none;animation:none}body.vp-aero .lc-vinyl{clip-path:none;animation:none}body.vp-aero .lc-vinyl::before,body.vp-aero .lc-machine::after,body.vp-aero .lc-dot,body.vp-aero .lc-scroll::after{animation:none}}
+</style>
+</head>
 <body class="vp-aero">
 <div class="topbar"><div class="container topbar-inner"><span>Творчески идеи · Индивидуален печат</span><span>Винил · Фолио · Облекло · Брезенти</span></div></div>
 <header class="header v3-header">
@@ -70,10 +111,17 @@
  <a href="#admin" data-go="admin">Администрация</a>
 </div>
 <main id="main"><div class="aero-home">
-<section class="aero-panel aero-masthead" aria-labelledby="aero-title">
- <img class="aero-photo" src="/pechatni-produkti/photos/vp4-001.webp" alt="Детайл на винилов материал с метална капса" width="960" height="960" fetchpriority="high" decoding="async">
- <div class="aero-shade"></div><div class="aero-content"><p class="aero-kicker">01 / ПЕЧАТ НА ВИНИЛ</p><h1 id="aero-title">ИДЕИ В<br>ГОЛЯМ ФОРМАТ.</h1><p class="aero-copy">Рекламен винил по твоя размер.<br>От готовия файл до индивидуалния дизайн.</p><div class="aero-actions"><a class="aero-button" href="/#design">ИЗЧИСЛИ ЦЕНА <span aria-hidden="true">↗</span></a><a class="aero-text-link" href="/nov-vinil/">РАЗГЛЕДАЙ УСЛУГАТА</a></div></div>
- <div class="aero-bottom"><span>VINILPECHAT / ПЕЧАТ БЕЗ ГРАНИЦИ</span><a href="#aero-shirts" data-aero-scroll="aero-shirts" aria-label="Към тениските">НАДОЛУ ↓</a></div>
+<section class="live-canvas" aria-labelledby="lc-title" id="live-canvas">
+ <div class="lc-top"><p class="lc-kicker">VINILPECHAT / PRINT LAB</p><span class="lc-count"><span class="lc-dot" aria-hidden="true"></span>39 вида продукти</span></div>
+ <div class="lc-heading"><h1 id="lc-title"><span class="lc-line" data-lc-letters>ПЕЧАТ БЕЗ</span><span class="lc-line" data-lc-letters>ГРАНИЦИ</span></h1></div>
+ <div class="lc-demo" role="img" aria-label="Анимирана демонстрация на разгъване на цветен печатен винил с металически отблясък и изрязан надпис">
+  <div class="lc-vinyl"><span class="lc-cutout" aria-hidden="true">ТВОЯТА ИДЕЯ.</span></div>
+  <span class="lc-demo-caption" aria-hidden="true">CMYK / ПРОЦЕС НА ПЕЧАТ</span><div class="lc-machine" aria-hidden="true"></div>
+ </div>
+ <p class="lc-subtitle">От първата идея до впечатляващия резултат. Печат на винил, тениски и рекламни изделия за твоя бизнес.</p>
+ <nav class="lc-chips" aria-label="Избери категория"><a class="lc-chip" href="/nov-vinil/">ВИНИЛ</a><a class="lc-chip" href="/teniski/">ТЕНИСКИ</a><a class="lc-chip" href="/pechatni-produkti/">РЕКЛАМНИ ИЗДЕЛИЯ</a></nav>
+ <a class="lc-cta" href="/nov-vinil/" aria-label="Изчисли цена за печат на винил">ИЗЧИСЛИ ЦЕНА <span aria-hidden="true">↗</span></a>
+ <a class="lc-scroll" href="#aero-shirts" aria-label="Продължи към следващата секция">РАЗГЛЕДАЙ</a>
 </section>
 <section class="aero-panel aero-apparel" id="aero-shirts" aria-labelledby="aero-shirts-title">
  <img class="aero-photo" src="https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model.jpg" alt="Модели с тениски Stedman" width="800" height="1000" loading="lazy">
@@ -127,4 +175,18 @@
 <div class="modal-wrap hidden" id="productDialog"><div class="modal" role="dialog" aria-modal="true" aria-label="Детайли за продукт"><button class="modal-close icon-btn" id="productClose">×</button><div id="productDetail"></div></div></div>
 <div class="toast hidden" id="toast"></div>
 <!-- Facebook feed library is loaded near the social section to improve initial loading speed. -->
+<script>
+/* Progressive enhancement: text stays readable without JavaScript. */
+document.addEventListener('DOMContentLoaded',function(){
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ document.querySelectorAll('#live-canvas [data-lc-letters]').forEach(function(line){
+  var label=line.textContent;line.setAttribute('aria-label',label);line.textContent='';
+  Array.from(label).forEach(function(letter,i){
+   var span=document.createElement('span');span.className='lc-letter';
+   span.style.setProperty('--letter-index',String(i));
+   span.textContent=letter===' '?'\u00a0':letter;span.setAttribute('aria-hidden','true');line.appendChild(span);
+  });
+ });
+});
+</script>
 </body></html>
