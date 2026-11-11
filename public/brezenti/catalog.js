@@ -27,11 +27,16 @@
  };
  let products=[],categories=[],chosen='all',toastTimer;
  const updateCartBadge=()=>{
-  const badge=el('cover-cart-badge');if(!badge)return;
+  // The fixed site header moves the visible cart badge into its shadow root.
+  // Keep its light-DOM bridge in sync so the observer refreshes the real badge.
+  const badge=el('cover-cart-badge'),bridge=el('cart-count');
+  let quantity=0;
   try{
    const arr=JSON.parse(localStorage.getItem('vinyl-cart')||'[]');
-   badge.textContent=String(Array.isArray(arr)?arr.reduce((sum,x)=>sum+(Number(x.qty)||0),0):0);
-  }catch{badge.textContent='0'}
+   quantity=Array.isArray(arr)?arr.reduce((sum,x)=>sum+(Number(x.qty)||0),0):0;
+  }catch{}
+  if(badge)badge.textContent=String(quantity);
+  if(bridge)bridge.textContent=String(quantity);
  };
  updateCartBadge();window.addEventListener('storage',updateCartBadge);
  const categoryName=id=>categories.find(c=>c.id===id)?.name||'Материали';
