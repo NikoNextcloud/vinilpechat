@@ -71,12 +71,12 @@ jobs:
           # Validate homepage and preserved design paths first; fail fast on stale selectors.
           node scripts/e2e-v3-design.mjs
           node scripts/e2e-v4-design.mjs
+          node scripts/e2e-v4-expanded.mjs
+          node scripts/e2e-v5-admin.mjs
           node scripts/e2e-direct-catalog.mjs
           node scripts/e2e-stedman-v2.mjs
           node scripts/e2e-stedman-v2-all.mjs
           node scripts/e2e-stedman-admin-pricing.mjs
-          node scripts/e2e-v4-expanded.mjs
-          node scripts/e2e-v5-admin.mjs
 
       - name: Store visual regression screenshots
         if: always()
