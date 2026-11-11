@@ -10,11 +10,12 @@ const base='http://127.0.0.1:3000';
 const goto=path=>page.goto(base+path,{waitUntil:'domcontentloaded'});
 try{
  await goto('/');
- await page.locator('.v3-primary-card').first().waitFor({state:'visible'});
- assert.equal(await page.locator('.v3-primary-card').count(),4);
- assert.equal(await page.locator('#main section').count(),1);
- assert.equal(await page.locator('.v4-card-visual img').count(),4);
- assert.equal(await page.locator('#instagram-posts .social-card').count(),2);
+ await page.locator('#aero-title').waitFor({state:'visible'});
+ assert.equal(await page.locator('#main .aero-panel').count(),4,'modern homepage contains four primary panels');
+ for(const href of ['/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/']){
+  assert((await page.locator('#main a[href="'+href+'"]').count())>0,'homepage category link '+href);
+ }
+ assert.equal(await page.locator('#instagram-posts .social-card').count(),2,'social cards retained');
  await page.screenshot({path:'test-output/v4-home-desktop.png',fullPage:true});
  await goto('/#design');
  await page.locator('#v4PreviewBanner').waitFor({state:'visible'});
@@ -62,7 +63,7 @@ try{
  await page.screenshot({path:'test-output/v4-admin.png'});
  await page.setViewportSize({width:390,height:844});
  await goto('/');
- await page.locator('.v3-primary-card').first().waitFor({state:'visible'});
+ await page.locator('#aero-title').waitFor({state:'visible'});
  const metrics=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:innerWidth}));
  assert(metrics.width<=metrics.viewport+5,'No mobile overflow: '+JSON.stringify(metrics));
  await page.screenshot({path:'test-output/v4-home-mobile.png',fullPage:true});

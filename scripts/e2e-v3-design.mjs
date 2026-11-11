@@ -11,26 +11,17 @@ const base='http://127.0.0.1:3000';
 const goto=async path=>{await page.goto(base+path,{waitUntil:'domcontentloaded'});};
 try{
  await goto('/');
- await page.locator('.v3-primary-card').first().waitFor();
- assert.equal(await page.locator('.v3-primary-card').count(),4,'homepage has exactly four main categories');
- assert.equal(await page.locator('#main section').count(),1,'homepage contains no other content sections');
- assert.equal(await page.locator('.v3-hero,.v3-category-block,.v3-featured,.v3-trust-strip,.v3-services').count(),0,'other homepage sections removed');
- assert.equal(await page.locator('.v3-primary-print strong').innerText(),'Печат на винил');
- assert.equal(await page.locator('.v3-primary-cover strong').innerText(),'Винили за покриване');
- assert.equal(await page.locator('.v3-primary-shirts strong').innerText(),'Тениски за печат');
- assert.equal(await page.locator('.v3-primary-products strong').innerText(),'Печатни продукти');
- assert.equal(await page.locator('.v3-primary-products').getAttribute('href'),'/pechatni-produkti/');
- assert(await page.locator('.v3-primary-products .v4-card-visual img').evaluate(img=>img.complete&&img.naturalWidth>0),'Fourth category photo loads');
- assert.equal(await page.locator('.v3-primary-print').getAttribute('href'),'#design');
- assert.equal(await page.locator('.v3-primary-cover').getAttribute('href'),'/brezenti/');
- assert.equal(await page.locator('.v3-primary-shirts').getAttribute('href'),'/teniski/');
- assert.equal(await page.locator('#instagram-posts .social-card').count(),2,'Instagram and Facebook cards remain');
- assert(await page.locator('#instagram-posts').isVisible(),'social media visible on homepage');
- assert.equal(await page.locator('#cartOpen').count(),1,'original cart available');
- assert.equal(await page.locator('#focusSearch').count(),1,'catalog search available');
- assert.equal(await page.locator('.brand-logo').getAttribute('src'),'/assets/vinilpechat-spectrum-logo.svg');
+ await page.locator('#aero-title').waitFor({state:'visible'});
+ assert.equal(await page.locator('#main .aero-panel').count(),4,'four current cinematic homepage product panels');
+ assert.equal(await page.locator('#aero-title').innerText(),'ПЕЧАТ БЕЗ\nГРАНИЦИ','current hero headline retained');
+ for(const href of ['/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/']){
+  assert((await page.locator('#main a[href="'+href+'"]').count())>0,'homepage category navigation: '+href);
+ }
+ assert.equal(await page.locator('#instagram-posts .social-card').count(),2,'Social cards remain');
+ assert(await page.locator('#instagram-posts').isVisible(),'social media still visible');
+ assert(await page.locator('#vp-site-header .cart').isVisible(),'current header cart visible');
  await page.screenshot({path:'test-output/v3-home-desktop.png',fullPage:true});
- await page.locator('.v3-primary-print').click();
+ await page.locator('.lc-cta').click();
  await page.locator('#designCalculator').waitFor({state:'visible'});
 
  await goto('/#catalog');
@@ -86,14 +77,13 @@ try{
 
  await page.setViewportSize({width:390,height:844});
  await goto('/');
- await page.locator('.v3-primary-card').first().waitFor();
- assert.equal(await page.locator('.v3-primary-card').count(),4,'mobile has exactly the four top-level categories');
- assert(await page.locator('#instagram-posts').isVisible(),'mobile social section visible');
+ await page.locator('#aero-title').waitFor({state:'visible'});
+ assert.equal(await page.locator('#main .aero-panel').count(),4,'mobile keeps four homepage panels');
  const dimensions=await page.evaluate(()=>({width:document.documentElement.scrollWidth,view:window.innerWidth}));
  assert(dimensions.width<=dimensions.view+5,'mobile home has no horizontal page overflow: '+JSON.stringify(dimensions));
  await page.screenshot({path:'test-output/v3-home-mobile.png',fullPage:true});
- await page.locator('#mobileMenu').click();
- assert(await page.locator('#mobile-nav').isVisible(),'mobile navigation opens');
+ await page.locator('#vp-site-header .toggle').click();
+ assert(await page.locator('#vp-site-header .nav-wrap.open').isVisible(),'modern mobile navigation opens');
  await goto('/#catalog');
  await productCards.first().waitFor({state:'visible'});
  await checkProductStatusLayout();
