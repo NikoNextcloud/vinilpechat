@@ -3,6 +3,7 @@
 const assert=require('node:assert/strict');
 const seo=require('../lib/seo-pages.js');
 const models=require('../data/stedman-catalog.json');
+const printServices=require('../lib/print-service-pages.js');
 const {modelPath}=require('../public/teniski/model-links.js');
 const base=(process.env.SEO_BASE_URL||seo.ORIGIN).replace(/\/$/,'');
 const expectedSha=process.env.SEO_EXPECTED_SHA;
@@ -53,7 +54,7 @@ function jsonld(body){
  const products=catalog.products.filter(p=>p.active===true);
  const occupied=new Set(products.map(p=>p.category));
  const categories=catalog.categories.filter(c=>occupied.has(c.id));
- const expected=['/','/nov-vinil/','/brezenti/','/teniski/',...products.map(seo.productUrl),...categories.map(seo.categoryUrl),...models.map(modelPath)].map(x=>seo.ORIGIN+x);
+ const expected=['/','/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/',...printServices.approved(),...products.map(seo.productUrl),...categories.map(seo.categoryUrl),...models.map(modelPath)].map(x=>seo.ORIGIN+x);
  assert.deepEqual(new Set(urls),new Set(expected),'sitemap must exactly match active materials, occupied categories and published shirts');
  const byPath=new Map(products.map(p=>[seo.productUrl(p),p]));
  const sample=new Set(['/', '/nov-vinil/', '/brezenti/', '/teniski/',seo.productUrl(products.find(p=>p.id===13)||products[0]),seo.productUrl(products.at(-1)),seo.categoryUrl(categories[0]),modelPath(models[0]),modelPath(models.find(m=>m.id==='ST2300'))]);

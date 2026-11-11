@@ -57,8 +57,11 @@ try{
  await simple.locator('button.cover-add').click();
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('vinyl-cart')||'[]'));
  assert(saved.some(x=>String(x.id)===String(cartId)),'Cart is shared with main shop');
- assert(Number(await page.locator('#cover-cart-badge').innerText())>=1,'Cover cart badge updates');
- await page.locator('.cover-cart-shortcut').click();
+ // The fixed header uses a shadow root; the legacy cart shortcut is replaced.
+ await page.locator('#vp-site-header .count').waitFor({state:'visible'});
+ await page.waitForFunction(()=>Number(document.querySelector('#vp-site-header')?.shadowRoot?.getElementById('cart-value')?.textContent)>=1);
+ assert(Number(await page.locator('#vp-site-header .count').innerText())>=1,'Fixed header cart badge updates');
+ await page.locator('#vp-site-header .cart').click();
  await page.locator('#cartDrawer').waitFor({state:'visible'});
  assert((await page.locator('#cartContents .cart-line').count())>=1,'Shared storefront cart opens');
  await page.screenshot({path:'test-output/v3-cover-shared-cart.png'});
