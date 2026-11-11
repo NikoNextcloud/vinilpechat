@@ -133,6 +133,52 @@ test('SSR resolver returns 404 for hidden products and 308 for outdated slugs',a
  assert.ok(ok.html.includes('<h1>'));
  assert.equal(await seo.resolveCategory(db,seo.categoryUrl(cats[2]).split('/').pop()),null);
 });
+
+test('SEO snippets and titles stay within useful lengths without losing unique product IDs',()=>{
+ const categorySamples=[
+  {id:'scorpio-greenhouse',name:'Найлон за оранжерии',description:'Фолиа и найлон за оранжерии'},
+  {id:'kristal',name:'Кристал винил',description:'Прозрачен PVC за ветроупорни завеси'},
+  {id:'mesh',name:'Перфовинил меш',description:'Перфорирани винилни мрежи'}
+ ];
+ for(const cat of categorySamples){
+  const html=seo.categoryPage(cat,[products[0]],[cat]).html;
+  const meta=html.match(/<meta name="description" content="([^"]+)"/)[1];
+  assert.ok(meta.length>=70&&meta.length<=160,cat.id+' meta length '+meta.length);
+  assert.ok(html.includes('<section class="section seo-buyer-guide">'),cat.id+' guide');
+ }
+ for(const name of [
+  'Кристал винил 1000 микрона – ветроупорна завеса по размер',
+  'Перфовинил меш – ролка 224 кв.м. (70 × 3,20 м)',
+  'Чисто ново бяло платно 10 × 3,20 м – остатък от печат'
+ ]){
+  const html=seo.productPage({...products[0],name,description:'Кратко описание'},cats[0]).html;
+  const title=html.match(/<title>([^<]+)<\/title>/)[1];
+  const meta=html.match(/<meta name="description" content="([^"]+)"/)[1];
+  assert.ok(title.length<=60,title+' ('+title.length+')');
+  assert.ok(meta.length>=70&&meta.length<=160,meta+' ('+meta.length+')');
+  assert.ok(html.includes('<h1>'+seo.escapeHtml(name)+'</h1>'),'H1 must keep full product name');
+ }
+});
+test('thin product guides are useful and limited to matching products',()=>{
+ for(const [id,name,key] of [
+  [10,'Перфовинил Mesh ролка 224 кв.м','Проверка на ролката'],
+  [11,'Перфовинил Mesh рязане по размер','Как да заявиш перфовинил'],
+  [23,'ТИР PVC брезент рязане по размер','Запитване за ТИР'],
+  [24,'ТИР PVC брезент 650 г/кв.м. цяла ролка','Как да планираш покупка']
+ ]){
+  const rendered=seo.productPage({...products[0],id,name},cats[0]).html;
+  assert.ok(rendered.includes(key),name+' guide missing');
+ }
+ const changed=seo.productPage({...products[0],id:10,name:'Неотносим материал'},cats[0]).html;
+ assert.ok(!changed.includes('Проверка на ролката'),'stale guide must not attach after product rename');
+});
+test('cover catalog offers server-rendered selection guidance to search and non-JS users',()=>{
+ const html=fs.readFileSync(path.join(__dirname,'../public/brezenti/index.html'),'utf8');
+ assert.match(html,/id="cover-guide-title"/);
+ assert.match(html,/href="\/kategorii\/mesh-perfovinil-mesh"/);
+ assert.match(html,/href="\/kategorii\/scorpio-greenhouse-naylon-za-oranzherii"/);
+});
+
 test('single-function Vercel SSR rewrites and transparent home fallback are wired',()=>{
  const root=path.join(__dirname,'..');
  const vercel=JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));
