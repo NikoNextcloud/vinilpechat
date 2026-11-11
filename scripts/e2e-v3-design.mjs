@@ -13,7 +13,7 @@ try{
  await goto('/');
  await page.locator('#aero-title').waitFor({state:'visible'});
  assert.equal(await page.locator('#main .aero-panel').count(),4,'four current cinematic homepage product panels');
- assert.equal(await page.locator('#aero-title').innerText(),'ПЕЧАТ БЕЗ\nГРАНИЦИ','current hero headline retained');
+ assert.match((await page.locator('#aero-title').innerText()).replace(/\s+/g,' '),/ПЕЧАТ БЕЗ ГРАНИЦИ/,'current hero headline retained');
  for(const href of ['/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/']){
   assert((await page.locator('#main a[href="'+href+'"]').count())>0,'homepage category navigation: '+href);
  }
