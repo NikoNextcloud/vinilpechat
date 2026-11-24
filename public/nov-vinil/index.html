@@ -5,13 +5,77 @@
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://vinilpechat.vercel.app/nov-vinil/">
 <link rel="icon" href="/favicon.png?v=spiral1" type="image/png" sizes="64x64">
-<meta property="og:type" content="website"><meta property="og:locale" content="bg_BG"><meta property="og:title" content="Печат на винил по размер | Vinilpechat"><meta property="og:url" content="https://vinilpechat.vercel.app/nov-vinil/"><meta property="og:description" content="Печат на винил със или без дизайн. Изчисли ориентировъчна цена и изпрати запитване.">
+<meta property="og:type" content="website"><meta property="og:locale" content="bg_BG"><meta property="og:title" content="Печат на винил по размер | Vinilpechat"><meta property="og:url" content="https://vinilpechat.vercel.app/nov-vinil/"><meta property="og:image" content="https://vinilpechat.vercel.app/assets/vinilpechat-art-spiral.webp"><meta property="og:image:alt" content="Цветна графика на Vinilpechat"><meta property="og:description" content="Печат на винил със или без дизайн. Изчисли ориентировъчна цена и изпрати запитване.">
 <link rel="stylesheet" href="/seo.css"><link rel="stylesheet" href="/seo-v3.css"><link rel="stylesheet" href="/v4.css"><link rel="icon" type="image/svg+xml" href="/assets/vinilpechat-spectrum-logo.svg">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Service","name":"Печат на рекламен винил по размер","description":"Печат на рекламен винил по зададени ширина и височина, със или без изработка на дизайн.","serviceType":"Печат на винил","provider":{"@type":"Organization","name":"Vinilpechat","url":"https://vinilpechat.vercel.app/"},"url":"https://vinilpechat.vercel.app/nov-vinil/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Начало","item":"https://vinilpechat.vercel.app/"},{"@type":"ListItem","position":2,"name":"Печат на винил по размер","item":"https://vinilpechat.vercel.app/nov-vinil/"}]}]}</script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script src="/fixed-header.js" defer></script><link rel="stylesheet" href="/aerospace.css"></head><body class="vp-aero">
+<script src="/fixed-header.js" defer></script><link rel="stylesheet" href="/aerospace.css"><link rel="stylesheet" href="/nov-vinil/calculator.css"><script src="/nov-vinil/calculator.js" defer></script></head><body class="vp-aero">
 <header><nav aria-label="Основна навигация"><a class="seo-brand" href="/"><img src="/assets/vinilpechat-spectrum-logo.svg" alt="Многоцветно геометрично лого Vinilpechat" width="60" height="60"><span>Vinilpechat</span></a><div class="links"><a href="/">Начало</a><a href="/nov-vinil/">Печат на винил</a><a href="/brezenti/">Винили за покриване</a><a href="/teniski/">Тениски за печат</a><a href="/#contact">Контакти</a></div></nav></header>
-<main><section class="hero"><div><span class="eyebrow">Рекламен печат · По твой размер</span><h1>Печат на винил по размер – с дизайн или без</h1><p>Въведи ширина, височина и количество, избери дали ти трябва дизайн и получи ориентировъчна крайна цена. Запитването се изпраща удобно чрез Viber, след което уточняваме детайлите преди изработка.</p><a class="btn" href="/#design">Изчисли цена за винил ↗</a><a class="btn secondary" href="/#contact">Изпрати запитване</a></div><div class="icon-art"><img src="/favicon.svg" alt="Стилизирана винилова ролка Vinilpechat" width="220" height="220"></div></section>
+<main>
+<section class="vinyl-calculator" id="calculator" aria-labelledby="vinyl-heading">
+  <div class="vinyl-intro">
+    <p class="vinyl-kicker">Широкоформатен печат</p>
+    <h1 id="vinyl-heading">Печат на винил <span>по твой размер</span></h1>
+    <p>Задай размери, виж пропорциите на банера и изчисли ориентировъчната цена за печат.</p>
+  </div>
+  <div class="vinyl-workspace">
+    <figure class="vinyl-preview">
+      <figcaption><span>Визуализация на банера</span><strong id="vinyl-size">200 × 100 см</strong></figcaption>
+      <div class="vinyl-stage" aria-hidden="true">
+        <div class="vinyl-stage-inner">
+          <div class="vinyl-banner" id="vinyl-banner"><img id="vinyl-artwork" alt="" hidden></div>
+        </div>
+      </div>
+      <div class="vinyl-preview-controls">
+        <label class="vinyl-upload"><span>Добави изображение</span><input type="file" id="vinyl-file" accept="image/jpeg,image/png,image/webp" aria-describedby="vinyl-file-status"></label>
+        <button type="button" id="vinyl-remove" hidden>Премахни</button>
+      </div>
+      <p id="vinyl-file-status" role="status">JPG, PNG или WebP до 15 MB. Изображението остава на устройството ти.</p>
+    </figure>
+    <form id="vinyl-quote" class="vinyl-form">
+      <h2>Калкулатор за печат</h2>
+      <div class="vinyl-presets" role="group" aria-label="Готови размери">
+        <button type="button" data-size="100x100" aria-pressed="false">1 × 1 м</button>
+        <button type="button" data-size="200x100" aria-pressed="true">2 × 1 м</button>
+        <button type="button" data-size="300x150" aria-pressed="false">3 × 1,5 м</button>
+      </div>
+      <div class="vinyl-dimensions">
+        <label for="vinyl-width">Ширина (см)<input id="vinyl-width" name="width" type="number" inputmode="decimal" min="1" max="5000" step="0.1" value="200" required></label>
+        <button type="button" id="vinyl-swap" aria-label="Размени ширината и височината" title="Размени ширината и височината">⇄</button>
+        <label for="vinyl-height">Височина (см)<input id="vinyl-height" name="height" type="number" inputmode="decimal" min="1" max="5000" step="0.1" value="100" required></label>
+      </div>
+      <div class="vinyl-quantity">
+        <label for="vinyl-quantity">Количество <span>(бр.)</span></label>
+        <div class="vinyl-stepper">
+          <button type="button" data-quantity="-1" aria-label="Намали количеството">−</button>
+          <input id="vinyl-quantity" name="quantity" type="number" inputmode="numeric" min="1" max="100" step="1" value="1" required>
+          <button type="button" data-quantity="1" aria-label="Увеличи количеството">+</button>
+        </div>
+      </div>
+      <fieldset class="vinyl-options">
+        <legend>Дизайн</legend>
+        <label><input type="radio" name="design" value="without" checked><span>Имам готов файл</span></label>
+        <label><input type="radio" name="design" value="with"><span>С дизайн</span></label>
+      </fieldset>
+      <div class="vinyl-estimate">
+        <div><span>Ориентировъчна цена</span><output id="vinyl-total" role="status">Изчисляване…</output></div>
+        <p id="vinyl-summary">Обща площ: 2 м² · 1 бр.</p>
+      </div>
+      <div class="vinyl-actions">
+        <button type="submit" id="vinyl-inquiry" disabled>Подготви запитване във Viber</button>
+        <a href="/#design">Капси, джобове и PDF шаблон ↗</a>
+      </div>
+      <div id="vinyl-inquiry-box" class="vinyl-inquiry" hidden>
+        <label for="vinyl-message">Текст за запитването</label>
+        <textarea id="vinyl-message" rows="5" readonly></textarea>
+        <button type="button" id="vinyl-copy">Копирай текста</button>
+        <a href="viber://chat?number=%2B359879436006">Отвори Viber ↗</a>
+        <p id="vinyl-copy-status" role="status"></p>
+      </div>
+    </form>
+  </div>
+  <noscript><p>За калкулатора е нужен JavaScript. Можеш да <a href="tel:+359879436006">се обадиш за оферта</a>.</p></noscript>
+</section>
 <section class="section"><h2>Как се поръчва винил?</h2><div class="cards"><article class="card"><strong>1. Избери размери</strong><p>Посочи ширина и височина в сантиметри и необходимия брой винили.</p></article><article class="card"><strong>2. С или без дизайн</strong><p>Имаш готов файл? Избери „Без дизайн“. Ако искаш да го изготвим, избери „С дизайн“.</p></article><article class="card"><strong>3. Изпрати във Viber</strong><p>Калкулаторът подготвя размерите, количеството и ориентировъчната цена за разговор с нас.</p></article></div></section>
 <section class="section"><h2>Цена и уточнения</h2><p>Калкулаторът изчислява сумата според размерите, количеството и заявката за дизайн. Минималната обща стойност е 20 €. Показаната цена е ориентировъчна до потвърждение на поръчката. Можеш да дадеш указания за текста, цветовете и снимките, които искаш да използваш.</p><p>За въпроси се свържи с нас на <a href="tel:+359879436006">0879 436 006</a>.</p></section>
 <div class="note">Търсиш готово покривало, вместо винил за печат? <a href="/brezenti/">Разгледай брезентите и покривните платнища</a>.</div>
