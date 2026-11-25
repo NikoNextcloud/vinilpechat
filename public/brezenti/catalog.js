@@ -8,7 +8,7 @@
  const search=el('cover-search'),sort=el('cover-sort'),categoriesNode=el('cover-categories');
  const money=n=>Number(n).toLocaleString('bg-BG',{style:'currency',currency:'EUR'});
  const productUrl=window.VinilProductLinks?.productUrl;
- if(!productUrl){status.textContent='Каталогът не може да се зареди. Опитай презареждане.';return;}
+ if(!productUrl){grid.setAttribute('aria-busy','false');status.textContent='Каталогът не може да се зареди. Опитай презареждане.';return;}
  const fallback='/assets/placeholder.svg';
  const create=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
  const safeImage=p=>{
@@ -135,6 +135,8 @@
    const a=create('a','','Отвори каталога →');a.href='/#catalog';status.append(' ',a);
    count.textContent='Каталогът е недостъпен';
    console.warn('Vinilpechat cover catalog loading failed:',error.message);
+  }finally{
+   grid.setAttribute('aria-busy','false');
   }
  })();
 })();
