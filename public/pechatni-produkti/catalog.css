@@ -77,3 +77,5 @@
 @media(prefers-reduced-motion:reduce){.vp-picture{transition:none}}
 
 .vp-card .vp-detail{color:#08785f;font-weight:900}.vp-card .vp-availability{background:#f8f1e3}
+
+.vp-guide-action{display:inline-block;font-weight:750;text-decoration:underline;text-underline-offset:3px;color:inherit}

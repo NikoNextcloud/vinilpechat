@@ -204,6 +204,11 @@ test('print product catalog hub remains indexable and included in sitemap', asyn
  const html=fs.readFileSync(path.join(__dirname,'../public/pechatni-produkti/index.html'),'utf8');
  assert.match(html,/<meta name="robots" content="index,follow/);
  assert.match(html,/<link rel="canonical" href="https:\/\/vinilpechat\.vercel\.app\/pechatni-produkti\/">/);
+ assert.match(html,/<h1>Печат на перфофолио и рекламни изделия<\/h1>/);
+ const guide=html.match(/<section class="vp-intro" aria-labelledby="vp-seo-guide">([\s\S]*?)<\/section>/)?.[1];
+ assert.ok(guide,'The print buying guide is available in the initial HTML');
+ assert.match(guide,/href="\/pechatni-produkti\/vp4-032-perfofolio-za-staklo"/);
  const sitemap=await seo.sitemapXml(mockDatabase());
+ assert.doesNotMatch(sitemap,/vp4-032-perfofolio-za-staklo/);
  assert.match(sitemap,/<loc>https:\/\/vinilpechat\.vercel\.app\/pechatni-produkti\/<\/loc>/);
 });
