@@ -13,13 +13,16 @@ test('All 75 Stedman product cards have unique directly shareable URLs',()=>{
  assert.equal(catalog.length,75);
  const urls=catalog.map(modelPath);
  assert.equal(new Set(urls).size,75);
+ const listing=fs.readFileSync(path.join(__dirname,'../public/teniski/index.html'),'utf8');
  for(const model of catalog){
+  assert.ok(listing.includes('href="'+modelPath(model)+'"'));
   const url=modelPath(model);
   assert.equal(matchPath(url,catalog)?.id,model.id);
   const page=resolve(url.slice('/teniski/'.length));
   assert.ok(page,'SSR should resolve '+model.id);
   assert.equal(page.redirect,undefined,'Canonical should not redirect '+model.id);
-  assert.match(page.html,new RegExp(model.id));
+  assert.match(page.html,new RegExp('<h1[^>]*>[^<]*'+model.id+'</h1>'));
+  assert.equal((page.html.match(/<h1\b/g)||[]).length,1);
  }
 });
 test('ST2300 has the exact requested Bulgarian model address',()=>{

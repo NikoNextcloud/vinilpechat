@@ -9,7 +9,7 @@
  const host=document.createElement('header');host.id='vp-site-header';
  host.style.cssText='all:initial!important;display:block!important;position:sticky!important;top:0!important;z-index:100!important;width:100%!important;margin:0!important;padding:0!important;box-sizing:border-box!important;';
  const shadow=host.attachShadow({mode:'open'});
- const items=[['Начало','/'],['Печат на винил','/nov-vinil/'],['Винили за покриване','/brezenti/'],['Тениски за печат','/teniski/'],['Печатни продукти','/pechatni-produkti/'],['Общо запитване','/zapitvane/'],['Контакти','/#contact']];
+ const items=[['Начало','/'],['Печат на винил','/nov-vinil/'],['Винили за покриване','/brezenti/'],['Тениски за печат','/teniski/'],['Печатни продукти','/pechatni-produkti/'],['Общо запитване','/zapitvane/'],['Контакти','/kontakti/']];
  shadow.innerHTML=`
  <style>
  :host{font-family:Arial,Helvetica,sans-serif;color:#17334b}
@@ -82,7 +82,7 @@
   const path=location.pathname,hash=location.hash;
   shadow.querySelectorAll('.nav-link').forEach(a=>{
    const u=a.getAttribute('href');
-   const active=u==='/#contact'?path==='/'&&hash==='#contact':
+   const active=u==='/kontakti/'?(path===u||(path==='/'&&hash==='#contact')):
     u==='/'?path==='/'&&(!hash||hash==='#home'):
     u==='/nov-vinil/'?(path.startsWith(u)||(path==='/'&&hash==='#design')):
     u==='/pechatni-produkti/'?(path.startsWith(u)||path.startsWith('/produkti/')):

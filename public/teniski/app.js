@@ -6,7 +6,23 @@ const shirtLinks=window.StedmanLinks;
 const CATALOG_URL='/teniski/';
 const CATALOG_TITLE='Печат на тениски със собствен дизайн | Vinilpechat';
 const CATALOG_DESCRIPTION='Избери тениска Stedman, размер и цвят, постави собствена щампа и изпрати запитване за печат.';
+function updateShirtHeadings(model){
+ const hero=$('shirt-page-heading');
+ const detail=$('model-heading');
+ const setTag=(heading,tag)=>{
+  if(heading.localName===tag)return heading;
+  const replacement=document.createElement(tag);
+  replacement.id=heading.id;
+  heading.replaceWith(replacement);
+  return replacement;
+ };
+ setTag(hero,model?'h2':'h1').innerHTML='ТВОЯТА ИДЕЯ.<br><span>ТВОЯТ ДИЗАЙН.</span>';
+ setTag(detail,model?'h1':'h2').textContent=model?model.bg+' · '+model.id:'';
+ const directory=document.querySelector('.shirt-model-directory');
+ if(directory)directory.hidden=Boolean(model);
+}
 function updateShirtMetadata(model){
+ updateShirtHeadings(model);
  const target=model?shirtLinks.modelPath(model):CATALOG_URL;
  document.title=model?model.bg+' — '+model.id+' | Vinilpechat':CATALOG_TITLE;
  const canonical=document.querySelector('link[rel="canonical"]');
@@ -89,7 +105,6 @@ function openModel(id){
  $('detail-code').textContent=selected.id;
  history.replaceState(null,'',shirtLinks.modelPath(selected));
  updateShirtMetadata(selected);
- $('model-heading').textContent=selected.bg+' · '+selected.id;
  $('model-info').textContent=selected.desc;
  $('colour').innerHTML=selected.colors.map(c=>'<option value="'+c.code+'">'+escapeText(c.name)+'</option>').join('');
  const sizes=[...new Set(selected.groups.filter(g=>g[$('colour').value]!==undefined).flatMap(g=>sizesFor(g.label)))];

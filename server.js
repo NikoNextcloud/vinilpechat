@@ -4,6 +4,7 @@ const http=require('node:http');
 const fs=require('node:fs');
 const path=require('node:path');
 const crypto=require('node:crypto');
+const {withProductCopy}=require('./lib/product-copy.js');
 const shirtPage=require('./lib/stedman-page.js');
 const printServices=require('./lib/print-service-pages.js');
 const {designQuote}=require('./lib/design-pricing.js');
@@ -37,7 +38,10 @@ async function route(req,res){let url=new URL(req.url,'http://localhost');let ap
 }
 if(req.method==='GET'&&api==='/api/shirts/prices')return reply(res,200,{ok:true,prices:[]});
 if(req.method==='GET'&&api==='/api/health')return reply(res,200,{ok:true,products:db.products.length,categories:db.categories.length,images:db.products.filter(p=>!!p.image).length});
-if(req.method==='GET'&&api==='/api/catalog')return reply(res,200,expose());
+if(req.method==='GET'&&api==='/api/catalog'){
+ const catalog=expose();
+ return reply(res,200,{...catalog,products:catalog.products.map(withProductCopy)});
+}
 if(req.method==='GET'&&api==='/api/admin/session'){let s=auth(req);return reply(res,200,{authenticated:!!s,csrf:s?.csrf||''})}
 if(req.method==='POST'&&api==='/api/admin/login'){
  if(PASS.length<12)return reject(res,503,'Администраторската парола не е настроена. Задай ADMIN_PASSWORD (поне 12 символа) на сървъра.');
@@ -60,19 +64,28 @@ if(req.method==='POST'&&api==='/api/admin/upload'){
 if(req.method==='POST'&&api==='/api/orders'){
  let d=await body(req,50000),kind=d.kind==='contact'?'contact':'order';let name=safeText(d.name,120),phone=safeText(d.phone,40),email=safeText(d.email,255),message=safeText(d.message,3000);if(name.length<2||phone.length<5)return reject(res,400,'Въведи име и телефон');if(email&&(!/^\S+@\S+\.\S+$/.test(email)))return reject(res,400,'Невалиден имейл');let items=[],total=0;if(kind==='order'){if(!Array.isArray(d.items)||d.items.length<1||d.items.length>100)return reject(res,400,'Заявката няма продукти');for(let x of d.items){let p=db.products.find(z=>z.id===Number(x.product_id)&&z.active);let n=Number(x.quantity);if(!p||!Number.isInteger(n)||n<1||n>100)return reject(res,400,'Невалиден продукт или количество');items.push({product_id:p.id,name:p.name,quantity:n,unit:p.unit,price:p.sale_price,variant:safeText(x.variant,500)});total+=n*(p.sale_price||0)}}let id='Z'+Date.now().toString(36).toUpperCase()+crypto.randomBytes(2).toString('hex').toUpperCase();db.orders.unshift({id,kind,status:'new',customer_name:name,phone,email,message,items,estimated_total:Math.round(total*100)/100,created_at:new Date().toISOString()});persist();return reply(res,201,{ok:true,order_id:id});
 }
+if(['GET','HEAD'].includes(req.method)){
+ const section=api.match(/^\/(nov-vinil|brezenti|teniski|pechatni-produkti|kontakti|zapitvane)(?:\/index\.html)?$/);
+ if(section||api==='/index.html'){
+  res.writeHead(308,{Location:(section?'/'+section[1]+'/':'/')+url.search});
+  return res.end();
+ }
+}
 if(['GET','HEAD'].includes(req.method)&&/^\/pechatni-produkti\/vp4-[0-9]{3}-[a-z0-9-]+\/?$/.test(api)){
  const result=printServices.detail(api.replace(/^\/pechatni-produkti\//,'').replace(/\/$/,''));
  if(!result)return reject(res,404,'Изделието не е намерено');
- if(result.redirect){res.writeHead(308,{Location:result.redirect});return res.end()}
+ const redirect=result.redirect||(api.endsWith('/')&&result.canonical);
+ if(redirect){res.writeHead(308,{Location:redirect+url.search});return res.end()}
  headers(res,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache',...(!result.verified?{'X-Robots-Tag':'noindex, follow'}:{})});
  res.writeHead(200);return req.method==='HEAD'?res.end():res.end(result.html);
 }
-if(req.method==='GET'&&/^\/teniski\/[^/]+-model-ST[0-9]{4}\/?$/.test(api)){
+if(['GET','HEAD'].includes(req.method)&&/^\/teniski\/[^/]+-model-ST[0-9]{4}\/?$/.test(api)){
  const result=shirtPage.resolve(api.replace(/^\/teniski\//,'').replace(/\/$/,''));
  if(!result)return reject(res,404,'Моделът не е намерен');
- if(result.redirect){res.writeHead(308,{Location:result.redirect});return res.end();}
+ const redirect=result.redirect||(api.endsWith('/')&&result.canonical);
+ if(redirect){res.writeHead(308,{Location:redirect+url.search});return res.end();}
  headers(res,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
- res.writeHead(200);return res.end(result.html);
+ res.writeHead(200);return req.method==='HEAD'?res.end():res.end(result.html);
 }
 if(api.startsWith('/api/'))return reject(res,404,'Несъществуващ API адрес');
 if(req.method!=='GET'&&req.method!=='HEAD')return reject(res,405,'Методът не е позволен');

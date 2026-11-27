@@ -54,17 +54,17 @@ function jsonld(body){
  const products=catalog.products.filter(p=>p.active===true);
  const occupied=new Set(products.map(p=>p.category));
  const categories=catalog.categories.filter(c=>occupied.has(c.id));
- const expected=['/','/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/',...printServices.approved(),...products.map(seo.productUrl),...categories.map(seo.categoryUrl),...models.map(modelPath)].map(x=>seo.ORIGIN+x);
+ const expected=['/','/nov-vinil/','/brezenti/','/teniski/','/pechatni-produkti/','/kontakti/',...printServices.approved(),...products.map(seo.productUrl),...categories.map(seo.categoryUrl),...models.map(modelPath)].map(x=>seo.ORIGIN+x);
  assert.deepEqual(new Set(urls),new Set(expected),'sitemap must exactly match active materials, occupied categories and published shirts');
  const byPath=new Map(products.map(p=>[seo.productUrl(p),p]));
- const sample=new Set(['/', '/nov-vinil/', '/brezenti/', '/teniski/',seo.productUrl(products.find(p=>p.id===13)||products[0]),seo.productUrl(products.at(-1)),seo.categoryUrl(categories[0]),modelPath(models[0]),modelPath(models.find(m=>m.id==='ST2300'))]);
+ const sample=new Set(['/', '/nov-vinil/', '/brezenti/', '/teniski/', '/kontakti/', ...printServices.approved(), seo.productUrl(products.find(p=>p.id===13)||products[0]),seo.productUrl(products.at(-1)),seo.categoryUrl(categories[0]),modelPath(models[0]),modelPath(models.find(m=>m.id==='ST2300'))]);
  const selected=full?urls:urls.filter(u=>sample.has(new URL(u).pathname));
  let checked=0,inquiryPages=0;
  await pool(selected,async url=>{
   const path=new URL(url).pathname,page=await get(path);
   assert.equal(page.res.status,200,'HTTP status: '+path);
   assert.match(page.res.headers.get('content-type')||'',/text\/html/);
-  assert.match(page.body,/<h1\b/);
+  assert.equal((page.body.match(/<h1\b/g)||[]).length,1,'one H1: '+path);
   assert.match(page.body,/<title>[^<]+<\/title>/);
   assert.match(page.body,/<meta name="description" content="[^"]+"/);
   const canonical=[...page.body.matchAll(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/g)].map(m=>href(decode(m[1])));
@@ -87,6 +87,7 @@ function jsonld(body){
     assert.ok(graph.some(x=>x['@type']==='BreadcrumbList'));
    }
   }
+  if(printServices.approved().includes(path))assert.ok(graph.some(x=>x['@type']==='Service'));
   if(path.startsWith('/kategorii/'))assert.ok(graph.some(x=>x['@type']==='CollectionPage'));
   checked++;
   if(checked%25===0)console.log('Checked',checked,'/',selected.length,'pages');
@@ -94,7 +95,7 @@ function jsonld(body){
  const product=seo.productUrl(products.find(p=>p.id===13)||products[0]);
  const category=seo.categoryUrl(categories[0]);
  const shirt=modelPath(models.find(m=>m.id==='ST2300'));
- for(const [stale,canonical] of [[product.replace(/-.*$/,'-old-name'),product],['/kategorii/'+categories[0].id+'-old-name',category],['/teniski/Old-name-model-ST2300',shirt]]){
+ for(const [stale,canonical] of [['/index.html','/'],['/brezenti','/brezenti/'],['/kontakti/index.html','/kontakti/'],[shirt+'/',shirt],[product+'/',product],[category+'/',category],[product.replace(/-.*$/,'-old-name'),product],['/kategorii/'+categories[0].id+'-old-name',category],['/teniski/Old-name-model-ST2300',shirt]]){
   for(const method of ['GET','HEAD']){
    const redirect=await get(stale,method);
    assert.equal(redirect.res.status,308,'permanent redirect: '+stale+' '+method);

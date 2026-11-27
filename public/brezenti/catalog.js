@@ -68,11 +68,24 @@
   // Normal click keeps the existing full variant selector and cart; the final URL is the readable permalink.
   location.assign('/#item-'+encodeURIComponent(String(p.id)));
  };
- const card=p=>{
+ const thumbnailSource='https://okgimoegtsywbxkndzgw.supabase.co/storage/v1/object/public/vinyl-product-images/supplier/';
+ const thumbnailIds=new Map([[1,'01/1.jpg'],[2,'02/1.png'],[3,'03/1.jpg'],[4,'04/1.png'],[5,'05/1.jpg'],[6,'06/1.jpg'],[7,'07/1.jpg'],[8,'08/1.jpg'],[9,'09/1.jpg']]);
+ const card=(p,index)=>{
+
   const item=create('article','cover-product');item.dataset.productId=String(p.id);
   const url=productUrl(p),photo=create('a','cover-photo');photo.href=url;photo.setAttribute('aria-label','Отвори '+p.name);
-  const image=create('img');image.alt=p.name;image.loading='lazy';image.decoding='async';image.src=safeImage(p);
-  image.addEventListener('error',()=>{if(!image.dataset.fallback){image.dataset.fallback='1';image.src=fallback;}});
+  const image=create('img');
+  const original=safeImage(p);
+  const localThumbnail=thumbnailIds.has(Number(p.id))&&original===thumbnailSource+thumbnailIds.get(Number(p.id));
+  image.alt=p.name;image.width=560;image.height=480;
+  image.loading=index===0?'eager':'lazy';image.decoding='async';
+  if(index===0)image.fetchPriority='high';
+  image.src=localThumbnail?'/brezenti/thumbs/'+p.id+'.jpg':original;
+  image.addEventListener('error',()=>{
+   if(image.dataset.fallback)return;
+   if(localThumbnail&&!image.dataset.original){image.dataset.original='1';image.src=original;return;}
+   image.dataset.fallback='1';image.src=fallback;
+  });
   photo.addEventListener('click',event=>openInteractiveDetail(event,p));
   photo.append(image);item.append(photo);
   const body=create('div','cover-content');
@@ -111,6 +124,7 @@
   count.textContent='Показани '+view.length+' продукта';
   status.textContent=view.length?'':'Няма продукти по избраните критерии.';
   grid.replaceChildren(...view.map(card));
+  grid.setAttribute('aria-busy','false');
   for(const button of categoriesNode.querySelectorAll('[data-cover-cat]')){
    const active=button.dataset.coverCat===chosen;button.classList.toggle('active',active);
    button.setAttribute('aria-pressed',String(active));
@@ -134,6 +148,8 @@
    status.textContent='Неуспешно зареждане на каталога. Моля, опитай отново или отвори основния каталог.';
    const a=create('a','','Отвори каталога →');a.href='/#catalog';status.append(' ',a);
    count.textContent='Каталогът е недостъпен';
+   grid.replaceChildren();
+   grid.setAttribute('aria-busy','false');
    console.warn('Vinilpechat cover catalog loading failed:',error.message);
   }
  })();

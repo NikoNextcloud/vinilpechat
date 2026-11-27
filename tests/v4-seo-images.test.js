@@ -52,18 +52,19 @@ test('All 39 independent HTML service pages have self canonical, OG image and br
   const page=service.detail(p.slug);
   assert(page&&page.html);
   assert.equal(page.canonical,service.path(p));
-  assert.equal(page.verified,false);
-  assert(page.html.includes('<h1>'+p.name+'</h1>'));
+  const approved=p.approved===true;
+  assert.equal(page.verified,approved);
+  assert.equal((page.html.match(/<h1>/g)||[]).length,1);
   assert(page.html.includes('rel="canonical" href="'+ORIGIN+page.canonical+'"'));
-  assert(page.html.includes('name="robots" content="noindex,follow"'));
+  assert(page.html.includes('name="robots" content="'+(approved?'index,follow,max-image-preview:large':'noindex,follow')+'"'));
   assert(page.html.includes('og:image:alt'));
   assert(page.html.includes('src="'+p.image+'"'));
   assert(!page.html.includes('"@type":"Offer"'));
   const raw=page.html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
   const graph=JSON.parse(raw)['@graph'];
   assert(graph.some(x=>x['@type']==='BreadcrumbList'));
-  assert(graph.some(x=>x['@type']==='WebPage'));
-  assert(!graph.some(x=>x['@type']==='Product' || x['@type']==='Service'),'Unverified service cannot advertise an offer');
+  assert(graph.some(x=>x['@type']===(approved?'Service':'WebPage')));
+  assert.equal(graph.some(x=>x['@type']==='Service'),approved);
  }
 });
 
@@ -72,7 +73,7 @@ test('Noncanonical slug redirects and unknown/unsafe URLs cannot leak data',()=>
  assert.equal(service.detail('vp4-999-fake'),null);
  assert.equal(service.detail('../'),null);
  assert.equal(service.detail('vp4-013-%2F'),null);
- assert.equal(service.approved().length,0);
+ assert.deepEqual(service.approved(),['/pechatni-produkti/vp4-001-vinil-baneri','/pechatni-produkti/vp4-032-perfofolio-za-staklo']);
 });
 
 test('Google image sitemap covers active products while excluding unverified services',async()=>{
@@ -92,7 +93,7 @@ test('Google image sitemap covers active products while excluding unverified ser
  assert(xml.includes('<image:image><image:loc>'+ORIGIN+'/uploads/blue.webp</image:loc></image:image>'));
  assert(xml.includes(seo.productUrl(rows[0])));
  assert(!xml.includes('<image:loc>'+ORIGIN+'/assets/placeholder.svg'));
- for(const p of catalog.items)assert(!xml.includes(service.path(p)),'Unverified service in sitemap');
+ for(const p of catalog.items)assert.equal(xml.includes('<loc>'+ORIGIN+service.path(p)+'</loc>'),p.approved===true,p.slug);
 });
 
 test('Vercel and local route serve the same SEO page and 404/308 rules',async()=>{
@@ -111,7 +112,9 @@ test('Vercel and local route serve the same SEO page and 404/308 rules',async()=
  assert.equal(good.statusCode,200);
  assert.equal(head.statusCode,200);
  assert.equal(head.body,undefined);
- assert.equal(good.headers['x-robots-tag'],'noindex, follow');
+ assert.equal(good.headers['x-robots-tag'],undefined);
+ const unapproved=catalog.items.find(p=>p.approved!==true);
+ assert.equal((await request('GET',unapproved.slug)).headers['x-robots-tag'],'noindex, follow');
  assert.equal((await request('GET','vp4-001-old')).statusCode,308);
  const missing=await request('GET','vp4-999-unknown');
  assert.equal(missing.statusCode,404);

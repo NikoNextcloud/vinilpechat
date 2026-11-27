@@ -105,3 +105,13 @@ body.vp-aero .aero-home > .aero-panel + .aero-panel::after {
   body.vp-aero .aero-home > .aero-panel + .aero-panel { margin-top: 18px; }
   body.vp-aero .aero-home > .aero-panel + .aero-panel::after { height: 2px; }
 }
+
+
+/* Match the first-paint header to the height of the shared interactive header. */
+html{scrollbar-gutter:stable;overflow-y:scroll}
+body.vp-aero>.vp-static-header{box-sizing:border-box;height:72px;overflow:hidden}
+body.vp-aero>.vp-static-header .seo-brand img{width:42px;height:42px}
+@media(max-width:1200px){
+ body.vp-aero>.vp-static-header{height:70px}
+ body.vp-aero>.vp-static-header :is(.links,.vp-nav-links,.v3-shirts-nav,.desktop-nav){display:none}
+}

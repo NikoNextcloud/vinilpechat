@@ -607,6 +607,7 @@
    const result=await response.json().catch(()=>({error:'Невалиден отговор от сървъра'}));
    if(!response.ok)throw new Error(result.error||'Заявката не е записана');
    if(!result.ok||!result.order_id)throw new Error('Липсва номер на заявката');
+   window.trackVinilLead?.('shirt_order');
    feedback.classList.add('v2-success');
    feedback.textContent='Заявката е записана успешно! Номер: '+result.order_id+'. Ще се свържем с теб за потвърждение.';
    button.textContent='Заявка № '+result.order_id+' ✓';

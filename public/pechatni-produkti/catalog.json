@@ -20,6 +20,7 @@
       "price": null,
       "quote_only": true,
       "slug": "vp4-001-vinil-baneri",
+      "approved": true,
       "image": "/pechatni-produkti/photos/vp4-001.webp",
       "image_alt": "Снимка на Винил банери – продуктово изображение"
     },
@@ -392,6 +393,7 @@
       "price": null,
       "quote_only": true,
       "slug": "vp4-032-perfofolio-za-staklo",
+      "approved": true,
       "image": "/pechatni-produkti/photos/vp4-032.webp",
       "image_alt": "Снимка на Перфофолио за стъкло – продуктово изображение"
     },

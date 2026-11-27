@@ -202,3 +202,7 @@ main{width:min(1330px,calc(100% - 44px));margin:auto}
 @media(prefers-reduced-motion:reduce){
  .card,.v3-shirt-start{transition:none}
 }
+
+.shirt-model-directory summary{cursor:pointer;font-weight:700}
+.shirt-model-directory ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:8px 24px;margin:16px 0;padding-left:22px}
+#model-heading{font-size:clamp(23px,3vw,32px);line-height:1.2;overflow-wrap:anywhere}
