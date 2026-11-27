@@ -3,6 +3,7 @@
 const { createClient } = require('@supabase/supabase-js');
 const crypto = require('node:crypto');
 const {designQuote}=require('../lib/design-pricing.js');
+const {withProductCopy}=require('../lib/product-copy.js');
 const seo=require('../lib/seo-pages.js');
 const printServices=require('../lib/print-service-pages.js');
 const shirtPage=require('../lib/stedman-page.js');
@@ -31,7 +32,7 @@ async function catalog(db){const [pp,cc,ss,vv]=await Promise.all([
     db.from('vinyl_variants').select('product_id,variant_key,label,choices,sale_price,active,price_verification_needed').eq('active',true).order('variant_key')
 ]);
 const variantsByProduct=new Map();for(const v of bad(vv,'variants')){if(!variantsByProduct.has(v.product_id))variantsByProduct.set(v.product_id,[]);variantsByProduct.get(v.product_id).push({...v,key:v.variant_key})}
-return {products:bad(pp,'products').map(p=>({...p,variants:variantsByProduct.get(p.id)||[]})),categories:bad(cc,'categories'),settings:bad(ss,'settings')};}
+return {products:bad(pp,'products').map(p=>({...withProductCopy(p),variants:variantsByProduct.get(p.id)||[]})),categories:bad(cc,'categories'),settings:bad(ss,'settings')};}
 async function adminData(db){const [pp,cc,ss,orders,costs,vv,reference]=await Promise.all([
     db.from('vinyl_products').select('*').order('id'),db.from('vinyl_categories').select('*').order('sort_order'),
     db.from('vinyl_settings').select('*').eq('id',1).single(),
@@ -100,6 +101,7 @@ module.exports=async function handler(req,res){
     if(req.headers['content-length']&&Number(req.headers['content-length'])>MAX_BODY+1024)return msg(res,413,'Заявката е твърде голяма');
     let route=String(req.query?.route||'').replace(/^\/+|\/+$/g,'')||new URL(req.url,'https://localhost').pathname.replace(/^\/api\//,'');
     if(Array.isArray(route))route=route.join('/');
+    const trailingSlash=req.query?.trailing==='1';
     const seoRead=['GET','HEAD'].includes(req.method)&&['seo/product','seo/category','seo/sitemap','seo/shirt','seo/print-service'].includes(route);
     if(!['GET','POST'].includes(req.method)&&!seoRead)return msg(res,405,'Непозволен метод');
     if(seoRead&&process.env.VERCEL_GIT_COMMIT_SHA)res.setHeader('X-Vinilpechat-Commit',process.env.VERCEL_GIT_COMMIT_SHA);
@@ -124,7 +126,8 @@ module.exports=async function handler(req,res){
           const slug=typeof req.query?.slug==='string'?req.query.slug:'';
           const page=printServices.detail(slug);
           if(!page){res.setHeader('X-Robots-Tag','noindex');return req.method==='HEAD'?res.status(404).end():res.status(404).send('Изделието не е намерено');}
-          if(page.redirect){res.setHeader('Location',page.redirect);return res.status(308).end();}
+          const redirect=page.redirect||(trailingSlash&&page.canonical);
+          if(redirect){res.setHeader('Location',redirect);return res.status(308).end();}
           res.setHeader('Content-Type','text/html; charset=utf-8');
           res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
           res.setHeader('X-Content-Type-Options','nosniff');
@@ -135,7 +138,8 @@ module.exports=async function handler(req,res){
           const slug=typeof req.query?.slug==='string'?req.query.slug:'';
           const page=shirtPage.resolve(slug);
           if(!page){res.setHeader('X-Robots-Tag','noindex');return req.method==='HEAD'?res.status(404).end():res.status(404).send('Моделът не е намерен');}
-          if(page.redirect){res.setHeader('Location',page.redirect);return res.status(308).end();}
+          const redirect=page.redirect||(trailingSlash&&page.canonical);
+          if(redirect){res.setHeader('Location',redirect);return res.status(308).end();}
           res.setHeader('Content-Type','text/html; charset=utf-8');
           res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
           res.setHeader('X-Content-Type-Options','nosniff');
@@ -153,7 +157,8 @@ module.exports=async function handler(req,res){
             const slug=typeof req.query?.slug==='string'?req.query.slug:'';
             const page=route==='seo/product'?await seo.resolveProduct(db,slug):await seo.resolveCategory(db,slug);
             if(!page){res.setHeader('X-Robots-Tag','noindex');return req.method==='HEAD'?res.status(404).end():res.status(404).send('Страницата не е намерена');}
-            if(page.redirect){res.setHeader('Location',page.redirect);return res.status(308).end();}
+            const redirect=page.redirect||(trailingSlash&&page.canonical);
+            if(redirect){res.setHeader('Location',redirect);return res.status(308).end();}
             res.setHeader('Content-Type','text/html; charset=utf-8');
             res.setHeader('Cache-Control','public, max-age=0, s-maxage=900, stale-while-revalidate=3600');
             res.setHeader('X-Content-Type-Options','nosniff');

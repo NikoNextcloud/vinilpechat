@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="/v5-admin.css" />
 <script src="seed.js" defer></script>
 <script src="/quote-cart.js" defer></script>
-<script src="site.js" defer></script>
+<script src="/lead-events.js" defer></script><script src="site.js" defer></script>
 <script src="/v3.js" defer></script>
 <script src="/v4.js" defer></script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -78,7 +78,7 @@ body.vp-aero .lc-scroll::after{content:"";width:1px;height:22px;background:linea
 </head>
 <body class="vp-aero">
 <div class="topbar"><div class="container topbar-inner"><span>Творчески идеи · Индивидуален печат</span><span>Винил · Фолио · Облекло · Брезенти</span></div></div>
-<header class="header v3-header">
+<header class="vp-static-header header v3-header">
  <div class="container head-inner">
  <a class="brand" href="#home" data-go="home" aria-label="Vinilpechat — начало">
   <img class="brand-logo" src="/assets/vinilpechat-spectrum-logo.svg" width="52" height="52" alt="Многоцветно геометрично лого на Vinilpechat">
@@ -93,13 +93,13 @@ body.vp-aero .lc-scroll::after{content:"";width:1px;height:22px;background:linea
   <a href="/pechatni-produkti/">Печатни продукти</a>
  </nav>
  <div class="head-actions">
-  <button class="search-chip" id="focusSearch" type="button" aria-label="Търси продукти"><span class="v3-search-icon" aria-hidden="true">⌕</span><span>Търсене</span></button>
-  <a class="v4-quote-top" href="/zapitvane/" aria-label="Отвори общото запитване">Запитване <b data-v4-quote-count>0</b></a>
+  <button class="search-chip" id="focusSearch" type="button" aria-label="Търсене на продукти"><span class="v3-search-icon" aria-hidden="true">⌕</span><span>Търсене</span></button>
+  <a class="v4-quote-top" href="/zapitvane/" aria-label="Запитване">Запитване <b data-v4-quote-count>0</b></a>
   <button class="cart-btn" id="cartOpen" type="button" aria-label="Отвори количката"><svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6H20a2 2 0 0 0 2-1.6l1-7.4H6"/></svg><b id="cart-count">0</b></button>
-  <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Отвори меню" aria-expanded="false">☰</button>
+  <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Мобилно меню" aria-expanded="false" aria-controls="mobile-nav">☰</button>
  </div></div>
 </header>
-<div id="mobile-nav" class="mobile-nav hidden" aria-label="Мобилна навигация">
+<nav id="mobile-nav" class="mobile-nav hidden" aria-label="Мобилна навигация">
  <a href="#home" data-go="home">Начало</a>
  <a href="#design" data-go="design">Печат на винил</a>
  <a href="/brezenti/">Винили за покриване</a>
@@ -107,9 +107,9 @@ body.vp-aero .lc-scroll::after{content:"";width:1px;height:22px;background:linea
  <a href="#catalog" data-go="catalog">Всички продукти</a>
  <a href="/pechatni-produkti/">Печатни продукти</a>
  <a href="/zapitvane/">Общо запитване <span data-v4-quote-count>0</span></a>
- <a href="#contact" data-go="contact">Контакти</a>
+ <a href="/kontakti/">Контакти</a>
  <a href="#admin" data-go="admin">Администрация</a>
-</div>
+</nav>
 <main id="main"><div class="aero-home">
 <section class="aero-panel live-canvas" aria-labelledby="aero-title" id="live-canvas">
  <div class="lc-top"><p class="lc-kicker">VINILPECHAT / PRINT LAB</p><span class="lc-count"><span class="lc-dot" aria-hidden="true"></span>39 вида продукти</span></div>
@@ -121,7 +121,7 @@ body.vp-aero .lc-scroll::after{content:"";width:1px;height:22px;background:linea
  <p class="lc-subtitle">От първата идея до впечатляващия резултат. Печат на винил, тениски и рекламни изделия за твоя бизнес.</p>
  <nav class="lc-chips" aria-label="Избери категория"><a class="lc-chip" href="/nov-vinil/">ВИНИЛ</a><a class="lc-chip" href="/teniski/">ТЕНИСКИ</a><a class="lc-chip" href="/pechatni-produkti/">РЕКЛАМНИ ИЗДЕЛИЯ</a></nav>
  <a class="lc-cta" href="/#design" aria-label="Изчисли цена за печат на винил">ИЗЧИСЛИ ЦЕНА <span aria-hidden="true">↗</span></a>
- <a class="lc-scroll" href="#aero-shirts" aria-label="Продължи към следващата секция">РАЗГЛЕДАЙ</a>
+ <a class="lc-scroll" href="#aero-shirts" aria-label="Разгледай тениските за печат">РАЗГЛЕДАЙ</a>
 </section>
 <section class="aero-panel aero-apparel" id="aero-shirts" aria-labelledby="aero-shirts-title">
  <img class="aero-photo" src="https://www.stedman.eu/public/images/products/2026/ST2000/ST2000_model.jpg" alt="Модели с тениски Stedman" width="800" height="1000" loading="lazy">
@@ -151,7 +151,7 @@ body.vp-aero .lc-scroll::after{content:"";width:1px;height:22px;background:linea
           <iframe class="instagram-profile-embed social-feed-embed" title="Публикации от Instagram профила @vinilpechat" src="https://www.instagram.com/vinilpechat/embed/" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" scrolling="no" allow="encrypted-media"></iframe>
         </div>
         <div class="instagram-feed-footer social-card-footer">
-          <a href="https://www.instagram.com/vinilpechat/" class="instagram-open-btn" target="_blank" rel="noopener noreferrer" aria-label="Разгледай всички публикации на Vinilpechat в Instagram">Виж Instagram публикациите <span aria-hidden="true">↗</span></a>
+          <a href="https://www.instagram.com/vinilpechat/" class="instagram-open-btn" target="_blank" rel="noopener noreferrer">Виж Instagram публикациите <span aria-hidden="true">↗</span></a>
           <span>Ако вграждането е ограничено, отвори профила.</span>
         </div>
       </article>
@@ -163,14 +163,14 @@ body.vp-aero .lc-scroll::after{content:"";width:1px;height:22px;background:linea
           <noscript><p>За да видиш Facebook публикациите, включи JavaScript или <a href="https://www.facebook.com/profile.php?id=61559753162459" target="_blank" rel="noopener noreferrer">отвори страницата ни във Facebook</a>.</p></noscript>
         </div>
         <div class="instagram-feed-footer social-card-footer">
-          <a href="https://www.facebook.com/profile.php?id=61559753162459" class="instagram-open-btn facebook-open-btn" target="_blank" rel="noopener noreferrer" aria-label="Разгледай публикациите на Vinilpechat във Facebook">Виж Facebook публикациите <span aria-hidden="true">↗</span></a>
+          <a href="https://www.facebook.com/profile.php?id=61559753162459" class="instagram-open-btn facebook-open-btn" target="_blank" rel="noopener noreferrer">Виж Facebook публикациите <span aria-hidden="true">↗</span></a>
           <span>Ако публикациите не се заредят, отвори Facebook от бутона.</span>
         </div>
       </article>
     </div>
   </div>
 </section>
-<footer class="footer"><div class="container footer-cols"><div><div class="footer-brand">Vinilpechat <span>✦</span></div><p>Продуктови решения за бизнеса, дома, строителството и градината.</p><span class="fine">Каталожните цени подлежат на потвърждение спрямо избрания размер и вариант.</span></div><div><b>Информация</b><a href="#delivery" data-go="delivery">Доставка и плащане</a><a href="#terms" data-go="terms">Общи условия</a><a href="#privacy" data-go="privacy">Поверителност</a></div><div><b>Навигация</b><a href="#design" data-go="design">Нов винил с дизайн</a><a href="/nov-vinil/">Печат на винил по размер</a><a href="/brezenti/">Брезенти и покривни платнища</a><a href="#catalog" data-go="catalog">Всички продукти</a><a href="/pechatni-produkti/">Разширен каталог за печат</a><a href="/zapitvane/">Общо запитване</a><a href="#contact" data-go="contact">Изпрати запитване</a><a href="#admin" data-go="admin">Администрация</a></div></div><div class="container footer-bottom">© <span id="year"></span> Vinilpechat <span>Създадено с внимание към детайла</span></div></footer>
+<footer class="footer"><div class="container footer-cols"><div><div class="footer-brand">Vinilpechat <span>✦</span></div><p>Продуктови решения за бизнеса, дома, строителството и градината.</p><span class="fine">Каталожните цени подлежат на потвърждение спрямо избрания размер и вариант.</span></div><div><b>Информация</b><a href="#delivery" data-go="delivery">Доставка и плащане</a><a href="#terms" data-go="terms">Общи условия</a><a href="#privacy" data-go="privacy">Поверителност</a></div><div><b>Навигация</b><a href="#design" data-go="design">Нов винил с дизайн</a><a href="/nov-vinil/">Печат на винил по размер</a><a href="/brezenti/">Брезенти и покривни платнища</a><a href="#catalog" data-go="catalog">Всички продукти</a><a href="/pechatni-produkti/">Разширен каталог за печат</a><a href="/zapitvane/">Общо запитване</a><a href="/kontakti/">Изпрати запитване</a><a href="#admin" data-go="admin">Администрация</a></div></div><div class="container footer-bottom">© <span id="year"></span> Vinilpechat <span>Създадено с внимание към детайла</span></div></footer>
 <div class="overlay hidden" id="overlay"></div><section class="drawer hidden" id="cartDrawer" aria-label="Кошница"><div class="drawer-head"><strong>Вашата заявка</strong><button class="icon-btn" id="cartClose" aria-label="Затвори">×</button></div><div id="cartContents" class="drawer-content"></div></section>
 <div class="modal-wrap hidden" id="productDialog"><div class="modal" role="dialog" aria-modal="true" aria-label="Детайли за продукт"><button class="modal-close icon-btn" id="productClose">×</button><div id="productDetail"></div></div></div>
 <div class="toast hidden" id="toast"></div>

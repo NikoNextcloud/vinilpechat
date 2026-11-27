@@ -55,6 +55,7 @@
    const response=await fetch('/api/orders',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({kind:'contact',name,phone,email,message:text})});
    const result=await response.json();
    if(!response.ok||!result.ok||!result.order_id)throw new Error(result.error||'Заявката не е приета');
+   window.trackVinilLead?.('combined_quote');
    Q.clear();render();byId('vp-confirm').hidden=false;
    byId('vp-confirm').textContent='Заявката е приета с номер '+result.order_id+'. Файловете за печат не са качени; изпрати ги отделно.';
    event.currentTarget.reset();selectedFiles=[];fileStatus.textContent='Няма избрани файлове.';
